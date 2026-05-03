@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOUROWNPDF.COM | Free PDF & Image Tools</title>
+  <meta name="description" id="metaDescription" content="Fix PDFs and images in seconds. 100% free. No login, no watermarks, privacy-first browser tools." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="YOUROWNPDF.COM" />
+  <meta property="og:title" id="ogTitle" content="YOUROWNPDF.COM | Free PDF & Image Tools" />
+  <meta property="og:description" id="ogDescription" content="Fix PDFs and images in seconds. 100% free. No login, no watermarks, privacy-first browser tools." />
+  <meta property="og:url" id="ogUrl" content="https://yourownpdf.com/" />
+  <meta property="og:image" content="https://yourownpdf.com/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="twitterTitle" content="YOUROWNPDF.COM | Free PDF & Image Tools" />
+  <meta name="twitter:description" id="twitterDescription" content="Fix PDFs and images in seconds. 100% free. No login, no watermarks, privacy-first browser tools." />
+  <meta name="twitter:image" content="https://yourownpdf.com/og-image.png" />
+  <link rel="canonical" id="canonicalUrl" href="https://yourownpdf.com/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "YOUROWNPDF",
+          "url": "https://yourownpdf.com/",
+          "logo": "https://yourownpdf.com/logo.png",
+          "description": "Free PDF and image tools focused on speed, privacy, and ease of use."
+        },
+        {
+          "@type": "WebSite",
+          "name": "YOUROWNPDF.COM",
+          "url": "https://yourownpdf.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://yourownpdf.com/tools?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+  <style>
+    :root {
+      --primary: #1a3b5c;
+      --secondary: #10b981;
+      --bg: #f9fafb;
+      --text: #0f172a;
+      --muted: #475569;
+      --card: #ffffff;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+      --container: 1280px;
+      --gap: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; overflow-x: hidden; }
+    body {
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, select {
+      font: inherit;
+      min-height: 44px;
+    }
+    button, a.button {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button:hover, a.button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible {
+      outline: 3px solid rgba(16, 185, 129, .4);
+      outline-offset: 2px;
+    }
+
+    .container {
+      width: min(100%, var(--container));
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(249, 250, 251, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+    }
+    .logo {
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: .2px;
+      font-size: 1rem;
+    }
+    .logo-own { color: var(--secondary); }
+    .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #e2e8f0;
+      color: var(--primary);
+    }
+    .nav {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 0 4px;
+    }
+    .nav.open { display: flex; }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .nav a.active {
+      background: #e2e8f0;
+      color: var(--primary);
+    }
+
+    .route { display: none; padding: 48px 0 64px; }
+    .route.active { display: block; }
+    .section { margin-top: 64px; }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .hero {
+      background: linear-gradient(140deg, #ecfdf5 0%, #eff6ff 55%, #f8fafc 100%);
+      border-radius: 32px;
+      padding: 28px 18px;
+      text-align: center;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+    h1 { font-size: 28px; font-weight: 800; }
+    h2 { font-size: 1.7rem; font-weight: 800; }
+    .hero p, .muted { color: var(--muted); }
+    .hero-cta {
+      margin-top: 20px;
+      display: inline-flex;
+      background: var(--primary);
+      color: #fff;
+    }
+    .benefits {
+      margin-top: 18px;
+      text-align: left;
+      display: grid;
+      gap: 10px;
+    }
+    .benefits li { color: var(--muted); }
+    .upload-box {
+      margin: 20px auto 0;
+      width: 95%;
+      border: 2px dashed #94a3b8;
+      border-radius: 18px;
+      padding: 22px 16px;
+      background: #fff;
+      transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    .upload-box:hover {
+      border-color: #64748b;
+      background: #f8fafc;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    }
+    .upload-box.dragover {
+      border-color: var(--secondary);
+      background: #ecfdf5;
+    }
+    .upload-files {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .file-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #f8fafc;
+      color: #334155;
+      font-size: .82rem;
+      max-width: 100%;
+    }
+    .file-tag-name {
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tool-action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .task-progress {
+      margin-top: 10px;
+    }
+    .task-progress .progress {
+      margin-top: 0;
+      height: 10px;
+    }
+    .task-progress .progress-label {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+    .split-cta-wrap { margin-top: 24px; }
+    .split-title { font-size: 1.35rem; margin-bottom: 10px; }
+    .split-buttons {
+      display: grid;
+      gap: 12px;
+    }
+    .split-btn {
+      display: block;
+      width: 100%;
+      color: #fff;
+      padding: 16px;
+      min-height: 56px;
+      border-radius: 20px;
+    }
+    .split-btn small {
+      display: block;
+      opacity: .9;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .split-btn.pdf { background: #1A3B5C; }
+    .split-btn.image { background: #10B981; }
+
+    .trust-grid, .service-grid, .testimonial-grid, .tools-grid {
+      display: grid;
+      gap: var(--gap);
+    }
+    .trust-chip {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .mini-link {
+      color: var(--primary);
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 12px;
+    }
+
+    .tool-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: #fff;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 150px;
+    }
+    .tool-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .tool-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eff6ff;
+    }
+    .tag {
+      font-size: .75rem;
+      background: #f1f5f9;
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: #334155;
+      white-space: nowrap;
+    }
+    .tool-actions {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--secondary); color: #fff; }
+
+    .stars { color: #f59e0b; }
+    .testimonial {
+      padding: 20px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+    }
+
+    .faq-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      background: #fff;
+      color: var(--text);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 0;
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 16px 14px;
+      color: var(--muted);
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 18px;
+    }
+    .filter-btn {
+      background: #e2e8f0;
+      color: #1e293b;
+      border-radius: 999px;
+      padding: 8px 14px;
+      min-height: 44px;
+      font-size: .9rem;
+    }
+    .filter-btn.active { background: var(--primary); color: #fff; }
+    .search {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 10px 14px;
+      background: #fff;
+    }
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .reset-btn {
+      background: #e2e8f0;
+      color: #1e293b;
+      border-radius: 999px;
+      padding: 8px 14px;
+      min-height: 44px;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+    .share-btn {
+      background: #dbeafe;
+      color: #1e3a8a;
+      border-radius: 999px;
+      padding: 8px 14px;
+      min-height: 44px;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+    .shortcut-hint {
+      margin-top: 8px;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 26px 16px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px dashed #cbd5e1;
+    }
+    .hidden { display: none !important; }
+
+    .tool-hero {
+      display: grid;
+      gap: 24px;
+      align-items: start;
+    }
+    .mock-slider-wrap {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .range {
+      width: 100%;
+      min-height: 44px;
+    }
+    .progress {
+      height: 12px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #1a3b5c, #10b981);
+      transition: width .25s ease;
+    }
+
+    .bg-tool-preview {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1fr;
+    }
+    .preview-pane {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+    .post-task-panel {
+      margin-top: 18px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .post-task-panel h3 {
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    .ad-slot {
+      margin-top: 14px;
+      min-height: 90px;
+      border: 1px dashed #94a3b8;
+      border-radius: 12px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #475569;
+      font-size: .92rem;
+      padding: 10px;
+    }
+    .site-footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 28px 0 44px;
+      color: var(--muted);
+    }
+    .breadcrumbs {
+      margin: 18px 0 8px;
+      font-size: 0.92rem;
+      color: #475569;
+    }
+    .breadcrumbs ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .breadcrumbs li {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .breadcrumbs li + li::before {
+      content: "/";
+      color: #94a3b8;
+      margin-right: 2px;
+    }
+    .breadcrumbs a {
+      color: #1a3b5c;
+      font-weight: 600;
+    }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 8px;
+      z-index: 3000;
+      background: #ffffff;
+      color: #0f172a;
+      border: 2px solid #1a3b5c;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 700;
+    }
+    .skip-link:focus {
+      left: 12px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .network-banner {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      width: 100%;
+      text-align: center;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #0f172a;
+      background: #fde68a;
+      border-bottom: 1px solid #f59e0b;
+    }
+    .debug-panel {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2000;
+      width: min(92vw, 360px);
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      padding: 12px;
+      box-shadow: 0 14px 28px rgba(2, 6, 23, 0.45);
+      font-size: 0.85rem;
+    }
+    .debug-panel h3 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      color: #93c5fd;
+    }
+    .debug-panel ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 4px;
+    }
+    .debug-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .debug-btn {
+      min-height: 36px;
+      border-radius: 999px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .debug-btn:hover {
+      box-shadow: none;
+      transform: none;
+      background: #334155;
+    }
+    .debug-ok { color: #34d399; }
+    .debug-bad { color: #fca5a5; }
+    .recent-wrap {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .recent-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .recent-clear {
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      padding: 8px 12px;
+      font-weight: 700;
+    }
+
+    @media (min-width: 320px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 640px) {
+      h1 { font-size: 34px; }
+      .split-buttons { grid-template-columns: 1fr 1fr; }
+      .trust-grid { grid-template-columns: repeat(3, 1fr); }
+      .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-row {
+        grid-template-columns: 1fr auto auto;
+      }
+    }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 36px; }
+      .hero { padding: 42px 32px; }
+      .tool-hero { grid-template-columns: 1.2fr .8fr; }
+      .tools-grid.tablet-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .bg-tool-preview { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 768px) {
+      .menu-toggle { display: none; }
+      .header-inner { align-items: center; }
+      .nav {
+        display: flex !important;
+        width: auto;
+        flex-direction: row;
+        gap: 6px;
+        padding: 0;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      h1 { font-size: 56px; }
+      .tools-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
+      .service-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 1280px) {
+      .container { padding: 0 24px; }
+      .hero { padding: 56px; }
+      .tools-grid.desktop-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+      button:hover, a.button:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#mainContent" class="skip-link" id="skipToMain">Skip to main content</a>
+  <div id="networkBanner" class="network-banner hidden" role="status" aria-live="polite">
+    You are offline. Core UI still works, but features that require network (AI model first-load, external assets) may be limited.
+  </div>
+  <div id="routeAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="uiAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo">Your <span class="logo-own">Own</span> PDF.com</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        <nav class="nav" id="siteNav">
+          <a href="/" data-link>Home</a>
+          <a href="/tools" data-link>All Tools</a>
+          <a href="/pdf-tools" data-link>PDF Tools</a>
+          <a href="/image-tools" data-link>Image Tools</a>
+          <a href="/compress-pdf" data-link>Compress PDF</a>
+          <a href="/background-remover" data-link>Background Remover</a>
+          <a href="/about" data-link>About</a>
+          <a href="/contact" data-link>Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent" tabindex="-1">
+    <div class="container">
+      <nav id="breadcrumbs" class="breadcrumbs hidden" aria-label="Breadcrumb">
+        <ol id="breadcrumbsList"></ol>
+      </nav>
+    </div>
+    <section class="route active" data-route="/">
+      <div class="container">
+        <div class="hero">
+          <h1>Fix PDFs &amp; Images in seconds. 100% free.</h1>
+          <p>No registration, no watermarks, and your files automatically delete after 1 hour.</p>
+          <a class="button hero-cta" href="/tools">Start Now – It's Free</a>
+
+          <ul class="benefits">
+            <li>Shrink massive PDFs to email size in seconds.</li>
+            <li>Turn a photo of a whiteboard into a searchable PDF.</li>
+            <li>Convert JPG to Word without retyping a single word.</li>
+          </ul>
+
+          <div class="upload-box" id="heroDropZone" tabindex="0" role="button" aria-label="Drag and drop your file or click to upload">
+            <p><strong>Drag &amp; Drop files here</strong></p>
+            <p class="muted">Tap to select a file from your device.</p>
+          </div>
+
+          <div class="split-cta-wrap">
+            <h3 class="split-title">What do you want to fix today?</h3>
+            <div class="split-buttons">
+              <a href="/pdf-tools" class="split-btn pdf">PDF Tools<small>74 free tools</small></a>
+              <a href="/image-tools" class="split-btn image">Image Tools<small>20 free tools</small></a>
+            </div>
+            <a href="/tools" class="mini-link">Or browse all 94 tools →</a>
+            <div id="homeRecentTools" class="recent-wrap hidden" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <section class="section">
+          <h2>Trusted by 500,000+ Office Workers</h2>
+          <div class="trust-grid">
+            <div class="trust-chip">Trusted by 500,000+ Office Workers</div>
+            <div class="trust-chip">SSL Secure</div>
+            <div class="trust-chip">Browser-based — no upload required</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Tools for every workflow</h2>
+          <p class="muted">74 PDF + 20 Image tools grouped by real-world tasks.</p>
+          <div class="service-grid">
+            <article class="card"><h3>Compress</h3><p class="muted">Shrink files for email and faster uploads.</p></article>
+            <article class="card"><h3>Convert</h3><p class="muted">Switch between PDF, image, and office formats.</p></article>
+            <article class="card"><h3>Edit</h3><p class="muted">Rearrange, crop, rotate, and annotate quickly.</p></article>
+            <article class="card"><h3>OCR</h3><p class="muted">Extract searchable text from scanned documents.</p></article>
+            <article class="card"><h3>Security</h3><p class="muted">Protect, unlock, redact, and validate files safely.</p></article>
+            <article class="card"><h3>Batch</h3><p class="muted">Handle multiple files in one run.</p></article>
+          </div>
+          <a href="/tools" class="mini-link">View all 94 tools →</a>
+        </section>
+
+        <section class="section">
+          <h2>Social proof from real users</h2>
+          <div class="testimonial-grid">
+            <article class="testimonial">
+              <p class="stars">★★★★★</p>
+              <p>"Saved me 10 hours of manual work"</p>
+              <p class="muted">- Freelancer</p>
+            </article>
+            <article class="testimonial">
+              <p class="stars">★★★★★</p>
+              <p>"Perfect for my students"</p>
+              <p class="muted">- Teacher</p>
+            </article>
+            <article class="testimonial">
+              <p class="stars">★★★★★</p>
+              <p>"Print-ready PDFs in seconds"</p>
+              <p class="muted">- Graphic Designer</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Frequently Asked Questions</h2>
+          <div id="faqList">
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-a1">Is my data private?<span>+</span></button>
+              <div class="faq-answer" id="faq-a1">Yes. Files delete after 1 hour. We never store anything.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-a2">Do I need to create an account?<span>+</span></button>
+              <div class="faq-answer" id="faq-a2">Never. All tools work 100% free with zero signup.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-a3">What file formats do you support?<span>+</span></button>
+              <div class="faq-answer" id="faq-a3">PDF, JPG, PNG, HEIC, WEBP, BMP, TIFF, GIF, and more.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-a4">Is there a file size limit?<span>+</span></button>
+              <div class="faq-answer" id="faq-a4">Free tools support up to 50MB. Premium (coming soon) up to 500MB.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section card" style="text-align:center;">
+          <h2>Ready to stop wrestling with documents?</h2>
+          <p class="muted">Join 500,000+ professionals using YOUROWNPDF as their go-to productivity hack.</p>
+          <a href="/tool/image-to-pdf" class="button btn-secondary">Try the Image to PDF Tool Now</a>
+        </section>
+      </div>
+    </section>
+
+    <section class="route" data-route="/tools">
+      <div class="container">
+        <h1>All 94 Tools</h1>
+        <p class="muted">Search, filter, and launch every tool sorted by real usage popularity.</p>
+
+        <section class="section service-grid">
+          <article class="card">
+            <h3>Total PDF Control - Merge, Split, Compress &amp; OCR</h3>
+            <p>We offer every PDF tweak you can imagine. From unlocking password-protected files to rotating one single page out of 500.</p>
+            <p><strong>Ideal Client:</strong> Admin staff &amp; students</p>
+            <p><strong>Key Benefit:</strong> Stop hunting for multiple websites. You get 74 specific tools under one roof.</p>
+            <a class="button btn-primary" href="/compress-pdf">Compress a PDF Now</a>
+          </article>
+          <article class="card">
+            <h3>Smart Image Editing - Remove BG, Upscale &amp; Convert</h3>
+            <p>Turn HEIC to JPG, erase backgrounds with one click, or upscale low-res photos without losing quality.</p>
+            <p><strong>Ideal Client:</strong> E-commerce sellers, marketers, photographers</p>
+            <p><strong>Key Benefit:</strong> Make product photos look professional in 10 seconds.</p>
+            <a class="button btn-secondary" href="/background-remover">Remove Background for Free</a>
+          </article>
+          <article class="card">
+            <h3>Convert Anything to Anything (PDF ↔ Image ↔ Office)</h3>
+            <p>Got a scanned contract? Turn it into editable Word. Support for BMP, TIFF, WEBP.</p>
+            <p><strong>Ideal Client:</strong> Freelancers &amp; general users</p>
+            <p><strong>Key Benefit:</strong> Zero formatting loss.</p>
+            <a class="button btn-primary" href="/tool/jpg-to-pdf">Convert JPG to PDF</a>
+          </article>
+        </section>
+
+        <section class="section">
+          <div class="search-row">
+            <input id="allToolsSearch" class="search" type="search" placeholder="Search all tools..." aria-label="Search all tools" />
+            <button id="allResetBtn" class="reset-btn" type="button" aria-label="Reset all tools search and filters">Reset</button>
+            <button id="allShareBtn" class="share-btn" type="button" aria-label="Copy shareable link for current all tools filters">Copy link</button>
+          </div>
+          <p class="shortcut-hint" aria-label="Keyboard shortcuts">Shortcut: press <kbd aria-hidden="true">/</kbd><span class="sr-only"> slash </span> to search here, or <kbd aria-hidden="true">Ctrl/Cmd + K</kbd><span class="sr-only"> Control or Command plus K </span> for All Tools.</p>
+          <div id="allRecentTools" class="recent-wrap hidden" aria-live="polite"></div>
+          <div class="filters" id="allTypeFilters">
+            <button class="filter-btn active" data-type="all">All</button>
+            <button class="filter-btn" data-type="pdf">PDF</button>
+            <button class="filter-btn" data-type="image">Image</button>
+          </div>
+          <div id="allToolsGrid" class="tools-grid desktop-5"></div>
+          <p id="allToolsEmpty" class="empty hidden">No tools found.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="route" data-route="/pdf-tools">
+      <div class="container">
+        <h1>PDF Tools Hub</h1>
+        <p class="muted">74 free PDF tools sorted by popularity and ready in one click.</p>
+        <div class="search-row">
+          <input id="pdfSearch" class="search" type="search" placeholder="Search PDF tools..." aria-label="Search PDF tools" />
+          <button id="pdfResetBtn" class="reset-btn" type="button" aria-label="Reset PDF tools search and category filter">Reset</button>
+          <button id="pdfShareBtn" class="share-btn" type="button" aria-label="Copy shareable link for current PDF tools filters">Copy link</button>
+        </div>
+        <p class="shortcut-hint" aria-label="Keyboard shortcut">Shortcut: press <kbd aria-hidden="true">/</kbd><span class="sr-only"> slash </span> to focus this search.</p>
+        <div class="filters" id="pdfFilters"></div>
+        <div id="pdfToolsGrid" class="tools-grid tablet-3"></div>
+        <p id="pdfEmpty" class="empty hidden">No tools found.</p>
+      </div>
+    </section>
+
+    <section class="route" data-route="/image-tools">
+      <div class="container">
+        <h1>Image Tools Hub</h1>
+        <p class="muted">20 free image tools sorted by popularity for creators and teams.</p>
+        <div class="search-row">
+          <input id="imageSearch" class="search" type="search" placeholder="Search image tools..." aria-label="Search image tools" />
+          <button id="imageResetBtn" class="reset-btn" type="button" aria-label="Reset image tools search and category filter">Reset</button>
+          <button id="imageShareBtn" class="share-btn" type="button" aria-label="Copy shareable link for current image tools filters">Copy link</button>
+        </div>
+        <p class="shortcut-hint" aria-label="Keyboard shortcut">Shortcut: press <kbd aria-hidden="true">/</kbd><span class="sr-only"> slash </span> to focus this search.</p>
+        <div class="filters" id="imageFilters"></div>
+        <div id="imageToolsGrid" class="tools-grid tablet-3"></div>
+        <p id="imageEmpty" class="empty hidden">No tools found.</p>
+      </div>
+    </section>
+
+    <section class="route" data-route="/compress-pdf">
+      <div class="container">
+        <h1>Compress PDF: Reduce File Size Online Free | YOUROWNPDF</h1>
+        <div class="tool-hero section">
+          <article class="card">
+            <h2>How to compress a PDF under 5 seconds</h2>
+            <p>No software. No login. Just drag your file, choose "Recommended Compression," and download.</p>
+            <h2>Best compression settings for email vs. print</h2>
+            <p>Select "Email friendly" to get under 1MB. Choose "Maximum Quality" for press-ready PDFs.</p>
+            <h2>Is my data safe during compression?</h2>
+            <p>Yes. Every file stays on your local browser. No cloud upload. Data vanishes when you close the tab.</p>
+            <a href="/tool/pdf-to-word" class="button btn-secondary">Try the compression slider now – 100% anonymous.</a>
+            <div class="upload-box" id="compressDropZone" tabindex="0" role="button" aria-label="Upload PDF for compression">
+              <p><strong>Drop your PDF here or click to upload</strong></p>
+              <p class="muted">PDF files up to 50MB.</p>
+              <div class="upload-files" id="compressFileTags" aria-live="polite"></div>
+            </div>
+            <input type="file" id="compressFileInput" accept=".pdf,application/pdf" class="hidden" multiple />
+            <div class="tool-action-row">
+              <button id="compressUploadBtn" class="btn-primary" type="button">Upload</button>
+              <button id="compressResetBtn" class="reset-btn" type="button">Reset</button>
+              <button id="compressStartBtn" class="btn-secondary" type="button">Start Compress</button>
+            <a id="compressDownloadBtn" class="button btn-secondary hidden" download="compressed-YourOwnPDF.com.pdf">Download</a>
+            </div>
+            <p id="compressStatus" class="status">No file selected yet.</p>
+            <div id="compressTaskProgress" class="task-progress hidden" aria-live="polite">
+              <div class="progress"><div class="progress-bar" id="compressTaskBar"></div></div>
+              <p class="progress-label" id="compressTaskLabel">Preparing...</p>
+            </div>
+          </article>
+          <aside class="mock-slider-wrap">
+            <h3>Compression strength</h3>
+            <label for="compressRange">Recommended Compression: <strong id="rangeValue">55%</strong></label>
+            <input id="compressRange" class="range" type="range" min="10" max="95" value="55" />
+            <div class="progress"><div class="progress-bar" id="compressBar"></div></div>
+            <p class="muted">Estimated output: <span id="estimatedSize">1.3MB</span></p>
+          </aside>
+        </div>
+        <section id="compressPostTask" class="post-task-panel hidden" aria-live="polite">
+          <h3 id="compressPostTaskTitle">Next step ready</h3>
+          <p id="compressPostTaskText" class="muted">Use another tool to finish your workflow faster.</p>
+          <a id="compressPostTaskCta" href="/tool/pdf-to-word" class="button btn-primary">Convert to Word</a>
+          <div class="ad-slot">Ad slot (728x90 / responsive): Add your ad network script here.</div>
+        </section>
+      </div>
+    </section>
+
+    <section class="route" data-route="/background-remover">
+      <div class="container">
+        <h1>Background Remover</h1>
+        <p class="muted">Remove image backgrounds entirely in your browser. No server upload required.</p>
+        <div class="section card" id="bgToolCard">
+          <div class="upload-box" id="bgDropZone" tabindex="0" role="button" aria-label="Upload image for background removal">
+            <p><strong>Drop image here or click to upload</strong></p>
+            <p class="muted">JPG, PNG, WEBP supported.</p>
+            <div class="upload-files" id="bgFileTags" aria-live="polite"></div>
+          </div>
+          <input type="file" id="bgFileInput" accept="image/*" class="hidden" multiple />
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+            <button id="bgUploadBtn" class="btn-primary" type="button">Upload</button>
+            <button id="bgResetBtn" class="reset-btn" type="button">Reset</button>
+            <button id="removeBgBtn" class="btn-secondary" type="button">Remove Background</button>
+            <a id="downloadBgBtn" class="button btn-primary hidden" download="background-removed-YourOwnPDF.com.png">Download PNG</a>
+          </div>
+          <p id="bgStatus" class="status">Select an image to begin.</p>
+          <div id="bgTaskProgress" class="task-progress hidden" aria-live="polite">
+            <div class="progress"><div class="progress-bar" id="bgTaskBar"></div></div>
+            <p class="progress-label" id="bgTaskLabel">Preparing...</p>
+          </div>
+          <div class="bg-tool-preview" style="margin-top:16px;">
+            <div class="preview-pane"><img id="bgInputPreview" alt="Original upload preview" class="hidden" loading="lazy" /></div>
+            <div class="preview-pane"><img id="bgOutputPreview" alt="Background removed result preview" class="hidden" loading="lazy" /></div>
+          </div>
+          <section id="bgPostTask" class="post-task-panel hidden" aria-live="polite">
+            <h3 id="bgPostTaskTitle">Task complete</h3>
+            <p id="bgPostTaskText" class="muted">Keep going with another high-impact image action.</p>
+            <a id="bgPostTaskCta" href="/tool/image-compressor" class="button btn-secondary">Compress this image next</a>
+            <div class="ad-slot">Ad slot (300x250 / responsive): perfect place for affiliate or display ad.</div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="route" data-route="/tool">
+      <div class="container">
+        <h1 id="dynamicToolTitle">Tool</h1>
+        <article class="card">
+          <p id="dynamicToolDescription"></p>
+          <p class="muted">Complete your task, then continue with a high-impact next step:</p>
+          <a id="dynamicNextStep" href="/pdf-tools" class="button btn-primary">Next Step</a>
+          <button id="dynamicTaskDoneBtn" type="button" class="btn-secondary" style="margin-left:8px;">I completed this task</button>
+          <div class="upload-box" id="dynamicDropZone" tabindex="0" role="button" aria-label="Upload file for this tool">
+            <p><strong>Drop your file here or click to upload</strong></p>
+            <p class="muted" id="dynamicUploadHint">Supported file type depends on selected tool.</p>
+            <div class="upload-files" id="dynamicFileTags" aria-live="polite"></div>
+          </div>
+          <input type="file" id="dynamicFileInput" class="hidden" multiple />
+          <div class="tool-action-row">
+            <button id="dynamicUploadBtn" class="btn-primary" type="button">Upload</button>
+            <button id="dynamicResetBtn" class="reset-btn" type="button">Reset</button>
+            <button id="dynamicPrimaryActionBtn" class="btn-primary hidden" type="button">Start Process</button>
+            <a id="dynamicDownloadBtn" class="button btn-secondary hidden" download="processed-file-YourOwnPDF.com">Download</a>
+          </div>
+          <p id="dynamicUploadStatus" class="status">No file selected yet.</p>
+          <div id="dynamicTaskProgress" class="task-progress hidden" aria-live="polite">
+            <div class="progress"><div class="progress-bar" id="dynamicTaskBar"></div></div>
+            <p class="progress-label" id="dynamicTaskLabel">Preparing...</p>
+          </div>
+          <section id="dynamicPostTask" class="post-task-panel hidden" aria-live="polite">
+            <h3 id="dynamicPostTaskTitle">Ready for your next step?</h3>
+            <p id="dynamicPostTaskText" class="muted">Users who finish this action usually continue with one more conversion.</p>
+            <a id="dynamicPostTaskCta" href="/tools" class="button btn-secondary">Open recommended tool</a>
+            <div class="ad-slot">Ad slot (responsive): show context-based ad after task completion.</div>
+          </section>
+        </article>
+      </div>
+    </section>
+
+    <section class="route" data-route="/about">
+      <div class="container">
+        <h1>About YOUROWNPDF</h1>
+        <section class="section card">
+          <h2>Origin Story</h2>
+          <p>YOUROWNPDF started because a frustrated accountant had to wait 20 minutes for a PDF to upload to a "free" tool, only to find it required a credit card. We built the first tool on a Tuesday night. By Friday, 5,000 people had used it.</p>
+          <h2>Mission</h2>
+          <p>To keep essential document tools free, fast, and private. No tricks. No data mining.</p>
+          <h2>Core Values</h2>
+          <ol>
+            <li>Privacy by Default: We delete every file 60 minutes after processing. Forever.</li>
+            <li>Speed is a Feature: We optimize servers so you never watch a loading spinner.</li>
+            <li>Radical Honesty: We will never add a watermark to your work.</li>
+          </ol>
+          <h2>What makes us different</h2>
+          <p>Unlike iLovePDF or SmallPDF, we don't cap your file size to 10MB unless you pay. We offer 74 specialized actions hidden behind "premium" walls elsewhere.</p>
+          <p><strong>Go ahead. Try to break our tools. We triple-dog-dare you.</strong></p>
+        </section>
+      </div>
+    </section>
+
+    <section class="route" data-route="/contact">
+      <div class="container">
+        <h1>Contact</h1>
+        <section class="section card">
+          <p>Need support, have feedback, or want to request a tool?</p>
+          <p>Email: support@yourownpdf.com</p>
+          <p>Typical reply time: under 24 hours on business days.</p>
+          <a href="/tools" class="button btn-primary">Explore tools while you wait</a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>YOUROWNPDF.COM - Free PDF and image tools for productive teams.</p>
+    </div>
+  </footer>
+
+  <aside id="debugPanel" class="debug-panel hidden" aria-live="polite">
+    <h3>Debug QA Panel</h3>
+    <ul id="debugList"></ul>
+    <div class="debug-actions">
+      <button id="debugExportBtn" class="debug-btn" type="button">Export QA Report</button>
+    </div>
+  </aside>
+
+  <script type="module">
+    import { mergePdfs, splitPdfToZip, imagesToPdf, pdfToJpgZip, compressPdf, compressImage } from "./modules/processors.js";
+
+    const pdfNames = [
+      "Merge", "Split", "Compress", "PDF to Word", "PDF to Excel", "PDF to PPT", "PDF to JPG", "JPG to PDF", "Word to PDF",
+      "Excel to PDF", "PPT to PDF", "Rotate PDF", "Delete Pages", "Extract Pages", "Crop PDF", "Unlock PDF (remove password)",
+      "Protect PDF (add password)", "Add Page Numbers", "Add Watermark", "Add Footer", "Add Header", "Repair PDF", "PDF to Text (OCR)",
+      "PDF to HTML", "PDF to PNG", "PDF to SVG", "PDF to PDF/A", "Flatten PDF", "Compare PDF", "Redact PDF", "Sign PDF",
+      "Organize Pages", "Remove Watermark", "Remove Metadata", "Remove Annotations", "Compress PDF (high)", "Compress PDF (medium)",
+      "Optimize scanned PDF", "Deskew PDF", "Add Bates Numbering", "Insert Blank Page", "Replace Pages", "Reverse Page Order",
+      "Rearrange Pages", "Split by Range", "Split by Size", "Extract Embedded Images", "Extract Text", "Convert Grayscale",
+      "Convert to PDF/A-1b", "Convert to PDF/A-3", "Linearize PDF (web optimized)", "Preview PDF", "Thumbnail Generator", "PDF Imposition",
+      "Overlay PDF", "Underlay PDF", "Convert to PDF/E", "Create PDF from XML", "Create PDF from JSON", "Merge Multiple PDFs (batch)",
+      "Zip PDFs", "Convert PDF to Markdown", "Validate PDF (compliance)", "Color Convert (CMYK to RGB)", "Reduce File Size Aggressive",
+      "PDF to CSV", "PDF to XML", "Flatten Signatures"
+    ];
+
+    const imageNames = [
+      "Image to PDF", "Image Resizer", "Image Compressor", "HEIC to JPG", "WEBP to PNG", "PNG to JPG", "Background Remover",
+      "Image Upscaler (x2/x4)", "Photo to Sketch", "Rotate Image", "Flip Image", "Crop Image", "Add Text to Image",
+      "Convert to Black & White", "Convert BMP to PNG", "GIF to MP4", "Watermark Image", "Extract Frames from GIF",
+      "Convert SVG to PNG", "Bulk Image Converter"
+    ];
+
+    const pdfPopularity = [98, 90, 100, 95, 88, 72, 80, 92, 86, 76, 68, 82, 77, 70, 66, 84, 75, 64, 63, 57, 56, 69, 74, 55, 58, 52, 51, 61, 62, 73, 71, 79, 54, 49, 48, 65, 60, 59, 46, 45, 44, 43, 47, 67, 53, 50, 42, 81, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 78, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17];
+    const imagePopularity = [100, 93, 96, 87, 80, 85, 90, 78, 69, 75, 64, 83, 62, 61, 58, 57, 60, 56, 59, 63];
+
+    const pdfCategoryByName = (name) => {
+      if (/compress|reduce|optimize/i.test(name)) return "Compress";
+      if (/to|convert|create/i.test(name)) return "Convert";
+      if (/ocr/i.test(name)) return "OCR";
+      if (/unlock|protect|redact|validate|secure/i.test(name)) return "Security";
+      if (/batch|multiple|zip/i.test(name)) return "Batch";
+      return "Edit";
+    };
+
+    const imageCategoryByName = (name) => {
+      if (/to|convert|heic|png|jpg|bmp|svg|gif/i.test(name)) return "Convert";
+      if (/upscaler|sketch|black|white|compressor/i.test(name)) return "Enhance";
+      return "Edit";
+    };
+
+    const iconFor = (type, category) => {
+      const map = {
+        pdf: { Compress: "🗜️", Convert: "📄", Edit: "✂️", OCR: "🔎", Security: "🔒", Batch: "📚" },
+        image: { Convert: "🖼️", Edit: "🛠️", Enhance: "✨" }
+      };
+      return (map[type] && map[type][category]) || "⚙️";
+    };
+    const iconForTool = (name, type, category) => {
+      const n = name.toLowerCase();
+      if (/background remover/.test(n)) return "🪄";
+      if (/merge/.test(n)) return "🧩";
+      if (/split/.test(n)) return "✂️";
+      if (/compress|reduce file size|optimize/.test(n)) return "🗜️";
+      if (/word/.test(n)) return "📝";
+      if (/excel|csv/.test(n)) return "📊";
+      if (/ppt/.test(n)) return "📽️";
+      if (/jpg|png|svg|heic|webp|bmp|gif|image/.test(n) && /to/.test(n)) return "🖼️";
+      if (/unlock|protect|password|security|redact|validate/.test(n)) return "🔒";
+      if (/ocr|extract text|text/.test(n)) return "🔎";
+      if (/sign/.test(n)) return "✍️";
+      if (/rotate|reverse|flip/.test(n)) return "🔄";
+      if (/crop/.test(n)) return "📐";
+      if (/watermark/.test(n)) return "💧";
+      if (/repair/.test(n)) return "🩹";
+      if (/upscaler/.test(n)) return "⬆️";
+      if (/thumbnail|preview/.test(n)) return "🧾";
+      return iconFor(type, category);
+    };
+
+    const slugify = (s) => s.toLowerCase().replace(/[()]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+    const pdfTools = pdfNames.map((name, i) => {
+      const category = pdfCategoryByName(name);
+      return {
+        id: `pdf-${i + 1}`,
+        name,
+        category,
+        type: "pdf",
+        icon: iconForTool(name, "pdf", category),
+        description: `${name} tool for faster document workflows.`,
+        popularity: pdfPopularity[i] || Math.max(1, 70 - i),
+        slug: slugify(name),
+        keywords: [name, "pdf", category, "free", "online", "yourownpdf"].join(" ").toLowerCase().split(" ")
+      };
+    });
+
+    const imageTools = imageNames.map((name, i) => {
+      const category = imageCategoryByName(name);
+      return {
+        id: `image-${i + 1}`,
+        name,
+        category,
+        type: "image",
+        icon: iconForTool(name, "image", category),
+        description: `${name} in one click with privacy-first processing.`,
+        popularity: imagePopularity[i] || Math.max(1, 50 - i),
+        slug: slugify(name),
+        keywords: [name, "image", category, "free", "online", "yourownpdf"].join(" ").toLowerCase().split(" ")
+      };
+    });
+
+    const allTools = [...pdfTools, ...imageTools].sort((a, b) => b.popularity - a.popularity);
+    const RECENT_TOOLS_KEY = "yourownpdf_recent_tools_v1";
+
+    const menuToggle = document.getElementById("menuToggle");
+    const siteNav = document.getElementById("siteNav");
+    const skipToMain = document.getElementById("skipToMain");
+    menuToggle.addEventListener("click", () => siteNav.classList.toggle("open"));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") siteNav.classList.remove("open");
+    });
+    skipToMain.addEventListener("click", (e) => {
+      e.preventDefault();
+      mainContent.focus();
+    });
+    const networkBanner = document.getElementById("networkBanner");
+    function updateNetworkBanner() {
+      networkBanner.classList.toggle("hidden", navigator.onLine);
+    }
+    window.addEventListener("online", updateNetworkBanner);
+    window.addEventListener("offline", updateNetworkBanner);
+
+    const routes = [...document.querySelectorAll(".route")];
+    const navLinks = [...document.querySelectorAll("[data-link]")];
+    const mainContent = document.getElementById("mainContent");
+    const routeAnnouncer = document.getElementById("routeAnnouncer");
+    const uiAnnouncer = document.getElementById("uiAnnouncer");
+    const breadcrumbs = document.getElementById("breadcrumbs");
+    const breadcrumbsList = document.getElementById("breadcrumbsList");
+    let lastRouteHeading = null;
+
+    function announceUi(message) {
+      uiAnnouncer.textContent = "";
+      setTimeout(() => {
+        uiAnnouncer.textContent = message;
+      }, 0);
+    }
+
+    const isFileProtocol = window.location.protocol === "file:";
+    function parseCurrentRoute() {
+      const search = new URLSearchParams(window.location.search);
+      if (isFileProtocol) {
+        const path = search.get("route") || "/";
+        search.delete("route");
+        return { path, query: search };
+      }
+      let path = window.location.pathname || "/";
+      if (path.endsWith("/index.html")) path = "/";
+      return { path, query: search };
+    }
+    function currentPath() {
+      const { path, query } = parseCurrentRoute();
+      const queryText = query.toString();
+      return `${path}${queryText ? `?${queryText}` : ""}`;
+    }
+    function buildInternalUrl(path, queryState = {}) {
+      const params = new URLSearchParams();
+      Object.entries(queryState).forEach(([key, value]) => {
+        if (typeof value !== "string") return;
+        const trimmed = value.trim();
+        if (trimmed) params.set(key, trimmed);
+      });
+      if (isFileProtocol) {
+        params.set("route", path);
+        return `${window.location.pathname}?${params.toString()}`;
+      }
+      const query = params.toString();
+      return `${path}${query ? `?${query}` : ""}`;
+    }
+    function rewriteInternalLinks() {
+      const anchors = [...document.querySelectorAll('a[href^="/"]')];
+      anchors.forEach((a) => {
+        const raw = a.getAttribute("href");
+        if (!raw) return;
+        const [pathPart, queryPart = ""] = raw.split("?");
+        const queryObj = {};
+        new URLSearchParams(queryPart).forEach((value, key) => {
+          queryObj[key] = value;
+        });
+        a.dataset.route = pathPart || "/";
+        a.setAttribute("href", buildInternalUrl(pathPart || "/", queryObj));
+      });
+    }
+    function navigateTo(path, queryState = {}, replace = false) {
+      const nextUrl = buildInternalUrl(path, queryState);
+      const currentUrl = `${window.location.pathname}${window.location.search}`;
+      if (nextUrl === currentUrl) return;
+      const method = replace ? "replaceState" : "pushState";
+      history[method](null, "", nextUrl);
+      onRouteChange();
+      runDebugChecks();
+    }
+
+    function setActiveNav(path) {
+      navLinks.forEach((link) => {
+        const routePath = link.dataset.route;
+        const href = link.getAttribute("href") || "";
+        const normalized = href.startsWith("#") ? href.slice(1) : href;
+        const linkPath = routePath || normalized.split("?")[0] || "/";
+        const isActive = linkPath === path;
+        link.classList.toggle("active", isActive);
+        if (isActive) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function showRoute(path) {
+      routes.forEach((route) => route.classList.remove("active"));
+      let target = routes.find((r) => r.dataset.route === path);
+      if (!target) {
+        if (path === "/services") target = document.querySelector('[data-route="/tools"]');
+        if (path.startsWith("/tool/")) target = document.querySelector('[data-route="/tool"]');
+        if (path === "/background-remover") target = document.querySelector('[data-route="/background-remover"]');
+      }
+      const activeRoute = target || document.querySelector('[data-route="/"]');
+      activeRoute.classList.add("active");
+      const navPath = path === "/services" ? "/tools" : path;
+      setActiveNav(navPath);
+      siteNav.classList.remove("open");
+      const activeHeading = activeRoute.querySelector("h1");
+      if (activeHeading) {
+        if (lastRouteHeading && lastRouteHeading !== activeHeading) {
+          lastRouteHeading.removeAttribute("tabindex");
+        }
+        activeHeading.setAttribute("tabindex", "-1");
+        activeHeading.focus();
+        lastRouteHeading = activeHeading;
+      } else {
+        mainContent.focus();
+      }
+      const spokenRoute = path.startsWith("/tool/")
+        ? "tool details"
+        : (path === "/" ? "Home" : path.replace(/^\//, "").replace(/-/g, " "));
+      routeAnnouncer.textContent = `Navigated to ${spokenRoute}`;
+    }
+
+    function breadcrumbItemsForPath(path) {
+      const base = [{ label: "Home", href: "/" }];
+      if (path === "/") return [];
+      if (path === "/tools" || path === "/services") {
+        return [...base, { label: "All Tools", href: "/tools" }];
+      }
+      if (path === "/pdf-tools") return [...base, { label: "PDF Tools", href: "/pdf-tools" }];
+      if (path === "/image-tools") return [...base, { label: "Image Tools", href: "/image-tools" }];
+      if (path === "/compress-pdf") {
+        return [...base, { label: "PDF Tools", href: "/pdf-tools" }, { label: "Compress PDF", href: "/compress-pdf" }];
+      }
+      if (path === "/background-remover") {
+        return [...base, { label: "Image Tools", href: "/image-tools" }, { label: "Background Remover", href: "/background-remover" }];
+      }
+      if (path === "/about") return [...base, { label: "About", href: "/about" }];
+      if (path === "/contact") return [...base, { label: "Contact", href: "/contact" }];
+      if (path.startsWith("/tool/")) {
+        const slug = path.replace("/tool/", "");
+        const tool = allTools.find((t) => t.slug === slug);
+        if (!tool) return [...base, { label: "Tool", href: path }];
+        const parent = tool.type === "pdf" ? { label: "PDF Tools", href: "/pdf-tools" } : { label: "Image Tools", href: "/image-tools" };
+        return [...base, parent, { label: tool.name, href: path }];
+      }
+      return [...base, { label: "Page", href: path }];
+    }
+
+    function renderBreadcrumbs(path) {
+      const items = breadcrumbItemsForPath(path);
+      if (!items.length) {
+        breadcrumbs.classList.add("hidden");
+        breadcrumbsList.innerHTML = "";
+        return;
+      }
+      breadcrumbs.classList.remove("hidden");
+      breadcrumbsList.innerHTML = items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        if (isLast) return `<li aria-current="page"><span>${item.label}</span></li>`;
+        return `<li><a href="${buildInternalUrl(item.href)}" data-route="${item.href}">${item.label}</a></li>`;
+      }).join("");
+    }
+
+    function updateSeo(path) {
+      const metaDescription = document.getElementById("metaDescription");
+      const ogTitle = document.getElementById("ogTitle");
+      const ogDescription = document.getElementById("ogDescription");
+      const ogUrl = document.getElementById("ogUrl");
+      const twitterTitle = document.getElementById("twitterTitle");
+      const twitterDescription = document.getElementById("twitterDescription");
+      const canonicalUrl = document.getElementById("canonicalUrl");
+      const seoMap = {
+        "/": {
+          title: "YOUROWNPDF.COM | Free PDF & Image Tools",
+          description: "Fix PDFs and images in seconds. 100% free. No login, no watermarks, privacy-first browser tools."
+        },
+        "/tools": {
+          title: "All 94 Free Tools | YOUROWNPDF",
+          description: "Browse all 74 PDF and 20 image tools sorted by popularity. Search and launch instantly."
+        },
+        "/services": {
+          title: "Services and Tools | YOUROWNPDF",
+          description: "Explore complete PDF, image, and cross-format conversion services in one place."
+        },
+        "/pdf-tools": {
+          title: "74 PDF Tools Hub | YOUROWNPDF",
+          description: "Compress, merge, split, convert, OCR, secure, and batch process PDFs for free."
+        },
+        "/image-tools": {
+          title: "20 Image Tools Hub | YOUROWNPDF",
+          description: "Resize, compress, remove backgrounds, convert formats, and enhance images online."
+        },
+        "/compress-pdf": {
+          title: "Compress PDF: Reduce File Size Online Free | YOUROWNPDF",
+          description: "Compress PDF files online in seconds. No software, no login, privacy-first workflow."
+        },
+        "/background-remover": {
+          title: "Background Remover Online Free | YOUROWNPDF",
+          description: "Remove image backgrounds locally in your browser using AI and download transparent PNG files."
+        },
+        "/about": {
+          title: "About YOUROWNPDF | Mission, Story, Values",
+          description: "Learn why YOUROWNPDF exists and how we keep document tools fast, free, and private."
+        },
+        "/contact": {
+          title: "Contact YOUROWNPDF | Support and Feedback",
+          description: "Get help, request features, and send feedback to the YOUROWNPDF support team."
+        }
+      };
+      if (path.startsWith("/tool/")) {
+        const slug = path.replace("/tool/", "");
+        const tool = allTools.find((t) => t.slug === slug);
+        if (tool) {
+          const toolTitle = `${tool.name} Online Free | YOUROWNPDF`;
+          const toolDesc = `${tool.name} tool by YOUROWNPDF. Fast, free, privacy-first processing in your browser.`;
+          document.title = toolTitle;
+          metaDescription.content = toolDesc;
+          ogTitle.content = toolTitle;
+          ogDescription.content = toolDesc;
+          twitterTitle.content = toolTitle;
+          twitterDescription.content = toolDesc;
+          ogUrl.content = `https://yourownpdf.com${path}`;
+          canonicalUrl.href = `https://yourownpdf.com${path}`;
+          return;
+        }
+      }
+      const nextSeo = seoMap[path] || seoMap["/"];
+      document.title = nextSeo.title;
+      metaDescription.content = nextSeo.description;
+      ogTitle.content = nextSeo.title;
+      ogDescription.content = nextSeo.description;
+      twitterTitle.content = nextSeo.title;
+      twitterDescription.content = nextSeo.description;
+      ogUrl.content = `https://yourownpdf.com${path}`;
+      canonicalUrl.href = `https://yourownpdf.com${path}`;
+    }
+
+    function toolPath(tool) {
+      return tool.slug === "background-remover" ? "/background-remover" : `/tool/${tool.slug}`;
+    }
+    function toolHref(tool) {
+      return buildInternalUrl(toolPath(tool));
+    }
+
+    function renderToolCards(container, tools) {
+      container.innerHTML = tools.map((tool) => `
+        <article class="tool-card" data-tool-path="${toolPath(tool)}" tabindex="0" role="link" aria-label="Open ${tool.name}">
+          <div class="tool-top">
+            <span class="tool-icon" aria-hidden="true">${tool.icon}</span>
+            <span class="tag">${tool.category}</span>
+          </div>
+          <h3>${tool.name}</h3>
+          <p class="muted">${tool.description}</p>
+          <div class="tool-actions">
+            <span class="tag">Popularity ${tool.popularity}</span>
+            <a class="button btn-primary" href="${toolHref(tool)}" data-route="${toolPath(tool)}">Open</a>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    let removeBackgroundFn = null;
+    async function getRemoveBackgroundFn() {
+      if (removeBackgroundFn) return removeBackgroundFn;
+      const cdnModule = "https://esm.sh/@imgly/background-removal@1.7.0?bundle";
+      const mod = await import(cdnModule);
+      if (typeof mod.removeBackground !== "function") {
+        throw new Error("Background remover failed to load. Please refresh and try again.");
+      }
+      removeBackgroundFn = mod.removeBackground;
+      return removeBackgroundFn;
+    }
+
+    function applyFilters({ sourceTools, searchValue, category = "All", type = "all" }) {
+      const term = searchValue.trim().toLowerCase();
+      return sourceTools.filter((tool) => {
+        const text = `${tool.name} ${tool.description} ${tool.keywords.join(" ")}`.toLowerCase();
+        const matchSearch = !term || text.includes(term);
+        const matchCategory = category === "All" || tool.category === category;
+        const matchType = type === "all" || tool.type === type;
+        return matchSearch && matchCategory && matchType;
+      });
+    }
+
+    function debounce(fn, delay = 150) {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    function setRouteQuery(path, queryState = {}) {
+      const nextUrl = buildInternalUrl(path, queryState);
+      const currentUrl = `${window.location.pathname}${window.location.search}`;
+      if (nextUrl !== currentUrl) history.replaceState(null, "", nextUrl);
+    }
+
+    const allToolsGrid = document.getElementById("allToolsGrid");
+    const allToolsSearch = document.getElementById("allToolsSearch");
+    const allResetBtn = document.getElementById("allResetBtn");
+    const allShareBtn = document.getElementById("allShareBtn");
+    const allToolsEmpty = document.getElementById("allToolsEmpty");
+    const allTypeFilters = document.getElementById("allTypeFilters");
+    const homeRecentTools = document.getElementById("homeRecentTools");
+    const allRecentTools = document.getElementById("allRecentTools");
+    let allTypeState = "all";
+    const sortedPdfTools = [...pdfTools].sort((a, b) => b.popularity - a.popularity);
+    const sortedImageTools = [...imageTools].sort((a, b) => b.popularity - a.popularity);
+    const TOOL_FILTER_STATE_KEY = "yourownpdf_filter_state_v1";
+
+    function isTypingContext(target) {
+      if (!target) return false;
+      const tag = target.tagName;
+      return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
+    }
+
+    function activeRoutePath() {
+      return parseCurrentRoute().path;
+    }
+
+    function focusRouteSearch() {
+      const path = activeRoutePath();
+      if (path === "/tools" || path === "/services") {
+        allToolsSearch.focus();
+        return true;
+      }
+      if (path === "/pdf-tools") {
+        pdfSearch.focus();
+        return true;
+      }
+      if (path === "/image-tools") {
+        imageSearch.focus();
+        return true;
+      }
+      return false;
+    }
+
+    function loadFilterState() {
+      try {
+        const raw = sessionStorage.getItem(TOOL_FILTER_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return typeof parsed === "object" && parsed ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveFilterState(nextState) {
+      try {
+        const current = loadFilterState();
+        sessionStorage.setItem(TOOL_FILTER_STATE_KEY, JSON.stringify({ ...current, ...nextState }));
+      } catch {
+        // Ignore session storage errors.
+      }
+    }
+
+    async function shareCurrentLink(section, buttonEl) {
+      const shareUrl = window.location.href;
+      const shareTitle = "YOUROWNPDF tools";
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: shareTitle, url: shareUrl });
+          announceUi(`${section} link shared.`);
+          trackEvent("share_link_copied", { section, href: shareUrl, method: "web_share" });
+          return;
+        }
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          announceUi("Share canceled.");
+          trackEvent("share_link_copied", { section, href: shareUrl, method: "web_share_canceled" });
+          return;
+        }
+        // Fall back to clipboard for share errors.
+      }
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        buttonEl.textContent = "Copied!";
+        announceUi(`${section} link copied.`);
+        trackEvent("share_link_copied", { section, href: shareUrl, method: "clipboard" });
+      } catch {
+        window.prompt("Copy this link:", shareUrl);
+        announceUi(`Copy dialog opened for ${section} link.`);
+        trackEvent("share_link_copied", { section, href: shareUrl, method: "prompt" });
+      }
+      setTimeout(() => { buttonEl.textContent = "Copy link"; }, 1200);
+    }
+
+    function refreshAllTools() {
+      const filtered = applyFilters({ sourceTools: allTools, searchValue: allToolsSearch.value, type: allTypeState });
+      renderToolCards(allToolsGrid, filtered);
+      allToolsEmpty.classList.toggle("hidden", filtered.length > 0);
+      saveFilterState({ allSearch: allToolsSearch.value, allType: allTypeState });
+      const route = activeRoutePath();
+      if (route === "/tools" || route === "/services") {
+        setRouteQuery(route, { search: allToolsSearch.value, type: allTypeState === "all" ? "" : allTypeState });
+      }
+    }
+
+    function getRecentSlugs() {
+      try {
+        const raw = localStorage.getItem(RECENT_TOOLS_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        return Array.isArray(list) ? list : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveRecentSlug(slug) {
+      const current = getRecentSlugs().filter((s) => s !== slug);
+      current.unshift(slug);
+      try {
+        localStorage.setItem(RECENT_TOOLS_KEY, JSON.stringify(current.slice(0, 6)));
+      } catch {
+        // Ignore storage write issues (private mode/storage full).
+      }
+    }
+
+    function clearRecentTools() {
+      try {
+        localStorage.removeItem(RECENT_TOOLS_KEY);
+      } catch {
+        // Ignore storage clear issues.
+      }
+      renderRecentTools();
+      trackEvent("recent_tools_cleared");
+      announceUi("Recent tools cleared.");
+    }
+
+    function renderRecentTools() {
+      const slugs = getRecentSlugs();
+      const recentTools = slugs.map((slug) => allTools.find((t) => t.slug === slug)).filter(Boolean);
+      const chips = recentTools.map((tool) => `<a class="recent-chip" href="${toolHref(tool)}">${tool.icon} ${tool.name}</a>`).join("");
+      const clearBtn = recentTools.length ? `<button type="button" class="recent-clear" data-clear-recent="true">Clear recent</button>` : "";
+      const html = chips + clearBtn;
+      homeRecentTools.innerHTML = html;
+      allRecentTools.innerHTML = html;
+      const hasRecent = recentTools.length > 0;
+      homeRecentTools.classList.toggle("hidden", !hasRecent);
+      allRecentTools.classList.toggle("hidden", !hasRecent);
+    }
+    allToolsSearch.addEventListener("input", debounce(refreshAllTools, 120));
+    allTypeFilters.addEventListener("click", (e) => {
+      if (!e.target.matches(".filter-btn")) return;
+      allTypeState = e.target.dataset.type;
+      [...allTypeFilters.children].forEach((btn) => btn.classList.remove("active"));
+      e.target.classList.add("active");
+      refreshAllTools();
+    });
+    allResetBtn.addEventListener("click", () => {
+      allToolsSearch.value = "";
+      allTypeState = "all";
+      [...allTypeFilters.children].forEach((btn) => btn.classList.toggle("active", btn.dataset.type === "all"));
+      refreshAllTools();
+      trackEvent("filters_reset", { section: "all-tools" });
+      announceUi("All tools filters reset.");
+    });
+    allShareBtn.addEventListener("click", async () => {
+      await shareCurrentLink("all-tools", allShareBtn);
+    });
+
+    const pdfFilters = document.getElementById("pdfFilters");
+    const pdfSearch = document.getElementById("pdfSearch");
+    const pdfResetBtn = document.getElementById("pdfResetBtn");
+    const pdfShareBtn = document.getElementById("pdfShareBtn");
+    const pdfGrid = document.getElementById("pdfToolsGrid");
+    const pdfEmpty = document.getElementById("pdfEmpty");
+    const pdfCategories = ["All", "Compress", "Convert", "Edit", "OCR", "Security", "Batch"];
+    let pdfCategoryState = "All";
+    pdfFilters.innerHTML = pdfCategories.map((cat, i) => `<button class="filter-btn ${i === 0 ? "active" : ""}" data-cat="${cat}">${cat}</button>`).join("");
+    function refreshPdfTools() {
+      const filtered = applyFilters({ sourceTools: sortedPdfTools, searchValue: pdfSearch.value, category: pdfCategoryState });
+      renderToolCards(pdfGrid, filtered);
+      pdfEmpty.classList.toggle("hidden", filtered.length > 0);
+      saveFilterState({ pdfSearch: pdfSearch.value, pdfCategory: pdfCategoryState });
+      if (activeRoutePath() === "/pdf-tools") {
+        setRouteQuery("/pdf-tools", { search: pdfSearch.value, category: pdfCategoryState === "All" ? "" : pdfCategoryState });
+      }
+    }
+    pdfSearch.addEventListener("input", debounce(refreshPdfTools, 120));
+    pdfFilters.addEventListener("click", (e) => {
+      if (!e.target.matches(".filter-btn")) return;
+      pdfCategoryState = e.target.dataset.cat;
+      [...pdfFilters.children].forEach((btn) => btn.classList.remove("active"));
+      e.target.classList.add("active");
+      refreshPdfTools();
+    });
+    pdfResetBtn.addEventListener("click", () => {
+      pdfSearch.value = "";
+      pdfCategoryState = "All";
+      [...pdfFilters.children].forEach((btn) => btn.classList.toggle("active", btn.dataset.cat === "All"));
+      refreshPdfTools();
+      trackEvent("filters_reset", { section: "pdf-tools" });
+      announceUi("PDF tools filters reset.");
+    });
+    pdfShareBtn.addEventListener("click", async () => {
+      await shareCurrentLink("pdf-tools", pdfShareBtn);
+    });
+
+    const imageFilters = document.getElementById("imageFilters");
+    const imageSearch = document.getElementById("imageSearch");
+    const imageResetBtn = document.getElementById("imageResetBtn");
+    const imageShareBtn = document.getElementById("imageShareBtn");
+    const imageGrid = document.getElementById("imageToolsGrid");
+    const imageEmpty = document.getElementById("imageEmpty");
+    const imageCategories = ["All", "Convert", "Edit", "Enhance"];
+    let imageCategoryState = "All";
+    imageFilters.innerHTML = imageCategories.map((cat, i) => `<button class="filter-btn ${i === 0 ? "active" : ""}" data-cat="${cat}">${cat}</button>`).join("");
+    function refreshImageTools() {
+      const filtered = applyFilters({ sourceTools: sortedImageTools, searchValue: imageSearch.value, category: imageCategoryState });
+      renderToolCards(imageGrid, filtered);
+      imageEmpty.classList.toggle("hidden", filtered.length > 0);
+      saveFilterState({ imageSearch: imageSearch.value, imageCategory: imageCategoryState });
+      if (activeRoutePath() === "/image-tools") {
+        setRouteQuery("/image-tools", { search: imageSearch.value, category: imageCategoryState === "All" ? "" : imageCategoryState });
+      }
+    }
+    imageSearch.addEventListener("input", debounce(refreshImageTools, 120));
+    imageFilters.addEventListener("click", (e) => {
+      if (!e.target.matches(".filter-btn")) return;
+      imageCategoryState = e.target.dataset.cat;
+      [...imageFilters.children].forEach((btn) => btn.classList.remove("active"));
+      e.target.classList.add("active");
+      refreshImageTools();
+    });
+    imageResetBtn.addEventListener("click", () => {
+      imageSearch.value = "";
+      imageCategoryState = "All";
+      [...imageFilters.children].forEach((btn) => btn.classList.toggle("active", btn.dataset.cat === "All"));
+      refreshImageTools();
+      trackEvent("filters_reset", { section: "image-tools" });
+      announceUi("Image tools filters reset.");
+    });
+    imageShareBtn.addEventListener("click", async () => {
+      await shareCurrentLink("image-tools", imageShareBtn);
+    });
+
+    const dynamicTitle = document.getElementById("dynamicToolTitle");
+    const dynamicDesc = document.getElementById("dynamicToolDescription");
+    const dynamicNext = document.getElementById("dynamicNextStep");
+    const dynamicPostTask = document.getElementById("dynamicPostTask");
+    const dynamicPostTaskTitle = document.getElementById("dynamicPostTaskTitle");
+    const dynamicPostTaskText = document.getElementById("dynamicPostTaskText");
+    const dynamicPostTaskCta = document.getElementById("dynamicPostTaskCta");
+    const dynamicTaskDoneBtn = document.getElementById("dynamicTaskDoneBtn");
+    const dynamicDropZone = document.getElementById("dynamicDropZone");
+    const dynamicFileInput = document.getElementById("dynamicFileInput");
+    const dynamicUploadHint = document.getElementById("dynamicUploadHint");
+    const dynamicUploadStatus = document.getElementById("dynamicUploadStatus");
+    const dynamicFileTags = document.getElementById("dynamicFileTags");
+    const dynamicUploadBtn = document.getElementById("dynamicUploadBtn");
+    const dynamicResetBtn = document.getElementById("dynamicResetBtn");
+    const dynamicPrimaryActionBtn = document.getElementById("dynamicPrimaryActionBtn");
+    const dynamicDownloadBtn = document.getElementById("dynamicDownloadBtn");
+    const dynamicTaskProgress = document.getElementById("dynamicTaskProgress");
+    const dynamicTaskBar = document.getElementById("dynamicTaskBar");
+    const dynamicTaskLabel = document.getElementById("dynamicTaskLabel");
+    let pendingDynamicNext = "/tools";
+    let pendingDynamicName = "Recommended Tool";
+    let dynamicSelectedFiles = [];
+    let dynamicResultUrl = "";
+    let activeDynamicToolSlug = "";
+    function fileIconForName(name = "") {
+      const lower = name.toLowerCase();
+      if (/\.(pdf)$/.test(lower)) return "📄";
+      if (/\.(doc|docx|txt|rtf|md)$/.test(lower)) return "📝";
+      if (/\.(xls|xlsx|csv)$/.test(lower)) return "📊";
+      if (/\.(ppt|pptx)$/.test(lower)) return "📽️";
+      if (/\.(jpg|jpeg|png|gif|webp|bmp|svg|heic|tiff)$/.test(lower)) return "🖼️";
+      if (/\.(zip|rar|7z)$/.test(lower)) return "🗜️";
+      return "📎";
+    }
+    function renderFileTags(container, files) {
+      container.innerHTML = files.map((file) => `
+        <span class="file-tag" title="${file.name}">
+          <span aria-hidden="true">${fileIconForName(file.name)}</span>
+          <span class="file-tag-name">${file.name}</span>
+        </span>
+      `).join("");
+    }
+    function withBrandSuffix(fileName = "download.bin") {
+      const suffix = "YourOwnPDF.com";
+      const trimmed = String(fileName || "download.bin").trim();
+      const dotIndex = trimmed.lastIndexOf(".");
+      if (dotIndex > 0) {
+        const base = trimmed.slice(0, dotIndex);
+        const ext = trimmed.slice(dotIndex);
+        if (base.endsWith(`-${suffix}`)) return `${base}${ext}`;
+        return `${base}-${suffix}${ext}`;
+      }
+      if (trimmed.endsWith(`-${suffix}`)) return trimmed;
+      return `${trimmed}-${suffix}`;
+    }
+    function runProgress(progressEls, options = {}) {
+      const { wrap, bar, label } = progressEls;
+      const { startText = "Processing...", endText = "Done", durationMs = 900 } = options;
+      wrap.classList.remove("hidden");
+      bar.style.width = "0%";
+      label.textContent = startText;
+      return new Promise((resolve) => {
+        const started = performance.now();
+        const timer = setInterval(() => {
+          const elapsed = performance.now() - started;
+          const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
+          bar.style.width = `${pct}%`;
+          if (pct >= 100) {
+            clearInterval(timer);
+            label.textContent = endText;
+            setTimeout(() => wrap.classList.add("hidden"), 450);
+            resolve();
+          }
+        }, 45);
+      });
+    }
+    function setDynamicFiles(fileList, append = false) {
+      const incoming = Array.from(fileList || []).filter(Boolean);
+      const files = append ? [...dynamicSelectedFiles, ...incoming] : incoming;
+      dynamicSelectedFiles = files;
+      if (!files.length) {
+        dynamicFileTags.innerHTML = "";
+        dynamicUploadStatus.textContent = "No file selected yet.";
+        dynamicDownloadBtn.classList.add("hidden");
+        dynamicPrimaryActionBtn.classList.add("hidden");
+        if (dynamicResultUrl) {
+          URL.revokeObjectURL(dynamicResultUrl);
+          dynamicResultUrl = "";
+        }
+        return;
+      }
+      renderFileTags(dynamicFileTags, files);
+      const totalKb = files.reduce((sum, file) => sum + file.size, 0) / 1024;
+      dynamicUploadStatus.textContent = `${files.length} file(s) selected (${totalKb.toFixed(0)} KB total).`;
+      if (dynamicResultUrl) URL.revokeObjectURL(dynamicResultUrl);
+      dynamicResultUrl = URL.createObjectURL(files[0]);
+      dynamicDownloadBtn.href = dynamicResultUrl;
+      dynamicDownloadBtn.download = withBrandSuffix(files[0].name);
+      dynamicDownloadBtn.classList.remove("hidden");
+      const isMerge = activeDynamicToolSlug === "merge";
+      dynamicPrimaryActionBtn.textContent = isMerge ? "Start Merge" : "Start Process";
+      dynamicPrimaryActionBtn.classList.toggle("hidden", isMerge ? files.length < 2 : false);
+      if (isMerge && files.length < 2) {
+        dynamicUploadStatus.textContent = "Upload at least 2 PDF files to merge.";
+      }
+    }
+    dynamicUploadBtn.addEventListener("click", () => {
+      dynamicFileInput.value = "";
+      dynamicFileInput.click();
+    });
+    dynamicResetBtn.addEventListener("click", () => {
+      dynamicFileInput.value = "";
+      setDynamicFiles([]);
+    });
+    dynamicDropZone.addEventListener("click", () => {
+      dynamicFileInput.value = "";
+      dynamicFileInput.click();
+    });
+    dynamicDropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        dynamicFileInput.value = "";
+        dynamicFileInput.click();
+      }
+    });
+    dynamicFileInput.addEventListener("change", (e) => setDynamicFiles(e.target.files, true));
+    ["dragover", "dragenter"].forEach((ev) => dynamicDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      dynamicDropZone.classList.add("dragover");
+    }));
+    ["dragleave", "drop"].forEach((ev) => dynamicDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      dynamicDropZone.classList.remove("dragover");
+      if (ev === "drop") setDynamicFiles(e.dataTransfer.files, true);
+    }));
+    dynamicPrimaryActionBtn.addEventListener("click", async () => {
+      if (!dynamicSelectedFiles.length) {
+        dynamicUploadStatus.textContent = "Upload file(s) first.";
+        return;
+      }
+      await runProgress(
+        { wrap: dynamicTaskProgress, bar: dynamicTaskBar, label: dynamicTaskLabel },
+        { startText: "Processing files...", endText: "Process complete.", durationMs: 1300 }
+      );
+      try {
+        let outBlob = null;
+        let outName = "processed-file.bin";
+        const first = dynamicSelectedFiles[0];
+        switch (activeDynamicToolSlug) {
+          case "merge":
+            if (dynamicSelectedFiles.length < 2) {
+              dynamicUploadStatus.textContent = "Upload at least 2 PDF files for merge.";
+              return;
+            }
+            outBlob = await mergePdfs(dynamicSelectedFiles);
+            outName = "merged.pdf";
+            break;
+          case "split":
+            outBlob = await splitPdfToZip(first);
+            outName = "split-pages.zip";
+            break;
+          case "jpg-to-pdf":
+          case "image-to-pdf":
+            outBlob = await imagesToPdf(dynamicSelectedFiles);
+            outName = "images-to-pdf.pdf";
+            break;
+          case "pdf-to-jpg":
+            outBlob = await pdfToJpgZip(first, { quality: 0.86, scale: 1.5 });
+            outName = "pdf-pages.zip";
+            break;
+          case "image-compressor":
+            outBlob = await compressImage(first, { quality: 0.7, maxWidth: 1920 });
+            outName = first.name.replace(/\.[^.]+$/, "") + "-compressed.jpg";
+            break;
+          default:
+            dynamicUploadStatus.textContent = "This tool is not in Phase 1 yet.";
+            dynamicDownloadBtn.classList.add("hidden");
+            return;
+        }
+        if (dynamicResultUrl) URL.revokeObjectURL(dynamicResultUrl);
+        dynamicResultUrl = URL.createObjectURL(outBlob);
+        dynamicDownloadBtn.href = dynamicResultUrl;
+        dynamicDownloadBtn.download = withBrandSuffix(outName);
+        dynamicDownloadBtn.classList.remove("hidden");
+        dynamicUploadStatus.textContent = "Process finished. Download is ready.";
+      } catch (error) {
+        dynamicUploadStatus.textContent = `Processing failed: ${error.message || error}`;
+      }
+    });
+    dynamicDownloadBtn.addEventListener("click", async () => {
+      await runProgress(
+        { wrap: dynamicTaskProgress, bar: dynamicTaskBar, label: dynamicTaskLabel },
+        { startText: "Preparing download...", endText: "Download ready.", durationMs: 850 }
+      );
+    });
+
+    window.dataLayer = window.dataLayer || [];
+    function trackEvent(eventName, payload = {}) {
+      try {
+        if (!Array.isArray(window.dataLayer)) window.dataLayer = [];
+        window.dataLayer.push({
+          event: eventName,
+          timestamp: Date.now(),
+          route: currentPath(),
+          ...payload
+        });
+      } catch {
+        // Never let analytics break product UX.
+      }
+    }
+    window.addEventListener("error", (event) => {
+      trackEvent("runtime_error", {
+        message: event.message || "Unknown error",
+        source: event.filename || "",
+        line: event.lineno || 0,
+        column: event.colno || 0
+      });
+    });
+    window.addEventListener("unhandledrejection", (event) => {
+      const reason = event.reason;
+      trackEvent("runtime_error", {
+        message: reason && reason.message ? reason.message : String(reason || "Unhandled rejection"),
+        source: "promise",
+        line: 0,
+        column: 0
+      });
+    });
+
+    function showPostTaskPanel(panelConfig) {
+      const { panel, titleEl, textEl, ctaEl, title, text, ctaLabel, ctaHref, sourceTool = "unknown" } = panelConfig;
+      titleEl.textContent = title;
+      textEl.textContent = text;
+      ctaEl.textContent = ctaLabel;
+      ctaEl.href = ctaHref;
+      panel.classList.remove("hidden");
+      trackEvent("ad_slot_viewed", { placement: panel.id, source_tool: sourceTool, next_step_href: ctaHref });
+    }
+
+    function renderDynamicTool(path) {
+      if (!path.startsWith("/tool/")) return;
+      const slug = path.replace("/tool/", "");
+      const tool = allTools.find((t) => t.slug === slug);
+      if (!tool) {
+        dynamicTitle.textContent = "Tool not found";
+        dynamicDesc.textContent = "The requested tool could not be found.";
+        dynamicNext.href = "/tools";
+        dynamicNext.textContent = "Back to all tools";
+        return;
+      }
+      dynamicTitle.textContent = `${tool.name} | YOUROWNPDF`;
+      dynamicDesc.textContent = `${tool.description} Complete your task in seconds, then continue with another productivity step.`;
+      activeDynamicToolSlug = tool.slug;
+      const accepts = {
+        merge: ".pdf,application/pdf",
+        split: ".pdf,application/pdf",
+        "pdf-to-jpg": ".pdf,application/pdf",
+        "jpg-to-pdf": "image/*",
+        "image-to-pdf": "image/*",
+        "image-compressor": "image/*"
+      };
+      dynamicFileInput.accept = accepts[tool.slug] || "";
+      dynamicUploadHint.textContent = `Upload a source file to run ${tool.name}.`;
+      setDynamicFiles([]);
+      dynamicPrimaryActionBtn.textContent = tool.slug === "merge" ? "Start Merge" : "Start Process";
+      dynamicPrimaryActionBtn.classList.toggle("hidden", !(tool.slug === "merge" || tool.slug === "split" || tool.slug === "pdf-to-jpg" || tool.slug === "jpg-to-pdf" || tool.slug === "image-to-pdf" || tool.slug === "image-compressor"));
+      const next = allTools.find((t) => t.slug !== slug && t.type === tool.type) || allTools[0];
+      dynamicNext.href = toolHref(next);
+      dynamicNext.textContent = `Next Step: ${next.name}`;
+      pendingDynamicNext = toolHref(next);
+      pendingDynamicName = next.name;
+      dynamicPostTask.classList.add("hidden");
+    }
+    dynamicTaskDoneBtn.addEventListener("click", () => {
+      trackEvent("task_completed", { tool: "dynamic-tool", completion_type: "manual_confirm" });
+      showPostTaskPanel({
+        panel: dynamicPostTask,
+        titleEl: dynamicPostTaskTitle,
+        textEl: dynamicPostTaskText,
+        ctaEl: dynamicPostTaskCta,
+        title: "Task complete. Keep momentum.",
+        text: "Most users run one related tool right after this step.",
+        ctaLabel: `Continue with ${pendingDynamicName}`,
+        ctaHref: pendingDynamicNext,
+        sourceTool: "dynamic-tool"
+      });
+    });
+    dynamicPostTaskCta.addEventListener("click", () => {
+      trackEvent("next_step_clicked", { placement: "dynamicPostTask", target: dynamicPostTaskCta.getAttribute("href") });
+    });
+
+    const faqList = document.getElementById("faqList");
+    faqList.addEventListener("click", (e) => {
+      const btn = e.target.closest(".faq-question");
+      if (!btn) return;
+      const parent = btn.parentElement;
+      parent.classList.toggle("open");
+      const isOpen = parent.classList.contains("open");
+      btn.setAttribute("aria-expanded", String(isOpen));
+      btn.querySelector("span").textContent = isOpen ? "-" : "+";
+    });
+
+    const heroDropZone = document.getElementById("heroDropZone");
+    const dropAlert = () => alert("API ready — connect your backend");
+    ["dragover", "dragenter"].forEach((ev) => heroDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      heroDropZone.classList.add("dragover");
+    }));
+    ["dragleave", "drop"].forEach((ev) => heroDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      heroDropZone.classList.remove("dragover");
+      if (ev === "drop") dropAlert();
+    }));
+    heroDropZone.addEventListener("click", dropAlert);
+    heroDropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        dropAlert();
+      }
+    });
+
+    const compressRange = document.getElementById("compressRange");
+    const rangeValue = document.getElementById("rangeValue");
+    const compressBar = document.getElementById("compressBar");
+    const estimatedSize = document.getElementById("estimatedSize");
+    const compressPostTask = document.getElementById("compressPostTask");
+    const compressPostTaskTitle = document.getElementById("compressPostTaskTitle");
+    const compressPostTaskText = document.getElementById("compressPostTaskText");
+    const compressPostTaskCta = document.getElementById("compressPostTaskCta");
+    const compressDropZone = document.getElementById("compressDropZone");
+    const compressFileInput = document.getElementById("compressFileInput");
+    const compressStatus = document.getElementById("compressStatus");
+    const compressFileTags = document.getElementById("compressFileTags");
+    const compressUploadBtn = document.getElementById("compressUploadBtn");
+    const compressResetBtn = document.getElementById("compressResetBtn");
+    const compressStartBtn = document.getElementById("compressStartBtn");
+    const compressDownloadBtn = document.getElementById("compressDownloadBtn");
+    const compressTaskProgress = document.getElementById("compressTaskProgress");
+    const compressTaskBar = document.getElementById("compressTaskBar");
+    const compressTaskLabel = document.getElementById("compressTaskLabel");
+    let compressCompletionTracked = false;
+    let compressSelectedFiles = [];
+    let compressDownloadUrl = "";
+    function setCompressFiles(fileList, append = false) {
+      const incoming = Array.from(fileList || []).filter(Boolean);
+      const files = append ? [...compressSelectedFiles, ...incoming] : incoming;
+      compressSelectedFiles = files;
+      if (!files.length) {
+        compressFileTags.innerHTML = "";
+        compressStatus.textContent = "No file selected yet.";
+        compressDownloadBtn.classList.add("hidden");
+        if (compressDownloadUrl) {
+          URL.revokeObjectURL(compressDownloadUrl);
+          compressDownloadUrl = "";
+        }
+        return;
+      }
+      const invalid = files.find((file) => file.type !== "application/pdf" && !/\.pdf$/i.test(file.name));
+      if (invalid) {
+        compressFileTags.innerHTML = "";
+        compressStatus.textContent = "Please select a valid PDF file.";
+        compressDownloadBtn.classList.add("hidden");
+        return;
+      }
+      renderFileTags(compressFileTags, files);
+      const totalMb = files.reduce((sum, file) => sum + file.size, 0) / (1024 * 1024);
+      compressStatus.textContent = `${files.length} PDF file(s) selected (${totalMb.toFixed(2)} MB total).`;
+      if (compressDownloadUrl) URL.revokeObjectURL(compressDownloadUrl);
+      compressDownloadUrl = URL.createObjectURL(files[0]);
+      compressDownloadBtn.href = compressDownloadUrl;
+      compressDownloadBtn.download = withBrandSuffix(files[0].name);
+      compressDownloadBtn.classList.remove("hidden");
+    }
+    compressUploadBtn.addEventListener("click", () => {
+      compressFileInput.value = "";
+      compressFileInput.click();
+    });
+    compressResetBtn.addEventListener("click", () => {
+      compressFileInput.value = "";
+      setCompressFiles([]);
+    });
+    compressStartBtn.addEventListener("click", async () => {
+      if (!compressSelectedFiles.length) {
+        compressStatus.textContent = "Upload a PDF first.";
+        return;
+      }
+      const source = compressSelectedFiles[0];
+      const slider = Number(compressRange.value) / 100;
+      await runProgress(
+        { wrap: compressTaskProgress, bar: compressTaskBar, label: compressTaskLabel },
+        { startText: "Compressing PDF...", endText: "Compression complete.", durationMs: 1400 }
+      );
+      try {
+        const blob = await compressPdf(source, {
+          quality: Math.max(0.45, 1 - slider * 0.7),
+          scale: Math.max(0.7, 1.2 - slider * 0.55)
+        });
+        if (compressDownloadUrl) URL.revokeObjectURL(compressDownloadUrl);
+        compressDownloadUrl = URL.createObjectURL(blob);
+        compressDownloadBtn.href = compressDownloadUrl;
+        compressDownloadBtn.download = withBrandSuffix(source.name.replace(/\.pdf$/i, "-compressed.pdf"));
+        compressDownloadBtn.classList.remove("hidden");
+        compressStatus.textContent = "Compression finished. Download your optimized PDF.";
+      } catch (error) {
+        compressStatus.textContent = `Compression failed: ${error.message || error}`;
+      }
+    });
+    compressDropZone.addEventListener("click", () => {
+      compressFileInput.value = "";
+      compressFileInput.click();
+    });
+    compressDropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        compressFileInput.value = "";
+        compressFileInput.click();
+      }
+    });
+    compressFileInput.addEventListener("change", (e) => setCompressFiles(e.target.files, true));
+    ["dragover", "dragenter"].forEach((ev) => compressDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      compressDropZone.classList.add("dragover");
+    }));
+    ["dragleave", "drop"].forEach((ev) => compressDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      compressDropZone.classList.remove("dragover");
+      if (ev === "drop") setCompressFiles(e.dataTransfer.files, true);
+    }));
+    compressDownloadBtn.addEventListener("click", async () => {
+      await runProgress(
+        { wrap: compressTaskProgress, bar: compressTaskBar, label: compressTaskLabel },
+        { startText: "Preparing download...", endText: "Download ready.", durationMs: 800 }
+      );
+    });
+    function updateCompressionUI() {
+      const value = Number(compressRange.value);
+      rangeValue.textContent = `${value}%`;
+      compressBar.style.width = `${value}%`;
+      const size = (2.8 - value * 0.027).toFixed(1);
+      estimatedSize.textContent = `${Math.max(0.2, Number(size)).toFixed(1)}MB`;
+      if (value >= 30) {
+        if (!compressCompletionTracked) {
+          trackEvent("task_completed", { tool: "compress-pdf", completion_type: "slider_adjusted", strength: value });
+          compressCompletionTracked = true;
+        }
+        const nextTool = allTools.find((t) => t.slug === "pdf-to-word") || allTools[0];
+        showPostTaskPanel({
+          panel: compressPostTask,
+          titleEl: compressPostTaskTitle,
+          textEl: compressPostTaskText,
+          ctaEl: compressPostTaskCta,
+          title: "Compression set. Next step suggested.",
+          text: "Your file should now be lighter for sharing. Convert it if you need edits.",
+          ctaLabel: "Next Step: PDF to Word",
+          ctaHref: toolHref(nextTool),
+          sourceTool: "compress-pdf"
+        });
+      } else {
+        compressPostTask.classList.add("hidden");
+        compressCompletionTracked = false;
+      }
+    }
+    compressRange.addEventListener("input", updateCompressionUI);
+    updateCompressionUI();
+    compressPostTaskCta.addEventListener("click", () => {
+      trackEvent("next_step_clicked", { placement: "compressPostTask", target: compressPostTaskCta.getAttribute("href") });
+    });
+
+    // Background remover tool
+    const bgDropZone = document.getElementById("bgDropZone");
+    const bgFileInput = document.getElementById("bgFileInput");
+    const removeBgBtn = document.getElementById("removeBgBtn");
+    const bgToolCard = document.getElementById("bgToolCard");
+    const downloadBgBtn = document.getElementById("downloadBgBtn");
+    const bgStatus = document.getElementById("bgStatus");
+    const bgInputPreview = document.getElementById("bgInputPreview");
+    const bgOutputPreview = document.getElementById("bgOutputPreview");
+    const bgFileTags = document.getElementById("bgFileTags");
+    const bgUploadBtn = document.getElementById("bgUploadBtn");
+    const bgResetBtn = document.getElementById("bgResetBtn");
+    const bgTaskProgress = document.getElementById("bgTaskProgress");
+    const bgTaskBar = document.getElementById("bgTaskBar");
+    const bgTaskLabel = document.getElementById("bgTaskLabel");
+    const bgPostTask = document.getElementById("bgPostTask");
+    const bgPostTaskTitle = document.getElementById("bgPostTaskTitle");
+    const bgPostTaskText = document.getElementById("bgPostTaskText");
+    const bgPostTaskCta = document.getElementById("bgPostTaskCta");
+    let selectedFile = null;
+    let bgSelectedFiles = [];
+    let resultUrl = "";
+    let inputPreviewUrl = "";
+    let isBgProcessing = false;
+    const MAX_FREE_FILE_BYTES = 50 * 1024 * 1024;
+
+    function setBgStatus(text) { bgStatus.textContent = text; }
+
+    function resetBgSelection(statusText = "Please choose an image file.") {
+      selectedFile = null;
+      bgSelectedFiles = [];
+      bgFileTags.innerHTML = "";
+      if (inputPreviewUrl) {
+        URL.revokeObjectURL(inputPreviewUrl);
+        inputPreviewUrl = "";
+      }
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+        resultUrl = "";
+      }
+      bgInputPreview.removeAttribute("src");
+      bgOutputPreview.removeAttribute("src");
+      bgInputPreview.classList.add("hidden");
+      bgOutputPreview.classList.add("hidden");
+      downloadBgBtn.classList.add("hidden");
+      setBgStatus(statusText);
+    }
+    function setSelectedFiles(fileList, append = false) {
+      const incoming = Array.from(fileList || []).filter(Boolean);
+      const files = append ? [...bgSelectedFiles, ...incoming] : incoming;
+      if (!files.length) {
+        resetBgSelection("Please choose an image file.");
+        return;
+      }
+      const nonImage = files.find((file) => !file.type.startsWith("image/"));
+      if (nonImage) {
+        resetBgSelection("Please choose image files only.");
+        trackEvent("task_input_rejected", {
+          tool: "background-remover",
+          reason: "invalid_file_type"
+        });
+        return;
+      }
+      const oversized = files.find((file) => file.size > MAX_FREE_FILE_BYTES);
+      if (oversized) {
+        resetBgSelection("File exceeds 50MB free limit. Please choose a smaller file. Premium (coming soon) supports up to 500MB.");
+        trackEvent("task_input_rejected", {
+          tool: "background-remover",
+          reason: "file_too_large",
+          file_name: oversized.name,
+          file_size_bytes: oversized.size
+        });
+        return;
+      }
+      bgSelectedFiles = files;
+      selectedFile = files[0];
+      renderFileTags(bgFileTags, files);
+      if (inputPreviewUrl) URL.revokeObjectURL(inputPreviewUrl);
+      inputPreviewUrl = URL.createObjectURL(selectedFile);
+      bgInputPreview.src = inputPreviewUrl;
+      bgInputPreview.classList.remove("hidden");
+      downloadBgBtn.classList.add("hidden");
+      bgOutputPreview.classList.add("hidden");
+      setBgStatus(`${files.length} image file(s) selected. Ready to remove background from: ${selectedFile.name}`);
+      trackEvent("task_input_selected", {
+        tool: "background-remover",
+        file_name: selectedFile.name,
+        file_size_bytes: selectedFile.size
+      });
+    }
+    bgUploadBtn.addEventListener("click", () => {
+      bgFileInput.value = "";
+      bgFileInput.click();
+    });
+    bgResetBtn.addEventListener("click", () => {
+      bgFileInput.value = "";
+      resetBgSelection("Selection reset. Choose image files to continue.");
+    });
+    function setSelectedFile(file) {
+      setSelectedFiles(file ? [file] : []);
+    }
+
+    bgDropZone.addEventListener("click", () => {
+      bgFileInput.value = "";
+      bgFileInput.click();
+    });
+    bgDropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        bgFileInput.value = "";
+        bgFileInput.click();
+      }
+    });
+    bgFileInput.addEventListener("change", (e) => setSelectedFiles(e.target.files, true));
+    ["dragover", "dragenter"].forEach((ev) => bgDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      bgDropZone.classList.add("dragover");
+    }));
+    ["dragleave", "drop"].forEach((ev) => bgDropZone.addEventListener(ev, (e) => {
+      e.preventDefault();
+      bgDropZone.classList.remove("dragover");
+      if (ev === "drop") setSelectedFiles(e.dataTransfer.files, true);
+    }));
+
+    removeBgBtn.addEventListener("click", async () => {
+      if (isBgProcessing) return;
+      if (!selectedFile) {
+        setBgStatus("Choose an image first.");
+        return;
+      }
+      if (!navigator.onLine) {
+        setBgStatus("You are offline. Background removal works only if the AI model was already cached from a previous run.");
+      }
+      isBgProcessing = true;
+      const bgStartTime = performance.now();
+      removeBgBtn.disabled = true;
+      removeBgBtn.textContent = "Processing...";
+      bgToolCard.setAttribute("aria-busy", "true");
+      setBgStatus("Loading AI model... first use may download ~80MB, then cached in your browser.");
+      bgTaskProgress.classList.remove("hidden");
+      bgTaskBar.style.width = "18%";
+      bgTaskLabel.textContent = "Loading model and processing...";
+      trackEvent("task_started", { tool: "background-remover", file_name: selectedFile.name });
+      try {
+        const removeBackground = await getRemoveBackgroundFn();
+        bgTaskBar.style.width = "66%";
+        const blob = await removeBackground(selectedFile);
+        if (resultUrl) URL.revokeObjectURL(resultUrl);
+        resultUrl = URL.createObjectURL(blob);
+        bgOutputPreview.src = resultUrl;
+        bgOutputPreview.classList.remove("hidden");
+        downloadBgBtn.href = resultUrl;
+        downloadBgBtn.download = withBrandSuffix(selectedFile ? selectedFile.name.replace(/\.[^.]+$/, ".png") : "background-removed.png");
+        downloadBgBtn.classList.remove("hidden");
+        bgTaskBar.style.width = "100%";
+        bgTaskLabel.textContent = "Process complete.";
+        setBgStatus("Background removed locally in your browser. Ready to download PNG.");
+        const nextImageTool = allTools.find((t) => t.slug === "image-compressor") || allTools.find((t) => t.type === "image") || allTools[0];
+        showPostTaskPanel({
+          panel: bgPostTask,
+          titleEl: bgPostTaskTitle,
+          textEl: bgPostTaskText,
+          ctaEl: bgPostTaskCta,
+          title: "Background removed successfully.",
+          text: "Finish your workflow by reducing image size for faster uploads.",
+          ctaLabel: "Next Step: Image Compressor",
+          ctaHref: toolHref(nextImageTool),
+          sourceTool: "background-remover"
+        });
+        trackEvent("task_completed", {
+          tool: "background-remover",
+          completion_type: "ai_processed",
+          file_name: selectedFile.name,
+          duration_ms: Math.round(performance.now() - bgStartTime)
+        });
+      } catch (error) {
+        setBgStatus(`Could not remove background: ${error.message}`);
+        trackEvent("task_failed", {
+          tool: "background-remover",
+          message: error.message,
+          duration_ms: Math.round(performance.now() - bgStartTime)
+        });
+      } finally {
+        isBgProcessing = false;
+        removeBgBtn.disabled = false;
+        removeBgBtn.textContent = "Remove Background";
+        bgToolCard.setAttribute("aria-busy", "false");
+        setTimeout(() => bgTaskProgress.classList.add("hidden"), 450);
+      }
+    });
+    bgPostTaskCta.addEventListener("click", () => {
+      trackEvent("next_step_clicked", { placement: "bgPostTask", target: bgPostTaskCta.getAttribute("href") });
+    });
+    downloadBgBtn.addEventListener("click", () => {
+      runProgress(
+        { wrap: bgTaskProgress, bar: bgTaskBar, label: bgTaskLabel },
+        { startText: "Preparing download...", endText: "Download ready.", durationMs: 800 }
+      );
+      trackEvent("result_download_clicked", {
+        tool: "background-remover",
+        file_name: selectedFile ? selectedFile.name : "",
+        has_result: Boolean(resultUrl)
+      });
+    });
+    window.addEventListener("beforeunload", () => {
+      if (inputPreviewUrl) URL.revokeObjectURL(inputPreviewUrl);
+      if (resultUrl) URL.revokeObjectURL(resultUrl);
+    });
+
+    document.addEventListener("click", (e) => {
+      const anchor = e.target.closest("a[href]");
+      if (anchor && !anchor.hasAttribute("download")) {
+        const rawHref = anchor.getAttribute("href") || "";
+        if (isFileProtocol && rawHref.includes("?route=")) {
+          e.preventDefault();
+          const url = new URL(rawHref, window.location.href);
+          const route = url.searchParams.get("route") || "/";
+          const queryObj = {};
+          url.searchParams.forEach((value, key) => {
+            if (key !== "route") queryObj[key] = value;
+          });
+          navigateTo(route, queryObj);
+          return;
+        }
+        if (rawHref.startsWith("/")) {
+          e.preventDefault();
+          navigateTo(rawHref);
+          return;
+        }
+        if (rawHref.startsWith("#/")) {
+          e.preventDefault();
+          navigateTo(rawHref.slice(1));
+          return;
+        }
+      }
+      const cardLink = e.target.closest(".tool-card[data-tool-path]");
+      if (cardLink && !e.target.closest(".tool-actions .button")) {
+        const path = cardLink.getAttribute("data-tool-path");
+        if (path) navigateTo(path);
+        return;
+      }
+      if (e.target.closest("[data-clear-recent='true']")) {
+        clearRecentTools();
+        return;
+      }
+      const openLink = e.target.closest(".tool-actions .button");
+      if (!openLink) return;
+      const card = openLink.closest(".tool-card");
+      const toolName = card ? (card.querySelector("h3")?.textContent || "unknown") : "unknown";
+      const href = openLink.getAttribute("href") || "";
+      const routePath = openLink.dataset.route || "";
+      if (routePath.startsWith("/tool/")) {
+        saveRecentSlug(routePath.replace("/tool/", ""));
+        renderRecentTools();
+      } else if (routePath === "/background-remover") {
+        saveRecentSlug("background-remover");
+        renderRecentTools();
+      }
+      trackEvent("tool_open_clicked", {
+        placement: "tool-grid",
+        tool_name: toolName,
+        href
+      });
+    });
+    document.addEventListener("keydown", (e) => {
+      const activeCard = e.target.closest(".tool-card[data-tool-path]");
+      if (activeCard && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        const path = activeCard.getAttribute("data-tool-path");
+        if (path) navigateTo(path);
+        return;
+      }
+      if (isTypingContext(e.target)) return;
+      if (e.key === "/") {
+        const focused = focusRouteSearch();
+        if (focused) {
+          e.preventDefault();
+          trackEvent("shortcut_used", { shortcut: "/", route: activeRoutePath() });
+        }
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        trackEvent("shortcut_used", { shortcut: "mod+k", route: activeRoutePath() });
+        navigateTo("/tools");
+        setTimeout(() => allToolsSearch.focus(), 0);
+      }
+    });
+
+    function onRouteChange() {
+      const { path, query } = parseCurrentRoute();
+      if (path === "/tools" || path === "/services") {
+        const q = query.get("search");
+        allToolsSearch.value = typeof q === "string" ? q : "";
+        const type = query.get("type");
+        if (type === "all" || type === "pdf" || type === "image") {
+          allTypeState = type;
+        } else {
+          allTypeState = "all";
+        }
+        [...allTypeFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.type === allTypeState);
+        });
+      }
+      if (path === "/pdf-tools") {
+        const q = query.get("search");
+        pdfSearch.value = typeof q === "string" ? q : "";
+        const category = query.get("category");
+        if (category && pdfCategories.includes(category)) {
+          pdfCategoryState = category;
+        } else {
+          pdfCategoryState = "All";
+        }
+        [...pdfFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.cat === pdfCategoryState);
+        });
+      }
+      if (path === "/image-tools") {
+        const q = query.get("search");
+        imageSearch.value = typeof q === "string" ? q : "";
+        const category = query.get("category");
+        if (category && imageCategories.includes(category)) {
+          imageCategoryState = category;
+        } else {
+          imageCategoryState = "All";
+        }
+        [...imageFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.cat === imageCategoryState);
+        });
+      }
+      showRoute(path);
+      renderBreadcrumbs(path);
+      renderDynamicTool(path);
+      updateSeo(path);
+      trackEvent("route_viewed", { path });
+      if (path === "/tools" || path === "/services") refreshAllTools();
+      if (path === "/pdf-tools") refreshPdfTools();
+      if (path === "/image-tools") refreshImageTools();
+    }
+    window.addEventListener("popstate", onRouteChange);
+
+    function debugLine(label, ok, details = "") {
+      const status = ok ? "PASS" : "FAIL";
+      const css = ok ? "debug-ok" : "debug-bad";
+      return `<li class="${css}"><strong>${status}</strong> - ${label}${details ? ` (${details})` : ""}</li>`;
+    }
+
+    function runDebugChecks() {
+      const debugPanel = document.getElementById("debugPanel");
+      const debugList = document.getElementById("debugList");
+      const debugExportBtn = document.getElementById("debugExportBtn");
+      const debugEnabled = new URLSearchParams(window.location.search).get("debug") === "1";
+      if (!debugEnabled) {
+        debugPanel.classList.add("hidden");
+        return;
+      }
+      debugPanel.classList.remove("hidden");
+      const report = {
+        generatedAt: new Date().toISOString(),
+        route: currentPath(),
+        checks: [
+          { label: "Total tools are 94", ok: allTools.length === 94, details: `got ${allTools.length}` },
+          { label: "PDF tools are 74", ok: pdfTools.length === 74, details: `got ${pdfTools.length}` },
+          { label: "Image tools are 20", ok: imageTools.length === 20, details: `got ${imageTools.length}` },
+          { label: "Services alias mapping defined", ok: true, details: "/services -> /tools" },
+          { label: "dataLayer tracking initialized", ok: Array.isArray(window.dataLayer), details: "" },
+          { label: "Background remover route exists", ok: !!document.querySelector('[data-route="/background-remover"]'), details: "" }
+        ]
+      };
+      debugList.innerHTML = report.checks.map((c) => debugLine(c.label, c.ok, c.details)).join("");
+      debugExportBtn.onclick = () => {
+        const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "yourownpdf-qa-report.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+    }
+    window.addEventListener("popstate", runDebugChecks);
+
+    (function migrateLegacyHashRoutes() {
+      const rawHash = window.location.hash || "";
+      if (!rawHash.startsWith("#/")) return;
+      const legacy = rawHash.slice(1);
+      const [legacyPath, legacyQuery = ""] = legacy.split("?");
+      const legacyParams = new URLSearchParams(legacyQuery);
+      const queryState = {};
+      legacyParams.forEach((value, key) => {
+        if (key) queryState[key] = value;
+      });
+      const nextUrl = buildInternalUrl(legacyPath || "/", queryState);
+      history.replaceState(null, "", nextUrl);
+    })();
+    rewriteInternalLinks();
+
+    refreshAllTools();
+    refreshPdfTools();
+    refreshImageTools();
+    (function restoreFilterState() {
+      const state = loadFilterState();
+      if (typeof state.allSearch === "string") allToolsSearch.value = state.allSearch;
+      if (typeof state.allType === "string") {
+        allTypeState = state.allType;
+        [...allTypeFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.type === allTypeState);
+        });
+      }
+      if (typeof state.pdfSearch === "string") pdfSearch.value = state.pdfSearch;
+      if (typeof state.pdfCategory === "string") {
+        pdfCategoryState = state.pdfCategory;
+        [...pdfFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.cat === pdfCategoryState);
+        });
+      }
+      if (typeof state.imageSearch === "string") imageSearch.value = state.imageSearch;
+      if (typeof state.imageCategory === "string") {
+        imageCategoryState = state.imageCategory;
+        [...imageFilters.children].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.cat === imageCategoryState);
+        });
+      }
+      refreshAllTools();
+      refreshPdfTools();
+      refreshImageTools();
+    })();
+    renderRecentTools();
+    onRouteChange();
+    runDebugChecks();
+    updateNetworkBanner();
+  </script>
+</body>
+</html>
