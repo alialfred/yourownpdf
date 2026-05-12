@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!-- [DPP-000] YOUROWNPDF.COM - Delete PDF Pages Tool -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Delete PDF Pages - Remove Pages from PDF Free | YOUROWNPDF.COM</title>
+    <meta name="description" content="Delete specific pages from PDF files online. Remove unwanted pages instantly. 100% browser-based. YOUROWNPDF.COM.">
+    <link rel="canonical" href="https://yourownpdf.com/tools/pdf/delete-pdf-pages.html">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+    <main>
+        <div class="tool-page-container">
+            
+            <nav class="breadcrumbs">
+                <a href="../../index.html">Home</a> › 
+                <a href="../../index.html#pdf-tools">PDF Tools</a> › 
+                <span>Delete PDF Pages</span>
+            </nav>
+            
+            <div class="tool-page-header">
+                <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EF4444, #F87171); color: white; width: 72px; height: 72px; font-size: 2.2rem;">🗑️</div>
+                <h1>Delete PDF Pages</h1>
+                <p>Remove unwanted pages from your PDF — free at <strong>YOUROWNPDF.COM</strong></p>
+            </div>
+            
+            <div class="tool-content">
+                <div>
+                    <div class="upload-box" id="delete-upload-box">
+                        <span class="upload-icon">📁</span>
+                        <span class="upload-text">Drag & Drop a PDF file</span>
+                        <span class="upload-hint">or click to select</span>
+                        <input type="file" id="delete-upload-box-input" accept=".pdf" style="display: none;" onchange="handleDeleteFileSelect(event)">
+                    </div>
+                    
+                    <div id="delete-options" style="display: none; margin-top: 1.5rem; text-align: center;">
+                        <label style="color: var(--text-primary); font-weight: 600; display: block; margin-bottom: 0.5rem;">
+                            Pages to Delete:
+                        </label>
+                        <input type="text" id="pages-to-delete" placeholder="e.g., 1,3,5-7" 
+                               style="padding: 0.5rem 1rem; border-radius: var(--radius-md); border: 2px solid var(--border-light); background: var(--bg-secondary); color: var(--text-primary); width: 250px; text-align: center;">
+                        <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.25rem;">Use format: 1,3,5-7 (page numbers start from 1)</p>
+                        <p style="font-size: 0.85rem; color: var(--text-primary); margin-top: 0.5rem;" id="total-pages-info"></p>
+                    </div>
+                    
+                    <div id="delete-progress" style="display: none; margin-top: 1.5rem;"></div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-primary disabled" id="delete-btn" disabled onclick="deletePages()">
+                            🗑️ Delete Pages
+                        </button>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1rem; display: none;" id="delete-download-area">
+                        <button class="btn btn-download" onclick="downloadDeletedPDF()">
+                            ⬇ Download Modified PDF
+                        </button>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.3rem;">File: <span id="delete-filename">yourownpdf-deleted-pages.pdf</span></p>
+                    </div>
+                </div>
+                
+                <div class="features-sidebar">
+                    <h3>✨ Features</h3>
+                    <ul>
+                        <li>Delete specific pages</li>
+                        <li>Delete page ranges</li>
+                        <li>Instant processing</li>
+                        <li>100% browser-based</li>
+                        <li>Free & unlimited</li>
+                    </ul>
+                    <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 1rem; text-align: center;">🔒 Powered by YOUROWNPDF.COM</p>
+                </div>
+            </div>
+            
+            <div class="how-to-section">
+                <h2>📝 How to Delete Pages from PDF</h2>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">1</div>
+                    <div class="how-to-step-content">
+                        <h4>Upload PDF</h4>
+                        <p>Select your PDF file. <strong>YOUROWNPDF.COM</strong> will show you the total number of pages.</p>
+                        <div class="how-to-step-image">[Image: Upload PDF]</div>
+                    </div>
+                </div>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">2</div>
+                    <div class="how-to-step-content">
+                        <h4>Specify Pages</h4>
+                        <p>Enter the page numbers you want to delete. Use commas for individual pages and hyphens for ranges (e.g., 1,3,5-7).</p>
+                        <div class="how-to-step-image">[Image: Enter page numbers]</div>
+                    </div>
+                </div>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">3</div>
+                    <div class="how-to-step-content">
+                        <h4>Download Result</h4>
+                        <p>Click "Delete Pages" and download your modified PDF as <strong>yourownpdf-deleted-pages.pdf</strong>.</p>
+                        <div class="how-to-step-image">[Image: Download button]</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <script src="../../js/components.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeComponents('delete-pdf-pages');
+            setupDragAndDrop('delete-upload-box', handleDeleteDroppedFiles);
+        });
+        
+        let deleteFile = null;
+        let modifiedPdfBytes = null;
+        let totalPages = 0;
+        
+        function handleDeleteDroppedFiles(files) {
+            const pdf = files.find(f => f.type === 'application/pdf' || f.name.endsWith('.pdf'));
+            if (pdf) setDeleteFile(pdf);
+        }
+        
+        function handleDeleteFileSelect(event) {
+            if (event.target.files[0]) setDeleteFile(event.target.files[0]);
+        }
+        
+        async function setDeleteFile(file) {
+            deleteFile = file;
+            const box = document.getElementById('delete-upload-box');
+            box.classList.add('has-file');
+            box.querySelector('.upload-icon').textContent = '📄';
+            box.querySelector('.upload-text').textContent = file.name;
+            box.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+            
+            // Get total pages
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+            totalPages = pdf.getPageCount();
+            
+            document.getElementById('total-pages-info').textContent = 
+                `📄 Total pages: ${totalPages} (pages numbered 1-${totalPages})`;
+            document.getElementById('delete-options').style.display = 'block';
+            enableButton('delete-btn');
+        }
+        
+        async function deletePages() {
+            if (!deleteFile) return;
+            
+            const pagesToDeleteStr = document.getElementById('pages-to-delete').value.trim();
+            if (!pagesToDeleteStr) {
+                showNotification('⚠️ Please specify pages to delete — YOUROWNPDF.COM');
+                return;
+            }
+            
+            const btn = document.getElementById('delete-btn');
+            const progressArea = document.getElementById('delete-progress');
+            btn.disabled = true;
+            btn.textContent = '⏳ Deleting...';
+            progressArea.style.display = 'block';
+            
+            const progressBar = createProgressBar('delete-progress');
+            
+            try {
+                // Parse pages to delete
+                const pagesToDelete = new Set();
+                const parts = pagesToDeleteStr.split(',');
+                parts.forEach(part => {
+                    part = part.trim();
+                    if (part.includes('-')) {
+                        const [start, end] = part.split('-').map(n => parseInt(n));
+                        for (let i = start; i <= end; i++) pagesToDelete.add(i);
+                    } else {
+                        pagesToDelete.add(parseInt(part));
+                    }
+                });
+                
+                if (progressBar) progressBar.update(30, 'Processing PDF...');
+                
+                const arrayBuffer = await deleteFile.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                
+                // Create new PDF without deleted pages
+                const newPdf = await PDFLib.PDFDocument.create();
+                const pagesToKeep = [];
+                
+                for (let i = 0; i < totalPages; i++) {
+                    if (!pagesToDelete.has(i + 1)) {
+                        pagesToKeep.push(i);
+                    }
+                }
+                
+                if (pagesToKeep.length === 0) {
+                    showErrorDialog('Cannot delete all pages. Please keep at least one page.');
+                    btn.textContent = '🗑️ Delete Pages';
+                    btn.disabled = false;
+                    return;
+                }
+                
+                if (progressBar) progressBar.update(60, 'Creating new PDF...');
+                
+                const copiedPages = await newPdf.copyPages(pdfDoc, pagesToKeep);
+                copiedPages.forEach(page => newPdf.addPage(page));
+                
+                modifiedPdfBytes = await newPdf.save();
+                
+                if (progressBar) progressBar.complete('✅ Pages deleted!');
+                
+                document.getElementById('delete-download-area').style.display = 'block';
+                document.getElementById('delete-filename').textContent = 
+                    `yourownpdf-deleted-pages.pdf (${formatFileSize(modifiedPdfBytes.byteLength)})`;
+                
+                btn.textContent = '🔄 Modify Another';
+                btn.disabled = false;
+                
+                showSuccessDialog(
+                    `Deleted ${pagesToDelete.size} page(s). New PDF has ${pagesToKeep.length} pages.`,
+                    '⬇ Download PDF',
+                    () => downloadDeletedPDF()
+                );
+                
+            } catch (error) {
+                console.error('Delete error:', error);
+                btn.textContent = '🗑️ Delete Pages';
+                btn.disabled = false;
+                showErrorDialog('Failed to delete pages. Please check page numbers and try again.');
+            }
+        }
+        
+        function downloadDeletedPDF() {
+            if (!modifiedPdfBytes) return;
+            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+            downloadFile(blob, 'yourownpdf-deleted-pages.pdf');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- [LGN-000] YOUROWNPDF.COM - Login Page -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- [LGN-001] SEO -->
+    <title>Login - YOUROWNPDF.COM | Access Your Account</title>
+    <meta name="description" content="Login to your YOUROWNPDF.COM account. Access all 94 free PDF and image tools with your personalized settings.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://yourownpdf.com/login.html">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <!-- [LGN-002] Login Container -->
+        <div style="max-width: 450px; margin: 4rem auto; padding: 0 1rem;">
+            
+            <!-- [LGN-003] Login Card -->
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-lg);">
+                
+                <!-- [LGN-004] Logo -->
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #F43F5E); color: white; width: 64px; height: 64px; font-size: 2rem; margin: 0 auto 1rem;">👤</div>
+                    <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary);">Welcome Back</h1>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to <strong>YOUROWNPDF.COM</strong></p>
+                </div>
+                
+                <!-- [LGN-005] Login Form -->
+                <form id="login-form" onsubmit="handleLogin(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    
+                    <!-- [LGN-006] Email Input -->
+                    <div>
+                        <label for="login-email" style="color: var(--text-primary); font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Email Address</label>
+                        <input type="email" id="login-email" placeholder="you@example.com" required
+                               style="width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border-light); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); font-size: 1rem; transition: all 0.2s ease;"
+                               onfocus="this.style.borderColor='var(--color-accent)'" onblur="this.style.borderColor='var(--border-light)'">
+                    </div>
+                    
+                    <!-- [LGN-007] Password Input -->
+                    <div>
+                        <label for="login-password" style="color: var(--text-primary); font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required
+                               style="width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border-light); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); font-size: 1rem; transition: all 0.2s ease;"
+                               onfocus="this.style.borderColor='var(--color-accent)'" onblur="this.style.borderColor='var(--border-light)'">
+                    </div>
+                    
+                    <!-- [LGN-008] Remember & Forgot -->
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer;">
+                            <input type="checkbox" id="remember-me"> Remember me
+                        </label>
+                        <a href="#" onclick="showForgotPassword()" style="color: var(--color-accent); font-size: 0.85rem; text-decoration: none; font-weight: 500;">Forgot password?</a>
+                    </div>
+                    
+                    <!-- [LGN-009] Submit Button -->
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.5rem;">
+                        Sign In
+                    </button>
+                    
+                    <!-- [LGN-010] Divider -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
+                        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-light);">
+                        <span style="color: var(--text-tertiary); font-size: 0.85rem;">or</span>
+                        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-light);">
+                    </div>
+                    
+                    <!-- [LGN-011] Google Login -->
+                    <button type="button" class="btn btn-secondary" style="width: 100%; padding: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; font-size: 0.95rem;" onclick="handleGoogleLogin()">
+                        <span style="font-size: 1.3rem;">🔵</span> Continue with Google
+                    </button>
+                    
+                </form>
+                
+                <!-- [LGN-012] Sign Up Link -->
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Don't have an account? 
+                    <a href="#" onclick="showSignUp()" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">Sign Up</a>
+                </p>
+                
+                <!-- [LGN-013] Branding -->
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+                    🔒 Powered by <strong>YOUROWNPDF.COM</strong>
+                </p>
+            </div>
+            
+            <!-- [LGN-014] Back to Tools -->
+            <p style="text-align: center; margin-top: 1.5rem;">
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">← Back to Tools</a>
+            </p>
+        </div>
+    </main>
+    
+    <script src="js/components.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // [LGN-015] Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeComponents('login');
+        });
+        
+        // [LGN-016] Handle login form
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const remember = document.getElementById('remember-me').checked;
+            
+            // Simulate login (client-side only)
+            if (remember) {
+                localStorage.setItem('yourownpdf-user-email', email);
+            }
+            
+            showSuccessDialog(
+                `Welcome back! You're now signed in to YOUROWNPDF.COM.\n\n(Note: Full authentication requires backend integration.)`,
+                'Go to Tools',
+                () => window.location.href = 'index.html'
+            );
+        }
+        
+        // [LGN-017] Google login placeholder
+        function handleGoogleLogin() {
+            showNotification('🔵 Google Sign-In will be available soon! — YOUROWNPDF.COM', 4000);
+        }
+        
+        // [LGN-018] Forgot password
+        function showForgotPassword() {
+            showDialog(
+                'info',
+                'Forgot Password?',
+                'Enter your email and we\'ll send you a reset link.\n\n(Note: Backend required for full functionality)\n\n— YOUROWNPDF.COM',
+                'Send Reset Link',
+                () => showNotification('📧 Reset link sent (demo) — YOUROWNPDF.COM')
+            );
+        }
+        
+        // [LGN-019] Sign up
+        function showSignUp() {
+            showDialog(
+                'info',
+                'Create Account',
+                'Sign up for a free YOUROWNPDF.COM account to save your preferences and track your tool usage.\n\n(Note: Full registration requires backend integration.)',
+                'Got it',
+                null
+            );
+        }
+    </script>
+</body>
+</html>
