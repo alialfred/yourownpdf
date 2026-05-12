@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+<!-- ============================================================ -->
+<!-- [RBG-000] YOUROWNPDF.COM - BACKGROUND REMOVER TOOL -->
+<!-- ============================================================ -->
+
+<html lang="en">
+
+<head>
+
+    <!-- ============================================================ -->
+    <!-- [RBG-001] META -->
+    <!-- ============================================================ -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Remove Background from Image - YOUROWNPDF.COM
+    </title>
+
+    <meta
+        name="description"
+        content="AI background remover running fully inside your browser."
+    >
+
+    <meta
+        name="keywords"
+        content="background remover, ai background remover"
+    >
+
+    <!-- ============================================================ -->
+    <!-- [RBG-002] STYLES -->
+    <!-- ============================================================ -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/style.css"
+    >
+
+    <!-- ============================================================ -->
+    <!-- [RBG-003] IMGLY AI LIBRARY -->
+    <!-- ============================================================ -->
+
+    <script type="module">
+
+        import {
+            removeBackground
+        } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.8/+esm';
+
+        // ============================================================
+        // [RBG-004] GLOBAL API
+        // ============================================================
+
+        window.rbgAPI = {
+            removeBackground
+        };
+
+        console.log(
+            '[RBG-004] IMGLY loaded:',
+            typeof removeBackground
+        );
+
+        // ============================================================
+        // [RBG-005] READY EVENT
+        // ============================================================
+
+        window.dispatchEvent(
+            new Event('rbg-library-ready')
+        );
+
+    </script>
+
+</head>
+
+<body>
+
+    <!-- ============================================================ -->
+    <!-- [RBG-006] MAIN -->
+    <!-- ============================================================ -->
+
+    <main>
+
+        <!-- ============================================================ -->
+        <!-- [RBG-007] TOOL CONTAINER -->
+        <!-- ============================================================ -->
+
+        <div class="tool-page-container">
+
+            <!-- ======================================================== -->
+            <!-- [RBG-008] BREADCRUMBS -->
+            <!-- ======================================================== -->
+
+            <nav class="breadcrumbs">
+
+                <a href="../../index.html">
+                    Home
+                </a>
+
+                ›
+
+                <a href="../../index.html#image-tools">
+                    Image Tools
+                </a>
+
+                ›
+
+                <span>
+                    Background Remover
+                </span>
+
+            </nav>
+
+            <!-- ======================================================== -->
+            <!-- [RBG-009] HEADER -->
+            <!-- ======================================================== -->
+
+            <div class="tool-page-header">
+
+                <div
+                    class="tool-3d-icon"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #E11D48,
+                            #F43F5E
+                        );
+
+                        color:white;
+                        width:72px;
+                        height:72px;
+                        font-size:2.2rem;
+                    "
+                >
+                    🎭
+                </div>
+
+                <h1>
+                    Background Remover
+                </h1>
+
+                <p>
+                    Remove image backgrounds instantly with AI —
+                    100% browser-side —
+                    <strong>YOUROWNPDF.COM</strong>
+                </p>
+
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- [RBG-010] CONTENT -->
+            <!-- ======================================================== -->
+
+            <div class="tool-content">
+
+                <!-- ==================================================== -->
+                <!-- [RBG-011] LEFT COLUMN -->
+                <!-- ==================================================== -->
+
+                <div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-012] UPLOAD BOX -->
+                    <!-- ================================================= -->
+
+                    <div
+                        class="upload-box"
+                        id="rbg-upload-box"
+                        onclick="document.getElementById('rbg-file-input').click()"
+                    >
+
+                        <span
+                            class="upload-icon"
+                            id="rbg-upload-icon"
+                        >
+                            🖼️
+                        </span>
+
+                        <span
+                            class="upload-text"
+                            id="rbg-upload-text"
+                        >
+                            Drop image here
+                        </span>
+
+                        <span
+                            class="upload-hint"
+                            id="rbg-upload-hint"
+                        >
+                            JPG, PNG, WEBP supported
+                        </span>
+
+                        <input
+                            type="file"
+                            id="rbg-file-input"
+                            accept="image/*"
+                            style="display:none"
+                            onchange="handleRBGFileSelect(event)"
+                        >
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-013] PREVIEW -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="rbg-preview-area"
+                        style="
+                            display:none;
+                            margin-top:1.5rem;
+                            text-align:center;
+                        "
+                    >
+
+                        <h4>
+                            Original Image
+                        </h4>
+
+                        <img
+                            id="rbg-original-preview"
+                            style="
+                                max-width:100%;
+                                max-height:320px;
+                                border-radius:12px;
+                            "
+                        >
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-014] PROGRESS -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="rbg-progress-area"
+                        style="
+                            display:none;
+                            margin-top:1.5rem;
+                        "
+                    >
+
+                        <div
+                            style="
+                                width:100%;
+                                height:18px;
+                                background:#e5e7eb;
+                                border-radius:999px;
+                                overflow:hidden;
+                            "
+                        >
+
+                            <div
+                                id="rbg-progress-fill"
+                                style="
+                                    width:0%;
+                                    height:100%;
+                                    background:
+                                    linear-gradient(
+                                        90deg,
+                                        #E11D48,
+                                        #F43F5E
+                                    );
+
+                                    transition:width .25s ease;
+                                "
+                            ></div>
+
+                        </div>
+
+                        <div
+                            id="rbg-progress-text"
+                            style="
+                                margin-top:.5rem;
+                                font-size:.9rem;
+                                color:#6b7280;
+                            "
+                        >
+                            Preparing AI...
+                        </div>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-015] BUTTONS -->
+                    <!-- ================================================= -->
+
+                    <div
+                        style="
+                            display:flex;
+                            gap:10px;
+                            margin-top:1.5rem;
+                            justify-content:center;
+                            flex-wrap:wrap;
+                        "
+                    >
+
+                        <button
+                            class="btn btn-secondary"
+                            id="rbg-remove-btn"
+                            style="display:none"
+                            onclick="clearRBGFile()"
+                        >
+                            ❌ Remove File
+                        </button>
+
+                        <button
+                            class="btn btn-primary disabled"
+                            id="rbg-process-btn"
+                            disabled
+                            onclick="removeBackgroundProcess()"
+                        >
+                            🎭 Remove Background
+                        </button>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-016] RESULT -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="rbg-result-area"
+                        style="
+                            display:none;
+                            margin-top:1.5rem;
+                            text-align:center;
+                        "
+                    >
+
+                        <h4>
+                            Result
+                        </h4>
+
+                        <div
+                            style="
+                                background:
+                                repeating-conic-gradient(
+                                    #e2e8f0 0% 25%,
+                                    transparent 0% 50%
+                                )
+                                50% / 20px 20px;
+
+                                padding:1rem;
+                                border-radius:12px;
+                                display:inline-block;
+                            "
+                        >
+
+                            <img
+                                id="rbg-result-preview"
+                                style="
+                                    max-width:100%;
+                                    max-height:320px;
+                                "
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- [RBG-017] DOWNLOAD -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="rbg-download-area"
+                        style="
+                            display:none;
+                            text-align:center;
+                            margin-top:1rem;
+                        "
+                    >
+
+                        <button
+                            class="btn btn-download"
+                            onclick="downloadRBGResult()"
+                        >
+                            ⬇ Download PNG
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ==================================================== -->
+                <!-- [RBG-018] RIGHT SIDEBAR -->
+                <!-- ==================================================== -->
+
+                <div class="features-sidebar">
+
+                    <h3>
+                        ✨ Features
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            AI-powered background removal
+                        </li>
+
+                        <li>
+                            100% browser-side processing
+                        </li>
+
+                        <li>
+                            No uploads
+                        </li>
+
+                        <li>
+                            Privacy focused
+                        </li>
+
+                        <li>
+                            Works offline after first load
+                        </li>
+
+                        <li>
+                            Supports JPG, PNG, WEBP
+                        </li>
+
+                        <li>
+                            Transparent PNG export
+                        </li>
+
+                    </ul>
+
+                    <p
+                        style="
+                            font-size:.8rem;
+                            color:#6b7280;
+                            margin-top:1rem;
+                            text-align:center;
+                        "
+                    >
+
+                        🔒 Files never leave your device
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- [RBG-019] CORE SCRIPTS -->
+    <!-- ============================================================ -->
+
+    <script src="../../js/components.js"></script>
+
+    <script src="../../js/main.js"></script>
+
+    <!-- ============================================================ -->
+    <!-- [RBG-020] TOOL SCRIPT -->
+    <!-- ============================================================ -->
+
+    <script>
+
+        // ============================================================
+        // [RBG-021] VARIABLES
+        // ============================================================
+
+        var rbgLibraryReady = false;
+
+        var rbgPageReady = false;
+
+        var rbgSelectedFile = null;
+
+        var rbgResultBlob = null;
+
+        // ============================================================
+        // [RBG-022] LIBRARY READY
+        // ============================================================
+
+        window.addEventListener(
+            'rbg-library-ready',
+            function () {
+
+                console.log(
+                    '[RBG-022] Library ready'
+                );
+
+                if (
+                    window.rbgAPI &&
+                    typeof
+                    window.rbgAPI.removeBackground
+                    === 'function'
+                ) {
+
+                    rbgLibraryReady = true;
+
+                    tryStartTool();
+
+                }
+
+            }
+        );
+
+        // ============================================================
+        // [RBG-023] DOM READY
+        // ============================================================
+
+        window.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                console.log(
+                    '[RBG-023] DOM ready'
+                );
+
+                rbgPageReady = true;
+
+                tryStartTool();
+
+            }
+        );
+
+        // ============================================================
+        // [RBG-024] SAFE START
+        // ============================================================
+
+        function tryStartTool() {
+
+            if (
+                !rbgLibraryReady ||
+                !rbgPageReady
+            ) {
+                return;
+            }
+
+            console.log(
+                '[RBG-024] Tool started'
+            );
+
+            if (
+                typeof initializeComponents
+                === 'function'
+            ) {
+
+                initializeComponents(
+                    'remove-background'
+                );
+
+            }
+
+            if (
+                typeof setupDragAndDrop
+                === 'function'
+            ) {
+
+                setupDragAndDrop(
+                    'rbg-upload-box',
+                    handleRBGDroppedFiles
+                );
+
+            }
+
+        }
+
+        // ============================================================
+        // [RBG-025] FILE SELECT
+        // ============================================================
+
+        function handleRBGFileSelect(event) {
+
+            var file =
+                event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            setRBGFile(file);
+
+        }
+
+        // ============================================================
+        // [RBG-026] DROP FILES
+        // ============================================================
+
+        function handleRBGDroppedFiles(files) {
+
+            var file =
+                Array.from(files).find(
+                    f => f.type.startsWith('image/')
+                );
+
+            if (!file) {
+                return;
+            }
+
+            setRBGFile(file);
+
+        }
+
+        // ============================================================
+        // [RBG-027] SET FILE
+        // ============================================================
+
+        function setRBGFile(file) {
+
+            rbgSelectedFile = file;
+
+            document
+                .getElementById('rbg-upload-icon')
+                .textContent = '✅';
+
+            document
+                .getElementById('rbg-upload-text')
+                .textContent = file.name;
+
+            document
+                .getElementById('rbg-upload-hint')
+                .textContent =
+                formatFileSize(file.size);
+
+            var reader =
+                new FileReader();
+
+            reader.onload =
+                function (e) {
+
+                    document
+                        .getElementById(
+                            'rbg-original-preview'
+                        )
+                        .src = e.target.result;
+
+                    document
+                        .getElementById(
+                            'rbg-preview-area'
+                        )
+                        .style.display = 'block';
+
+                };
+
+            reader.readAsDataURL(file);
+
+            document
+                .getElementById('rbg-remove-btn')
+                .style.display = '';
+
+            document
+                .getElementById('rbg-process-btn')
+                .disabled = false;
+
+            document
+                .getElementById('rbg-process-btn')
+                .classList.remove('disabled');
+
+        }
+
+        // ============================================================
+        // [RBG-028] CLEAR FILE
+        // ============================================================
+
+        function clearRBGFile() {
+
+            rbgSelectedFile = null;
+
+            rbgResultBlob = null;
+
+            document
+                .getElementById('rbg-preview-area')
+                .style.display = 'none';
+
+            document
+                .getElementById('rbg-result-area')
+                .style.display = 'none';
+
+            document
+                .getElementById('rbg-download-area')
+                .style.display = 'none';
+
+            document
+                .getElementById('rbg-progress-area')
+                .style.display = 'none';
+
+            document
+                .getElementById('rbg-remove-btn')
+                .style.display = 'none';
+
+            document
+                .getElementById('rbg-process-btn')
+                .disabled = true;
+
+        }
+
+        // ============================================================
+        // [RBG-029] REMOVE BACKGROUND
+        // ============================================================
+
+        async function removeBackgroundProcess() {
+
+            if (!rbgSelectedFile) {
+                return;
+            }
+
+            try {
+
+                var progressArea =
+                    document.getElementById(
+                        'rbg-progress-area'
+                    );
+
+                var progressFill =
+                    document.getElementById(
+                        'rbg-progress-fill'
+                    );
+
+                var progressText =
+                    document.getElementById(
+                        'rbg-progress-text'
+                    );
+
+                progressArea.style.display =
+                    'block';
+
+                progressFill.style.width =
+                    '5%';
+
+                progressText.textContent =
+                    'Loading AI model...';
+
+                // ====================================================
+                // [RBG-030] PROCESS IMAGE
+                // ====================================================
+
+                var resultBlob =
+                    await window.rbgAPI.removeBackground(
+                        rbgSelectedFile,
+                        {
+                            model: 'isnet_quint8',
+
+                            progress: function (
+                                key,
+                                current,
+                                total
+                            ) {
+
+                                var ratio =
+                                    total
+                                    ? current / total
+                                    : 0;
+
+                                var percent =
+                                    Math.round(
+                                        ratio * 100
+                                    );
+
+                                progressFill.style.width =
+                                    percent + '%';
+
+                                progressText.textContent =
+                                    'Processing: ' +
+                                    percent +
+                                    '%';
+
+                            }
+                        }
+                    );
+
+                rbgResultBlob =
+                    resultBlob;
+
+                // ====================================================
+                // [RBG-031] SHOW RESULT
+                // ====================================================
+
+                var resultURL =
+                    URL.createObjectURL(
+                        resultBlob
+                    );
+
+                document
+                    .getElementById(
+                        'rbg-result-preview'
+                    )
+                    .src = resultURL;
+
+                document
+                    .getElementById(
+                        'rbg-result-area'
+                    )
+                    .style.display = 'block';
+
+                document
+                    .getElementById(
+                        'rbg-download-area'
+                    )
+                    .style.display = 'block';
+
+                progressFill.style.width =
+                    '100%';
+
+                progressText.textContent =
+                    '✅ Background removed successfully';
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    '[RBG-029] Error:',
+                    error
+                );
+
+                alert(
+                    'Background removal failed: ' +
+                    error.message
+                );
+
+            }
+
+        }
+
+        // ============================================================
+        // [RBG-032] DOWNLOAD RESULT
+        // ============================================================
+
+        function downloadRBGResult() {
+
+            if (!rbgResultBlob) {
+                return;
+            }
+
+            var url =
+                URL.createObjectURL(
+                    rbgResultBlob
+                );
+
+            var a =
+                document.createElement('a');
+
+            a.href = url;
+
+            a.download =
+                'yourownpdf-nobg.png';
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            URL.revokeObjectURL(url);
+
+        }
+
+        // ============================================================
+        // [RBG-033] FORMAT SIZE
+        // ============================================================
+
+        function formatFileSize(bytes) {
+
+            if (bytes === 0) {
+                return '0 Bytes';
+            }
+
+            var k = 1024;
+
+            var sizes = [
+                'Bytes',
+                'KB',
+                'MB',
+                'GB'
+            ];
+
+            var i =
+                Math.floor(
+                    Math.log(bytes) /
+                    Math.log(k)
+                );
+
+            return (
+                parseFloat(
+                    (
+                        bytes /
+                        Math.pow(k, i)
+                    ).toFixed(2)
+                ) +
+                ' ' +
+                sizes[i]
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

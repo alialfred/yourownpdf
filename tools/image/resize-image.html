@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!-- [RSZ-000] YOUROWNPDF.COM - Resize Image Tool -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- [RSZ-001] SEO -->
+    <title>Resize Image - Change Image Dimensions Free | YOUROWNPDF.COM</title>
+    <meta name="description" content="Resize images online free. Change width, height, or percentage. Maintain aspect ratio. 100% browser-based. YOUROWNPDF.COM.">
+    <link rel="canonical" href="https://yourownpdf.com/tools/image/resize-image.html">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <main>
+        <div class="tool-page-container">
+            
+            <nav class="breadcrumbs">
+                <a href="../../index.html">Home</a> › 
+                <a href="../../index.html#image-tools">Image Tools</a> › 
+                <span>Resize Image</span>
+            </nav>
+            
+            <div class="tool-page-header">
+                <div class="tool-3d-icon" style="background: linear-gradient(135deg, #3B82F6, #60A5FA); color: white; width: 72px; height: 72px; font-size: 2.2rem;">📐</div>
+                <h1>Resize Image</h1>
+                <p>Change image dimensions precisely — free at <strong>YOUROWNPDF.COM</strong></p>
+            </div>
+            
+            <div class="tool-content">
+                <div>
+                    <div class="upload-box" id="resize-upload-box">
+                        <span class="upload-icon">🖼️</span>
+                        <span class="upload-text">Drop an image here</span>
+                        <span class="upload-hint">or click to select</span>
+                        <input type="file" id="resize-upload-box-input" accept="image/*" style="display: none;" onchange="handleResizeFileSelect(event)">
+                    </div>
+                    
+                    <!-- Resize Options -->
+                    <div id="resize-options" style="display: none; margin-top: 1.5rem; text-align: center;">
+                        <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+                            <div>
+                                <label style="color: var(--text-primary); font-weight: 600; display: block;">Width (px)</label>
+                                <input type="number" id="new-width" min="1" max="10000" value="800" 
+                                       style="padding: 0.5rem; border-radius: var(--radius-sm); border: 2px solid var(--border-light); width: 120px; text-align: center;">
+                            </div>
+                            <span style="color: var(--text-tertiary); font-size: 1.5rem;">×</span>
+                            <div>
+                                <label style="color: var(--text-primary); font-weight: 600; display: block;">Height (px)</label>
+                                <input type="number" id="new-height" min="1" max="10000" value="600" 
+                                       style="padding: 0.5rem; border-radius: var(--radius-sm); border: 2px solid var(--border-light); width: 120px; text-align: center;">
+                            </div>
+                        </div>
+                        <label style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-primary);">
+                            <input type="checkbox" id="maintain-aspect" checked> Maintain aspect ratio
+                        </label>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.5rem;" id="original-dimensions"></p>
+                    </div>
+                    
+                    <div id="resize-progress" style="display: none; margin-top: 1.5rem;"></div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-primary disabled" id="resize-btn" disabled onclick="resizeImage()">
+                            📐 Resize Image
+                        </button>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1rem; display: none;" id="resize-download-area">
+                        <button class="btn btn-download" onclick="downloadResizedImage()">
+                            ⬇ Download Resized Image
+                        </button>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.3rem;">File: <span id="resize-filename">yourownpdf-resized.png</span></p>
+                    </div>
+                </div>
+                
+                <div class="features-sidebar">
+                    <h3>✨ Features</h3>
+                    <ul>
+                        <li>Set exact width & height</li>
+                        <li>Maintain aspect ratio</li>
+                        <li>Supports JPG, PNG, WebP</li>
+                        <li>100% browser-based</li>
+                        <li>Free & unlimited</li>
+                    </ul>
+                    <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 1rem; text-align: center;">🔒 Powered by YOUROWNPDF.COM</p>
+                </div>
+            </div>
+            
+            <div class="how-to-section">
+                <h2>📝 How to Resize an Image</h2>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">1</div>
+                    <div class="how-to-step-content">
+                        <h4>Upload Image</h4>
+                        <p>Select your image. <strong>YOUROWNPDF.COM</strong> will show the original dimensions.</p>
+                        <div class="how-to-step-image">[Image: Upload]</div>
+                    </div>
+                </div>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">2</div>
+                    <div class="how-to-step-content">
+                        <h4>Set New Size</h4>
+                        <p>Enter the desired width and height. Check "Maintain aspect ratio" to avoid distortion.</p>
+                        <div class="how-to-step-image">[Image: Size inputs]</div>
+                    </div>
+                </div>
+                <div class="how-to-step">
+                    <div class="how-to-step-number">3</div>
+                    <div class="how-to-step-content">
+                        <h4>Download</h4>
+                        <p>Click "Resize Image" and download as <strong>yourownpdf-resized.png</strong>.</p>
+                        <div class="how-to-step-image">[Image: Download]</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <script src="../../js/components.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeComponents('resize-image');
+            setupDragAndDrop('resize-upload-box', handleResizeDroppedFiles);
+            
+            // [RSZ-002] Auto-update height when width changes (aspect ratio)
+            document.getElementById('new-width').addEventListener('input', updateHeightFromWidth);
+        });
+        
+        let resizeFile = null;
+        let resizedBlob = null;
+        let originalWidth = 0;
+        let originalHeight = 0;
+        let aspectRatio = 1;
+        
+        function handleResizeDroppedFiles(files) {
+            const img = files.find(f => f.type.startsWith('image/'));
+            if (img) setResizeFile(img);
+        }
+        
+        function handleResizeFileSelect(event) {
+            if (event.target.files[0]) setResizeFile(event.target.files[0]);
+        }
+        
+        function setResizeFile(file) {
+            resizeFile = file;
+            const box = document.getElementById('resize-upload-box');
+            box.classList.add('has-file');
+            box.querySelector('.upload-icon').textContent = '✅';
+            box.querySelector('.upload-text').textContent = file.name;
+            box.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+            
+            // Get original dimensions
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalWidth = img.width;
+                    originalHeight = img.height;
+                    aspectRatio = originalWidth / originalHeight;
+                    
+                    document.getElementById('new-width').value = originalWidth;
+                    document.getElementById('new-height').value = originalHeight;
+                    document.getElementById('original-dimensions').textContent = 
+                        `Original: ${originalWidth} × ${originalHeight}px (${formatFileSize(file.size)})`;
+                    document.getElementById('resize-options').style.display = 'block';
+                    enableButton('resize-btn');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updateHeightFromWidth() {
+            if (!document.getElementById('maintain-aspect').checked) return;
+            const newWidth = parseInt(document.getElementById('new-width').value) || 1;
+            document.getElementById('new-height').value = Math.round(newWidth / aspectRatio);
+        }
+        
+        async function resizeImage() {
+            if (!resizeFile) return;
+            
+            const newWidth = parseInt(document.getElementById('new-width').value);
+            const newHeight = parseInt(document.getElementById('new-height').value);
+            
+            if (newWidth < 1 || newHeight < 1) {
+                showNotification('⚠️ Please enter valid dimensions — YOUROWNPDF.COM');
+                return;
+            }
+            
+            const btn = document.getElementById('resize-btn');
+            const progressArea = document.getElementById('resize-progress');
+            btn.disabled = true;
+            btn.textContent = '⏳ Resizing...';
+            progressArea.style.display = 'block';
+            
+            const progressBar = createProgressBar('resize-progress');
+            
+            try {
+                if (progressBar) progressBar.update(30, 'Processing image...');
+                
+                // Create resized image using canvas
+                const blob = await createResizedImage(resizeFile, newWidth, newHeight);
+                resizedBlob = blob;
+                
+                if (progressBar) progressBar.complete('✅ Image resized!');
+                
+                document.getElementById('resize-download-area').style.display = 'block';
+                document.getElementById('resize-filename').textContent = 
+                    `yourownpdf-resized.png (${formatFileSize(blob.size)})`;
+                
+                btn.textContent = '🔄 Resize Another';
+                btn.disabled = false;
+                
+                showSuccessDialog(
+                    `Image resized to ${newWidth} × ${newHeight}px!`,
+                    '⬇ Download Image',
+                    () => downloadResizedImage()
+                );
+                
+            } catch (error) {
+                console.error('Resize error:', error);
+                btn.textContent = '📐 Resize Image';
+                btn.disabled = false;
+                showErrorDialog('Failed to resize image. Please try again.');
+            }
+        }
+        
+        function createResizedImage(file, width, height) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        canvas.toBlob(resolve, 'image/png');
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function downloadResizedImage() {
+            if (!resizedBlob) return;
+            downloadFile(resizedBlob, 'yourownpdf-resized.png');
+        }
+    </script>
+</body>
+</html>
