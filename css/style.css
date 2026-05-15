@@ -1,7 +1,7 @@
 /* C-001: CSS Variables for Light/Dark Mode - Core theme colors */
 :root {
   --color-a: #0f172a;
-  --color-b: #dc2626;
+  --color-b: #22c55e;
   --color-bg: #ffffff;
   --color-text: #0f172a;
   --color-text-muted: #64748b;
@@ -19,7 +19,7 @@
 /* C-002: Dark Mode Variables */
 [data-theme="dark"] {
   --color-a: #ffffff;
-  --color-b: #dc2626;
+  --color-b: #22c55e;
   --color-bg: #0f172a;
   --color-text: #ffffff;
   --color-text-muted: #94a3b8;
@@ -104,7 +104,7 @@ body {
   color: var(--color-b);
 }
 
-/* logo-3: always red (#dc2626) */
+/* logo-3: always green (#22c55e) */
 .logo-3 {
   color: var(--color-text);
 }

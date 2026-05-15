@@ -10,13 +10,14 @@
 
     // J-204: Routes registry
     routes: {
-      '/': 'pages/home.html',
-      '/tools': 'pages/tools.html',
-      '/about': 'pages/about.html',
-      '/contact': 'pages/contact.html',
-      '/privacy': 'pages/privacy.html',
-      '/terms': 'pages/terms.html',
-      '/404': 'pages/404.html'
+      '/': 'index.html',
+      '/tools': 'index.html',
+      '/about': 'about.html',
+      '/contact': 'contact.html',
+      '/privacy': 'privacy.html',
+      '/terms': 'terms.html',
+      '/login': 'login.html',
+      '/404': '404.html'
     },
 
     // J-205: Initialize router
@@ -38,24 +39,33 @@
 
       // CLEANER FIX: Normalize path for local or server environments
       if (path.endsWith('index.html') || path === '' || path === '/') {
-          path = '/';
+          path = '/index.html';
       }
 
       // J-209: Register tool routes
       this.registerToolRoutes();
+
+      // J-209b: Update URL to show index.html for homepage
+      if (path === '/index.html' && window.location.pathname === '/') {
+        history.replaceState({}, '', '/index.html');
+      }
     },
 
     // J-210: Navigate to URL (NO HASHTAGS)
     navigateTo: function(path) {
-      if (path === window.location.pathname) return;
-          // Fix local file routing
-          if (
-            path.includes('index.html') ||
-            path.startsWith('/D:/') ||
-            path === ''
-          ) {
-            path = '/';
-          }
+      // Fix local file routing FIRST - keep as index.html for homepage
+      if (path.includes('index.html') || path === '' || path === '/') {
+        path = '/index.html';
+      }
+
+      // Get current normalized path
+      let currentPath = window.location.pathname;
+      if (currentPath.endsWith('index.html') || currentPath === '' || currentPath === '/') {
+        currentPath = '/index.html';
+      }
+
+      // Skip if already on this path
+      if (path === currentPath) return;
 
       // J-211: Push state to history
       history.pushState({}, '', path);
@@ -79,7 +89,7 @@
             path.startsWith('/D:/') ||
             path === ''
           ) {
-            path = '/';
+            path = '/index.html';
           }
 
       this.loadContent(path);
@@ -108,9 +118,9 @@
         const toolName = pathname.split('/').pop();
         pagePath = `tools/image/${toolName}.html`;
       } else if (pathname === '/tools' || pathname.startsWith('/tools/')) {
-        pagePath = 'pages/tools.html';
+        pagePath = 'index.html';
       } else {
-        pagePath = 'pages/404.html';
+        pagePath = 'index.html';
       }
 
       // J-222: Fetch and render page content
@@ -231,7 +241,7 @@ renderPage: function(html, pathname) {
               <div class="empty-state-icon">😕</div>
               <h2>Page Not Found</h2>
               <p>The page you're looking for doesn't exist.</p>
-              <a href="/" class="btn btn-primary" style="margin-top: 1rem;">Go Home</a>
+              <button onclick="navigateTo('/')" class="btn btn-primary" style="margin-top: 1rem; cursor: pointer;">Go Home</button>
             </div>
           </div>
         `;
@@ -416,7 +426,7 @@ function isToolPage() {
     path.startsWith('/D:/') ||
     path === ''
   ) {
-    path = '/';
+    path = '/index.html';
   }
 
   return path.startsWith('/tools/pdf/') || path.startsWith('/tools/image/');
@@ -432,7 +442,7 @@ function getCurrentToolId() {
     path.startsWith('/D:/') ||
     path === ''
   ) {
-    path = '/';
+    path = '/index.html';
   }
 
   const parts = path.split('/');

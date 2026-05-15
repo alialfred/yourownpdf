@@ -7,7 +7,7 @@
   <title>Merge PDF — Free Online PDF Merger | YOUROWNPDF.COM</title>
 
   <!-- MRG-001: Core CSS -->
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
@@ -80,6 +80,73 @@
       border: 1px solid var(--color-border);
       border-radius: 0.5rem;
       margin-bottom: 0.5rem;
+      gap: 0.5rem;
+      cursor: grab;
+      position: relative;
+    }
+
+    .file-item:active {
+      cursor: grabbing;
+    }
+
+    .file-drag-handle {
+      cursor: grab;
+      color: var(--color-text-muted);
+      font-size: 1.25rem;
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-drag-handle:hover {
+      color: var(--color-b);
+    }
+
+    .file-drag-handle:active {
+      cursor: grabbing;
+    }
+
+    .file-item .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .file-remove {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .file-remove:hover {
+      color: #dc2626;
+    }
+
+    /* Drag & drop visual feedback */
+    .file-item.dragging,
+    .file-item.selected {
+      background: var(--color-card-hover);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+      transform: scale(1.02);
+      border-color: var(--color-b);
+    }
+
+    .file-item.drag-over {
+      border-top: 2px solid var(--color-b);
+    }
+
+    .file-item.drag-over::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--color-b);
     }
 
     .file-info {
@@ -314,15 +381,32 @@
         </div>
 
         <div class="tool-layout">
-          <!-- MRG-008: Upload area -->
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📁</div>
-            <div class="upload-text">Drag & drop PDF files here</div>
-            <div class="upload-hint">or click to browse — multiple files allowed</div>
-            <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
+          <!-- MRG-008: Upload area + Actions (left column) -->
+          <div class="tool-main">
+            <div class="tool-upload-area" id="uploadArea">
+              <div class="upload-icon">📁</div>
+              <div class="upload-text">Drag & drop PDF files here</div>
+              <div class="upload-hint">or click to browse — multiple files allowed</div>
+              <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
+            </div>
+
+            <!-- MRG-009: Action buttons under upload -->
+            <div class="tool-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn-primary" id="mergeBtn" disabled onclick="processFiles()" style="padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
+                <i class="fas fa-object-group"></i> Merge PDF
+              </button>
+              <button class="btn-secondary" id="clearBtn" disabled onclick="clearFiles()" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 500; border-radius: 0.75rem; cursor: pointer;">
+                Clear All
+              </button>
+              <button class="btn-primary" id="downloadBtn" onclick="downloadMerged()" style="display: none; padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
+                <i class="fas fa-download"></i> Download
+              </button>
+            </div>
+
+            <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
           </div>
 
-          <!-- MRG-009: Tool info -->
+          <!-- MRG-009b: Tool info (right column) -->
           <div class="tool-info">
             <h2 style="margin-bottom: 1rem;">Features</h2>
             <ul class="tool-features">
@@ -333,21 +417,6 @@
               <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
               <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
             </ul>
-
-            <div class="tool-actions">
-              <button class="btn-merge" id="mergeBtn" disabled onclick="processFiles()">
-                <i class="fas fa-object-group"></i> Merge PDF
-              </button>
-              <button class="btn-clear" id="clearBtn" disabled onclick="clearFiles()">
-                Clear All
-              </button>
-            </div>
-
-            <div class="btn-download" id="downloadBtn" onclick="downloadMerged()">
-              <i class="fas fa-download"></i> Download Merged PDF
-            </div>
-
-            <p class="reorder-hint"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
           </div>
         </div>
 
@@ -415,9 +484,9 @@
   </div>
 
   <!-- MRG-014: Scripts -->
-  <script src="../js/main.js"></script>
-  <script src="../js/components.js"></script>
-  <script src="../js/router.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
 
   <!-- MRG-015: PDF-lib library -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -465,7 +534,13 @@
 
     // MRG-020: Upload initialization
     function initUpload() {
-      uploadArea.addEventListener('click', () => fileInput.click());
+      uploadArea.addEventListener('click', (e) => {
+        // Don't trigger upload if clicking on file-item, file-remove, or drag handle
+        if (e.target.closest('.file-item') || e.target.closest('.file-remove') || e.target.closest('.file-drag-handle')) {
+          return;
+        }
+        fileInput.click();
+      });
 
       uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -524,6 +599,7 @@
 
       fileList.innerHTML = files.map((file, index) => `
         <div class="file-item" draggable="true" data-index="${index}">
+          <div class="file-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></div>
           <div class="file-info">
             <span class="file-icon">📄</span>
             <div class="file-details">
@@ -531,7 +607,7 @@
               <span class="file-size">${formatSize(file.size)}</span>
             </div>
           </div>
-          <button class="file-remove" onclick="removeFile(${index})">✕</button>
+          <button class="file-remove" onclick="removeFile(${index})"><i class="fas fa-times"></i></button>
         </div>
       `).join('');
     }
@@ -609,38 +685,138 @@
       URL.revokeObjectURL(url);
     }
 
-    // MRG-029: Reorder initialization
+    // MRG-029: Reorder initialization with full drag & drop
     function initReorder() {
-      // Simple drag handling for file list
+      let draggedItem = null;
       let draggedIndex = null;
+      let dropIndicator = null;
+      let selectedItem = null;
+
+      // Click on file card - make it bigger, don't trigger upload
+      document.addEventListener('click', (e) => {
+        const fileItem = e.target.closest('.file-item');
+        const fileRemoveBtn = e.target.closest('.file-remove');
+
+        if (fileRemoveBtn) {
+          // Let the remove button work normally
+          return;
+        }
+
+        if (fileItem) {
+          // Remove previous selection
+          if (selectedItem && selectedItem !== fileItem) {
+            selectedItem.classList.remove('selected');
+          }
+          // Toggle selection
+          if (selectedItem === fileItem) {
+            fileItem.classList.remove('selected');
+            selectedItem = null;
+          } else {
+            fileItem.classList.add('selected');
+            selectedItem = fileItem;
+          }
+          // Stop propagation to prevent upload dialog
+          e.stopPropagation();
+        } else {
+          // Click elsewhere removes selection
+          if (selectedItem) {
+            selectedItem.classList.remove('selected');
+            selectedItem = null;
+          }
+        }
+      });
+
+      // Create drop indicator element
+      function createDropIndicator() {
+        const indicator = document.createElement('div');
+        indicator.className = 'drop-indicator';
+        indicator.style.cssText = 'height: 3px; background: var(--color-b); border-radius: 2px; margin: 4px 0; display: none;';
+        return indicator;
+      }
 
       document.addEventListener('dragstart', (e) => {
-        if (e.target.classList.contains('file-item')) {
-          draggedIndex = parseInt(e.target.dataset.index);
-          e.target.style.opacity = '0.5';
+        const fileItem = e.target.closest('.file-item');
+        if (fileItem) {
+          // Remove selection when starting drag
+          if (selectedItem) {
+            selectedItem.classList.remove('selected');
+            selectedItem = null;
+          }
+          draggedItem = fileItem;
+          draggedIndex = parseInt(fileItem.dataset.index);
+          fileItem.classList.add('dragging');
+          fileItem.style.opacity = '0.6';
+
+          // Create drop indicator
+          dropIndicator = createDropIndicator();
+          document.querySelector('.file-list')?.appendChild(dropIndicator);
         }
       });
 
       document.addEventListener('dragend', (e) => {
-        if (e.target.classList.contains('file-item')) {
-          e.target.style.opacity = '1';
+        if (draggedItem) {
+          draggedItem.classList.remove('dragging');
+          draggedItem.style.opacity = '1';
+          draggedItem = null;
         }
+        if (dropIndicator) {
+          dropIndicator.remove();
+          dropIndicator = null;
+        }
+        // Remove all drag-over classes
+        document.querySelectorAll('.file-item.drag-over').forEach(item => {
+          item.classList.remove('drag-over');
+        });
       });
 
       document.addEventListener('dragover', (e) => {
         e.preventDefault();
+        const fileItem = e.target.closest('.file-item');
+        if (fileItem && dropIndicator) {
+          const rect = fileItem.getBoundingClientRect();
+          const midpoint = rect.top + rect.height / 2;
+
+          // Remove previous drag-over
+          document.querySelectorAll('.file-item.drag-over').forEach(item => {
+            if (item !== fileItem) item.classList.remove('drag-over');
+          });
+
+          // Add drag-over class for visual feedback
+          fileItem.classList.add('drag-over');
+
+          // Position the drop indicator
+          if (e.clientY < midpoint) {
+            fileList.insertBefore(dropIndicator, fileItem);
+          } else {
+            fileList.insertBefore(dropIndicator, fileItem.nextSibling);
+          }
+          dropIndicator.style.display = 'block';
+        }
+      });
+
+      document.addEventListener('dragleave', (e) => {
+        const fileItem = e.target.closest('.file-item');
+        if (fileItem && !fileItem.contains(e.relatedTarget)) {
+          fileItem.classList.remove('drag-over');
+        }
       });
 
       document.addEventListener('drop', (e) => {
-        if (draggedIndex !== null && e.target.classList.contains('file-item')) {
-          const targetIndex = parseInt(e.target.dataset.index);
-          if (draggedIndex !== targetIndex) {
+        e.preventDefault();
+        const targetItem = e.target.closest('.file-item');
+        if (draggedIndex !== null && targetItem) {
+          const targetIndex = parseInt(targetItem.dataset.index);
+          const rect = targetItem.getBoundingClientRect();
+          const midpoint = rect.top + rect.height / 2;
+          const actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex;
+
+          if (draggedIndex !== actualTargetIndex) {
             const [movedFile] = files.splice(draggedIndex, 1);
-            files.splice(targetIndex, 0, movedFile);
+            files.splice(actualTargetIndex, 0, movedFile);
             updateFileList();
           }
-          draggedIndex = null;
         }
+        draggedIndex = null;
       });
     }
 
