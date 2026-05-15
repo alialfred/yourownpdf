@@ -68,32 +68,64 @@
 
   // J-012: Search functionality
   const SearchFilter = {
-    // J-013: Initialize search
+    // J-013: Initialize search - target specific search inputs
     init: function() {
-      this.input = document.querySelector('.search-input');
-      this.cards = document.querySelectorAll('.tool-card');
-      if (this.input) {
-        this.input.addEventListener('input', (e) => this.filter(e.target.value));
+      // Only initialize on specific search inputs, not all search-input elements
+      const globalSearch = document.getElementById('globalSearch');
+      const mobileSearch = document.getElementById('mobileSearch');
+
+      if (globalSearch) {
+        globalSearch.addEventListener('input', (e) => this.filter(e.target.value));
+      }
+      if (mobileSearch) {
+        mobileSearch.addEventListener('input', (e) => this.filter(e.target.value));
       }
     },
 
-    // J-014: Filter tools by search query
+    // J-014: Filter tools by search query - get fresh cards each time
     filter: function(query) {
       const term = query.toLowerCase().trim();
-      this.cards.forEach(card => {
+      const cards = document.querySelectorAll('.tool-card');
+      let pdfCount = 0;
+      let imageCount = 0;
+
+      cards.forEach(card => {
         const title = card.dataset.title || '';
         const desc = card.dataset.desc || '';
-        const match = title.toLowerCase().includes(term) || desc.toLowerCase().includes(term);
-        card.style.display = match ? '' : 'none';
+        const toolId = card.dataset.toolId || '';
+        const path = card.getAttribute('href') || '';
+        const match = title.toLowerCase().includes(term) ||
+                      desc.toLowerCase().includes(term) ||
+                      toolId.toLowerCase().includes(term) ||
+                      path.toLowerCase().includes(term);
+
+        if (match) {
+          card.style.display = '';
+          if (card.closest('#pdfToolsGrid')) pdfCount++;
+          if (card.closest('#imageToolsGrid')) imageCount++;
+        } else {
+          card.style.display = 'none';
+        }
       });
+
+      // Show/hide section headers
+      const pdfSection = document.getElementById('pdf-tools');
+      const imageSection = document.getElementById('image-tools');
+
+      if (pdfSection) {
+        const pdfHeader = pdfSection.querySelector('.section-header');
+        if (pdfHeader) pdfHeader.style.display = pdfCount ? '' : 'none';
+      }
+      if (imageSection) {
+        const imageHeader = imageSection.querySelector('.section-header');
+        if (imageHeader) imageHeader.style.display = imageCount ? '' : 'none';
+      }
     },
 
     // J-015: Clear search
     clear: function() {
-      if (this.input) {
-        this.input.value = '';
-        this.cards.forEach(card => card.style.display = '');
-      }
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => card.style.display = '');
     }
   };
 

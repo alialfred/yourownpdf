@@ -131,7 +131,7 @@
     <div class="container">
       <div class="header-inner">
         <a href="/" class="logo" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">
-          <span class="logo-part-a">Your</span><span class="logo-part-a">Own</span><span class="logo-part-b">PDF</span><span class="logo-part-b">.com</span>
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
 
         <nav class="nav" id="mainNav">
@@ -251,7 +251,7 @@
           <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
           <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
         </div>
-        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">Own</span><span class="logo-part-b">PDF</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -393,30 +393,50 @@
     function handleSearch(query) {
       const term = query.toLowerCase().trim();
       const allCards = document.querySelectorAll('.tool-card');
+      let pdfCount = 0;
+      let imageCount = 0;
 
       allCards.forEach(card => {
         const title = card.dataset.title || '';
         const desc = card.dataset.desc || '';
-        const match = title.toLowerCase().includes(term) || desc.toLowerCase().includes(term);
-        card.style.display = match ? '' : 'none';
+        const toolId = card.dataset.toolId || '';
+        const path = card.getAttribute('href') || '';
+        const match = title.toLowerCase().includes(term) ||
+                      desc.toLowerCase().includes(term) ||
+                      toolId.toLowerCase().includes(term) ||
+                      path.toLowerCase().includes(term);
+
+        if (match) {
+          card.style.display = '';
+          if (card.closest('#pdfToolsGrid')) pdfCount++;
+          if (card.closest('#imageToolsGrid')) imageCount++;
+        } else {
+          card.style.display = 'none';
+        }
       });
 
       // Show/hide section headers
       const pdfSection = document.getElementById('pdf-tools');
       const imageSection = document.getElementById('image-tools');
 
-      const visiblePdfCards = pdfSection.querySelectorAll('.tool-card:not([style*="display: none"])');
-      const visibleImageCards = imageSection.querySelectorAll('.tool-card:not([style*="display: none"])');
-
-      pdfSection.querySelector('.section-header').style.display = visiblePdfCards.length ? '' : 'none';
-      imageSection.querySelector('.section-header').style.display = visibleImageCards.length ? '' : 'none';
+      if (pdfSection) {
+        const pdfHeader = pdfSection.querySelector('.section-header');
+        if (pdfHeader) pdfHeader.style.display = pdfCount ? '' : 'none';
+      }
+      if (imageSection) {
+        const imageHeader = imageSection.querySelector('.section-header');
+        if (imageHeader) imageHeader.style.display = imageCount ? '' : 'none';
+      }
     }
 
-    // IDX-027: Scroll to section
+    // IDX-027: Scroll to section - stops at section header (below sticky header)
     function scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
+        const header = document.querySelector('.header');
+        const headerHeight = header ? header.offsetHeight : 70;
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+        window.scrollTo({ top: sectionTop, behavior: 'smooth' });
       }
     }
 
@@ -430,22 +450,14 @@
       // Initialize mobile menu
       initMobileMenu();
 
-      // Search handlers
+      // Search is handled by main.js SearchFilter
+      // Sync both search inputs when either changes
       const globalSearch = document.getElementById('globalSearch');
       const mobileSearch = document.getElementById('mobileSearch');
 
-      if (globalSearch) {
-        globalSearch.addEventListener('input', (e) => {
-          handleSearch(e.target.value);
-          if (mobileSearch) mobileSearch.value = e.target.value;
-        });
-      }
-
-      if (mobileSearch) {
-        mobileSearch.addEventListener('input', (e) => {
-          handleSearch(e.target.value);
-          if (globalSearch) globalSearch.value = e.target.value;
-        });
+      if (globalSearch && mobileSearch) {
+        globalSearch.addEventListener('input', (e) => mobileSearch.value = e.target.value);
+        mobileSearch.addEventListener('input', (e) => globalSearch.value = e.target.value);
       }
 
       // Back to top
