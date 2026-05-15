@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Delete PDF pages online. Free tool by YOUROWNPDF.COM">
+  <title>Delete PDF Pages — Remove Pages | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .page-selector { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .page-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .page-chip { padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: 0.5rem; cursor: pointer; background: var(--color-card-bg); }
+    .page-chip:hover { background: var(--color-card-hover); }
+    .page-chip.selected { background: var(--color-b); color: white; border-color: var(--color-b); text-decoration: line-through; }
+    .form-group { margin-top: 1rem; }
+    .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+    .form-group input { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); }
+    .delete-hint { color: var(--color-b); font-size: 0.875rem; margin-top: 0.5rem; }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-delete { background: var(--color-b); color: white; }
+    .btn-delete:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; display: none; }
+    .btn-download.visible { display: flex; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Delete Pages</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">🗑️ Delete Pages</h1>
+          <p style="color: var(--color-text-muted);">Remove specific pages from PDF</p>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
+            <div style="color: var(--color-text-muted);">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+          </div>
+
+          <div class="page-selector" id="pageSelector" style="display:none;">
+            <h3 style="margin-bottom: 0.5rem;">Select Pages to Delete</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.875rem;">Click pages to mark for deletion (click again to unmark)</p>
+            <div class="page-chips" id="pageChips"></div>
+            <div class="form-group">
+              <label>Or enter pages to delete (e.g., 1, 3, 5-7)</label>
+              <input type="text" id="pageRange" placeholder="1, 3, 5-7">
+            </div>
+            <p class="delete-hint">Selected pages will be permanently removed</p>
+            <div class="tool-actions">
+              <button class="btn btn-delete" id="deleteBtn" onclick="deletePages()">
+                <i class="fas fa-trash"></i> Delete Pages
+              </button>
+              <button class="btn btn-download" id="downloadBtn" onclick="downloadPdf()">
+                <i class="fas fa-download"></i> Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Delete PDF Pages on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Select Pages</h3><p>Click pages or enter range to delete.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get "yourownpdf-deleted.pdf".</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script>
+    // DEL-001: PDF Delete Pages Tool
+    let pdfFile = null;
+    let totalPages = 0;
+    let selectedForDeletion = [];
+    let pdfBytes = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    async function handle(file) {
+      if (!file) return;
+      pdfFile = file;
+      show('Loading PDF...', true);
+      try {
+        await loadPdfLib();
+        const { PDFDocument } = PDFLib;
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        totalPages = pdfDoc.getPageCount();
+
+        const chips = document.getElementById('pageChips');
+        chips.innerHTML = Array.from({ length: totalPages }, (_, i) =>
+          `<div class="page-chip" data-page="${i + 1}" onclick="toggleDelete(${i + 1})">${i + 1}</div>`
+        ).join('');
+
+        document.getElementById('pageSelector').style.display = 'block';
+        document.getElementById('deleteBtn').disabled = false;
+        close();
+        show('PDF loaded! ' + totalPages + ' pages.');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    function toggleDelete(num) {
+      const idx = selectedForDeletion.indexOf(num);
+      if (idx > -1) {
+        selectedForDeletion.splice(idx, 1);
+      } else {
+        selectedForDeletion.push(num);
+      }
+      selectedForDeletion.sort((a, b) => a - b);
+      document.querySelectorAll('.page-chip').forEach(chip => {
+        chip.classList.toggle('selected', selectedForDeletion.includes(parseInt(chip.dataset.page)));
+      });
+    }
+
+    async function deletePages() {
+      const rangeInput = document.getElementById('pageRange').value.trim();
+      let pagesToDelete = [...selectedForDeletion];
+
+      if (rangeInput) {
+        pagesToDelete = [];
+        rangeInput.split(',').forEach(part => {
+          const trimmed = part.trim();
+          if (trimmed.includes('-')) {
+            const [start, end] = trimmed.split('-').map(n => parseInt(n.trim()));
+            for (let i = start; i <= end; i++) {
+              if (i >= 1 && i <= totalPages) pagesToDelete.push(i);
+            }
+          } else {
+            const num = parseInt(trimmed);
+            if (num >= 1 && num <= totalPages) pagesToDelete.push(num);
+          }
+        });
+      }
+
+      if (pagesToDelete.length === 0) {
+        show('Please select pages to delete', false, true);
+        return;
+      }
+
+      if (pagesToDelete.length >= totalPages) {
+        show('Cannot delete all pages', false, true);
+        return;
+      }
+
+      show('Deleting pages...', true);
+      try {
+        await loadPdfLib();
+        const { PDFDocument } = PDFLib;
+        const arrayBuffer = await pdfFile.arrayBuffer();
+        const srcDoc = await PDFDocument.load(arrayBuffer);
+
+        const newPdf = await PDFDocument.create();
+        for (let i = 0; i < totalPages; i++) {
+          if (!pagesToDelete.includes(i + 1)) {
+            const [page] = await newPdf.copyPages(srcDoc, [i]);
+            newPdf.addPage(page);
+          }
+        }
+
+        pdfBytes = await newPdf.save();
+        document.getElementById('downloadBtn').classList.add('visible');
+        close();
+        show('Deleted ' + pagesToDelete.length + ' pages!');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function downloadPdf() {
+      if (!pdfBytes) return;
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'yourownpdf-deleted.pdf';
+      a.click();
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

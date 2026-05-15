@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About YOUROWNPDF.COM - Free online PDF and image tools">
+  <title>About | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-page { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+    .about-hero { text-align: center; padding: 3rem 0; }
+    .about-hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .about-hero p { font-size: 1.25rem; color: var(--color-text-muted); max-width: 600px; margin: 0 auto; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0; }
+    @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } }
+    .stat-card { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; text-align: center; }
+    .stat-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .stat-num { font-size: 2.5rem; font-weight: 700; color: var(--color-b); }
+    .stat-label { font-size: 1rem; color: var(--color-text-muted); }
+    .about-section { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; }
+    .about-section h2 { font-size: 1.75rem; margin-bottom: 1rem; color: var(--color-b); }
+    .about-section p { line-height: 1.8; color: var(--color-text-muted); }
+    .about-section ul { margin: 1rem 0; padding-left: 1.5rem; }
+    .about-section li { margin-bottom: 0.75rem; line-height: 1.6; color: var(--color-text-muted); }
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .tech-item { background: var(--color-bg); border-radius: 0.5rem; padding: 1rem; text-align: center; }
+    .tech-name { font-weight: 600; margin-bottom: 0.25rem; }
+    .tech-desc { font-size: 0.875rem; color: var(--color-text-muted); }
+    .team-section { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .team-member { text-align: center; padding: 1.5rem; background: var(--color-bg); border-radius: 0.75rem; }
+    .team-avatar { width: 80px; height: 80px; background: var(--color-border); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .team-name { font-weight: 600; margin-bottom: 0.25rem; }
+    .team-role { color: var(--color-text-muted); font-size: 0.875rem; }
+    .cta-section { background: linear-gradient(135deg, var(--color-b) 0%, #991b1b 100%); border-radius: 1rem; padding: 3rem; text-align: center; color: white; margin-bottom: 2rem; }
+    .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+    .cta-section p { opacity: 0.9; margin-bottom: 1.5rem; }
+    .cta-btn { display: inline-block; padding: 1rem 2rem; background: white; color: var(--color-b); border-radius: 0.5rem; text-decoration: none; font-weight: 600; transition: transform 0.2s; }
+    .cta-btn:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">About</span>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="about-page">
+        <div class="about-hero">
+          <h1>About <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span></h1>
+          <p>Your privacy-first platform for free online PDF and image processing tools. No uploads, no servers, 100% private.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-num">94+</div>
+            <div class="stat-label">Tools Available</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔒</div>
+            <div class="stat-num">0</div>
+            <div class="stat-label">Servers Used</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🛡️</div>
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Private Processing</div>
+          </div>
+        </div>
+        <div class="about-section">
+          <h2>What is YOUROWNPDF.COM?</h2>
+          <p><span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> is a free online toolkit for processing PDF documents and images directly in your browser. Unlike other online tools that upload your files to external servers, we process everything locally on your device using JavaScript and WebAssembly technologies.</p>
+          <p>Whether you need to convert, compress, merge, split, edit, or secure your PDF files, or perform image adjustments like resizing, cropping, and filtering — all tools are available instantly without registration or upload.</p>
+        </div>
+        <div class="about-section">
+          <h2>How It Works</h2>
+          <p>Traditional online PDF tools work by uploading your files to a server, processing them there, then sending the result back. This means your sensitive documents travel across the internet and sit on someone else's computers.</p>
+          <p><span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> takes a different approach:</p>
+          <ul>
+            <li><strong>Zero Uploads:</strong> Files never leave your device. All processing happens in your browser's JavaScript engine.</li>
+            <li><strong>Instant Results:</strong> No waiting for uploads, server processing, or downloads. It happens in real-time.</li>
+            <li><strong>Works Offline:</strong> Once the page loads, you can use tools without an internet connection.</li>
+            <li><strong>No Account Required:</strong> No registration, no sign-up, no tracking. Just open and use.</li>
+          </ul>
+        </div>
+        <div class="about-section">
+          <h2>Technology Stack</h2>
+          <p>We leverage modern browser capabilities to deliver powerful processing without servers:</p>
+          <div class="tech-grid">
+            <div class="tech-item">
+              <div class="tech-name">pdf-lib</div>
+              <div class="tech-desc">JavaScript PDF manipulation library</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Canvas API</div>
+              <div class="tech-desc">HTML5 image processing</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">File API</div>
+              <div class="tech-desc">Browser file handling</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Web Workers</div>
+              <div class="tech-desc">Background processing</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">ES6+ JavaScript</div>
+              <div class="tech-desc">Modern client-side code</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">CSS3</div>
+              <div class="tech-desc">Responsive design</div>
+            </div>
+          </div>
+        </div>
+        <div class="team-section">
+          <h2>Meet the Creator</h2>
+          <p><span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> was built by a single developer passionate about privacy, simplicity, and free tools. The entire project is maintained as a personal initiative to make document processing accessible to everyone without compromising on privacy.</p>
+          <div class="team-grid">
+            <div class="team-member">
+              <div class="team-avatar">👨‍💻</div>
+              <div class="team-name">Creator</div>
+              <div class="team-role">Founder & Developer</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta-section">
+          <h2>Ready to Get Started?</h2>
+          <p>Explore our collection of 94+ free tools for PDF and image processing.</p>
+          <a href="/tools" class="cta-btn" onclick="event.preventDefault(); navigateTo('/tools')">View All Tools →</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="js/main.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/router.js"></script>
+  <script>
+    // ABT-001: About Page
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => {
+        if (e.target.classList.contains('theme-toggle')) {
+          const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+          localStorage.setItem('yourownpdf-theme', t);
+          e.target.textContent = t === 'dark' ? '☀️' : '🌙';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

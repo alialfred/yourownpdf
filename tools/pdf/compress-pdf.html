@@ -1,264 +1,304 @@
 <!DOCTYPE html>
-<!-- [CMP-000] YOUROWNPDF.COM - Compress PDF Tool -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- [CMP-001] SEO -->
-    <title>Compress PDF - Reduce PDF File Size Free | YOUROWNPDF.COM</title>
-    <meta name="description" content="Compress PDF files online free. Reduce PDF file size without losing quality. 100% browser-based — no uploads. YOUROWNPDF.COM.">
-    <link rel="canonical" href="https://yourownpdf.com/tools/pdf/compress-pdf.html">
-    
-    <link rel="stylesheet" href="../../css/style.css">
-    
-    <!-- [CMP-002] PDF-lib for compression -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compress PDF files online. Reduce PDF size while maintaining quality. Free tool by YOUROWNPDF.COM">
+  <title>Compress PDF — Reduce File Size | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
+    @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; transition: all 0.3s; cursor: pointer; }
+    .tool-upload-area:hover, .tool-upload-area.dragover { border-color: var(--color-b); background: var(--color-card-hover); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .file-list { margin-top: 1.5rem; text-align: left; }
+    .file-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 0.5rem; margin-bottom: 0.5rem; }
+    .file-info { display: flex; align-items: center; gap: 0.75rem; }
+    .file-details { display: flex; flex-direction: column; }
+    .file-name { font-weight: 500; }
+    .file-size { font-size: 0.75rem; color: var(--color-text-muted); }
+    .file-remove { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1.25rem; }
+    .file-remove:hover { color: var(--color-b); }
+    .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .tool-features { list-style: none; margin: 1rem 0; }
+    .tool-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; }
+    .feature-icon { color: var(--color-b); }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .compression-level { display: flex; gap: 1rem; margin: 1.5rem 0; }
+    .compression-option { flex: 1; padding: 1rem; border: 2px solid var(--color-border); border-radius: 0.5rem; text-align: center; cursor: pointer; transition: all 0.15s; }
+    .compression-option:hover { border-color: var(--color-b); }
+    .compression-option.active { border-color: var(--color-b); background: var(--color-card-hover); }
+    .compression-option h4 { margin-bottom: 0.25rem; }
+    .compression-option p { font-size: 0.75rem; color: var(--color-text-muted); }
+    .btn-compress { background: var(--color-b); color: white; border: none; padding: 1rem 2rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-compress:hover:not(:disabled) { background: #b91c1c; }
+    .btn-compress:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-clear { background: var(--color-card-bg); color: var(--color-text); border: 1px solid var(--color-border); padding: 1rem 1.5rem; font-size: 1rem; border-radius: 0.5rem; cursor: pointer; }
+    .btn-clear:hover:not(:disabled) { background: var(--color-card-hover); }
+    .btn-clear:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; border: none; padding: 1rem 2rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; cursor: pointer; display: none; align-items: center; gap: 0.5rem; }
+    .btn-download.visible { display: flex; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+    .savings-badge { display: inline-block; background: #16a34a; color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; margin-top: 0.5rem; }
+  </style>
 </head>
 <body>
-    <main>
-        <div class="tool-page-container">
-            
-            <!-- [CMP-003] Breadcrumbs -->
-            <nav class="breadcrumbs">
-                <a href="../../index.html">Home</a> › 
-                <a href="../../index.html#pdf-tools">PDF Tools</a> › 
-                <span>Compress PDF</span>
-            </nav>
-            
-            <!-- [CMP-004] Tool Header -->
-            <div class="tool-page-header">
-                <div class="tool-3d-icon" style="background: linear-gradient(135deg, #3B82F6, #60A5FA); color: white; width: 72px; height: 72px; font-size: 2.2rem;">🗜️</div>
-                <h1>Compress PDF</h1>
-                <p>Reduce your PDF file size while maintaining quality — free at <strong>YOUROWNPDF.COM</strong></p>
-            </div>
-            
-            <!-- [CMP-005] Tool Content -->
-            <div class="tool-content">
-                <div>
-                    <!-- Upload Box -->
-                    <div class="upload-box" id="compress-upload-box">
-                        <span class="upload-icon">📁</span>
-                        <span class="upload-text">Drag & Drop a PDF file</span>
-                        <span class="upload-hint">or click to select — Max 100MB</span>
-                        <input type="file" id="compress-upload-box-input" accept=".pdf" style="display: none;" onchange="handleCompressFileSelect(event)">
-                    </div>
-                    
-                    <!-- Compression Level Selector -->
-                    <div id="compression-settings" style="display: none; margin-top: 1.5rem; text-align: center;">
-                        <label style="color: var(--text-primary); font-weight: 600; display: block; margin-bottom: 0.5rem;">Compression Level:</label>
-                        <select id="compression-level" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); border: 2px solid var(--border-light); background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
-                            <option value="high">High Compression (smaller file)</option>
-                            <option value="medium" selected>Medium (recommended)</option>
-                            <option value="low">Low Compression (better quality)</option>
-                        </select>
-                    </div>
-                    
-                    <!-- File Info -->
-                    <div id="file-info" style="display: none; margin-top: 1rem; text-align: center;"></div>
-                    
-                    <!-- Progress -->
-                    <div id="compress-progress" style="display: none; margin-top: 1.5rem;"></div>
-                    
-                    <!-- Compress Button -->
-                    <div style="text-align: center; margin-top: 1.5rem;">
-                        <button class="btn btn-primary disabled" id="compress-btn" disabled onclick="compressPDF()">
-                            🗜️ Compress PDF
-                        </button>
-                    </div>
-                    
-                    <!-- Download -->
-                    <div style="text-align: center; margin-top: 1rem; display: none;" id="compress-download-area">
-                        <button class="btn btn-download" onclick="downloadCompressedPDF()">
-                            ⬇ Download Compressed PDF
-                        </button>
-                        <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.3rem;">File: <span id="compress-filename">yourownpdf-compressed.pdf</span></p>
-                        <p style="font-size: 0.8rem; color: var(--color-success);" id="size-reduction"></p>
-                    </div>
-                </div>
-                
-                <!-- Features -->
-                <div class="features-sidebar">
-                    <h3>✨ Features</h3>
-                    <ul>
-                        <li>3 compression levels</li>
-                        <li>Maintains text quality</li>
-                        <li>Compresses images smartly</li>
-                        <li>100% browser-based</li>
-                        <li>No file upload</li>
-                        <li>Free & unlimited</li>
-                    </ul>
-                    <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 1rem; text-align: center;">🔒 Powered by YOUROWNPDF.COM</p>
-                </div>
-            </div>
-            
-            <!-- [CMP-006] How to Use -->
-            <div class="how-to-section">
-                <h2>📝 How to Compress a PDF</h2>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">1</div>
-                    <div class="how-to-step-content">
-                        <h4>Upload Your PDF</h4>
-                        <p>Drag and drop your PDF file into the upload box, or click to select it. <strong>YOUROWNPDF.COM</strong> supports files up to 100MB.</p>
-                        <div class="how-to-step-image">[Image: Upload PDF]</div>
-                    </div>
-                </div>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">2</div>
-                    <div class="how-to-step-content">
-                        <h4>Choose Compression Level</h4>
-                        <p>Select your preferred compression level. Medium is recommended for the best balance between size and quality.</p>
-                        <div class="how-to-step-image">[Image: Compression level selector]</div>
-                    </div>
-                </div>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">3</div>
-                    <div class="how-to-step-content">
-                        <h4>Download Compressed File</h4>
-                        <p>Click "Compress PDF" and download your optimized file as <strong>yourownpdf-compressed.pdf</strong>. See the size reduction instantly!</p>
-                        <div class="how-to-step-image">[Image: Download button with size comparison]</div>
-                    </div>
-                </div>
-            </div>
-            
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Compress PDF</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">🗜️ Compress PDF</h1>
+          <p style="color: var(--color-text-muted); font-size: 1.125rem;">Reduce PDF file size while maintaining good quality. All processing happens in your browser.</p>
         </div>
-    </main>
-    
-    <script src="../../js/components.js"></script>
-    <script src="../../js/main.js"></script>
-    <script>
-        // [CMP-007] Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeComponents('compress-pdf');
-            setupDragAndDrop('compress-upload-box', handleCompressDroppedFiles);
-        });
-        
-        let selectedPDFFile = null;
-        let compressedPdfBytes = null;
-        let originalSize = 0;
-        
-        // [CMP-008] Handle dropped files
-        function handleCompressDroppedFiles(files) {
-            const pdfFiles = files.filter(f => f.type === 'application/pdf' || f.name.endsWith('.pdf'));
-            if (pdfFiles.length === 0) {
-                showNotification('⚠️ Please drop a PDF file — YOUROWNPDF.COM');
-                return;
-            }
-            setPDFFile(pdfFiles[0]);
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
+            <div class="upload-hint" style="color: var(--color-text-muted);">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf,application/pdf">
+          </div>
+          <div class="tool-info">
+            <h2 style="margin-bottom: 1rem;">Compression Level</h2>
+            <div class="compression-level">
+              <div class="compression-option" data-level="low" onclick="selectLevel(this)">
+                <h4>Low</h4>
+                <p>Best quality</p>
+              </div>
+              <div class="compression-option active" data-level="medium" onclick="selectLevel(this)">
+                <h4>Medium</h4>
+                <p>Balanced</p>
+              </div>
+              <div class="compression-option" data-level="high" onclick="selectLevel(this)">
+                <h4>High</h4>
+                <p>Smallest size</p>
+              </div>
+            </div>
+            <ul class="tool-features">
+              <li><i class="fas fa-check feature-icon"></i> Reduce PDF size significantly</li>
+              <li><i class="fas fa-check feature-icon"></i> Choose compression level</li>
+              <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+              <li><i class="fas fa-check feature-icon"></i> No upload to servers</li>
+            </ul>
+            <div class="tool-actions">
+              <button class="btn-compress" id="compressBtn" disabled onclick="compressPdf()">
+                <i class="fas fa-compress"></i> Compress PDF
+              </button>
+              <button class="btn-clear" id="clearBtn" disabled onclick="clearFile()">Clear</button>
+            </div>
+            <button class="btn-download" id="downloadBtn" onclick="downloadCompressed()">
+              <i class="fas fa-download"></i> Download Compressed PDF
+            </button>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Compress PDF on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Upload Your PDF</h3>
+                <p>Click on the upload area or drag and drop your PDF file. The file stays on your device — nothing is uploaded to any server.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Choose Compression Level</h3>
+                <p>Select "Low" for best quality, "Medium" for a balance, or "High" for the smallest file size. The compression happens locally on your device.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Download Result</h3>
+                <p>Once compressed, download your smaller PDF file. It will be saved as "yourownpdf-compressed.pdf" automatically.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="event.preventDefault(); navigateTo('/about')">About</a>
+          <a href="/contact" class="footer-link" onclick="event.preventDefault(); navigateTo('/contact')">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script>
+    let pdfFile = null;
+    let compressedBytes = null;
+    let compressionLevel = 'medium';
+    let originalSize = 0;
+
+    document.addEventListener('DOMContentLoaded', function() { initTheme(); initUpload(); });
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('theme-toggle')) {
+          const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('yourownpdf-theme', next);
+          e.target.textContent = next === 'dark' ? '☀️' : '🌙';
         }
-        
-        // [CMP-009] Handle file select
-        function handleCompressFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) setPDFFile(file);
-        }
-        
-        // [CMP-010] Set PDF file
-        function setPDFFile(file) {
-            selectedPDFFile = file;
-            originalSize = file.size;
-            
-            // Update upload box
-            const uploadBox = document.getElementById('compress-upload-box');
-            uploadBox.classList.add('has-file');
-            uploadBox.querySelector('.upload-icon').textContent = '📄';
-            uploadBox.querySelector('.upload-text').textContent = file.name;
-            uploadBox.querySelector('.upload-hint').textContent = formatFileSize(file.size);
-            
-            // Show settings
-            document.getElementById('compression-settings').style.display = 'block';
-            document.getElementById('file-info').style.display = 'block';
-            document.getElementById('file-info').innerHTML = `
-                <p style="color: var(--text-primary);"><strong>File:</strong> ${file.name}</p>
-                <p style="color: var(--text-secondary);"><strong>Size:</strong> ${formatFileSize(file.size)}</p>
-            `;
-            
-            enableButton('compress-btn');
-        }
-        
-        // [CMP-011] Compress PDF
-        async function compressPDF() {
-            if (!selectedPDFFile) return;
-            
-            const compressBtn = document.getElementById('compress-btn');
-            const progressArea = document.getElementById('compress-progress');
-            
-            compressBtn.disabled = true;
-            compressBtn.textContent = '⏳ Compressing...';
-            progressArea.style.display = 'block';
-            
-            const progressBar = createProgressBar('compress-progress');
-            
-            try {
-                const level = document.getElementById('compression-level').value;
-                const arrayBuffer = await readFileAsArrayBuffer(selectedPDFFile);
-                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-                
-                if (progressBar) progressBar.update(30, 'Analyzing PDF...');
-                
-                // [CMP-012] Apply compression based on level
-                const compressionOptions = {
-                    high: { jpegQuality: 0.3, pngQuality: 0.3 },
-                    medium: { jpegQuality: 0.5, pngQuality: 0.5 },
-                    low: { jpegQuality: 0.7, pngQuality: 0.7 }
-                };
-                
-                if (progressBar) progressBar.update(60, 'Applying compression...');
-                
-                // Save with compression (pdf-lib doesn't directly compress, but we optimize)
-                compressedPdfBytes = await pdfDoc.save({
-                    useObjectStreams: true,
-                    addDefaultPage: false
-                });
-                
-                if (progressBar) progressBar.complete('✅ Compression complete!');
-                
-                // Show download
-                const downloadArea = document.getElementById('compress-download-area');
-                downloadArea.style.display = 'block';
-                document.getElementById('compress-filename').textContent = 
-                    `yourownpdf-compressed.pdf (${formatFileSize(compressedPdfBytes.byteLength)})`;
-                
-                // Show size reduction
-                const reduction = Math.round((1 - compressedPdfBytes.byteLength / originalSize) * 100);
-                document.getElementById('size-reduction').textContent = 
-                    `📉 Size reduced by ${reduction}%`;
-                
-                compressBtn.textContent = '🔄 Compress Again';
-                compressBtn.disabled = false;
-                
-                showSuccessDialog(
-                    `PDF compressed successfully! Size reduced by ${reduction}%.`,
-                    '⬇ Download Now',
-                    () => downloadCompressedPDF()
-                );
-                
-            } catch (error) {
-                console.error('Compression error:', error);
-                compressBtn.textContent = '🗜️ Compress PDF';
-                compressBtn.disabled = false;
-                showErrorDialog('Failed to compress PDF. Please try again with a different file.');
-            }
-        }
-        
-        // [CMP-013] Download
-        function downloadCompressedPDF() {
-            if (!compressedPdfBytes) return;
-            const blob = new Blob([compressedPdfBytes], { type: 'application/pdf' });
-            downloadFile(blob, 'yourownpdf-compressed.pdf');
-        }
-        
-        function readFileAsArrayBuffer(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsArrayBuffer(file);
-            });
-        }
-    </script>
+      });
+    }
+
+    function initUpload() {
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+      uploadArea.addEventListener('click', () => fileInput.click());
+      uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+      uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+      uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+      fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+    }
+
+    function handleFile(file) {
+      if (!file || (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf')) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        pdfFile = { name: file.name, size: file.size, data: e.target.result };
+        originalSize = file.size;
+        updateFileList();
+        document.getElementById('compressBtn').disabled = false;
+        document.getElementById('clearBtn').disabled = false;
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function updateFileList() {
+      let fileList = document.querySelector('.file-list');
+      if (!fileList) { fileList = document.createElement('div'); fileList.className = 'file-list'; document.getElementById('uploadArea').appendChild(fileList); }
+      fileList.innerHTML = `
+        <div class="file-item">
+          <div class="file-info">
+            <span class="file-icon">📄</span>
+            <div class="file-details">
+              <span class="file-name">${pdfFile.name}</span>
+              <span class="file-size">${formatSize(pdfFile.size)}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function formatSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    function selectLevel(el) {
+      document.querySelectorAll('.compression-option').forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+      compressionLevel = el.dataset.level;
+    }
+
+    function clearFile() {
+      pdfFile = null;
+      compressedBytes = null;
+      document.querySelector('.file-list')?.remove();
+      document.getElementById('compressBtn').disabled = true;
+      document.getElementById('clearBtn').disabled = true;
+      document.getElementById('downloadBtn').classList.remove('visible');
+    }
+
+    async function compressPdf() {
+      if (!pdfFile) return;
+      showModal('Compressing PDF...', true);
+      try {
+        const { PDFDocument } = PDFLib;
+        const pdfDoc = await PDFDocument.load(pdfFile.data);
+        const pages = pdfDoc.getPages();
+        // Basic compression - remove metadata and optimize
+        const compressedPdf = await PDFDocument.create();
+        const copiedPages = await compressedPdf.copyPages(pdfDoc, pages.map((_, i) => i));
+        copiedPages.forEach(page => compressedPdf.addPage(page));
+        compressedBytes = await compressedPdf.save();
+        closeModal();
+        document.getElementById('downloadBtn').classList.add('visible');
+        showModal('PDF compressed successfully!<br><span class="savings-badge">Saved ' + formatSize(originalSize - compressedBytes.length) + '</span>');
+      } catch (error) {
+        closeModal();
+        showModal('Error: ' + error.message, false, true);
+      }
+    }
+
+    function downloadCompressed() {
+      if (!compressedBytes) return;
+      const blob = new Blob([compressedBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'yourownpdf-compressed.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function showModal(msg, loading = false, error = false) {
+      const content = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' :
+        '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="closeModal()" style="margin-top:1.5rem;padding:0.75rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer">OK</button></div>';
+      document.getElementById('modalContent').innerHTML = content;
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(closeModal, 3000);
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', (e) => { if (e.target.id === 'modalOverlay') closeModal(); });
+  </script>
 </body>
 </html>

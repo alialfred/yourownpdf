@@ -1,966 +1,513 @@
 <!DOCTYPE html>
-<!-- [IDX-000] YOUROWNPDF.COM - Home Page -->
 <html lang="en">
 <head>
-    <!-- [IDX-001] Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- [IDX-002] SEO Meta Tags -->
-    <title>YOUROWNPDF.COM — Free Online PDF & Image Tools | No Upload Required</title>
-    <meta name="description" content="94 free online PDF and image tools by YOUROWNPDF.COM. Merge, compress, convert PDFs. Remove background, resize images. 100% browser-based — no files ever leave your device.">
-    <meta name="keywords" content="PDF tools, image tools, merge PDF, compress PDF, background remover, PDF to Word, online PDF editor, free PDF tools, YOUROWNPDF">
-    <meta name="author" content="YOUROWNPDF.COM">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://yourownpdf.com/">
-    
-    <!-- [IDX-003] Open Graph Tags -->
-    <meta property="og:title" content="YOUROWNPDF.COM — Free Online PDF & Image Tools">
-    <meta property="og:description" content="94 free tools. No upload. 100% browser-based. Merge PDF, compress, remove background, and more.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourownpdf.com/">
-    <meta property="og:site_name" content="YOUROWNPDF.COM">
-    
-    <!-- [IDX-004] Schema.org Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "YOUROWNPDF.COM",
-        "url": "https://yourownpdf.com/",
-        "description": "Free online PDF and image tools — 100% browser-based, no file upload required.",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://yourownpdf.com/?search={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YOUROWNPDF.COM - Free online PDF and image tools. Merge, compress, split, convert, and more. 100% client-side processing.">
+  <title>YourOwnPDF.COM - Free Online PDF & Image Tools</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* IDX-003: Home page specific styles */
+    .hero {
+      background: linear-gradient(135deg, var(--color-card-hover) 0%, var(--color-bg) 100%);
+      padding: 4rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--color-border);
     }
-    </script>
-    
-    <!-- [IDX-005] Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- [IDX-006] Favicon (emoji fallback) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      color: var(--color-text-muted);
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-b);
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    .tools-section {
+      padding: 3rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title-icon {
+      font-size: 1.5rem;
+    }
+
+    .section-badge {
+      background: var(--color-b);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .ad-container {
+      margin: 2rem 0;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 2000;
+    }
+
+    .toast {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toast-success {
+      border-left: 4px solid #16a34a;
+    }
+
+    .toast-error {
+      border-left: 4px solid var(--color-b);
+    }
+
+    .toast-info {
+      border-left: 4px solid #3b82f6;
+    }
+  </style>
 </head>
 <body>
-    <!-- ============================================================
-    [IDX-007] MAIN CONTENT
-    ============================================================ -->
-    <main>
-        <!-- [IDX-008] Hero Section -->
-        <section class="page-hero">
-            <h1>Free Online PDF & Image Tools</h1>
-            <p>94 tools by <strong>YOUROWNPDF.COM</strong> — Everything runs 100% in your browser. No files ever leave your device. 🔒</p>
-        </section>
-        
-        <!-- [IDX-009] Container -->
-        <div class="container">
-            
-            <!-- ============================================================
-            [IDX-010] PDF TOOLS SECTION
-            ============================================================ -->
-            <section class="tools-section" id="pdf-tools">
-                <!-- [IDX-011] Section Heading -->
-                <h2 class="section-heading">📄 PDF Tools</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; margin-top: -1rem;">74 free PDF tools — merge, compress, convert, edit, sign, and more. Powered by <strong>YOUROWNPDF.COM</strong></p>
-                
-                <!-- [IDX-012] PDF Tools Grid -->
-                <div class="tool-grid">
-                    
-                    <!-- [IDX-013] Tool 1: Merge PDF -->
-                    <a href="tools/pdf/merge-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #F43F5E); color: white;">📄</div>
-                        </div>
-                        <span class="tool-card-title">Merge PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-014] Tool 2: Compress PDF -->
-                    <a href="tools/pdf/compress-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #3B82F6, #60A5FA); color: white;">🗜️</div>
-                        </div>
-                        <span class="tool-card-title">Compress PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-015] Tool 3: PDF to Word -->
-                    <a href="tools/pdf/pdf-to-word.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: white;">📝</div>
-                        </div>
-                        <span class="tool-card-title">PDF to Word</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-016] Tool 4: PDF to Excel -->
-                    <a href="tools/pdf/pdf-to-excel.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #10B981, #34D399); color: white;">📊</div>
-                        </div>
-                        <span class="tool-card-title">PDF to Excel</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-017] Tool 5: PDF to JPG -->
-                    <a href="tools/pdf/pdf-to-jpg.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F59E0B, #FBBF24); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to JPG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-018] Tool 6: Split PDF -->
-                    <a href="tools/pdf/split-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EC4899, #F472B6); color: white;">✂️</div>
-                        </div>
-                        <span class="tool-card-title">Split PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-019] Tool 7: e-Sign PDF -->
-                    <a href="tools/pdf/esign-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6366F1, #818CF8); color: white;">✍️</div>
-                        </div>
-                        <span class="tool-card-title">e-Sign PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-020] Tool 8: PDF Editor -->
-                    <a href="tools/pdf/pdf-editor.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #14B8A6, #2DD4BF); color: white;">✏️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Editor</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-021] Tool 9: PDF Lock -->
-                    <a href="tools/pdf/pdf-lock.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F43F5E, #FB7185); color: white;">🔒</div>
-                        </div>
-                        <span class="tool-card-title">PDF Lock</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-022] Tool 10: PDF Unlock -->
-                    <a href="tools/pdf/pdf-unlock.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0EA5E9, #38BDF8); color: white;">🔓</div>
-                        </div>
-                        <span class="tool-card-title">PDF Unlock</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-023] Tool 11: PDF to PNG -->
-                    <a href="tools/pdf/pdf-to-png.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #D946EF, #E879F9); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to PNG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-024] Tool 12: Rotate PDF -->
-                    <a href="tools/pdf/rotate-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F97316, #FB923C); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">Rotate PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-025] Tool 13: Delete PDF Pages -->
-                    <a href="tools/pdf/delete-pdf-pages.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EF4444, #F87171); color: white;">🗑️</div>
-                        </div>
-                        <span class="tool-card-title">Delete PDF Pages</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-026] Tool 14: Add Page Numbers -->
-                    <a href="tools/pdf/add-page-numbers.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #84CC16, #A3E635); color: white;">🔢</div>
-                        </div>
-                        <span class="tool-card-title">Add Page Numbers</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-027] Tool 15: PDF to PowerPoint -->
-                    <a href="tools/pdf/pdf-to-ppt.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F472B6, #F9A8D4); color: white;">📽️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to PowerPoint</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-028] Tool 16: PowerPoint to PDF -->
-                    <a href="tools/pdf/ppt-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FBBF24, #FCD34D); color: white;">📊</div>
-                        </div>
-                        <span class="tool-card-title">PowerPoint to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-029] Tool 17: Word to PDF -->
-                    <a href="tools/pdf/word-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #34D399, #6EE7B7); color: white;">📄</div>
-                        </div>
-                        <span class="tool-card-title">Word to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-030] Tool 18: Excel to PDF -->
-                    <a href="tools/pdf/excel-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #A3E635, #BEF264); color: white;">📈</div>
-                        </div>
-                        <span class="tool-card-title">Excel to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-031] Tool 19: JPG to PDF -->
-                    <a href="tools/pdf/jpg-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F87171, #FCA5A5); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">JPG to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-032] Tool 20: PNG to PDF -->
-                    <a href="tools/pdf/png-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #818CF8, #A5B4FC); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PNG to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-033] Tool 21: Extract PDF Pages -->
-                    <a href="tools/pdf/extract-pdf-pages.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FB923C, #FDBA74); color: white;">📤</div>
-                        </div>
-                        <span class="tool-card-title">Extract PDF Pages</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-034] Tool 22: PDF Redact -->
-                    <a href="tools/pdf/pdf-redact.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #1E293B, #475569); color: white;">🖊️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Redact</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-035] Tool 23: PDF OCR -->
-                    <a href="tools/pdf/pdf-ocr.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: white;">👁️</div>
-                        </div>
-                        <span class="tool-card-title">PDF OCR</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-036] Tool 24: PDF to Text -->
-                    <a href="tools/pdf/pdf-to-text.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #2563EB, #60A5FA); color: white;">📃</div>
-                        </div>
-                        <span class="tool-card-title">PDF to Text</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-037] Tool 25: PDF to HTML -->
-                    <a href="tools/pdf/pdf-to-html.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0891B2, #22D3EE); color: white;">🌐</div>
-                        </div>
-                        <span class="tool-card-title">PDF to HTML</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-038] Tool 26: Add Watermark -->
-                    <a href="tools/pdf/add-watermark.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #B45309, #D97706); color: white;">💧</div>
-                        </div>
-                        <span class="tool-card-title">Add Watermark</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-039] Tool 27: Remove Watermark -->
-                    <a href="tools/pdf/remove-watermark.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #059669, #10B981); color: white;">🧹</div>
-                        </div>
-                        <span class="tool-card-title">Remove Watermark</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-040] Tool 28: PDF Page Remover -->
-                    <a href="tools/pdf/page-remover.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #DC2626, #EF4444); color: white;">❌</div>
-                        </div>
-                        <span class="tool-card-title">PDF Page Remover</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-041] Tool 29: PDF Compare -->
-                    <a href="tools/pdf/pdf-compare.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #4F46E5, #6366F1); color: white;">⚖️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Compare</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-042] Tool 30: PDF Repair -->
-                    <a href="tools/pdf/pdf-repair.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F59E0B, #FBBF24); color: white;">🔧</div>
-                        </div>
-                        <span class="tool-card-title">PDF Repair</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-043] Tool 31: PDF Metadata Editor -->
-                    <a href="tools/pdf/metadata-editor.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6B7280, #9CA3AF); color: white;">🏷️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Metadata Editor</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-044] Tool 32: PDF Bookmark Editor -->
-                    <a href="tools/pdf/bookmark-editor.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #3B82F6, #93C5FD); color: white;">🔖</div>
-                        </div>
-                        <span class="tool-card-title">PDF Bookmark Editor</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-045] Tool 33: PDF to TIFF -->
-                    <a href="tools/pdf/pdf-to-tiff.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #8B5CF6, #C4B5FD); color: white;">🏞️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to TIFF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-046] Tool 34: PDF to BMP -->
-                    <a href="tools/pdf/pdf-to-bmp.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EC4899, #F9A8D4); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to BMP</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-047] Tool 35: PDF to SVG -->
-                    <a href="tools/pdf/pdf-to-svg.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #14B8A6, #5EEAD4); color: white;">🖋️</div>
-                        </div>
-                        <span class="tool-card-title">PDF to SVG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-048] Tool 36: PDF to Grayscale -->
-                    <a href="tools/pdf/pdf-to-grayscale.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6B7280, #D1D5DB); color: white;">⬜</div>
-                        </div>
-                        <span class="tool-card-title">PDF to Grayscale</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-049] Tool 37: Crop PDF -->
-                    <a href="tools/pdf/crop-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F97316, #FDBA74); color: white;">✂️</div>
-                        </div>
-                        <span class="tool-card-title">Crop PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-050] Tool 38: Resize PDF -->
-                    <a href="tools/pdf/resize-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #84CC16, #BEF264); color: white;">📐</div>
-                        </div>
-                        <span class="tool-card-title">Resize PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-051] Tool 39: PDF Annotate -->
-                    <a href="tools/pdf/pdf-annotate.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #FB7185); color: white;">🖍️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Annotate</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-052] Tool 40: PDF Highlighter -->
-                    <a href="tools/pdf/pdf-highlighter.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FBBF24, #FDE68A); color: #78350F;">🖊️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Highlighter</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-053] Tool 41: PDF Underline -->
-                    <a href="tools/pdf/pdf-underline.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0EA5E9, #7DD3FC); color: white;">✍️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Underline</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-054] Tool 42: PDF Strikethrough -->
-                    <a href="tools/pdf/pdf-strikethrough.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #DC2626, #FCA5A5); color: white;">✏️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Strikethrough</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-055] Tool 43: PDF Form Filler -->
-                    <a href="tools/pdf/pdf-form-filler.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #7C3AED, #A78BFA); color: white;">📋</div>
-                        </div>
-                        <span class="tool-card-title">PDF Form Filler</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-056] Tool 44: PDF Signature Creator -->
-                    <a href="tools/pdf/signature-creator.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6366F1, #818CF8); color: white;">🖋️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Signature Creator</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-057] Tool 45: PDF Stamp -->
-                    <a href="tools/pdf/pdf-stamp.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #D946EF, #E879F9); color: white;">🏷️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Stamp</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-058] Tool 46: PDF Bates Numbering -->
-                    <a href="tools/pdf/bates-numbering.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #475569, #94A3B8); color: white;">🔢</div>
-                        </div>
-                        <span class="tool-card-title">PDF Bates Numbering</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-059] Tool 47: PDF Overlay -->
-                    <a href="tools/pdf/pdf-overlay.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0F766E, #14B8A6); color: white;">🪞</div>
-                        </div>
-                        <span class="tool-card-title">PDF Overlay</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-060] Tool 48: PDF Flatten -->
-                    <a href="tools/pdf/pdf-flatten.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #B45309, #D97706); color: white;">🔨</div>
-                        </div>
-                        <span class="tool-card-title">PDF Flatten</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-061] Tool 49: PDF Optimize for Web -->
-                    <a href="tools/pdf/pdf-optimize-web.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #2563EB, #3B82F6); color: white;">⚡</div>
-                        </div>
-                        <span class="tool-card-title">PDF Optimize for Web</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-062] Tool 50: PDF to PDF/A -->
-                    <a href="tools/pdf/pdf-to-pdfa.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0891B2, #06B6D4); color: white;">📚</div>
-                        </div>
-                        <span class="tool-card-title">PDF to PDF/A</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-063] Tool 51: PDF Split by Size -->
-                    <a href="tools/pdf/pdf-split-by-size.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #A855F7, #C084FC); color: white;">📏</div>
-                        </div>
-                        <span class="tool-card-title">PDF Split by Size</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-064] Tool 52: PDF Merge by Folder -->
-                    <a href="tools/pdf/pdf-merge-folder.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #F43F5E); color: white;">📁</div>
-                        </div>
-                        <span class="tool-card-title">PDF Merge by Folder</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-065] Tool 53: PDF Extract Images -->
-                    <a href="tools/pdf/pdf-extract-images.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #10B981, #34D399); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Extract Images</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-066] Tool 54: PDF Extract Text Only -->
-                    <a href="tools/pdf/pdf-extract-text.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F59E0B, #FBBF24); color: white;">📝</div>
-                        </div>
-                        <span class="tool-card-title">PDF Extract Text Only</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-067] Tool 55: PDF Header Footer Add -->
-                    <a href="tools/pdf/header-footer-add.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #4B5563, #6B7280); color: white;">📰</div>
-                        </div>
-                        <span class="tool-card-title">PDF Header Footer Add</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-068] Tool 56: PDF Header Footer Remove -->
-                    <a href="tools/pdf/header-footer-remove.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #9CA3AF, #D1D5DB); color: white;">🗑️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Header Footer Remove</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-069] Tool 57: PDF Rotate Specific Pages -->
-                    <a href="tools/pdf/rotate-specific-pages.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F97316, #FB923C); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">PDF Rotate Specific Pages</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-070] Tool 58: PDF Duplicate Remover -->
-                    <a href="tools/pdf/pdf-duplicate-remover.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EF4444, #F87171); color: white;">♊</div>
-                        </div>
-                        <span class="tool-card-title">PDF Duplicate Remover</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-071] Tool 59: PDF Blank Page Remover -->
-                    <a href="tools/pdf/blank-page-remover.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FBBF24, #FCD34D); color: white;">📄</div>
-                        </div>
-                        <span class="tool-card-title">PDF Blank Page Remover</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-072] Tool 60: PDF Even/Odd Page Extractor -->
-                    <a href="tools/pdf/even-odd-extractor.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: white;">🔀</div>
-                        </div>
-                        <span class="tool-card-title">PDF Even/Odd Page Extractor</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-073] Tool 61: PDF Page Inserter -->
-                    <a href="tools/pdf/page-inserter.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EC4899, #F472B6); color: white;">➕</div>
-                        </div>
-                        <span class="tool-card-title">PDF Page Inserter</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-074] Tool 62: PDF URL to PDF -->
-                    <a href="tools/pdf/url-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0EA5E9, #38BDF8); color: white;">🌐</div>
-                        </div>
-                        <span class="tool-card-title">URL to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-075] Tool 63: PDF Email to PDF -->
-                    <a href="tools/pdf/email-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #DC2626, #EF4444); color: white;">📧</div>
-                        </div>
-                        <span class="tool-card-title">Email to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-076] Tool 64: PDF Scanner Effect -->
-                    <a href="tools/pdf/scanner-effect.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6EE7B7, #A7F3D0); color: #064E3B;">📷</div>
-                        </div>
-                        <span class="tool-card-title">PDF Scanner Effect</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-077] Tool 65: PDF Deskew -->
-                    <a href="tools/pdf/pdf-deskew.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FDE68A, #FEF3C7); color: #78350F;">📐</div>
-                        </div>
-                        <span class="tool-card-title">PDF Deskew</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-078] Tool 66: PDF Despeckle -->
-                    <a href="tools/pdf/pdf-despeckle.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #CFFAFE, #A5F3FC); color: #164E63;">🧹</div>
-                        </div>
-                        <span class="tool-card-title">PDF Despeckle</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-079] Tool 67: PDF Border Add -->
-                    <a href="tools/pdf/border-add.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FB923C, #FDBA74); color: white;">⬛</div>
-                        </div>
-                        <span class="tool-card-title">PDF Border Add</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-080] Tool 68: PDF Border Remove -->
-                    <a href="tools/pdf/border-remove.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FCA5A5, #FECACA); color: #7F1D1D;">✂️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Border Remove</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-081] Tool 69: PDF Negative Effect -->
-                    <a href="tools/pdf/pdf-negative.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #1E293B, #475569); color: white;">🎞️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Negative Effect</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-082] Tool 70: PDF Sepia Effect -->
-                    <a href="tools/pdf/pdf-sepia.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #D97706, #F59E0B); color: white;">🏛️</div>
-                        </div>
-                        <span class="tool-card-title">PDF Sepia Effect</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-083] Tool 71: PDF Sharpen Text -->
-                    <a href="tools/pdf/pdf-sharpen-text.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #4F46E5, #6366F1); color: white;">🔍</div>
-                        </div>
-                        <span class="tool-card-title">PDF Sharpen Text</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-084] Tool 72: PDF to Base64 -->
-                    <a href="tools/pdf/pdf-to-base64.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: white;">🔣</div>
-                        </div>
-                        <span class="tool-card-title">PDF to Base64</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-085] Tool 73: PDF from Base64 -->
-                    <a href="tools/pdf/pdf-from-base64.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #A78BFA, #C4B5FD); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">PDF from Base64</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-086] Tool 74: PDF File Info Viewer -->
-                    <a href="tools/pdf/pdf-file-info.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6B7280, #9CA3AF); color: white;">ℹ️</div>
-                        </div>
-                        <span class="tool-card-title">PDF File Info Viewer</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                </div><!-- /PDF Tools Grid -->
-            </section><!-- /PDF Tools Section -->
-            
-            <!-- [IDX-087] Ad Placeholder Between Sections -->
-            <div class="ad-placeholder">📢 Advertisement — YOUROWNPDF.COM</div>
-            
-            <!-- ============================================================
-            [IDX-088] IMAGE TOOLS SECTION
-            ============================================================ -->
-            <section class="tools-section" id="image-tools">
-                <!-- [IDX-089] Section Heading -->
-                <h2 class="section-heading">🖼️ Image Tools</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; margin-top: -1rem;">20 free image tools — remove background, resize, convert, compress, and more. Powered by <strong>YOUROWNPDF.COM</strong></p>
-                
-                <!-- [IDX-090] Image Tools Grid -->
-                <div class="tool-grid">
-                    
-                    <!-- [IDX-091] Tool 1: Background Remover -->
-                    <a href="tools/image/remove-background.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #F43F5E); color: white;">🎭</div>
-                        </div>
-                        <span class="tool-card-title">Background Remover</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-092] Tool 2: Image Resize -->
-                    <a href="tools/image/resize-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #3B82F6, #60A5FA); color: white;">📐</div>
-                        </div>
-                        <span class="tool-card-title">Resize Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-093] Tool 3: JPG to PNG -->
-                    <a href="tools/image/jpg-to-png.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F59E0B, #FBBF24); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">JPG to PNG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-094] Tool 4: PNG to JPG -->
-                    <a href="tools/image/png-to-jpg.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">PNG to JPG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-095] Tool 5: Compress Image -->
-                    <a href="tools/image/compress-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #10B981, #34D399); color: white;">🗜️</div>
-                        </div>
-                        <span class="tool-card-title">Compress Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-096] Tool 6: Crop Image -->
-                    <a href="tools/image/crop-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F97316, #FB923C); color: white;">✂️</div>
-                        </div>
-                        <span class="tool-card-title">Crop Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-097] Tool 7: Image to PDF -->
-                    <a href="tools/image/image-to-pdf.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #EC4899, #F472B6); color: white;">📄</div>
-                        </div>
-                        <span class="tool-card-title">Image to PDF</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-098] Tool 8: WebP to PNG -->
-                    <a href="tools/image/webp-to-png.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6366F1, #818CF8); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">WebP to PNG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-099] Tool 9: PNG to WebP -->
-                    <a href="tools/image/png-to-webp.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #14B8A6, #2DD4BF); color: white;">🖼️</div>
-                        </div>
-                        <span class="tool-card-title">PNG to WebP</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-100] Tool 10: Rotate Image -->
-                    <a href="tools/image/rotate-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F43F5E, #FB7185); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">Rotate Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-101] Tool 11: Flip Image -->
-                    <a href="tools/image/flip-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #0EA5E9, #38BDF8); color: white;">🪞</div>
-                        </div>
-                        <span class="tool-card-title">Flip Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-102] Tool 12: Mirror Image -->
-                    <a href="tools/image/mirror-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #D946EF, #E879F9); color: white;">🪞</div>
-                        </div>
-                        <span class="tool-card-title">Mirror Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-103] Tool 13: Grayscale Image -->
-                    <a href="tools/image/grayscale-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #6B7280, #D1D5DB); color: white;">⬜</div>
-                        </div>
-                        <span class="tool-card-title">Grayscale Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-104] Tool 14: Image Color Adjust -->
-                    <a href="tools/image/color-adjust.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #F59E0B, #FDE68A); color: #78350F;">🎨</div>
-                        </div>
-                        <span class="tool-card-title">Image Color Adjust</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-105] Tool 15: Blur Image -->
-                    <a href="tools/image/blur-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #A5F3FC, #CFFAFE); color: #164E63;">🌫️</div>
-                        </div>
-                        <span class="tool-card-title">Blur Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-106] Tool 16: Image to Base64 -->
-                    <a href="tools/image/image-to-base64.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: white;">🔣</div>
-                        </div>
-                        <span class="tool-card-title">Image to Base64</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-107] Tool 17: Base64 to Image -->
-                    <a href="tools/image/base64-to-image.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #A78BFA, #C4B5FD); color: white;">🔄</div>
-                        </div>
-                        <span class="tool-card-title">Base64 to Image</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-108] Tool 18: HEIC to JPG -->
-                    <a href="tools/image/heic-to-jpg.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #34D399, #6EE7B7); color: white;">📱</div>
-                        </div>
-                        <span class="tool-card-title">HEIC to JPG</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-109] Tool 19: Image Brightness/Contrast -->
-                    <a href="tools/image/brightness-contrast.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #FBBF24, #FCD34D); color: #78350F;">☀️</div>
-                        </div>
-                        <span class="tool-card-title">Brightness/Contrast</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                    <!-- [IDX-110] Tool 20: Image Sharpener -->
-                    <a href="tools/image/image-sharpener.html" class="tool-card">
-                        <div class="tool-card-icon">
-                            <div class="tool-3d-icon" style="background: linear-gradient(135deg, #4F46E5, #6366F1); color: white;">🔍</div>
-                        </div>
-                        <span class="tool-card-title">Image Sharpener</span>
-                        <span class="tool-card-subtitle">yourownpdf.com</span>
-                    </a>
-                    
-                </div><!-- /Image Tools Grid -->
-            </section><!-- /Image Tools Section -->
-            
-            <!-- [IDX-111] Bottom Ad Placeholder -->
-            <div class="ad-placeholder">📢 Advertisement — YOUROWNPDF.COM</div>
-            
-        </div><!-- /Container -->
-    </main>
-    
-    <!-- ============================================================
-    [IDX-112] SCRIPTS
-    ============================================================ -->
-    <script src="js/components.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        // [IDX-113] Initialize page on load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeComponents('home');
-            
-            // [IDX-114] Check for search query in URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get('search');
-            if (searchQuery) {
-                const searchInput = document.getElementById('header-search-input');
-                if (searchInput) {
-                    searchInput.value = searchQuery;
-                    filterTools(searchQuery);
-                }
-            }
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">Own</span><span class="logo-part-b">PDF</span><span class="logo-part-b">.com</span>
+        </a>
+
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/">Home</a>
+          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('pdf-tools')">PDF Tools</a>
+          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('image-tools')">Image Tools</a>
+        </nav>
+
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/">Home</a>
+        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('pdf-tools')">PDF Tools</a>
+        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('image-tools')">Image Tools</a>
+        <div class="mobile-search">
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="mainContent">
+    <div class="container">
+      <nav class="breadcrumbs" id="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">All Tools</span>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Free Online <span style="color: var(--color-b);">PDF</span> & <span style="color: var(--color-b);">Image</span> Tools</h1>
+        <p class="hero-subtitle">100% client-side processing. Your files never leave your browser.</p>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">94</div>
+            <div class="hero-stat-label">Tools</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">100%</div>
+            <div class="hero-stat-label">Secure</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">Free</div>
+            <div class="hero-stat-label">No Registration</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="ad-container">
+        <div class="ad-placeholder">Advertisement - 728x90</div>
+      </div>
+    </div>
+
+    <section class="tools-section" id="pdf-tools">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="section-title-icon">📄</i>
+            PDF Tools
+            <span class="section-badge">74</span>
+          </h2>
+        </div>
+
+        <div class="tools-grid" id="pdfToolsGrid">
+          </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="ad-container">
+        <div class="ad-placeholder">Advertisement - 728x90</div>
+      </div>
+    </div>
+
+    <section class="tools-section" id="image-tools">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="section-title-icon">🖼️</i>
+            Image Tools
+            <span class="section-badge">20</span>
+          </h2>
+        </div>
+
+        <div class="tools-grid" id="imageToolsGrid">
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">Own</span><span class="logo-part-b">PDF</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    // IDX-023: PDF Tools Data (74 tools - ordered by popularity)
+    const pdfTools = [
+      { id: 'merge-pdf', name: 'Merge PDF', desc: 'Combine multiple PDF files into one', icon: '📑', path: '/tools/pdf/merge-pdf.html' },
+      { id: 'compress-pdf', name: 'Compress PDF', desc: 'Reduce PDF file size while maintaining quality', icon: '🗜️', path: '/tools/pdf/compress-pdf.html' },
+      { id: 'split-pdf', name: 'Split PDF', desc: 'Extract pages from a PDF file', icon: '✂️', path: '/tools/pdf/split-pdf.html' },
+      { id: 'pdf-to-jpg', name: 'PDF to JPG', desc: 'Convert PDF pages to JPEG images', icon: '🖼️', path: '/tools/pdf/pdf-to-jpg.html' },
+      { id: 'pdf-to-word', name: 'PDF to Word', desc: 'Convert PDF to editable Word document', icon: '📝', path: '/tools/pdf/pdf-to-word.html' },
+      { id: 'rotate-pdf', name: 'Rotate PDF', desc: 'Rotate PDF pages 90, 180, or 270 degrees', icon: '🔄', path: '/tools/pdf/rotate-pdf.html' },
+      { id: 'protect-pdf', name: 'Protect PDF', desc: 'Add password protection to PDF files', icon: '🔒', path: '/tools/pdf/protect-pdf.html' },
+      { id: 'unlock-pdf', name: 'Unlock PDF', desc: 'Remove password protection from PDF', icon: '🔓', path: '/tools/pdf/unlock-pdf.html' },
+      { id: 'organize-pdf', name: 'Organize PDF', desc: 'Reorder, delete, or add pages', icon: '📋', path: '/tools/pdf/organize-pdf.html' },
+      { id: 'pdf-to-png', name: 'PDF to PNG', desc: 'Convert PDF pages to PNG images', icon: '🖼️', path: '/tools/pdf/pdf-to-png.html' },
+      { id: 'extract-pages-pdf', name: 'Extract Pages', desc: 'Extract specific pages from PDF', icon: '📄', path: '/tools/pdf/extract-pages-pdf.html' },
+      { id: 'remove-pages-pdf', name: 'Remove Pages', desc: 'Delete specific pages from PDF', icon: '❌', path: '/tools/pdf/remove-pages-pdf.html' },
+      { id: 'pdf-to-excel', name: 'PDF to Excel', desc: 'Convert PDF tables to Excel spreadsheets', icon: '📊', path: '/tools/pdf/pdf-to-excel.html' },
+      { id: 'watermark-pdf', name: 'Add Watermark', desc: 'Add text or image watermark to PDF', icon: '💧', path: '/tools/pdf/watermark-pdf.html' },
+      { id: 'page-numbers-pdf', name: 'Add Page Numbers', desc: 'Add numbering to PDF pages', icon: '🔢', path: '/tools/pdf/page-numbers-pdf.html' },
+      { id: 'repair-pdf', name: 'Repair PDF', desc: 'Fix corrupted or damaged PDF files', icon: '🔧', path: '/tools/pdf/repair-pdf.html' },
+      { id: 'compare-pdf', name: 'Compare PDFs', desc: 'Compare two PDF documents', icon: '⚖️', path: '/tools/pdf/compare-pdf.html' },
+      { id: 'pdf-to-ppt', name: 'PDF to PowerPoint', desc: 'Convert PDF to PowerPoint slides', icon: '📽️', path: '/tools/pdf/pdf-to-ppt.html' },
+      { id: 'pdf-to-text', name: 'PDF to Text', desc: 'Extract text content from PDF', icon: '📃', path: '/tools/pdf/pdf-to-text.html' },
+      { id: 'pdf-to-html', name: 'PDF to HTML', desc: 'Convert PDF to HTML web page', icon: '🌐', path: '/tools/pdf/pdf-to-html.html' },
+      { id: 'flatten-pdf', name: 'Flatten PDF', desc: 'Merge layers into single flat image', icon: '📐', path: '/tools/pdf/flatten-pdf.html' },
+      { id: 'extract-images-pdf', name: 'Extract Images', desc: 'Extract all images from PDF', icon: '🖼️', path: '/tools/pdf/extract-images-pdf.html' },
+      { id: 'sign-pdf', name: 'Sign PDF', desc: 'Add digital signature to PDF', icon: '✍️', path: '/tools/pdf/sign-pdf.html' },
+      { id: 'annotate-pdf', name: 'Annotate PDF', desc: 'Add comments and highlights', icon: '📝', path: '/tools/pdf/annotate-pdf.html' },
+      { id: 'crop-pdf', name: 'Crop PDF', desc: 'Adjust page margins and crop', icon: '📐', path: '/tools/pdf/crop-pdf.html' },
+      { id: 'resize-pdf', name: 'Resize PDF', desc: 'Change PDF page dimensions', icon: '📏', path: '/tools/pdf/resize-pdf.html' },
+      { id: 'pdf-to-images', name: 'PDF to Images', desc: 'Convert all pages to images', icon: '🖼️', path: '/tools/pdf/pdf-to-images.html' },
+      { id: 'merge-pdf-options', name: 'Merge with Options', desc: 'Combine with page selection', icon: '📑', path: '/tools/pdf/merge-pdf-options.html' },
+      { id: 'compress-pdf-options', name: 'Compress Options', desc: 'Custom compression settings', icon: '🗜️', path: '/tools/pdf/compress-pdf-options.html' },
+      { id: 'rotate-all-pdf', name: 'Rotate All Pages', desc: 'Rotate all pages at once', icon: '🔄', path: '/tools/pdf/rotate-all-pdf.html' },
+      { id: 'reverse-pdf', name: 'Reverse Pages', desc: 'Reverse page order in PDF', icon: '↩️', path: '/tools/pdf/reverse-pdf.html' },
+      { id: 'extract-text-pdf', name: 'Extract Text Only', desc: 'Extract plain text from PDF', icon: '📃', path: '/tools/pdf/extract-text-pdf.html' },
+      { id: 'optimize-pdf', name: 'Optimize PDF', desc: 'Optimize for web and print', icon: '⚡', path: '/tools/pdf/optimize-pdf.html' },
+      { id: 'convert-pdf-a', name: 'Convert to PDF/A', desc: 'Create archival PDF format', icon: '📚', path: '/tools/pdf/convert-pdf-a.html' },
+      { id: 'pdf-to-mail', name: 'PDF to Email', desc: 'Convert PDF to email body', icon: '📧', path: '/tools/pdf/pdf-to-mail.html' },
+      { id: 'redact-pdf', name: 'Redact PDF', desc: 'Remove sensitive information', icon: '🛡️', path: '/tools/pdf/redact-pdf.html' },
+      { id: 'fill-form-pdf', name: 'Fill PDF Form', desc: 'Fill interactive PDF forms', icon: '📋', path: '/tools/pdf/fill-form-pdf.html' },
+      { id: 'create-form-pdf', name: 'Create PDF Form', desc: 'Create fillable PDF forms', icon: '📝', path: '/tools/pdf/create-form-pdf.html' },
+      { id: 'add-bookmarks-pdf', name: 'Add Bookmarks', desc: 'Add navigation bookmarks', icon: '🔖', path: '/tools/pdf/add-bookmarks-pdf.html' },
+      { id: 'extract-links-pdf', name: 'Extract Links', desc: 'Extract all hyperlinks from PDF', icon: '🔗', path: '/tools/pdf/extract-links-pdf.html' },
+      { id: 'convert-html-to-pdf', name: 'HTML to PDF', desc: 'Convert web pages to PDF', icon: '🌐', path: '/tools/pdf/convert-html-to-pdf.html' },
+      { id: 'pdf-reviews', name: 'PDF Reviews', desc: 'Add review comments to PDF', icon: '⭐', path: '/tools/pdf/pdf-reviews.html' },
+      { id: 'pdf-encrypt', name: 'Encrypt PDF', desc: 'Encrypt PDF with AES-256', icon: '🔐', path: '/tools/pdf/pdf-encrypt.html' },
+      { id: 'pdf-decrypt', name: 'Decrypt PDF', desc: 'Remove encryption from PDF', icon: '🔓', path: '/tools/pdf/pdf-decrypt.html' },
+      { id: 'pdf-digitalsignature', name: 'Digital Signature', desc: 'Add certificate-based signature', icon: '📜', path: '/tools/pdf/pdf-digitalsignature.html' },
+      { id: 'pdf-timestamp', name: 'Timestamp', desc: 'Add trusted timestamp', icon: '⏰', path: '/tools/pdf/pdf-timestamp.html' },
+      { id: 'pdf-to-xps', name: 'PDF to XPS', desc: 'Convert PDF to XPS format', icon: '📄', path: '/tools/pdf/pdf-to-xps.html' },
+      { id: 'pdf-to-svg', name: 'PDF to SVG', desc: 'Convert PDF to vector graphics', icon: '🎨', path: '/tools/pdf/pdf-to-svg.html' },
+      { id: 'pdf-to-rtf', name: 'PDF to RTF', desc: 'Convert PDF to Rich Text', icon: '📝', path: '/tools/pdf/pdf-to-rtf.html' },
+      { id: 'pdf-to-epub', name: 'PDF to EPUB', desc: 'Convert PDF to eBook', icon: '📱', path: '/tools/pdf/pdf-to-epub.html' },
+      { id: 'pdf-to-txt', name: 'PDF to TXT', desc: 'Convert to plain text', icon: '📃', path: '/tools/pdf/pdf-to-txt.html' },
+      { id: 'pdf-to-tiff', name: 'PDF to TIFF', desc: 'Convert to TIFF image', icon: '🖼️', path: '/tools/pdf/pdf-to-tiff.html' },
+      { id: 'pdf-to-bmp', name: 'PDF to BMP', desc: 'Convert to BMP image', icon: '🖼️', path: '/tools/pdf/pdf-to-bmp.html' },
+      { id: 'pdf-to-gif', name: 'PDF to GIF', desc: 'Convert to GIF animation', icon: '🎞️', path: '/tools/pdf/pdf-to-gif.html' },
+      { id: 'merge-2-pdf', name: 'Merge 2 PDFs', desc: 'Combine two PDF files', icon: '📑', path: '/tools/pdf/merge-2-pdf.html' },
+      { id: 'merge-3-pdf', name: 'Merge 3 PDFs', desc: 'Combine three PDF files', icon: '📑', path: '/tools/pdf/merge-3-pdf.html' },
+      { id: 'merge-4-pdf', name: 'Merge 4 PDFs', desc: 'Combine four PDF files', icon: '📑', path: '/tools/pdf/merge-4-pdf.html' },
+      { id: 'merge-5-pdf', name: 'Merge 5 PDFs', desc: 'Combine five PDF files', icon: '📑', path: '/tools/pdf/merge-5-pdf.html' },
+      { id: 'split-2-pdf', name: 'Split into 2', desc: 'Divide PDF into 2 parts', icon: '✂️', path: '/tools/pdf/split-2-pdf.html' },
+      { id: 'split-3-pdf', name: 'Split into 3', desc: 'Divide PDF into 3 parts', icon: '✂️', path: '/tools/pdf/split-3-pdf.html' },
+      { id: 'split-4-pdf', name: 'Split into 4', desc: 'Divide PDF into 4 parts', icon: '✂️', path: '/tools/pdf/split-4-pdf.html' },
+      { id: 'split-range-pdf', name: 'Split by Range', desc: 'Split by page ranges', icon: '✂️', path: '/tools/pdf/split-range-pdf.html' },
+      { id: 'split-every-pdf', name: 'Split Every N', desc: 'Split every N pages', icon: '✂️', path: '/tools/pdf/split-every-pdf.html' },
+      { id: 'extract-first-pdf', name: 'Extract First Page', desc: 'Get first page only', icon: '📄', path: '/tools/pdf/extract-first-pdf.html' },
+      { id: 'extract-last-pdf', name: 'Extract Last Page', desc: 'Get last page only', icon: '📄', path: '/tools/pdf/extract-last-pdf.html' },
+      { id: 'extract-odd-pdf', name: 'Extract Odd Pages', desc: 'Get odd-numbered pages', icon: '📄', path: '/tools/pdf/extract-odd-pdf.html' },
+      { id: 'extract-even-pdf', name: 'Extract Even Pages', desc: 'Get even-numbered pages', icon: '📄', path: '/tools/pdf/extract-even-pdf.html' },
+      { id: 'delete-first-pdf', name: 'Delete First Page', desc: 'Remove first page', icon: '❌', path: '/tools/pdf/delete-first-pdf.html' },
+      { id: 'delete-last-pdf', name: 'Delete Last Page', desc: 'Remove last page', icon: '❌', path: '/tools/pdf/delete-last-pdf.html' },
+      { id: 'delete-blank-pdf', name: 'Remove Blank Pages', desc: 'Delete empty pages', icon: '❌', path: '/tools/pdf/delete-blank-pdf.html' },
+      { id: 'delete-duplicate-pdf', name: 'Remove Duplicates', desc: 'Delete duplicate pages', icon: '❌', path: '/tools/pdf/delete-duplicate-pdf.html' },
+      { id: 'reorder-pdf', name: 'Reorder Pages', desc: 'Drag and drop reorder', icon: '📋', path: '/tools/pdf/reorder-pdf.html' }
+    ];
+
+    // IDX-024: Image Tools Data (20 tools - ordered by popularity)
+    const imageTools = [
+      { id: 'compress-image', name: 'Compress Image', desc: 'Reduce image file size', icon: '🗜️', path: '/tools/image/compress.html' },
+      { id: 'resize-image', name: 'Resize Image', desc: 'Change image dimensions', icon: '📏', path: '/tools/image/resize.html' },
+      { id: 'crop-image', name: 'Crop Image', desc: 'Cut image to specific area', icon: '✂️', path: '/tools/image/crop.html' },
+      { id: 'rotate-image', name: 'Rotate Image', desc: 'Rotate image 90/180/270 degrees', icon: '🔄', path: '/tools/image/rotate.html' },
+      { id: 'jpg-to-png', name: 'JPG to PNG', desc: 'Convert JPEG to PNG', icon: '🔄', path: '/tools/image/convert.html' },
+      { id: 'png-to-jpg', name: 'PNG to JPG', desc: 'Convert PNG to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
+      { id: 'image-to-pdf', name: 'Image to PDF', desc: 'Convert images to PDF', icon: '📄', path: '/tools/image/image-to-pdf.html' },
+      { id: 'remove-background', name: 'Remove Background', desc: 'AI-powered background removal', icon: '🎯', path: '/tools/image/background-remove.html' },
+      { id: 'flip-image', name: 'Flip Image', desc: 'Horizontal or vertical flip', icon: '↔️', path: '/tools/image/flip.html' },
+      { id: 'grayscale-image', name: 'Grayscale', desc: 'Convert to black and white', icon: '⬛', path: '/tools/image/filters.html' },
+      { id: 'brightness-image', name: 'Adjust Brightness', desc: 'Increase or decrease brightness', icon: '☀️', path: '/tools/image/brightness.html' },
+      { id: 'contrast-image', name: 'Adjust Contrast', desc: 'Improve image contrast', icon: '◐', path: '/tools/image/contrast.html' },
+      { id: 'blur-image', name: 'Blur Image', desc: 'Apply blur effect', icon: '🌫️', path: '/tools/image/blur.html' },
+      { id: 'sharpen-image', name: 'Sharpen Image', desc: 'Enhance image clarity', icon: '🔪', path: '/tools/image/sharpen.html' },
+      { id: 'webp-to-jpg', name: 'WebP to JPG', desc: 'Convert WebP to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
+      { id: 'gif-to-png', name: 'GIF to PNG', desc: 'Convert GIF to PNG', icon: '🔄', path: '/tools/image/convert.html' },
+      { id: 'filter-image', name: 'Apply Filter', desc: 'Add artistic filters', icon: '🎨', path: '/tools/image/filters.html' },
+      { id: 'invert-image', name: 'Invert Colors', desc: 'Invert image colors', icon: '🔄', path: '/tools/image/filters.html' },
+      { id: 'saturation', name: 'Adjust Saturation', desc: 'Increase or decrease color saturation', icon: '🎨', path: '/tools/image/saturation.html' },
+      { id: 'text-overlay', name: 'Text Overlay', desc: 'Add text to images', icon: 'T', path: '/tools/image/text-overlay.html' }
+    ];
+
+    // IDX-025: Render tool cards
+    function renderToolCards() {
+      const pdfGrid = document.getElementById('pdfToolsGrid');
+      const imageGrid = document.getElementById('imageToolsGrid');
+
+      // Render PDF tools
+      pdfGrid.innerHTML = pdfTools.map(tool => `
+        <a href="${tool.path}" class="tool-card" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
+          <span class="tool-icon">${tool.icon}</span>
+          <div class="tool-title">${tool.name}</div>
+          <div class="tool-desc">${tool.desc}</div>
+        </a>
+      `).join('');
+
+      // Render Image tools
+      imageGrid.innerHTML = imageTools.map(tool => `
+        <a href="${tool.path}" class="tool-card" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
+          <span class="tool-icon">${tool.icon}</span>
+          <div class="tool-title">${tool.name}</div>
+          <div class="tool-desc">${tool.desc}</div>
+        </a>
+      `).join('');
+    }
+
+    // IDX-026: Search functionality
+    function handleSearch(query) {
+      const term = query.toLowerCase().trim();
+      const allCards = document.querySelectorAll('.tool-card');
+
+      allCards.forEach(card => {
+        const title = card.dataset.title || '';
+        const desc = card.dataset.desc || '';
+        const match = title.toLowerCase().includes(term) || desc.toLowerCase().includes(term);
+        card.style.display = match ? '' : 'none';
+      });
+
+      // Show/hide section headers
+      const pdfSection = document.getElementById('pdf-tools');
+      const imageSection = document.getElementById('image-tools');
+
+      const visiblePdfCards = pdfSection.querySelectorAll('.tool-card:not([style*="display: none"])');
+      const visibleImageCards = imageSection.querySelectorAll('.tool-card:not([style*="display: none"])');
+
+      pdfSection.querySelector('.section-header').style.display = visiblePdfCards.length ? '' : 'none';
+      imageSection.querySelector('.section-header').style.display = visibleImageCards.length ? '' : 'none';
+    }
+
+    // IDX-027: Scroll to section
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // IDX-028: Mobile menu toggle
+    function initMobileMenu() {
+      const toggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', () => {
+          toggle.classList.toggle('active');
+          mobileNav.classList.toggle('active');
         });
-    </script>
+      }
+    }
+
+    // IDX-029: Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render all tool cards
+      renderToolCards();
+
+      // Initialize mobile menu
+      initMobileMenu();
+
+      // Search handlers
+      const globalSearch = document.getElementById('globalSearch');
+      const mobileSearch = document.getElementById('mobileSearch');
+
+      if (globalSearch) {
+        globalSearch.addEventListener('input', (e) => {
+          handleSearch(e.target.value);
+          if (mobileSearch) mobileSearch.value = e.target.value;
+        });
+      }
+
+      if (mobileSearch) {
+        mobileSearch.addEventListener('input', (e) => {
+          handleSearch(e.target.value);
+          if (globalSearch) globalSearch.value = e.target.value;
+        });
+      }
+
+      // Back to top
+      const backToTop = document.getElementById('backToTop');
+      if (backToTop) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+          } else {
+            backToTop.classList.remove('visible');
+          }
+        });
+
+        backToTop.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // Theme toggle
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('theme-toggle')) {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('yourownpdf-theme', next);
+          e.target.textContent = next === 'dark' ? '☀️' : '🌙';
+        }
+      });
+
+      // Initialize theme
+      const savedTheme = localStorage.getItem('yourownpdf-theme');
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const theme = savedTheme || systemTheme;
+      document.documentElement.setAttribute('data-theme', theme);
+      const themeBtn = document.querySelector('.theme-toggle');
+      if (themeBtn) {
+        themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+
+      // Link click handlers (for clean URLs)
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href^="/tools/"]');
+        if (link) {
+          const href = link.getAttribute('href');
+          if (href && window.navigateTo) {
+            e.preventDefault();
+            navigateTo(href);
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

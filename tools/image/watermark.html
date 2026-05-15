@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Add watermark to image online. Free tool by YOUROWNPDF.COM">
+  <title>Add Watermark — Image Watermark | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .tool-upload-area:hover { border-color: var(--color-b); transform: translateY(-2px); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .preview-container { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .preview-canvas-wrap { position: relative; background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px; border-radius: 0.5rem; overflow: hidden; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    #previewCanvas { max-width: 100%; max-height: 400px; }
+    .preview-placeholder { color: var(--color-text-muted); font-size: 1.25rem; }
+    .tool-settings { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .settings-section { margin-bottom: 1.5rem; }
+    .settings-section h3 { margin-bottom: 1rem; font-size: 1.1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); }
+    .form-row { display: flex; gap: 1rem; }
+    .form-row .form-group { flex: 1; }
+    .position-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+    .position-option { padding: 0.75rem; text-align: center; background: var(--color-bg); border: 2px solid var(--color-border); border-radius: 0.5rem; cursor: pointer; font-size: 1.5rem; }
+    .position-option:hover { border-color: var(--color-b); }
+    .position-option.active { border-color: var(--color-b); background: var(--color-b); color: white; }
+    .color-input-wrap { display: flex; align-items: center; gap: 0.5rem; }
+    .color-input-wrap input[type="color"] { width: 50px; height: 40px; border: none; border-radius: 0.5rem; cursor: pointer; }
+    .slider-group { margin-bottom: 1rem; }
+    .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+    .slider-value { font-weight: 700; color: var(--color-b); }
+    input[type="range"] { width: 100%; height: 8px; -webkit-appearance: none; background: var(--color-border); border-radius: 4px; outline: none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--color-b); border-radius: 50%; cursor: pointer; }
+    .tool-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-primary { background: var(--color-b); color: white; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; display: none; }
+    .btn-download.visible { display: inline-flex; align-items: center; gap: 0.5rem; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">Image Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Watermark</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">💧 Add Watermark</h1>
+          <p style="color: var(--color-text-muted);">Protect your images with custom watermarks</p>
+        </div>
+        <div class="tool-layout">
+          <div>
+            <div class="tool-upload-area" id="uploadArea">
+              <div class="upload-icon">🖼️</div>
+              <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your image here</div>
+              <div style="color: var(--color-text-muted);">or click to browse • JPG, PNG, WEBP</div>
+              <input type="file" class="file-input" id="fileInput" accept="image/*">
+            </div>
+            <div class="tool-settings" style="margin-top: 1rem;">
+              <div class="settings-section">
+                <h3>Watermark Text</h3>
+                <div class="form-group">
+                  <label for="watermarkText">Watermark Text</label>
+                  <input type="text" id="watermarkText" placeholder="© Your Company" value="© YOUROWNPDF.COM">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="wmFontSize">Font Size</label>
+                    <input type="number" id="wmFontSize" value="24" min="8" max="100">
+                  </div>
+                  <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-input-wrap">
+                      <input type="color" id="wmColor" value="#ffffff">
+                    </div>
+                  </div>
+                </div>
+                <div class="slider-group">
+                  <div class="slider-header">
+                    <span>Opacity</span>
+                    <span class="slider-value" id="opacityValue">50%</span>
+                  </div>
+                  <input type="range" id="opacitySlider" min="10" max="100" value="50">
+                </div>
+              </div>
+              <div class="settings-section">
+                <h3>Position</h3>
+                <div class="position-grid">
+                  <div class="position-option" onclick="setPosition('top-left')" data-pos="top-left" title="Top Left">↖️</div>
+                  <div class="position-option" onclick="setPosition('top-center')" data-pos="top-center" title="Top Center">⬆️</div>
+                  <div class="position-option" onclick="setPosition('top-right')" data-pos="top-right" title="Top Right">↗️</div>
+                  <div class="position-option" onclick="setPosition('center-left')" data-pos="center-left" title="Center Left">⬅️</div>
+                  <div class="position-option active" onclick="setPosition('center')" data-pos="center" title="Center">⭕</div>
+                  <div class="position-option" onclick="setPosition('center-right')" data-pos="center-right" title="Center Right">➡️</div>
+                  <div class="position-option" onclick="setPosition('bottom-left')" data-pos="bottom-left" title="Bottom Left">↙️</div>
+                  <div class="position-option" onclick="setPosition('bottom-center')" data-pos="bottom-center" title="Bottom Center">⬇️</div>
+                  <div class="position-option" onclick="setPosition('bottom-right')" data-pos="bottom-right" title="Bottom Right">↘️</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="preview-container">
+              <h3 style="margin-bottom: 1rem;">Preview</h3>
+              <div class="preview-canvas-wrap" id="previewWrap">
+                <span class="preview-placeholder" id="previewPlaceholder">No image loaded</span>
+                <canvas id="previewCanvas" style="display:none;"></canvas>
+              </div>
+            </div>
+            <div class="tool-actions" style="margin-top: 1rem;">
+              <button class="btn btn-primary" id="applyBtn" disabled onclick="applyWatermark()">
+                💧 Add Watermark
+              </button>
+              <button class="btn btn-download" id="downloadBtn" onclick="downloadImage()">
+                ⬇️ Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Add Watermark on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload Image</h3><p>Click or drag your image file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Configure</h3><p>Set text, position, and opacity.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get "yourownpdf-watermark.png".</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
+  <script>
+    // WMR-001: Watermark Tool
+    let imageFile = null;
+    let originalImage = null;
+    let selectedPosition = 'center';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('dragover', e => { e.preventDefault(); u.style.borderColor = 'var(--color-b)'; });
+      u.addEventListener('dragleave', e => { e.preventDefault(); u.style.borderColor = 'var(--color-border)'; });
+      u.addEventListener('drop', e => { e.preventDefault(); u.style.borderColor = 'var(--color-border)'; handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('opacitySlider').addEventListener('input', e => {
+        document.getElementById('opacityValue').textContent = e.target.value + '%';
+        renderImage();
+      });
+      ['watermarkText', 'wmFontSize', 'wmColor'].forEach(id => {
+        document.getElementById(id).addEventListener('input', renderImage);
+      });
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    function setPosition(pos) {
+      selectedPosition = pos;
+      document.querySelectorAll('.position-option').forEach(o => o.classList.remove('active'));
+      document.querySelector('[data-pos="' + pos + '"]').classList.add('active');
+      renderImage();
+    }
+
+    async function handle(file) {
+      if (!file || !file.type.startsWith('image/')) { show('Please select an image file', false, true); return; }
+      imageFile = file;
+      originalImage = new Image();
+      originalImage.onload = () => {
+        document.getElementById('previewCanvas').style.display = 'block';
+        document.getElementById('previewPlaceholder').style.display = 'none';
+        renderImage();
+        document.getElementById('applyBtn').disabled = false;
+        show('Image loaded! Set watermark.');
+      };
+      originalImage.src = URL.createObjectURL(imageFile);
+    }
+
+    function renderImage() {
+      if (!originalImage) return;
+      const canvas = document.getElementById('previewCanvas');
+      canvas.width = originalImage.width;
+      canvas.height = originalImage.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(originalImage, 0, 0);
+
+      const text = document.getElementById('watermarkText').value || '© Your Company';
+      const size = parseInt(document.getElementById('wmFontSize').value) || 24;
+      const color = document.getElementById('wmColor').value;
+      const opacity = parseInt(document.getElementById('opacitySlider').value) / 100;
+
+      ctx.font = 'bold ' + size + 'px Arial';
+      ctx.globalAlpha = opacity;
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      let x, y;
+      const padding = 20;
+      switch (selectedPosition) {
+        case 'top-left': x = padding + size; y = padding + size; ctx.textAlign = 'left'; ctx.textBaseline = 'top'; break;
+        case 'top-center': x = canvas.width / 2; y = padding + size; ctx.textBaseline = 'top'; break;
+        case 'top-right': x = canvas.width - padding - size; y = padding + size; ctx.textAlign = 'right'; ctx.textBaseline = 'top'; break;
+        case 'center-left': x = padding + size; y = canvas.height / 2; ctx.textAlign = 'left'; break;
+        case 'center-right': x = canvas.width - padding - size; y = canvas.height / 2; ctx.textAlign = 'right'; break;
+        case 'bottom-left': x = padding + size; y = canvas.height - padding - size; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; break;
+        case 'bottom-center': x = canvas.width / 2; y = canvas.height - padding - size; ctx.textBaseline = 'bottom'; break;
+        case 'bottom-right': x = canvas.width - padding - size; y = canvas.height - padding - size; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom'; break;
+        default: x = canvas.width / 2; y = canvas.height / 2;
+      }
+
+      ctx.fillText(text, x, y);
+      ctx.globalAlpha = 1;
+      document.getElementById('downloadBtn').classList.add('visible');
+    }
+
+    function applyWatermark() {
+      show('Watermark added!');
+    }
+
+    function downloadImage() {
+      const canvas = document.getElementById('previewCanvas');
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'yourownpdf-watermark.png';
+      a.click();
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ?
+        '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' :
+        '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

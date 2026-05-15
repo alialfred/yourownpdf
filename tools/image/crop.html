@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Crop image online. Free tool by YOUROWNPDF.COM">
+  <title>Crop Image — Cut & Resize | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .tool-upload-area:hover { border-color: var(--color-b); transform: translateY(-2px); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .preview-container { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .preview-canvas-wrap { position: relative; background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px; border-radius: 0.5rem; overflow: hidden; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    #previewCanvas { max-width: 100%; max-height: 400px; cursor: crosshair; }
+    .preview-placeholder { color: var(--color-text-muted); font-size: 1.25rem; }
+    .crop-overlay { position: absolute; border: 3px dashed var(--color-b); background: rgba(220, 38, 38, 0.1); box-sizing: border-box; }
+    .crop-handle { position: absolute; width: 12px; height: 12px; background: var(--color-b); border: 2px solid white; border-radius: 2px; }
+    .crop-handle.nw { top: -6px; left: -6px; cursor: nw-resize; }
+    .crop-handle.ne { top: -6px; right: -6px; cursor: ne-resize; }
+    .crop-handle.sw { bottom: -6px; left: -6px; cursor: sw-resize; }
+    .crop-handle.se { bottom: -6px; right: -6px; cursor: se-resize; }
+    .tool-settings { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .settings-section { margin-bottom: 1.5rem; }
+    .settings-section h3 { margin-bottom: 1rem; font-size: 1.1rem; }
+    .form-row { display: flex; gap: 1rem; }
+    .form-group { margin-bottom: 1rem; flex: 1; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    .form-group input { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); }
+    .aspect-presets { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .aspect-preset { padding: 0.5rem 1rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 0.5rem; cursor: pointer; font-size: 0.875rem; }
+    .aspect-preset:hover { border-color: var(--color-b); }
+    .aspect-preset.active { background: var(--color-b); color: white; }
+    .crop-info { display: flex; gap: 2rem; padding: 1rem; background: var(--color-bg); border-radius: 0.5rem; }
+    .crop-info-item { text-align: center; }
+    .crop-info-num { font-size: 1.25rem; font-weight: 700; color: var(--color-b); }
+    .crop-info-label { font-size: 0.75rem; color: var(--color-text-muted); }
+    .tool-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-primary { background: var(--color-b); color: white; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; display: none; }
+    .btn-download.visible { display: inline-flex; align-items: center; gap: 0.5rem; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">Image Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Crop</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">✂️ Crop Image</h1>
+          <p style="color: var(--color-text-muted);">Cut and resize your image to any dimension</p>
+        </div>
+        <div class="tool-layout">
+          <div>
+            <div class="tool-upload-area" id="uploadArea">
+              <div class="upload-icon">🖼️</div>
+              <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your image here</div>
+              <div style="color: var(--color-text-muted);">or click to browse • JPG, PNG, WEBP</div>
+              <input type="file" class="file-input" id="fileInput" accept="image/*">
+            </div>
+            <div class="tool-settings" style="margin-top: 1rem;">
+              <div class="settings-section">
+                <h3>Aspect Ratio</h3>
+                <div class="aspect-presets">
+                  <div class="aspect-preset" onclick="setAspect('free')">Free</div>
+                  <div class="aspect-preset" onclick="setAspect('1:1')">1:1</div>
+                  <div class="aspect-preset" onclick="setAspect('4:3')">4:3</div>
+                  <div class="aspect-preset" onclick="setAspect('16:9')">16:9</div>
+                  <div class="aspect-preset" onclick="setAspect('3:2')">3:2</div>
+                  <div class="aspect-preset" onclick="setAspect('2:3')">2:3</div>
+                </div>
+              </div>
+              <div class="settings-section">
+                <h3>Crop Area</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="cropX">X Position</label>
+                    <input type="number" id="cropX" value="0" min="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="cropY">Y Position</label>
+                    <input type="number" id="cropY" value="0" min="0">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="cropW">Width</label>
+                    <input type="number" id="cropW" value="100" min="1">
+                  </div>
+                  <div class="form-group">
+                    <label for="cropH">Height</label>
+                    <input type="number" id="cropH" value="100" min="1">
+                  </div>
+                </div>
+              </div>
+              <div class="crop-info" id="cropInfo">
+                <div class="crop-info-item"><div class="crop-info-num" id="previewW">-</div><div class="crop-info-label">Width</div></div>
+                <div class="crop-info-item"><div class="crop-info-num" id="previewH">-</div><div class="crop-info-label">Height</div></div>
+                <div class="crop-info-item"><div class="crop-info-num" id="previewRatio">-</div><div class="crop-info-label">Ratio</div></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="preview-container">
+              <h3 style="margin-bottom: 1rem;">Preview</h3>
+              <div class="preview-canvas-wrap" id="previewWrap">
+                <span class="preview-placeholder" id="previewPlaceholder">No image loaded</span>
+                <canvas id="previewCanvas" style="display:none;"></canvas>
+              </div>
+            </div>
+            <div class="tool-actions" style="margin-top: 1rem;">
+              <button class="btn btn-primary" id="cropBtn" disabled onclick="applyCrop()">
+                ✂️ Apply Crop
+              </button>
+              <button class="btn btn-download" id="downloadBtn" onclick="downloadImage()">
+                ⬇️ Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Crop Image on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload Image</h3><p>Click or drag your image file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Set Crop</h3><p>Choose ratio and adjust position.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get "yourownpdf-cropped.png".</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
+  <script>
+    // CRP-002: Crop Image Tool
+    let imageFile = null;
+    let originalImage = null;
+    let currentAspect = 'free';
+    let isDragging = false;
+    let cropBox = { x: 0, y: 0, w: 100, h: 100 };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('dragover', e => { e.preventDefault(); u.style.borderColor = 'var(--color-b)'; });
+      u.addEventListener('dragleave', e => { e.preventDefault(); u.style.borderColor = 'var(--color-border)'; });
+      u.addEventListener('drop', e => { e.preventDefault(); u.style.borderColor = 'var(--color-border)'; handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+      ['cropX', 'cropY', 'cropW', 'cropH'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateCropInfo);
+      });
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    function setAspect(ratio) {
+      currentAspect = ratio;
+      document.querySelectorAll('.aspect-preset').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      if (originalImage && ratio !== 'free') {
+        const [w, h] = ratio.split(':').map(Number);
+        const ar = w / h;
+        let newW = originalImage.width * 0.5;
+        let newH = newW / ar;
+        if (newH > originalImage.height) { newH = originalImage.height * 0.5; newW = newH * ar; }
+        document.getElementById('cropW').value = Math.round(newW);
+        document.getElementById('cropH').value = Math.round(newH);
+        updateCropInfo();
+      }
+    }
+
+    function updateCropInfo() {
+      const w = parseInt(document.getElementById('cropW').value) || 0;
+      const h = parseInt(document.getElementById('cropH').value) || 0;
+      document.getElementById('previewW').textContent = w;
+      document.getElementById('previewH').textContent = h;
+      document.getElementById('previewRatio').textContent = w && h ? (w / h).toFixed(2) : '-';
+    }
+
+    async function handle(file) {
+      if (!file || !file.type.startsWith('image/')) { show('Please select an image file', false, true); return; }
+      imageFile = file;
+      originalImage = new Image();
+      originalImage.onload = () => {
+        document.getElementById('cropX').max = originalImage.width;
+        document.getElementById('cropY').max = originalImage.height;
+        document.getElementById('cropW').value = Math.round(originalImage.width * 0.5);
+        document.getElementById('cropW').max = originalImage.width;
+        document.getElementById('cropH').value = Math.round(originalImage.height * 0.5);
+        document.getElementById('cropH').max = originalImage.height;
+        document.getElementById('previewCanvas').style.display = 'block';
+        document.getElementById('previewPlaceholder').style.display = 'none';
+        const canvas = document.getElementById('previewCanvas');
+        canvas.width = originalImage.width;
+        canvas.height = originalImage.height;
+        canvas.getContext('2d').drawImage(originalImage, 0, 0);
+        updateCropInfo();
+        document.getElementById('cropBtn').disabled = false;
+        show('Image loaded! Adjust crop area.');
+      };
+      originalImage.src = URL.createObjectURL(imageFile);
+    }
+
+    function applyCrop() {
+      if (!originalImage) return;
+      const x = parseInt(document.getElementById('cropX').value);
+      const y = parseInt(document.getElementById('cropY').value);
+      const w = parseInt(document.getElementById('cropW').value);
+      const h = parseInt(document.getElementById('cropH').value);
+      const canvas = document.getElementById('previewCanvas');
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(originalImage, x, y, w, h, 0, 0, w, h);
+      document.getElementById('downloadBtn').classList.add('visible');
+      show('Image cropped to ' + w + '×' + h + '!');
+    }
+
+    function downloadImage() {
+      const canvas = document.getElementById('previewCanvas');
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'yourownpdf-cropped.png';
+      a.click();
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ?
+        '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' :
+        '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

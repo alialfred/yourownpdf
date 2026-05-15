@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Advanced PDF comparison with visual diff. Free tool by YOUROWNPDF.COM">
+  <title>PDF Comparison — Visual Diff | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .upload-row { grid-template-columns: 1fr; } }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 2rem 1.5rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+    .file-input { display: none; }
+    .upload-label { font-weight: 600; margin-bottom: 0.25rem; }
+    .compare-results { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .diff-item { padding: 0.75rem; border-bottom: 1px solid var(--color-border); }
+    .diff-item:last-child { border-bottom: none; }
+    .diff-added { background: #d1fae5; color: #065f46; }
+    .diff-removed { background: #fee2e2; color: #991b1b; }
+    .diff-changed { background: #fef3c7; color: #92400e; }
+    .diff-unchanged { color: #6b7280; }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-compare { background: var(--color-b); color: white; }
+    .btn-compare:disabled { opacity: 0.5; cursor: not-allowed; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .file-name { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); word-break: break-all; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Comparison</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">🔍 PDF Comparison</h1>
+          <p style="color: var(--color-text-muted);">Detailed comparison with visual diff</p>
+        </div>
+        <div class="tool-layout">
+          <div class="upload-row">
+            <div class="tool-upload-area" id="uploadArea1">
+              <div class="upload-icon">📄</div>
+              <div class="upload-label">Original PDF</div>
+              <div style="color: var(--color-text-muted); font-size: 0.875rem;">Version A</div>
+              <div class="file-name" id="fileName1"></div>
+              <input type="file" class="file-input" id="fileInput1" accept=".pdf">
+            </div>
+            <div class="tool-upload-area" id="uploadArea2">
+              <div class="upload-icon">📄</div>
+              <div class="upload-label">Modified PDF</div>
+              <div style="color: var(--color-text-muted); font-size: 0.875rem;">Version B</div>
+              <div class="file-name" id="fileName2"></div>
+              <input type="file" class="file-input" id="fileInput2" accept=".pdf">
+            </div>
+          </div>
+
+          <div class="compare-results" id="compareResults" style="display:none;">
+            <h3 style="margin-bottom: 1rem;">Comparison Summary</h3>
+            <div id="diffSummary"></div>
+            <div id="diffDetails"></div>
+          </div>
+          <div class="tool-actions">
+            <button class="btn btn-compare" id="compareBtn" onclick="comparePdfs()" disabled>
+              <i class="fas fa-search"></i> Compare
+            </button>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Compare PDFs on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload Files</h3><p>Upload both PDF versions.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Compare</h3><p>Click compare to analyze.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Review</h3><p>See detailed differences.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script>
+    // CMP-003: PDF Comparison (Visual Diff) Tool
+    let pdfFile1 = null;
+    let pdfFile2 = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      setupUpload('uploadArea1', 'fileInput1', 'fileName1', (f) => { pdfFile1 = f; checkReady(); });
+      setupUpload('uploadArea2', 'fileInput2', 'fileName2', (f) => { pdfFile2 = f; checkReady(); });
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function setupUpload(areaId, inputId, nameId, callback) {
+      const u = document.getElementById(areaId);
+      const f = document.getElementById(inputId);
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handleFile(e.dataTransfer.files[0], nameId, callback); });
+      f.addEventListener('change', e => handleFile(e.target.files[0], nameId, callback));
+    }
+
+    function handleFile(file, nameId, callback) {
+      if (!file) return;
+      document.getElementById(nameId).textContent = file.name;
+      callback(file);
+    }
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    function checkReady() {
+      document.getElementById('compareBtn').disabled = !(pdfFile1 && pdfFile2);
+    }
+
+    async function comparePdfs() {
+      if (!pdfFile1 || !pdfFile2) return;
+      show('Comparing PDFs...', true);
+      try {
+        await loadPdfLib();
+        const { PDFDocument } = PDFLib;
+
+        const [arr1, arr2] = await Promise.all([pdfFile1.arrayBuffer(), pdfFile2.arrayBuffer()]);
+        const [doc1, doc2] = await Promise.all([PDFDocument.load(arr1), PDFDocument.load(arr2)]);
+
+        const pages1 = doc1.getPageCount();
+        const pages2 = doc2.getPageCount();
+        const size1 = pdfFile1.size;
+        const size2 = pdfFile2.size;
+
+        const meta1 = {
+          title: doc1.getTitle() || 'None',
+          author: doc1.getAuthor() || 'None',
+          subject: doc1.getSubject() || 'None',
+          creator: doc1.getCreator() || 'None'
+        };
+        const meta2 = {
+          title: doc2.getTitle() || 'None',
+          author: doc2.getAuthor() || 'None',
+          subject: doc2.getSubject() || 'None',
+          creator: doc2.getCreator() || 'None'
+        };
+
+        let diffDetails = '';
+        let diffCount = 0;
+
+        const sizeDiff = size1 !== size2;
+        const pagesDiff = pages1 !== pages2;
+
+        if (sizeDiff) diffCount++;
+        if (pagesDiff) diffCount++;
+
+        for (const key of ['title', 'author', 'subject', 'creator']) {
+          if (meta1[key] !== meta2[key]) diffCount++;
+        }
+
+        let summaryClass = diffCount === 0 ? 'diff-unchanged' : diffCount < 3 ? 'diff-changed' : 'diff-removed';
+        let summaryText = diffCount === 0 ? 'Files are identical' : diffCount < 3 ? 'Minor differences found' : 'Significant differences found';
+
+        document.getElementById('diffSummary').innerHTML = `
+          <div class="diff-item ${summaryClass}">
+            <strong>Result:</strong> ${summaryText}
+          </div>
+        `;
+
+        diffDetails += `<div class="diff-item ${pagesDiff ? 'diff-changed' : 'diff-unchanged'}"><strong>Pages:</strong> ${pages1} vs ${pages2} ${pagesDiff ? '(Changed)' : '(Same)'}</div>`;
+        diffDetails += `<div class="diff-item ${sizeDiff ? 'diff-changed' : 'diff-unchanged'}"><strong>File Size:</strong> ${formatSize(size1)} vs ${formatSize(size2)} ${sizeDiff ? '(Changed)' : '(Same)'}</div>`;
+        diffDetails += `<div class="diff-item ${meta1.title !== meta2.title ? 'diff-changed' : 'diff-unchanged'}"><strong>Title:</strong> "${meta1.title}" vs "${meta2.title}"</div>`;
+        diffDetails += `<div class="diff-item ${meta1.author !== meta2.author ? 'diff-changed' : 'diff-unchanged'}"><strong>Author:</strong> "${meta1.author}" vs "${meta2.author}"</div>`;
+        diffDetails += `<div class="diff-item ${meta1.subject !== meta2.subject ? 'diff-changed' : 'diff-unchanged'}"><strong>Subject:</strong> "${meta1.subject}" vs "${meta2.subject}"</div>`;
+        diffDetails += `<div class="diff-item ${meta1.creator !== meta2.creator ? 'diff-changed' : 'diff-unchanged'}"><strong>Creator:</strong> "${meta1.creator}" vs "${meta2.creator}"</div>`;
+
+        document.getElementById('diffDetails').innerHTML = diffDetails;
+        document.getElementById('compareResults').style.display = 'block';
+        close();
+        show('Comparison complete! ' + diffCount + ' differences found.');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(2) + ' MB';
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

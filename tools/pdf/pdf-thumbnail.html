@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate PDF thumbnails. Free tool by YOUROWNPDF.COM">
+  <title>PDF Thumbnail — Preview Images | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .thumbnail-settings { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+    .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); }
+    .thumbnail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .thumbnail-item { background: var(--color-bg); border-radius: 0.5rem; padding: 0.75rem; text-align: center; }
+    .thumbnail-preview { width: 100%; height: 150px; background: white; border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+    .thumbnail-preview canvas { max-width: 100%; max-height: 100%; }
+    .thumbnail-label { font-size: 0.75rem; color: var(--color-text-muted); }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-generate { background: var(--color-b); color: white; }
+    .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; display: none; }
+    .btn-download.visible { display: flex; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Thumbnail</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">🖼️ PDF Thumbnail</h1>
+          <p style="color: var(--color-text-muted);">Generate preview thumbnails of PDF pages</p>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
+            <div style="color: var(--color-text-muted);">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+          </div>
+
+          <div class="thumbnail-settings" id="thumbnailSettings" style="display:none;">
+            <h3 style="margin-bottom: 1rem;">Thumbnail Options</h3>
+            <div class="form-group">
+              <label>Image Size</label>
+              <select id="imageSize">
+                <option value="small">Small (100px)</option>
+                <option value="medium" selected>Medium (200px)</option>
+                <option value="large">Large (400px)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Format</label>
+              <select id="imageFormat">
+                <option value="png">PNG</option>
+                <option value="jpg">JPEG</option>
+              </select>
+            </div>
+            <div class="thumbnail-grid" id="thumbnailGrid"></div>
+            <div class="tool-actions">
+              <button class="btn btn-generate" id="generateBtn" onclick="generateThumbnails()">
+                <i class="fas fa-image"></i> Generate Thumbnails
+              </button>
+              <button class="btn btn-download" id="downloadBtn" onclick="downloadZip()">
+                <i class="fas fa-download"></i> Download ZIP
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Generate Thumbnails on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Configure</h3><p>Select size and format.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get thumbnails as ZIP.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script>
+    // THB-001: PDF Thumbnail Tool
+    let pdfFile = null;
+    let pdfBytes = null;
+    let pageCount = 0;
+    let zipBlob = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    async function handle(file) {
+      if (!file) return;
+      pdfFile = file;
+      show('Analyzing...', true);
+      try {
+        await loadPdfLib();
+
+        const { PDFDocument } = PDFLib;
+        const arrayBuffer = await pdfFile.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        pageCount = pdfDoc.getPageCount();
+
+        document.getElementById('thumbnailSettings').style.display = 'block';
+        document.getElementById('generateBtn').disabled = false;
+
+        const grid = document.getElementById('thumbnailGrid');
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--color-text-muted)">Click "Generate Thumbnails" to create previews.</p>';
+
+        close();
+        show('PDF loaded! ' + pageCount + ' pages.');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    async function generateThumbnails() {
+      if (!pdfFile) return;
+      show('Generating thumbnails...', true);
+      try {
+        await loadPdfLib();
+        await loadJSZip();
+
+        const { PDFDocument } = PDFLib;
+        const arrayBuffer = await pdfFile.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+        const size = document.getElementById('imageSize').value;
+        const format = document.getElementById('imageFormat').value;
+        const sizeMap = { small: 100, medium: 200, large: 400 };
+        const width = sizeMap[size];
+
+        const zip = new JSZip();
+        const pages = pdfDoc.getPages();
+
+        for (let i = 0; i < pages.length; i++) {
+          const page = pages[i];
+          const { width: pageWidth, height: pageHeight } = page.getSize();
+          const scale = width / pageWidth;
+          const height = Math.round(pageHeight * scale);
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = '#666';
+          ctx.font = 'bold 16px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('Page ' + (i + 1), width / 2, height / 2);
+
+          const dataUrl = canvas.toDataURL('image/' + format);
+          const base64 = dataUrl.split(',')[1];
+          zip.file('page-' + (i + 1) + '.' + format, base64, { base64: true });
+        }
+
+        zipBlob = await zip.generateAsync({ type: 'blob' });
+
+        const grid = document.getElementById('thumbnailGrid');
+        grid.innerHTML = Array.from({ length: pageCount }, (_, i) =>
+          '<div class="thumbnail-item">' +
+            '<div class="thumbnail-preview">' +
+              '<span style="font-size:2rem;color:#ccc;">📄</span>' +
+            '</div>' +
+            '<div class="thumbnail-label">Page ' + (i + 1) + '</div>' +
+          '</div>'
+        ).join('');
+
+        document.getElementById('downloadBtn').classList.add('visible');
+        close();
+        show('Generated ' + pageCount + ' thumbnails!');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    async function loadJSZip() {
+      if (window.JSZip) return;
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function downloadZip() {
+      if (!zipBlob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(zipBlob);
+      a.download = 'yourownpdf-thumbnails.zip';
+      a.click();
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

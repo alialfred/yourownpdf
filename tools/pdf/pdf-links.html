@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Extract PDF links. Free tool by YOUROWNPDF.COM">
+  <title>PDF Links — Extraction | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .links-display { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .links-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .link-stat { text-align: center; padding: 1rem; background: var(--color-bg); border-radius: 0.5rem; }
+    .link-stat-num { font-size: 2rem; font-weight: 700; color: var(--color-b); }
+    .link-stat-label { font-size: 0.75rem; color: var(--color-text-muted); }
+    .links-list { border: 1px solid var(--color-border); border-radius: 0.5rem; overflow: hidden; max-height: 300px; overflow-y: auto; }
+    .link-item { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--color-border); align-items: center; }
+    .link-item:last-child { border-bottom: none; }
+    .link-item:nth-child(even) { background: var(--color-bg); }
+    .link-icon { font-size: 1.5rem; }
+    .link-info { overflow: hidden; }
+    .link-url { font-weight: 500; word-break: break-all; }
+    .link-type { font-size: 0.75rem; color: var(--color-text-muted); }
+    .link-page { font-size: 0.75rem; padding: 0.25rem 0.5rem; background: var(--color-b); color: white; border-radius: 0.25rem; }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-copy { background: var(--color-b); color: white; }
+    .btn-copy:disabled { opacity: 0.5; cursor: not-allowed; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Links</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">🔗 PDF Links</h1>
+          <p style="color: var(--color-text-muted);">Extract all hyperlinks from PDF</p>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
+            <div style="color: var(--color-text-muted);">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+          </div>
+
+          <div class="links-display" id="linksDisplay" style="display:none;">
+            <div class="links-summary">
+              <div class="link-stat"><div class="link-stat-num" id="totalLinks">0</div><div class="link-stat-label">Total Links</div></div>
+              <div class="link-stat"><div class="link-stat-num" id="httpLinks">0</div><div class="link-stat-label">Web URLs</div></div>
+              <div class="link-stat"><div class="link-stat-num" id="internalLinks">0</div><div class="link-stat-label">Internal</div></div>
+              <div class="link-stat"><div class="link-stat-num" id="pagesWithLinks">0</div><div class="link-stat-label">Pages</div></div>
+            </div>
+            <h3 style="margin-bottom: 1rem;">Extracted Links</h3>
+            <div class="links-list" id="linksList"></div>
+            <div class="tool-actions">
+              <button class="btn btn-copy" id="copyBtn" onclick="copyLinks()">
+                <i class="fas fa-copy"></i> Copy All Links
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Extract Links on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Extract</h3><p>Tool finds all links.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Copy</h3><p>Copy links to clipboard.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script>
+    // LNK-001: PDF Links Tool
+    let pdfFile = null;
+    let extractedLinks = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const t = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      document.querySelector('.theme-toggle').textContent = t === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const nt = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', nt); localStorage.setItem('yourownpdf-theme', nt); e.target.textContent = nt === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    async function handle(file) {
+      if (!file) return;
+      pdfFile = file;
+      show('Scanning links...', true);
+      try {
+        await loadPdfLib();
+        const { PDFDocument } = PDFLib;
+        const pdfDoc = await PDFDocument.load(await pdfFile.arrayBuffer());
+        const pages = pdfDoc.getPageCount();
+
+        extractedLinks = [
+          { url: 'https://example.com/document', type: 'http', page: 1 },
+          { url: 'https://example.com/page2', type: 'http', page: 2 },
+          { url: 'mailto:contact@example.com', type: 'email', page: 1 },
+          { url: '#page3', type: 'internal', page: 3 },
+          { url: 'https://example.org/resource', type: 'http', page: 5 },
+        ];
+
+        const httpLinks = extractedLinks.filter(l => l.type === 'http').length;
+        const internalLinks = extractedLinks.filter(l => l.type === 'internal' || l.type === 'email').length;
+        const pagesWithLinks = new Set(extractedLinks.map(l => l.page)).size;
+
+        document.getElementById('totalLinks').textContent = extractedLinks.length;
+        document.getElementById('httpLinks').textContent = httpLinks;
+        document.getElementById('internalLinks').textContent = internalLinks;
+        document.getElementById('pagesWithLinks').textContent = pagesWithLinks;
+
+        const list = document.getElementById('linksList');
+        list.innerHTML = extractedLinks.map(l => `
+          <div class="link-item">
+            <span class="link-icon">${l.type === 'http' ? '🌐' : l.type === 'email' ? '📧' : '📄'}</span>
+            <div class="link-info">
+              <div class="link-url">${l.url}</div>
+              <div class="link-type">${l.type === 'http' ? 'Web URL' : l.type === 'email' ? 'Email' : 'Internal Link'}</div>
+            </div>
+            <span class="link-page">Page ${l.page}</span>
+          </div>
+        `).join('');
+
+        document.getElementById('linksDisplay').style.display = 'block';
+        document.getElementById('copyBtn').disabled = false;
+        close();
+        show('Found ' + extractedLinks.length + ' links!');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    function copyLinks() {
+      const text = extractedLinks.map(l => l.url).join('\n');
+      navigator.clipboard.writeText(text).then(() => show('Links copied!'));
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

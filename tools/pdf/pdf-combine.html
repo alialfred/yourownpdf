@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Combine multiple PDFs into one. Free tool by YOUROWNPDF.COM">
+  <title>PDF Combine — Merge PDFs | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .file-list { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .file-list h3 { margin-bottom: 1rem; }
+    .file-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: var(--color-bg); border-radius: 0.5rem; margin-bottom: 0.5rem; }
+    .file-item-info { display: flex; align-items: center; gap: 0.75rem; }
+    .file-item-name { font-weight: 500; }
+    .file-item-pages { font-size: 0.75rem; color: var(--color-text-muted); }
+    .file-item-remove { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1.25rem; padding: 0.25rem; }
+    .file-item-remove:hover { color: #dc2626; }
+    .drag-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .drag-overlay.active { display: flex; }
+    .drag-overlay-content { text-align: center; color: white; font-size: 2rem; }
+    .combine-options { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
+    .combine-options h3 { margin-bottom: 1rem; }
+    .combine-summary { margin: 1rem 0; padding: 1rem; background: var(--color-bg); border-radius: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .combine-summary-label { color: var(--color-text-muted); }
+    .combine-summary-value { font-weight: 700; font-size: 1.25rem; }
+    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
+    .btn-combine { background: var(--color-b); color: white; }
+    .btn-combine:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-download { background: #16a34a; color: white; display: none; }
+    .btn-download.visible { display: flex; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .empty-state { text-align: center; padding: 2rem; color: var(--color-text-muted); }
+    .add-more { border: 2px dashed var(--color-border); border-radius: 0.5rem; padding: 1rem; text-align: center; cursor: pointer; margin-top: 0.5rem; }
+    .add-more:hover { border-color: var(--color-b); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Combine</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">🔗 PDF Combine</h1>
+          <p style="color: var(--color-text-muted);">Merge multiple PDFs into one</p>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDFs here</div>
+            <div style="color: var(--color-text-muted);">or click to browse — select multiple files</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf" multiple>
+          </div>
+
+          <div class="file-list" id="fileList" style="display:none;">
+            <h3>PDFs to Combine (<span id="fileCount">0</span> files)</h3>
+            <div id="fileItems"></div>
+            <div class="add-more" id="addMoreArea">
+              <span>+ Add more PDFs</span>
+            </div>
+            <div class="combine-summary">
+              <span class="combine-summary-label">Total Pages</span>
+              <span class="combine-summary-value" id="totalPages">0</span>
+            </div>
+            <div class="tool-actions">
+              <button class="btn btn-combine" id="combineBtn" onclick="combinePdfs()" disabled>
+                <i class="fas fa-link"></i> Combine PDFs
+              </button>
+              <button class="btn btn-download" id="downloadBtn" onclick="downloadPdf()">
+                <i class="fas fa-download"></i> Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to Combine PDFs on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDFs</h3><p>Select or drag multiple PDF files.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Reorder</h3><p>Files will be combined in the order shown.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get "yourownpdf-combined.pdf".</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="drag-overlay" id="dragOverlay">
+    <div class="drag-overlay-content">
+      <div>📄</div>
+      <div style="margin-top: 1rem;">Drop PDFs to add</div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script>
+    // CMB-001: PDF Combine Tool
+    let pdfFiles = [];
+    let pdfBytes = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      const a = document.getElementById('addMoreArea');
+      u.addEventListener('click', () => f.click());
+      a.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
+      f.addEventListener('change', e => handleFiles(e.target.files));
+
+      document.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('dragOverlay').classList.add('active'); });
+      document.addEventListener('dragleave', e => { if (e.relatedTarget === null) document.getElementById('dragOverlay').classList.remove('active'); });
+      document.addEventListener('drop', e => { e.preventDefault(); document.getElementById('dragOverlay').classList.remove('active'); if (e.target.id !== 'uploadArea') handleFiles(e.dataTransfer.files); });
+
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    async function handleFiles(files) {
+      if (!files || files.length === 0) return;
+      show('Analyzing PDFs...', true);
+      try {
+        await loadPdfLib();
+
+        const { PDFDocument } = PDFLib;
+
+        for (const file of files) {
+          if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+            const pageCount = pdfDoc.getPageCount();
+
+            pdfFiles.push({
+              file,
+              name: file.name,
+              pages: pageCount,
+              arrayBuffer
+            });
+          }
+        }
+
+        updateFileList();
+        close();
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    function updateFileList() {
+      const container = document.getElementById('fileItems');
+      const fileList = document.getElementById('fileList');
+      const countEl = document.getElementById('fileCount');
+      const totalEl = document.getElementById('totalPages');
+      const combineBtn = document.getElementById('combineBtn');
+
+      if (pdfFiles.length === 0) {
+        fileList.style.display = 'none';
+        return;
+      }
+
+      fileList.style.display = 'block';
+      countEl.textContent = pdfFiles.length;
+
+      let totalPages = 0;
+      container.innerHTML = pdfFiles.map((pdf, index) => {
+        totalPages += pdf.pages;
+        return '<div class="file-item" data-index="' + index + '">' +
+          '<div class="file-item-info">' +
+            '<span style="font-size: 1.5rem;">📄</span>' +
+            '<div>' +
+              '<div class="file-item-name">' + pdf.name + '</div>' +
+              '<div class="file-item-pages">' + pdf.pages + ' page' + (pdf.pages !== 1 ? 's' : '') + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<button class="file-item-remove" onclick="removeFile(' + index + ')" title="Remove">×</button>' +
+        '</div>';
+      }).join('');
+
+      totalEl.textContent = totalPages;
+      combineBtn.disabled = pdfFiles.length < 2;
+    }
+
+    function removeFile(index) {
+      pdfFiles.splice(index, 1);
+      updateFileList();
+    }
+
+    async function combinePdfs() {
+      if (pdfFiles.length < 2) return;
+      show('Combining PDFs...', true);
+      try {
+        await loadPdfLib();
+
+        const { PDFDocument } = PDFLib;
+        const mergedPdf = await PDFDocument.create();
+
+        for (const pdfData of pdfFiles) {
+          const pdfDoc = await PDFDocument.load(pdfData.arrayBuffer);
+          const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+          copiedPages.forEach(page => mergedPdf.addPage(page));
+        }
+
+        pdfBytes = await mergedPdf.save();
+        document.getElementById('downloadBtn').classList.add('visible');
+        close();
+        show('PDFs combined! ' + mergedPdf.getPageCount() + ' total pages.');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function downloadPdf() {
+      if (!pdfBytes) return;
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'yourownpdf-combined.pdf';
+      a.click();
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

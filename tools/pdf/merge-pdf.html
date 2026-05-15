@@ -1,333 +1,694 @@
 <!DOCTYPE html>
-<!-- [MRG-000] YOUROWNPDF.COM - Merge PDF Tool -->
 <html lang="en">
 <head>
-    <!-- [MRG-001] Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- [MRG-002] SEO -->
-    <title>Merge PDF - Combine PDF Files Free | YOUROWNPDF.COM</title>
-    <meta name="description" content="Merge multiple PDF files into one document online. 100% free, browser-based — no uploads. Combine PDFs instantly with YOUROWNPDF.COM.">
-    <meta name="keywords" content="merge PDF, combine PDF, PDF merger, join PDF files, free PDF tool, YOUROWNPDF">
-    <link rel="canonical" href="https://yourownpdf.com/tools/pdf/merge-pdf.html">
-    
-    <!-- [MRG-003] Stylesheet -->
-    <link rel="stylesheet" href="../../css/style.css">
-    
-    <!-- [MRG-004] Libraries -->
-    <!-- PDF-lib for PDF manipulation - CDN -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <!-- JSZip for handling multiple files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Merge multiple PDF files into one document. Free online tool by YOUROWNPDF.COM. 100% client-side processing.">
+  <title>Merge PDF — Free Online PDF Merger | YOUROWNPDF.COM</title>
+
+  <!-- MRG-001: Core CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* MRG-002: Tool page specific styles */
+    .tool-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 900px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tool-upload-area {
+      background: var(--color-card-bg);
+      border: 2px dashed var(--color-border);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .tool-upload-area:hover,
+    .tool-upload-area.dragover {
+      border-color: var(--color-b);
+      background: var(--color-card-hover);
+    }
+
+    .upload-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-hint {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-list {
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .file-icon {
+      font-size: 1.5rem;
+    }
+
+    .file-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: var(--color-text);
+    }
+
+    .file-size {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    .file-remove {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 1.25rem;
+      padding: 0.25rem;
+      transition: color 0.15s;
+    }
+
+    .file-remove:hover {
+      color: var(--color-b);
+    }
+
+    .tool-info {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+
+    .tool-features {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .tool-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+    }
+
+    .feature-icon {
+      color: var(--color-b);
+    }
+
+    .tool-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-merge {
+      background: var(--color-b);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-merge:hover:not(:disabled) {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    .btn-merge:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-clear {
+      background: var(--color-card-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-clear:hover:not(:disabled) {
+      background: var(--color-card-hover);
+    }
+
+    .btn-clear:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-download {
+      background: #16a34a;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-download.visible {
+      display: flex;
+    }
+
+    .btn-download:hover {
+      background: #15803d;
+    }
+
+    .how-to-use {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .how-to-use h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: var(--color-b);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .step-content p {
+      color: var(--color-text-muted);
+    }
+
+    .reorder-hint {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
-    <main>
-        <!-- [MRG-005] Tool Page Container -->
-        <div class="tool-page-container">
-            
-            <!-- [MRG-006] Breadcrumbs -->
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-                <a href="../../index.html">Home</a> › 
-                <a href="../../index.html#pdf-tools">PDF Tools</a> › 
-                <span>Merge PDF</span>
-            </nav>
-            
-            <!-- [MRG-007] Tool Header -->
-            <div class="tool-page-header">
-                <div class="tool-3d-icon" style="background: linear-gradient(135deg, #E11D48, #F43F5E); color: white; width: 72px; height: 72px; font-size: 2.2rem;">📄</div>
-                <h1>Merge PDF</h1>
-                <p>Combine multiple PDF files into a single document — free, fast, and secure at <strong>YOUROWNPDF.COM</strong></p>
-            </div>
-            
-            <!-- [MRG-008] Tool Content - Two Columns -->
-            <div class="tool-content">
-                
-                <!-- [MRG-009] Left Column - Upload Area -->
-                <div>
-                    <div class="upload-box" id="merge-upload-box">
-                        <span class="upload-icon">📁</span>
-                        <span class="upload-text">Drag & Drop PDF files here</span>
-                        <span class="upload-hint">or click to select multiple files</span>
-                        <input type="file" id="merge-upload-box-input" accept=".pdf" multiple style="display: none;" onchange="handleFileSelect(event)">
-                    </div>
-                    
-                    <!-- [MRG-010] File List Display -->
-                    <div id="file-list" style="margin-top: 1rem; display: none;">
-                        <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Selected Files:</h4>
-                        <div id="file-list-items"></div>
-                        <button class="btn btn-secondary" onclick="clearFiles()" style="margin-top: 0.5rem; font-size: 0.85rem;">🗑️ Clear All</button>
-                    </div>
-                    
-                    <!-- [MRG-011] Progress Area -->
-                    <div id="progress-area" style="display: none; margin-top: 1.5rem;"></div>
-                    
-                    <!-- [MRG-012] Action Buttons -->
-                    <div style="text-align: center; margin-top: 1.5rem;">
-                        <button class="btn btn-primary disabled" id="merge-btn" disabled onclick="mergePDFs()">
-                            🔗 Merge PDFs
-                        </button>
-                    </div>
-                    
-                    <!-- [MRG-013] Download Area -->
-                    <div style="text-align: center; margin-top: 1rem; display: none;" id="download-area">
-                        <button class="btn btn-download" id="download-btn" onclick="downloadMergedPDF()">
-                            ⬇ Download Merged PDF
-                        </button>
-                        <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.5rem;">File: <span id="download-filename">yourownpdf-merged.pdf</span></p>
-                    </div>
-                </div>
-                
-                <!-- [MRG-014] Right Column - Features -->
-                <div class="features-sidebar">
-                    <h3>✨ Features</h3>
-                    <ul>
-                        <li>Merge unlimited PDF files</li>
-                        <li>Drag & drop support</li>
-                        <li>Maintains original quality</li>
-                        <li>100% browser-based</li>
-                        <li>No file upload to server</li>
-                        <li>Free to use</li>
-                        <li>Works offline after load</li>
-                    </ul>
-                    <p style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 1rem; text-align: center;">🔒 Powered by YOUROWNPDF.COM</p>
-                </div>
-            </div>
-            
-            <!-- [MRG-015] How to Use Section -->
-            <div class="how-to-section">
-                <h2>📝 How to Merge PDF Files</h2>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">1</div>
-                    <div class="how-to-step-content">
-                        <h4>Select Your PDF Files</h4>
-                        <p>Click the upload box or drag and drop multiple PDF files. You can select as many files as you need. <strong>YOUROWNPDF.COM</strong> processes everything locally.</p>
-                        <div class="how-to-step-image">[Image: Select PDF files dialog]</div>
-                    </div>
-                </div>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">2</div>
-                    <div class="how-to-step-content">
-                        <h4>Arrange & Merge</h4>
-                        <p>Files will be merged in the order they are listed. Click "Merge PDFs" to combine them into one document. The merging happens entirely in your browser.</p>
-                        <div class="how-to-step-image">[Image: Merge button click]</div>
-                    </div>
-                </div>
-                
-                <div class="how-to-step">
-                    <div class="how-to-step-number">3</div>
-                    <div class="how-to-step-content">
-                        <h4>Download Your Merged PDF</h4>
-                        <p>Once processing is complete, click the download button. Your merged file will be saved as <strong>yourownpdf-merged.pdf</strong>. Thank you for using YOUROWNPDF.COM!</p>
-                        <div class="how-to-step-image">[Image: Download button]</div>
-                    </div>
-                </div>
-            </div>
-            
+  <!-- MRG-003: Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MRG-004: Main content -->
+  <main class="main">
+    <!-- MRG-005: Breadcrumbs -->
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Merge PDF</span>
+      </nav>
+    </div>
+
+    <!-- MRG-006: Ad placeholder -->
+    <div class="container">
+      <div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div>
+    </div>
+
+    <!-- MRG-007: Tool page -->
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">📑 Merge PDF</h1>
+          <p style="color: var(--color-text-muted); font-size: 1.125rem;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
         </div>
-    </main>
-    
-    <!-- [MRG-016] Scripts -->
-    <script src="../../js/components.js"></script>
-    <script src="../../js/main.js"></script>
-    <script>
-        // [MRG-017] Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeComponents('merge-pdf');
-            setupDragAndDrop('merge-upload-box', handleDroppedFiles);
-        });
-        
-        // [MRG-018] Store selected PDF files
-        let selectedFiles = [];
-        let mergedPdfBytes = null;
-        
-        // [MRG-019] Handle drag and drop
-        function handleDroppedFiles(files) {
-            const pdfFiles = files.filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
-            if (pdfFiles.length === 0) {
-                showNotification('⚠️ Please drop PDF files only — YOUROWNPDF.COM');
-                return;
-            }
-            addFiles(pdfFiles);
+
+        <div class="tool-layout">
+          <!-- MRG-008: Upload area -->
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drag & drop PDF files here</div>
+            <div class="upload-hint">or click to browse — multiple files allowed</div>
+            <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
+          </div>
+
+          <!-- MRG-009: Tool info -->
+          <div class="tool-info">
+            <h2 style="margin-bottom: 1rem;">Features</h2>
+            <ul class="tool-features">
+              <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
+              <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
+              <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
+              <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+              <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
+              <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
+            </ul>
+
+            <div class="tool-actions">
+              <button class="btn-merge" id="mergeBtn" disabled onclick="processFiles()">
+                <i class="fas fa-object-group"></i> Merge PDF
+              </button>
+              <button class="btn-clear" id="clearBtn" disabled onclick="clearFiles()">
+                Clear All
+              </button>
+            </div>
+
+            <div class="btn-download" id="downloadBtn" onclick="downloadMerged()">
+              <i class="fas fa-download"></i> Download Merged PDF
+            </div>
+
+            <p class="reorder-hint"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
+          </div>
+        </div>
+
+        <!-- MRG-010: How to use -->
+        <div class="how-to-use">
+          <h2>How to Use YOUROWNPDF.COM — Merge PDF</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>Add Your PDF Files</h3>
+                <p>Click on the upload area or drag and drop your PDF files. You can select multiple files at once. All files are processed locally on your device — nothing is uploaded to any server.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>Reorder if Needed</h3>
+                <p>The files will appear in the order they were added. To change the merge order, simply drag and drop the file items in the list. The first file will be first in the final merged PDF.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Click Merge</h3>
+                <p>Once you've added all your files and set the order, click the "Merge PDF" button. The merging happens instantly in your browser using our powerful PDF processing engine.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>Download Your File</h3>
+                <p>When the merge is complete, a download button will appear. Click it to download your merged PDF file. The file will be named "yourownpdf-merged.pdf" by default.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MRG-011: Ad placeholder -->
+    <div class="container">
+      <div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div>
+    </div>
+  </main>
+
+  <!-- MRG-012: Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="event.preventDefault(); navigateTo('/about')">About</a>
+          <a href="/contact" class="footer-link" onclick="event.preventDefault(); navigateTo('/contact')">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-part-a">Your</span><span class="logo-part-a">pdf</span><span class="logo-part-b">own</span><span class="logo-part-b">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MRG-013: Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- MRG-014: Scripts -->
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+
+  <!-- MRG-015: PDF-lib library -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <script>
+    // MRG-016: State management
+    let files = [];
+    let mergedPdfBytes = null;
+
+    // MRG-017: DOM elements
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const mergeBtn = document.getElementById('mergeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalContent = document.getElementById('modalContent');
+
+    // MRG-018: Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      initUpload();
+      initReorder();
+    });
+
+    // MRG-019: Theme initialization
+    function initTheme() {
+      const savedTheme = localStorage.getItem('yourownpdf-theme');
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const theme = savedTheme || systemTheme;
+      document.documentElement.setAttribute('data-theme', theme);
+      const themeBtn = document.querySelector('.theme-toggle');
+      if (themeBtn) themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('theme-toggle')) {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('yourownpdf-theme', next);
+          e.target.textContent = next === 'dark' ? '☀️' : '🌙';
         }
-        
-        // [MRG-020] Handle file select via input
-        function handleFileSelect(event) {
-            const files = Array.from(event.target.files);
-            addFiles(files);
+      });
+    }
+
+    // MRG-020: Upload initialization
+    function initUpload() {
+      uploadArea.addEventListener('click', () => fileInput.click());
+
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+      });
+
+      uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+      });
+
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+      });
+
+      // Modal close on overlay click
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+    }
+
+    // MRG-021: Handle file selection
+    function handleFiles(fileList) {
+      const newFiles = Array.from(fileList).filter(f =>
+        f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
+      );
+
+      newFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          files.push({
+            name: file.name,
+            size: file.size,
+            data: e.target.result
+          });
+          updateFileList();
+          updateButtons();
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    // MRG-022: Update file list display
+    function updateFileList() {
+      let fileList = document.querySelector('.file-list');
+      if (!fileList) {
+        fileList = document.createElement('div');
+        fileList.className = 'file-list';
+        uploadArea.appendChild(fileList);
+      }
+
+      fileList.innerHTML = files.map((file, index) => `
+        <div class="file-item" draggable="true" data-index="${index}">
+          <div class="file-info">
+            <span class="file-icon">📄</span>
+            <div class="file-details">
+              <span class="file-name">${file.name}</span>
+              <span class="file-size">${formatSize(file.size)}</span>
+            </div>
+          </div>
+          <button class="file-remove" onclick="removeFile(${index})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    // MRG-023: Format file size
+    function formatSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // MRG-024: Remove file
+    function removeFile(index) {
+      files.splice(index, 1);
+      updateFileList();
+      updateButtons();
+    }
+
+    // MRG-025: Clear all files
+    function clearFiles() {
+      files = [];
+      const fileList = document.querySelector('.file-list');
+      if (fileList) fileList.remove();
+      updateButtons();
+      downloadBtn.classList.remove('visible');
+    }
+
+    // MRG-026: Update button states
+    function updateButtons() {
+      mergeBtn.disabled = files.length < 2;
+      clearBtn.disabled = files.length === 0;
+    }
+
+    // MRG-027: Process files (merge)
+    async function processFiles() {
+      if (files.length < 2) return;
+
+      showLoadingModal('Merging PDF files...');
+
+      try {
+        const { PDFDocument } = PDFLib;
+        const mergedPdf = await PDFDocument.create();
+
+        for (const file of files) {
+          const pdfDoc = await PDFDocument.load(file.data);
+          const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+          pages.forEach(page => mergedPdf.addPage(page));
         }
-        
-        // [MRG-021] Add files to list
-        function addFiles(newFiles) {
-            newFiles.forEach(file => {
-                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
-                    selectedFiles.push(file);
-                }
-            });
+
+        mergedPdfBytes = await mergedPdf.save();
+
+        closeModal();
+        downloadBtn.classList.add('visible');
+        showSuccessModal('PDF files merged successfully!');
+      } catch (error) {
+        closeModal();
+        showErrorModal('Error merging PDF files: ' + error.message);
+      }
+    }
+
+    // MRG-028: Download merged PDF
+    function downloadMerged() {
+      if (!mergedPdfBytes) return;
+
+      const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'yourownpdf-merged.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // MRG-029: Reorder initialization
+    function initReorder() {
+      // Simple drag handling for file list
+      let draggedIndex = null;
+
+      document.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('file-item')) {
+          draggedIndex = parseInt(e.target.dataset.index);
+          e.target.style.opacity = '0.5';
+        }
+      });
+
+      document.addEventListener('dragend', (e) => {
+        if (e.target.classList.contains('file-item')) {
+          e.target.style.opacity = '1';
+        }
+      });
+
+      document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      document.addEventListener('drop', (e) => {
+        if (draggedIndex !== null && e.target.classList.contains('file-item')) {
+          const targetIndex = parseInt(e.target.dataset.index);
+          if (draggedIndex !== targetIndex) {
+            const [movedFile] = files.splice(draggedIndex, 1);
+            files.splice(targetIndex, 0, movedFile);
             updateFileList();
-            updateButtonStates();
+          }
+          draggedIndex = null;
         }
-        
-        // [MRG-022] Update file list display
-        function updateFileList() {
-            const fileListDiv = document.getElementById('file-list');
-            const fileListItems = document.getElementById('file-list-items');
-            const uploadBox = document.getElementById('merge-upload-box');
-            
-            if (selectedFiles.length === 0) {
-                fileListDiv.style.display = 'none';
-                uploadBox.classList.remove('has-file');
-                return;
-            }
-            
-            fileListDiv.style.display = 'block';
-            uploadBox.classList.add('has-file');
-            
-            fileListItems.innerHTML = selectedFiles.map((file, index) => `
-                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: var(--bg-tertiary); border-radius: var(--radius-sm); margin-bottom: 0.25rem;">
-                    <span style="font-size: 1.2rem;">📄</span>
-                    <span style="flex: 1; font-size: 0.9rem; color: var(--text-primary);">${file.name}</span>
-                    <span style="font-size: 0.75rem; color: var(--text-tertiary);">${formatFileSize(file.size)}</span>
-                    <button onclick="removeFile(${index})" style="background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--color-error);">✕</button>
-                </div>
-            `).join('');
-            
-            // Update upload box to show file count badge
-            const existingBadge = uploadBox.querySelector('.file-count-badge');
-            if (existingBadge) existingBadge.remove();
-            
-            const badge = document.createElement('span');
-            badge.className = 'file-count-badge';
-            badge.style.cssText = 'position: absolute; top: 10px; right: 10px; background: var(--color-accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;';
-            badge.textContent = selectedFiles.length;
-            uploadBox.style.position = 'relative';
-            uploadBox.appendChild(badge);
-        }
-        
-        // [MRG-023] Remove single file
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updateFileList();
-            updateButtonStates();
-        }
-        
-        // [MRG-024] Clear all files
-        function clearFiles() {
-            selectedFiles = [];
-            mergedPdfBytes = null;
-            document.getElementById('download-area').style.display = 'none';
-            updateFileList();
-            updateButtonStates();
-            showNotification('🗑️ All files cleared — YOUROWNPDF.COM');
-        }
-        
-        // [MRG-025] Update button states
-        function updateButtonStates() {
-            const mergeBtn = document.getElementById('merge-btn');
-            if (selectedFiles.length >= 2) {
-                enableButton('merge-btn');
-            } else {
-                disableButton('merge-btn');
-            }
-        }
-        
-        // [MRG-026] Merge PDFs
-        async function mergePDFs() {
-            if (selectedFiles.length < 2) {
-                showErrorDialog('Please select at least 2 PDF files to merge.');
-                return;
-            }
-            
-            const mergeBtn = document.getElementById('merge-btn');
-            const progressArea = document.getElementById('progress-area');
-            
-            // Disable button during processing
-            mergeBtn.disabled = true;
-            mergeBtn.textContent = '⏳ Merging...';
-            
-            // Show progress
-            progressArea.style.display = 'block';
-            const progressBar = createProgressBar('progress-area');
-            
-            try {
-                // [MRG-027] Create a new PDF document
-                const mergedPdf = await PDFLib.PDFDocument.create();
-                
-                // [MRG-028] Process each file
-                for (let i = 0; i < selectedFiles.length; i++) {
-                    const file = selectedFiles[i];
-                    const percent = Math.round(((i + 1) / selectedFiles.length) * 100);
-                    
-                    if (progressBar) {
-                        progressBar.update(percent, `Processing file ${i + 1} of ${selectedFiles.length}: ${file.name}`);
-                    }
-                    
-                    // Read file as ArrayBuffer
-                    const arrayBuffer = await readFileAsArrayBuffer(file);
-                    
-                    // Load the PDF
-                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                    
-                    // Copy all pages to merged document
-                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    pages.forEach(page => mergedPdf.addPage(page));
-                }
-                
-                // [MRG-029] Save merged PDF
-                mergedPdfBytes = await mergedPdf.save();
-                
-                if (progressBar) {
-                    progressBar.complete('✅ Merge complete!');
-                }
-                
-                // Show download button
-                document.getElementById('download-area').style.display = 'block';
-                document.getElementById('download-filename').textContent = `yourownpdf-merged.pdf (${formatFileSize(mergedPdfBytes.byteLength)})`;
-                
-                // Enable merge button again
-                mergeBtn.textContent = '🔄 Merge Again';
-                mergeBtn.disabled = false;
-                
-                // Show success dialog
-                showSuccessDialog(
-                    'Your PDFs have been merged successfully into one file!',
-                    '⬇ Download Now',
-                    () => downloadMergedPDF()
-                );
-                
-            } catch (error) {
-                console.error('Merge error:', error);
-                if (progressBar) {
-                    progressBar.update(0, '❌ Error occurred');
-                }
-                mergeBtn.textContent = '🔗 Merge PDFs';
-                mergeBtn.disabled = false;
-                showErrorDialog('Failed to merge PDFs. Please make sure all files are valid PDFs and try again.');
-            }
-        }
-        
-        // [MRG-030] Download merged PDF
-        function downloadMergedPDF() {
-            if (!mergedPdfBytes) {
-                showErrorDialog('No merged file available. Please merge PDFs first.');
-                return;
-            }
-            
-            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
-            downloadFile(blob, 'yourownpdf-merged.pdf');
-        }
-        
-        // [MRG-031] Read file as ArrayBuffer
-        function readFileAsArrayBuffer(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = () => reject(reader.error);
-                reader.readAsArrayBuffer(file);
-            });
-        }
-    </script>
+      });
+    }
+
+    // MRG-030: Modal functions
+    function showLoadingModal(message) {
+      modalContent.innerHTML = `
+        <div style="text-align: center;">
+          <div class="spinner" style="margin: 0 auto 1rem;"></div>
+          <p>${message}</p>
+        </div>
+      `;
+      modalOverlay.classList.add('active');
+    }
+
+    function showSuccessModal(message) {
+      modalContent.innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+          <h3 style="margin-bottom: 1rem;">Success!</h3>
+          <p>${message}</p>
+          <button onclick="closeModal()" style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+            OK
+          </button>
+        </div>
+      `;
+      modalOverlay.classList.add('active');
+
+      // Auto close after 3 seconds
+      setTimeout(closeModal, 3000);
+    }
+
+    function showErrorModal(message) {
+      modalContent.innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">❌</div>
+          <h3 style="margin-bottom: 1rem; color: var(--color-b);">Error</h3>
+          <p>${message}</p>
+          <button onclick="closeModal()" style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+            OK
+          </button>
+        </div>
+      `;
+      modalOverlay.classList.add('active');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+    }
+  </script>
 </body>
 </html>

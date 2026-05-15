@@ -1,0 +1,444 @@
+// J-201: Router JavaScript - History API navigation for YOUROWNPDF.COM
+
+(function() {
+  'use strict';
+
+  // J-202: Router configuration
+  const Router = {
+    // J-203: Current route
+    currentRoute: null,
+
+    // J-204: Routes registry
+    routes: {
+      '/': 'pages/home.html',
+      '/tools': 'pages/tools.html',
+      '/about': 'pages/about.html',
+      '/contact': 'pages/contact.html',
+      '/privacy': 'pages/privacy.html',
+      '/terms': 'pages/terms.html',
+      '/404': 'pages/404.html'
+    },
+
+    // J-205: Initialize router
+    init: function() {
+      // J-206: Intercept all internal links
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href^="/"]');
+        if (link) {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          this.navigateTo(href);
+        }
+      });
+
+      // J-207: Handle browser back/forward buttons
+      window.addEventListener('popstate', (e) => this.handlePopState(e));
+      // J-208: Handle initial page load
+      let path = window.location.pathname;
+
+      // CLEANER FIX: Normalize path for local or server environments
+      if (path.endsWith('index.html') || path === '' || path === '/') {
+          path = '/';
+      }
+
+      // J-209: Register tool routes
+      this.registerToolRoutes();
+    },
+
+    // J-210: Navigate to URL (NO HASHTAGS)
+    navigateTo: function(path) {
+      if (path === window.location.pathname) return;
+          // Fix local file routing
+          if (
+            path.includes('index.html') ||
+            path.startsWith('/D:/') ||
+            path === ''
+          ) {
+            path = '/';
+          }
+
+      // J-211: Push state to history
+      history.pushState({}, '', path);
+
+      // J-212: Load content without refresh
+      this.loadContent(path);
+
+      // J-213: Update current route
+      this.currentRoute = path;
+
+      // J-214: Emit navigation event
+      window.YOUROWNPDF.Events.emit('routeChange', { path });
+    },
+
+    // J-215: Handle popstate (back/forward buttons)
+    handlePopState: function(e) {
+      let path = window.location.pathname;
+        // Fix local file routing
+          if (
+            path.includes('index.html') ||
+            path.startsWith('/D:/') ||
+            path === ''
+          ) {
+            path = '/';
+          }
+
+      this.loadContent(path);
+      this.currentRoute = path;
+
+      // J-216: Emit navigation event
+      window.YOUROWNPDF.Events.emit('routeChange', { path });
+    },
+
+    // J-217: Load content based on pathname
+    loadContent: function(pathname) {
+      // J-218: Find matching route
+      const route = this.matchRoute(pathname);
+
+      // J-219: Determine which page to load
+      let pagePath;
+
+      if (route) {
+        pagePath = this.routes[route] || this.routes['/404'];
+      } else if (pathname.startsWith('/tools/pdf/')) {
+        // J-220: Load PDF tool pages
+        const toolName = pathname.split('/').pop();
+        pagePath = `tools/pdf/${toolName}.html`;
+      } else if (pathname.startsWith('/tools/image/')) {
+        // J-221: Load image tool pages
+        const toolName = pathname.split('/').pop();
+        pagePath = `tools/image/${toolName}.html`;
+      } else if (pathname === '/tools' || pathname.startsWith('/tools/')) {
+        pagePath = 'pages/tools.html';
+      } else {
+        pagePath = 'pages/404.html';
+      }
+
+      // J-222: Fetch and render page content
+      this.fetchPage(pagePath).then(html => {
+        this.renderPage(html, pathname);
+        this.updateActiveNav(pathname);
+      }).catch(err => {
+        console.error('Page load error:', err);
+        this.loadErrorPage();
+      });
+    },
+      // J-223: Match route pattern (Improved)
+      matchRoute: function(pathname) {
+        // Sort keys by length so specific paths are checked before the home page "/"
+        const routes = Object.keys(this.routes).sort((a, b) => b.length - a.length);
+        
+        for (const route of routes) {
+          if (route === pathname || (route !== '/' && pathname.startsWith(route))) {
+            return route;
+          }
+        }
+        return null;
+      },
+
+// J-224: Fetch page from server (Simplified)
+  fetchPage: function(pagePath) {
+    return new Promise((resolve, reject) => {
+      // Remove the leading slash to make the path relative to the index.html location
+      const cleanPath = pagePath.startsWith('/') ? pagePath.substring(1) : pagePath;
+
+      fetch(cleanPath)
+        .then(response => {
+          if (!response.ok) throw new Error(`Could not find: ${cleanPath}`);
+          return response.text();
+        })
+        .then(html => resolve(html))
+        .catch(err => {
+          console.error("Fetch error:", err);
+          reject(err);
+        });
+    });
+  },
+
+  // J-225: Try with base path (Is Deleted)
+
+  // J-226: Render page content (Cleaned)
+renderPage: function(html, pathname) {
+  const main = document.querySelector('main');
+  if (!main) return;
+
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+
+  // 1. Update Content
+  main.innerHTML = temp.querySelector('main')?.innerHTML || html;
+
+  // 2. Update Title
+  document.title = temp.querySelector('title')?.textContent || 'YOUROWNPDF.COM';
+
+  // 3. Remove old page scripts to prevent memory leaks
+  document.querySelectorAll('.page-script').forEach(s => s.remove());
+
+  // 4. Add new scripts (specifically from the new page)
+  const scripts = temp.querySelectorAll('script');
+  scripts.forEach(script => {
+    const newScript = document.createElement('script');
+    newScript.className = 'page-script'; // Mark it for removal later
+    if (script.src) {
+      newScript.src = script.src;
+    } else {
+      newScript.textContent = script.textContent;
+    }
+    document.body.appendChild(newScript);
+  });
+
+  // 5. Reinitialize UI components
+  this.reinitializeComponents();
+},
+
+    // J-232: Reinitialize all components after page load
+    reinitializeComponents: function() {
+      // Reinitialize search
+      if (window.YOUROWNPDF && window.YOUROWNPDF.Search) window.YOUROWNPDF.Search.init();
+
+      // Reinitialize accordions
+      if (window.YOUROWNPDF && window.YOUROWNPDF.Accordion) window.YOUROWNPDF.Accordion.init();
+
+      // Reinitialize dropdowns
+      if (window.YOUROWNPDF && window.YOUROWNPDF.Dropdown) window.YOUROWNPDF.Dropdown.init();
+
+      // Reinitialize tabs
+      if (window.YOUROWNPDF && window.YOUROWNPDF.Tabs) window.YOUROWNPDF.Tabs.init();
+
+      // Reinitialize lazy loading
+      if (window.YOUROWNPDF && window.YOUROWNPDF.LazyLoad) window.YOUROWNPDF.LazyLoad.init();
+    },
+
+    // J-233: Update active navigation state
+    updateActiveNav: function(pathname) {
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === pathname || (href !== '/' && pathname.startsWith(href))) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    },
+
+    // J-234: Load error page
+    loadErrorPage: function() {
+      const main = document.querySelector('main');
+      if (main) {
+        main.innerHTML = `
+          <div class="container">
+            <div class="empty-state">
+              <div class="empty-state-icon">😕</div>
+              <h2>Page Not Found</h2>
+              <p>The page you're looking for doesn't exist.</p>
+              <a href="/" class="btn btn-primary" style="margin-top: 1rem;">Go Home</a>
+            </div>
+          </div>
+        `;
+        document.title = '404 - YOUROWNPDF.COM';
+      }
+    },
+
+    // J-235: Register dynamic tool routes
+    registerToolRoutes: function() {
+      // J-236: PDF tools routes
+      const pdfTools = [
+        'merge-pdf', 'compress-pdf', 'split-pdf', 'rotate-pdf',
+        'protect-pdf', 'unlock-pdf', 'organize-pdf', 'repair-pdf',
+        'compare-pdf', 'watermark-pdf', 'page-numbers-pdf',
+        'extract-pdf', 'remove-pages-pdf', 'extract-images-pdf',
+        'pdf-to-jpg', 'pdf-to-png', 'pdf-to-word', 'pdf-to-excel',
+        'pdf-to-ppt', 'pdf-to-text', 'pdf-to-html', 'pdf-to-images'
+      ];
+
+      pdfTools.forEach(tool => {
+        this.routes[`/tools/pdf/${tool}`] = `tools/pdf/${tool}.html`;
+      });
+
+      // J-237: Image tools routes
+      const imageTools = [
+        'compress-image', 'resize-image', 'crop-image', 'rotate-image',
+        'flip-image', 'filter-image', 'brightness-image', 'contrast-image',
+        'grayscale-image', 'invert-image', 'blur-image', 'sharpen-image',
+        'remove-background', 'image-to-pdf', 'jpg-to-png', 'png-to-jpg',
+        'webp-to-jpg', 'gif-to-png', 'ico-converter', 'base64-encode'
+      ];
+
+      imageTools.forEach(tool => {
+        this.routes[`/tools/image/${tool}`] = `tools/image/${tool}.html`;
+      });
+    },
+
+    // J-238: Get current route
+    getCurrentRoute: function() {
+      return this.currentRoute || window.location.pathname;
+    },
+
+    // J-239: Get route parameters
+    getParams: function() {
+      const pathname = window.location.pathname;
+      const parts = pathname.split('/').filter(p => p);
+      return parts;
+    },
+
+    // J-240: Check if route matches pattern
+    isRoute: function(pattern) {
+      const pathname = window.location.pathname;
+      if (pattern instanceof RegExp) {
+        return pattern.test(pathname);
+      }
+      return pathname === pattern || pathname.startsWith(pattern + '/');
+    },
+
+    // J-241: Redirect to URL
+    redirect: function(path) {
+      this.navigateTo(path);
+    },
+
+    // J-242: Reload current page
+    reload: function() {
+      this.loadContent(window.location.pathname);
+    },
+
+    // J-243: Add custom route
+    addRoute: function(path, pagePath) {
+      this.routes[path] = pagePath;
+    },
+
+    // J-244: Remove route
+    removeRoute: function(path) {
+      delete this.routes[path];
+    },
+
+    // J-245: Generate URL for route
+    urlFor: function(routeName, params = {}) {
+      let path = routeName;
+      Object.keys(params).forEach(key => {
+        path = path.replace(`:${key}`, params[key]);
+      });
+      return path;
+    }
+  };
+
+  // J-246: Page loader for tool pages
+  const PageLoader = {
+    // J-247: Load tool page content
+    loadToolPage: function(toolId, toolName, category) {
+      const path = `/tools/${category}/${toolName}`;
+      Router.navigateTo(path);
+    },
+
+    // J-248: Preload tool pages
+    preloadTools: function() {
+      const tools = Object.keys(Router.routes).filter(r => r.startsWith('/tools/'));
+      tools.forEach(tool => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = Router.routes[tool];
+        link.as = 'document';
+        document.head.appendChild(link);
+      });
+    },
+
+    // J-249: Cache page content
+    cache: new Map(),
+
+    // J-250: Get cached page or fetch
+    getPage: function(path) {
+      if (this.cache.has(path)) {
+        return Promise.resolve(this.cache.get(path));
+      }
+      return Router.fetchPage(path).then(html => {
+        this.cache.set(path, html);
+        return html;
+      });
+    }
+  };
+
+  // J-251: Export router to global scope
+  if (!window.YOUROWNPDF) window.YOUROWNPDF = {};
+  window.YOUROWNPDF.Router = Router;
+  window.YOUROWNPDF.PageLoader = PageLoader;
+
+  // J-252: Initialize router on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    Router.init();
+  });
+
+  // J-253: Expose navigate function globally
+  window.navigateTo = function(path) {
+    Router.navigateTo(path);
+  };
+
+  // J-254: Expose reload function globally
+  window.reloadPage = function() {
+    Router.reload();
+  };
+
+  // J-255: History state wrapper
+  window.History = {
+    pushState: function(state, title, url) {
+      history.pushState(state, title, url);
+    },
+    replaceState: function(state, title, url) {
+      history.replaceState(state, title, url);
+    },
+    go: function(delta) {
+      history.go(delta);
+    },
+    back: function() {
+      history.back();
+    },
+    forward: function() {
+      history.forward();
+    }
+  };
+
+})();
+
+// J-256: Global route change handler
+document.addEventListener('routeChange', function(e) {
+  const path = e.detail.path;
+  console.log('Route changed to:', path);
+});
+
+// J-257: Utility to get all registered routes
+function getRoutes() {
+  return window.YOUROWNPDF.Router.routes;
+}
+// J-258: Utility to check if current page is tool page
+function isToolPage() {
+  let path = window.location.pathname;
+
+  // Fix local file routing
+  if (
+    path.includes('index.html') ||
+    path.startsWith('/D:/') ||
+    path === ''
+  ) {
+    path = '/';
+  }
+
+  return path.startsWith('/tools/pdf/') || path.startsWith('/tools/image/');
+}
+
+// J-259: Utility to get current tool ID
+function getCurrentToolId() {
+  let path = window.location.pathname;
+
+  // Fix local file routing
+  if (
+    path.includes('index.html') ||
+    path.startsWith('/D:/') ||
+    path === ''
+  ) {
+    path = '/';
+  }
+
+  const parts = path.split('/');
+  return parts[parts.length - 1];
+}
+// J-260: Utility to generate tool URL
+function toolUrl(category, toolName) {
+  return `/tools/${category}/${toolName}`;
+}
