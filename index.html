@@ -420,18 +420,7 @@
       }
     }
 
-    // IDX-028: Mobile menu toggle
-    function initMobileMenu() {
-      const toggle = document.getElementById('menuToggle');
-      const mobileNav = document.getElementById('mobileNav');
-
-      if (toggle && mobileNav) {
-        toggle.addEventListener('click', () => {
-          toggle.classList.toggle('active');
-          mobileNav.classList.toggle('active');
-        });
-      }
-    }
+    // IDX-028: Mobile menu toggle - handled by main.js MobileMenu
 
     // IDX-029: Initialize
     document.addEventListener('DOMContentLoaded', function() {
@@ -475,16 +464,7 @@
         });
       }
 
-      // Theme toggle
-      document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('theme-toggle')) {
-          const current = document.documentElement.getAttribute('data-theme');
-          const next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('yourownpdf-theme', next);
-          e.target.textContent = next === 'dark' ? '☀️' : '🌙';
-        }
-      });
+      // Theme toggle is handled by main.js ThemeManager
 
       // Initialize theme
       const savedTheme = localStorage.getItem('yourownpdf-theme');

@@ -46,7 +46,8 @@
     init: function() {
       this.toggle = document.querySelector('.menu-toggle');
       this.nav = document.querySelector('.nav');
-      if (this.toggle && this.nav) {
+      this.mobileNav = document.getElementById('mobileNav');
+      if (this.toggle) {
         this.toggle.addEventListener('click', () => this.toggleMenu());
       }
     },
@@ -54,7 +55,8 @@
     // J-010: Toggle menu open/close
     toggleMenu: function() {
       this.toggle.classList.toggle('active');
-      this.nav.classList.toggle('active');
+      if (this.nav) this.nav.classList.toggle('active');
+      if (this.mobileNav) this.mobileNav.classList.toggle('active');
     },
 
     // J-011: Close menu
@@ -585,7 +587,7 @@
 
     // J-089: Theme toggle click handler
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('theme-toggle')) {
+      if (e.target.closest('.theme-toggle')) {
         ThemeManager.toggle();
       }
     });
