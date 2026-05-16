@@ -150,10 +150,11 @@
 // J-224: Fetch page from server (Simplified)
   fetchPage: function(pagePath) {
     return new Promise((resolve, reject) => {
-      // Remove the leading slash to make the path relative to the index.html location
-      const cleanPath = pagePath.startsWith('/') ? pagePath.substring(1) : pagePath;
+      // Always use absolute path from root to avoid relative URL issues
+      const cleanPath = pagePath.startsWith('/') ? pagePath : '/' + pagePath;
+      const fullPath = window.location.origin + cleanPath;
 
-      fetch(cleanPath)
+      fetch(fullPath)
         .then(response => {
           if (!response.ok) throw new Error(`Could not find: ${cleanPath}`);
           return response.text();
@@ -237,8 +238,10 @@ renderPage: function(html, pathname) {
 
     // J-232: Reinitialize all components after page load
     reinitializeComponents: function() {
-      // Re-render tool cards if on home page
-      if (typeof renderToolCards === 'function') {
+      // Re-render tool cards ONLY if on home page (grids exist)
+      const pdfGrid = document.getElementById('pdfToolsGrid');
+      const imageGrid = document.getElementById('imageToolsGrid');
+      if (typeof renderToolCards === 'function' && pdfGrid && imageGrid) {
         renderToolCards();
       }
 

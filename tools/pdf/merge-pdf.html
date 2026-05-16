@@ -338,145 +338,81 @@
   </style>
 </head>
 <body>
-  <!-- MRG-003: Header -->
-  <header class="header">
-    <div class="container">
-      <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
-        </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
-        </nav>
-        <button class="theme-toggle">🌙</button>
+  <!-- Tool page content only - no header/footer (uses global from index.html) -->
+  <div class="tool-page">
+    <div class="tool-header" style="margin-bottom: 2rem;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">📑 Merge PDF</h1>
+      <p style="color: var(--color-text-muted); font-size: 1.125rem;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
+    </div>
+
+    <div class="tool-layout">
+      <!-- MRG-008: Upload area + Actions (left column) -->
+      <div class="tool-main">
+        <div class="tool-upload-area" id="uploadArea">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Drag & drop PDF files here</div>
+          <div class="upload-hint">or click to browse — multiple files allowed</div>
+          <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
+        </div>
+
+        <!-- MRG-009: Action buttons under upload -->
+        <div class="tool-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn-primary" id="mergeBtn" disabled onclick="processFiles()" style="padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
+            <i class="fas fa-object-group"></i> Merge PDF
+          </button>
+          <button class="btn-secondary" id="clearBtn" disabled onclick="clearFiles()" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 500; border-radius: 0.75rem; cursor: pointer;">
+            Clear All
+          </button>
+          <button class="btn-primary" id="downloadBtn" onclick="downloadMerged()" style="display: none; padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+
+        <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
+      </div>
+
+      <!-- MRG-009b: Tool info (right column) -->
+      <div class="tool-info">
+        <h2 style="margin-bottom: 1rem;">Features</h2>
+        <ul class="tool-features">
+          <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
+          <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
+          <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
+          <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+          <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
+          <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
+        </ul>
       </div>
     </div>
-  </header>
 
-  <!-- MRG-004: Main content -->
-  <main class="main">
-    <!-- MRG-005: Breadcrumbs -->
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Merge PDF</span>
-      </nav>
-    </div>
-
-    <!-- MRG-006: Ad placeholder -->
-    <div class="container">
-      <div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div>
-    </div>
-
-    <!-- MRG-007: Tool page -->
-    <div class="container">
-      <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">📑 Merge PDF</h1>
-          <p style="color: var(--color-text-muted); font-size: 1.125rem;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
-        </div>
-
-        <div class="tool-layout">
-          <!-- MRG-008: Upload area + Actions (left column) -->
-          <div class="tool-main">
-            <div class="tool-upload-area" id="uploadArea">
-              <div class="upload-icon">📁</div>
-              <div class="upload-text">Drag & drop PDF files here</div>
-              <div class="upload-hint">or click to browse — multiple files allowed</div>
-              <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
-            </div>
-
-            <!-- MRG-009: Action buttons under upload -->
-            <div class="tool-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-              <button class="btn-primary" id="mergeBtn" disabled onclick="processFiles()" style="padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
-                <i class="fas fa-object-group"></i> Merge PDF
-              </button>
-              <button class="btn-secondary" id="clearBtn" disabled onclick="clearFiles()" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 500; border-radius: 0.75rem; cursor: pointer;">
-                Clear All
-              </button>
-              <button class="btn-primary" id="downloadBtn" onclick="downloadMerged()" style="display: none; padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
-                <i class="fas fa-download"></i> Download
-              </button>
-            </div>
-
-            <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
-          </div>
-
-          <!-- MRG-009b: Tool info (right column) -->
-          <div class="tool-info">
-            <h2 style="margin-bottom: 1rem;">Features</h2>
-            <ul class="tool-features">
-              <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
-              <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
-              <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
-              <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
-              <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
-              <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
-            </ul>
+    <!-- MRG-010: How to use -->
+    <div class="how-to-use">
+      <h2>How to Use YOUROWNPDF.COM — Merge PDF</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Add Your PDF Files</h3>
+            <p>Click on the upload area or drag and drop your PDF files. You can select multiple files at once.</p>
           </div>
         </div>
-
-        <!-- MRG-010: How to use -->
-        <div class="how-to-use">
-          <h2>How to Use YOUROWNPDF.COM — Merge PDF</h2>
-          <div class="steps">
-            <div class="step">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h3>Add Your PDF Files</h3>
-                <p>Click on the upload area or drag and drop your PDF files. You can select multiple files at once. All files are processed locally on your device — nothing is uploaded to any server.</p>
-              </div>
-            </div>
-            <div class="step">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h3>Reorder if Needed</h3>
-                <p>The files will appear in the order they were added. To change the merge order, simply drag and drop the file items in the list. The first file will be first in the final merged PDF.</p>
-              </div>
-            </div>
-            <div class="step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h3>Click Merge</h3>
-                <p>Once you've added all your files and set the order, click the "Merge PDF" button. The merging happens instantly in your browser using our powerful PDF processing engine.</p>
-              </div>
-            </div>
-            <div class="step">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h3>Download Your File</h3>
-                <p>When the merge is complete, a download button will appear. Click it to download your merged PDF file. The file will be named "yourownpdf-merged.pdf" by default.</p>
-              </div>
-            </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Click Merge</h3>
+            <p>Click the "Merge PDF" button. The merging happens instantly in your browser.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Download</h3>
+            <p>Download your merged PDF file.</p>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- MRG-011: Ad placeholder -->
-    <div class="container">
-      <div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div>
-    </div>
-  </main>
-
-  <!-- MRG-012: Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-links">
-          <a href="/about" class="footer-link" onclick="event.preventDefault(); navigateTo('/about')">About</a>
-          <a href="/contact" class="footer-link" onclick="event.preventDefault(); navigateTo('/contact')">Contact</a>
-          <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
-          <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
-        </div>
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  </div>
 
   <!-- MRG-013: Modal overlay -->
   <div class="modal-overlay" id="modalOverlay">

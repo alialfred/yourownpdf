@@ -262,6 +262,7 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <script src="js/router.js"></script>
   <script src="js/main.js"></script>
   <script src="js/components.js"></script>
   <script>
@@ -372,7 +373,7 @@
 
       // Render PDF tools
       pdfGrid.innerHTML = pdfTools.map(tool => `
-        <a href="${tool.path}" class="tool-card" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
+        <a href="${tool.path}" class="tool-card" onclick="event.preventDefault(); navigateTo('${tool.path}')" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
           <span class="tool-icon">${tool.icon}</span>
           <div class="tool-title">${tool.name}</div>
           <div class="tool-desc">${tool.desc}</div>
@@ -381,7 +382,7 @@
 
       // Render Image tools
       imageGrid.innerHTML = imageTools.map(tool => `
-        <a href="${tool.path}" class="tool-card" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
+        <a href="${tool.path}" class="tool-card" onclick="event.preventDefault(); navigateTo('${tool.path}')" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-title="${tool.name}" data-desc="${tool.desc}">
           <span class="tool-icon">${tool.icon}</span>
           <div class="tool-title">${tool.name}</div>
           <div class="tool-desc">${tool.desc}</div>
