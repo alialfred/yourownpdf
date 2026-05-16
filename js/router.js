@@ -26,8 +26,9 @@
       document.addEventListener('click', (e) => {
         const link = e.target.closest('a[href^="/"]');
         if (link) {
-          e.preventDefault();
           const href = link.getAttribute('href');
+          console.log('DEBUG click: intercepted link', href);
+          e.preventDefault();
           this.navigateTo(href);
         }
       });
@@ -124,6 +125,7 @@
       }
 
       // J-222: Fetch and render page content
+      console.log('DEBUG loadContent: pathname=', pathname, 'route=', route, 'pagePath=', pagePath, 'cleanPath will be:', pagePath.startsWith('/') ? pagePath.substring(1) : pagePath);
       this.fetchPage(pagePath).then(html => {
         this.renderPage(html, pathname);
         this.updateActiveNav(pathname);
@@ -174,8 +176,21 @@ renderPage: function(html, pathname) {
   const temp = document.createElement('div');
   temp.innerHTML = html;
 
+  // Check if this is a tool page
+  const isToolPage = pathname.startsWith('/tools/pdf/') || pathname.startsWith('/tools/image/');
+
+  let content;
+  if (isToolPage) {
+    // For tool pages: extract only .tool-page content (no header/footer)
+    const toolContent = temp.querySelector('.tool-page');
+    content = toolContent ? toolContent.innerHTML : '';
+  } else {
+    // For regular pages: extract main content
+    content = temp.querySelector('main')?.innerHTML || html;
+  }
+
   // 1. Update Content
-  main.innerHTML = temp.querySelector('main')?.innerHTML || html;
+  main.innerHTML = content;
 
   // 2. Update Title
   document.title = temp.querySelector('title')?.textContent || 'YOUROWNPDF.COM';
@@ -183,18 +198,38 @@ renderPage: function(html, pathname) {
   // 3. Remove old page scripts to prevent memory leaks
   document.querySelectorAll('.page-script').forEach(s => s.remove());
 
-  // 4. Add new scripts (specifically from the new page)
-  const scripts = temp.querySelectorAll('script');
-  scripts.forEach(script => {
-    const newScript = document.createElement('script');
-    newScript.className = 'page-script'; // Mark it for removal later
-    if (script.src) {
-      newScript.src = script.src;
-    } else {
-      newScript.textContent = script.textContent;
+  // 4. Add new scripts and styles (specifically from the new page) - for tool pages only
+  // Always remove old tool-specific styles first
+  const existingStyle = document.getElementById('tool-specific-styles');
+  if (existingStyle) existingStyle.remove();
+
+  if (isToolPage) {
+    // Add tool-specific styles
+    const styleContent = temp.querySelector('style');
+    if (styleContent) {
+      const newStyle = document.createElement('style');
+      newStyle.id = 'tool-specific-styles';
+      newStyle.textContent = styleContent.textContent;
+      document.head.appendChild(newStyle);
     }
-    document.body.appendChild(newScript);
-  });
+
+    // Add new scripts
+    const scripts = temp.querySelectorAll('script');
+    scripts.forEach(script => {
+      // Skip main.js and router.js - already loaded
+      if (script.src && (script.src.includes('main.js') || script.src.includes('router.js') || script.src.includes('components.js'))) {
+        return;
+      }
+      const newScript = document.createElement('script');
+      newScript.className = 'page-script';
+      if (script.src) {
+        newScript.src = script.src;
+      } else {
+        newScript.textContent = script.textContent;
+      }
+      document.body.appendChild(newScript);
+    });
+  }
 
   // 5. Reinitialize UI components
   this.reinitializeComponents();
@@ -202,6 +237,11 @@ renderPage: function(html, pathname) {
 
     // J-232: Reinitialize all components after page load
     reinitializeComponents: function() {
+      // Re-render tool cards if on home page
+      if (typeof renderToolCards === 'function') {
+        renderToolCards();
+      }
+
       // Reinitialize search
       if (window.YOUROWNPDF && window.YOUROWNPDF.Search) window.YOUROWNPDF.Search.init();
 
