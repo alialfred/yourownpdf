@@ -65,14 +65,22 @@
         currentPath = '/index.html';
       }
 
-      // Skip if already on this path
-      if (path === currentPath) return;
+      // If already on this path, just scroll to top
+      if (path === currentPath) {
+        window.scrollTo(0, 0);
+        return;
+      }
 
       // J-211: Push state to history
       history.pushState({}, '', path);
 
       // J-212: Load content without refresh
       this.loadContent(path);
+
+      // Close mobile menu after navigation
+      if (window.YOUROWNPDF && window.YOUROWNPDF.MobileMenu && typeof window.YOUROWNPDF.MobileMenu.closeMenu === 'function') {
+        window.YOUROWNPDF.MobileMenu.closeMenu();
+      }
 
       // J-213: Update current route
       this.currentRoute = path;
@@ -234,6 +242,47 @@ renderPage: function(html, pathname) {
 
   // 5. Reinitialize UI components
   this.reinitializeComponents();
+
+  // 6. For homepage (index.html), ensure navigation functions are available
+  const isHomePage = pathname.includes('index.html') || pathname === '/' || pathname === '/index.html';
+  if (isHomePage) {
+    // Re-attach navigation functions in case they were lost
+    if (typeof window.scrollToSection !== 'function') {
+      window.scrollToSection = function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const header = document.querySelector('.header');
+          const headerHeight = header ? header.offsetHeight : 70;
+          const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+          window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+        }
+      };
+    }
+  }
+
+  // 6. For tool pages, manually call init functions since DOMContentLoaded already fired
+  if (isToolPage) {
+    // Try to call any init function defined in the tool's inline script
+    if (typeof initUpload === 'function') {
+      initUpload();
+    }
+    if (typeof initReorder === 'function') {
+      initReorder();
+    }
+
+    // Focus on upload area after loading tool page
+    setTimeout(() => {
+      const uploadArea = document.getElementById('uploadArea');
+      if (uploadArea) {
+        uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        uploadArea.focus();
+      }
+    }, 100);
+
+    if (typeof initTheme === 'function') {
+      initTheme();
+    }
+  }
 },
 
     // J-232: Reinitialize all components after page load
@@ -241,8 +290,50 @@ renderPage: function(html, pathname) {
       // Re-render tool cards ONLY if on home page (grids exist)
       const pdfGrid = document.getElementById('pdfToolsGrid');
       const imageGrid = document.getElementById('imageToolsGrid');
-      if (typeof renderToolCards === 'function' && pdfGrid && imageGrid) {
+      const isHomePage = pdfGrid && imageGrid;
+
+      if (isHomePage && typeof renderToolCards === 'function') {
         renderToolCards();
+      }
+
+      // Reinitialize navigation functions for homepage
+      if (isHomePage) {
+        // Ensure scrollToSection is available globally
+        window.scrollToSection = window.scrollToSection || function(sectionId) {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const header = document.querySelector('.header');
+            const headerHeight = header ? header.offsetHeight : 70;
+            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+            window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+          }
+        };
+
+        // Ensure navigateToImageTools is available globally
+        window.navigateToImageTools = window.navigateToImageTools || function() {
+          try {
+            const imageSection = document.getElementById('image-tools');
+            if (imageSection) {
+              window.scrollToSection('image-tools');
+            } else {
+              window.scrollTo(0, 0);
+              if (typeof window.navigateTo === 'function') {
+                window.navigateTo('/index.html');
+              } else {
+                window.location.href = '/index.html#image-tools';
+                return;
+              }
+              setTimeout(() => {
+                const section = document.getElementById('image-tools');
+                if (section) {
+                  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 500);
+            }
+          } catch (e) {
+            window.location.href = '/index.html#image-tools';
+          }
+        };
       }
 
       // Reinitialize search

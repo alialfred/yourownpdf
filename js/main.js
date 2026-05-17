@@ -63,6 +63,7 @@
     closeMenu: function() {
       if (this.toggle) this.toggle.classList.remove('active');
       if (this.nav) this.nav.classList.remove('active');
+      if (this.mobileNav) this.mobileNav.classList.remove('active');
     }
   };
 

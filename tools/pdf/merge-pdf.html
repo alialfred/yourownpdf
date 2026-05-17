@@ -13,21 +13,39 @@
   <style>
     /* MRG-002: Tool page specific styles */
     .tool-page {
-      max-width: 1200px;
+      max-width: 850px;
       margin: 0 auto;
-      padding: 2rem 1rem;
+      padding: 2rem 3rem 2rem 2rem;
+      box-sizing: border-box;
+      background:
+        radial-gradient(ellipse at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 100%),
+        linear-gradient(rgba(180, 180, 180, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180, 180, 180, 0.15) 1px, transparent 1px);
+      background-size: 100% 100%, 30px 30px, 30px 30px;
+      min-height: calc(100vh - 200px);
+    }
+
+    /* Dark mode support */
+    [data-theme="dark"] .tool-page {
+      background:
+        radial-gradient(ellipse at center, #1f2937 0%, #111827 50%, #0b0f19 100%),
+        linear-gradient(rgba(100, 100, 100, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 100, 100, 0.2) 1px, transparent 1px);
+      background-size: 100% 100%, 30px 30px, 30px 30px;
     }
 
     .tool-layout {
       display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 0 0.5rem 3rem 0.5rem;
+      max-width: 100%;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .tool-layout {
         grid-template-columns: 1fr;
+        gap: 1rem;
       }
     }
 
@@ -193,11 +211,59 @@
       border: 1px solid var(--color-border);
       border-radius: 1rem;
       padding: 1.5rem;
+      max-width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .tool-info {
+        grid-template-columns: 1fr;
+      }
     }
 
     .tool-features {
       list-style: none;
       margin: 1rem 0;
+    }
+
+    /* Related Tools Section */
+    .related-tools {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .tool-features-column,
+    .related-tools-column {
+      min-width: 0;
+    }
+
+    .related-tools-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .related-tools-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .related-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      min-height: 100px;
+    }
+
+    @media (max-width: 500px) {
+      .related-tools-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .tool-features li {
@@ -292,6 +358,9 @@
       border-radius: 1rem;
       padding: 2rem;
       margin-top: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
     }
 
     .how-to-use h2 {
@@ -330,10 +399,42 @@
       color: var(--color-text-muted);
     }
 
+    .step-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 0.75rem;
+      border: 2px solid var(--color-border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-top: 1rem;
+    }
+
+    .step-content ul {
+      color: var(--color-text-muted);
+      margin-top: 0.75rem;
+      padding-left: 1.25rem;
+    }
+
+    .step-content li {
+      margin-bottom: 0.5rem;
+    }
+
     .reorder-hint {
       font-size: 0.875rem;
       color: var(--color-text-muted);
       margin-top: 0.5rem;
+    }
+
+    .hint-icon {
+      cursor: help;
+      transition: all 0.2s ease;
+      display: inline-block;
+      color: #dc2626;
+    }
+
+    .hint-icon:hover {
+      color: #16a34a !important;
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 3px #16a34a);
     }
   </style>
 </head>
@@ -341,8 +442,8 @@
   <!-- Tool page content only - no header/footer (uses global from index.html) -->
   <div class="tool-page">
     <div class="tool-header" style="margin-bottom: 2rem;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">📑 Merge PDF</h1>
-      <p style="color: var(--color-text-muted); font-size: 1.125rem;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">📑 Merge PDF</h1>
+      <p style="color: var(--color-text-muted); font-size: 1.125rem; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
     </div>
 
     <div class="tool-layout">
@@ -368,46 +469,99 @@
           </button>
         </div>
 
-        <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle"></i> Drag files in the list to reorder them before merging.</p>
+        <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle hint-icon" title="click icon for more guide" onclick="showReorderGuide(event)"></i> Drag files in the list to reorder them before merging.</p>
       </div>
 
       <!-- MRG-009b: Tool info (right column) -->
       <div class="tool-info">
-        <h2 style="margin-bottom: 1rem;">Features</h2>
-        <ul class="tool-features">
-          <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
-          <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
-          <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
-          <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
-          <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
-          <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
-        </ul>
+        <div class="tool-features-column">
+          <h2 style="margin-bottom: 1rem;">Features</h2>
+          <ul class="tool-features">
+            <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
+            <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
+            <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
+            <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+            <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
+            <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
+          </ul>
+        </div>
+
+        <!-- Related Tools - Right side of Features -->
+        <div class="related-tools-column">
+          <div class="related-tools">
+            <div class="related-tools-title">Try These Related Tools</div>
+            <div class="related-tools-grid" id="relatedToolsGrid">
+              <a href="/tools/pdf/compress-pdf.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/compress-pdf')">
+                <span class="tool-icon">🗜️</span>
+                <span class="tool-title">Compress PDF</span>
+                <span class="tool-desc">Free online tool</span>
+              </a>
+              <a href="/tools/pdf/pdf-to-word.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/pdf-to-word')">
+                <span class="tool-icon">📝</span>
+                <span class="tool-title">PDF to Word</span>
+                <span class="tool-desc">Free online tool</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- MRG-010: How to use -->
     <div class="how-to-use">
-      <h2>How to Use YOUROWNPDF.COM — Merge PDF</h2>
+      <h2>How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — Merge PDF</h2>
       <div class="steps">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h3>Add Your PDF Files</h3>
-            <p>Click on the upload area or drag and drop your PDF files. You can select multiple files at once.</p>
+            <h3>Upload Your PDF Files</h3>
+            <p>Click on the upload area or drag and drop your PDF files. You can select multiple files at once using Ctrl/Cmd + click, or select an entire folder. The supported format is PDF (.pdf).</p>
+            <ul>
+              <li>Drag and drop files directly onto the upload zone</li>
+              <li>Click the upload area to open file browser</li>
+              <li>Add more files anytime by clicking the upload area again</li>
+            </ul>
+            <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+1:+Upload+PDF+Files" alt="Upload PDF files" class="step-image">
           </div>
         </div>
         <div class="step">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h3>Click Merge</h3>
-            <p>Click the "Merge PDF" button. The merging happens instantly in your browser.</p>
+            <h3>Arrange File Order (Optional)</h3>
+            <p>Before merging, you can reorder your files to ensure they appear in the correct sequence in the final document. The first file in the list will be first in the merged PDF.</p>
+            <ul>
+              <li>Click a file to select it (highlighted in blue)</li>
+              <li>Drag the handle (☰) on the left to reorder</li>
+              <li>Drop the file in your desired position</li>
+              <li>Remove unwanted files using the X button</li>
+            </ul>
+            <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+2:+Reorder+Files" alt="Reorder PDF files" class="step-image">
           </div>
         </div>
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h3>Download</h3>
-            <p>Download your merged PDF file.</p>
+            <h3>Click Merge PDF</h3>
+            <p>Once you've added all your files (minimum 2 required), click the "Merge PDF" button. The merging process happens entirely in your browser — your files never leave your device.</p>
+            <ul>
+              <li>Wait for the merging to complete (usually seconds)</li>
+              <li>A success message will appear when done</li>
+              <li>The "Download" button will become available</li>
+            </ul>
+            <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+3:+Merge+PDF" alt="Click merge button" class="step-image">
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Download Your Merged PDF</h3>
+            <p>Click the green "Download" button to save your merged PDF file. The file will be named "yourownpdf-merged.pdf" and saved to your downloads folder.</p>
+            <ul>
+              <li>Your merged PDF preserves original quality</li>
+              <li>All pages are combined in the order you specified</li>
+              <li>Ready to share or print immediately</li>
+            </ul>
+            <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+4:+Download+Merged+PDF" alt="Download merged PDF" class="step-image">
           </div>
         </div>
       </div>
@@ -423,6 +577,7 @@
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
+  <script src="../../js/tools-config.js"></script>
 
   <!-- MRG-015: PDF-lib library -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -446,6 +601,15 @@
       initTheme();
       initUpload();
       initReorder();
+      // TBR-002: Related tools rendering - disabled for now
+      // console.log('Rendering related tools...');
+      // setTimeout(() => {
+      //   if (window.YOUROWNPDF && window.YOUROWNPDF.RelatedTools && typeof window.YOUROWNPDF.RelatedTools.render === 'function') {
+      //     window.YOUROWNPDF.RelatedTools.render('relatedToolsGrid', 'merge-pdf');
+      //   } else {
+      //     renderRelatedToolsManual();
+      //   }
+      // }, 100);
     });
 
     // MRG-019: Theme initialization
@@ -519,6 +683,16 @@
           });
           updateFileList();
           updateButtons();
+
+          // Auto-scroll to action buttons when 5+ files uploaded
+          if (files.length >= 5) {
+            setTimeout(() => {
+              const actionButtons = document.querySelector('.tool-actions');
+              if (actionButtons) {
+                actionButtons.scrollIntoView({ behavior: 'smooth', block: 'end' });
+              }
+            }, 150);
+          }
         };
         reader.readAsArrayBuffer(file);
       });
@@ -571,6 +745,13 @@
       if (fileList) fileList.remove();
       updateButtons();
       downloadBtn.classList.remove('visible');
+
+      // Focus on upload area
+      const uploadArea = document.getElementById('uploadArea');
+      if (uploadArea) {
+        uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        uploadArea.focus();
+      }
     }
 
     // MRG-026: Update button states
@@ -800,6 +981,59 @@
 
     function closeModal() {
       modalOverlay.classList.remove('active');
+    }
+
+    // Manual fallback for related tools
+    function renderRelatedToolsManual() {
+      const container = document.getElementById('relatedToolsGrid');
+      if (!container) return;
+
+      // Hardcoded related tools for merge-pdf
+      const relatedTools = [
+        { id: 'compress-pdf', name: 'Compress PDF', icon: '🗜️', category: 'pdf' },
+        { id: 'pdf-to-word', name: 'PDF to Word', icon: '📝', category: 'pdf' }
+      ];
+
+      container.innerHTML = relatedTools.map(tool => `
+        <a href="/tools/${tool.category}/${tool.id}" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/${tool.category}/${tool.id}')">
+          <div class="tool-card-icon">${tool.icon}</div>
+          <div class="tool-card-title">${tool.name}</div>
+          <div class="tool-card-desc">Free online tool</div>
+        </a>
+      `).join('');
+    }
+
+    // MRG-031: Show detailed reorder guide
+    function showReorderGuide(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      modalContent.innerHTML = `
+        <div style="text-align: left; max-width: 450px;">
+          <h3 style="margin-bottom: 1rem; color: var(--color-b);"><i class="fas fa-sort-amount-up"></i> How File Reordering Works</h3>
+          <p style="margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.9rem;">When merging multiple PDFs, the order matters. The files will be combined in the exact sequence they appear in your list.</p>
+
+          <div style="background: var(--color-card-bg); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Quick Tips:</h4>
+            <ul style="font-size: 0.85rem; color: var(--color-text-muted); padding-left: 1.25rem; margin: 0;">
+              <li style="margin-bottom: 0.5rem;">Click a file to select it (highlights in blue)</li>
+              <li style="margin-bottom: 0.5rem;">Drag the grip handle (☰) to reorder</li>
+              <li style="margin-bottom: 0.5rem;">First file = first in merged PDF</li>
+              <li>Last file = last in merged PDF</li>
+            </ul>
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
+            <i class="fas fa-lightbulb" style="color: #f59e0b;"></i> Tip: Use this to combine related documents in the correct reading order.
+          </p>
+
+          <button onclick="closeModal()" style="margin-top: 1rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer; width: 100%;">
+            Got it!
+          </button>
+        </div>
+      `;
+      modalOverlay.classList.add('active');
     }
   </script>
 </body>

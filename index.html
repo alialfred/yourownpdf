@@ -13,28 +13,30 @@
   <style>
     /* IDX-003: Home page specific styles */
     .hero {
-      background: linear-gradient(135deg, var(--color-card-hover) 0%, var(--color-bg) 100%);
-      padding: 4rem 1rem;
+      background: linear-gradient(to right, transparent 0%, var(--color-card-hover) 10%, var(--color-bg) 50%, var(--color-card-hover) 90%, transparent 100%);
+      padding: 1rem 1rem;
       text-align: center;
       border-bottom: 1px solid var(--color-border);
+      max-width: 90%;
+      margin: 0 auto;
     }
 
     .hero h1 {
       font-size: 3rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.25rem;
     }
 
     .hero-subtitle {
       color: var(--color-text-muted);
       font-size: 1.25rem;
-      margin-bottom: 2rem;
+      margin-bottom: 0.5rem;
     }
 
     .hero-stats {
       display: flex;
       justify-content: center;
-      gap: 3rem;
-      margin-top: 2rem;
+      gap: 2rem;
+      margin-top: 0.5rem;
       flex-wrap: wrap;
     }
 
@@ -135,13 +137,14 @@
         </a>
 
         <nav class="nav" id="mainNav">
-          <a href="/" class="nav-link" data-route="/">Home</a>
-          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('pdf-tools')">PDF Tools</a>
-          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('image-tools')">Image Tools</a>
+          <a href="/" class="nav-link" data-route="/" onclick="if(window.MobileMenu) MobileMenu.closeMenu();">Home</a>
+          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); if(window.MobileMenu) MobileMenu.closeMenu(); scrollToSection('pdf-tools')">PDF Tools</a>
+          <a href="/" class="nav-link" data-route="/" onclick="event.preventDefault(); if(window.navigateToImageTools) { navigateToImageTools(); } else if(window.scrollToSection) { scrollToSection('image-tools'); } if(window.MobileMenu) MobileMenu.closeMenu();">Image Tools</a>
         </nav>
 
         <div class="header-controls">
           <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
             <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
           </div>
           <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
@@ -156,10 +159,11 @@
 
     <div class="mobile-nav" id="mobileNav">
       <div class="mobile-nav-content">
-        <a href="/" class="mobile-nav-link" data-route="/">Home</a>
-        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('pdf-tools')">PDF Tools</a>
-        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); scrollToSection('image-tools')">Image Tools</a>
+        <a href="/" class="mobile-nav-link" data-route="/" onclick="if(window.MobileMenu) MobileMenu.closeMenu();">Home</a>
+        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); if(window.MobileMenu) MobileMenu.closeMenu(); scrollToSection('pdf-tools')">PDF Tools</a>
+        <a href="/" class="mobile-nav-link" data-route="/" onclick="event.preventDefault(); if(window.navigateToImageTools) { navigateToImageTools(); } else if(window.scrollToSection) { scrollToSection('image-tools'); } if(window.MobileMenu) MobileMenu.closeMenu();">Image Tools</a>
         <div class="mobile-search">
+          <span class="search-icon">🔍</span>
           <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
         </div>
       </div>
@@ -168,12 +172,20 @@
 
   <main class="main" id="mainContent">
     <div class="container">
+      <div class="ad-container">
+        <div class="ad-placeholder">Advertisement - 728x90</div>
+      </div>
+    </div>
+
+    <!-- Breadcrumbs removed - see commit history if needed
+    <div class="container">
       <nav class="breadcrumbs" id="breadcrumbs">
         <a href="/" class="breadcrumb-item" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">Home</a>
         <span class="breadcrumb-separator">›</span>
         <span class="breadcrumb-current">All Tools</span>
       </nav>
     </div>
+    -->
 
     <section class="hero">
       <div class="container">
@@ -197,11 +209,7 @@
       </div>
     </section>
 
-    <div class="container">
-      <div class="ad-container">
-        <div class="ad-placeholder">Advertisement - 728x90</div>
-      </div>
-    </div>
+    <!-- Ad moved to top (above hero) - removed from here -->
 
     <section class="tools-section" id="pdf-tools">
       <div class="container">
@@ -438,6 +446,41 @@
         const headerHeight = header ? header.offsetHeight : 70;
         const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
         window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+      }
+    }
+
+    // IDX-027b: Navigate to Image Tools - handles both homepage and tool pages
+    function navigateToImageTools() {
+      try {
+        // Check if we're on homepage (section exists)
+        const imageSection = document.getElementById('image-tools');
+        if (imageSection) {
+          // Already on homepage, just scroll to section
+          scrollToSection('image-tools');
+        } else {
+          // On a tool page, navigate to homepage then scroll to Image Tools
+          // First scroll to top
+          window.scrollTo(0, 0);
+          // Then navigate - force reload to ensure homepage loads
+          if (typeof navigateTo === 'function') {
+            navigateTo('/index.html');
+          } else {
+            // Fallback to direct navigation
+            window.location.href = '/index.html#image-tools';
+            return;
+          }
+          // After page loads, scroll to Image Tools
+          setTimeout(() => {
+            const section = document.getElementById('image-tools');
+            if (section) {
+              section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 500);
+        }
+      } catch (e) {
+        console.error('Navigation error:', e);
+        // Fallback to direct navigation
+        window.location.href = '/index.html#image-tools';
       }
     }
 
