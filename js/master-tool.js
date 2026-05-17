@@ -29,15 +29,15 @@ class MasterTool {
     if (titleEl) titleEl.textContent = this.config.title || "Tool";
     if (descEl) descEl.textContent = this.config.description || "";
     if (btnTextEl) btnTextEl.textContent = this.config.buttonText || "Process";
-    
+
     if (fileInput && this.config.allowedFileTypes && this.config.allowedFileTypes.length > 0) {
-        fileInput.accept = this.config.allowedFileTypes.join(',');
+      fileInput.accept = this.config.allowedFileTypes.join(',');
     }
 
     if (featuresEl && this.config.features) {
-        featuresEl.innerHTML = this.config.features.map(f => 
-            `<li><i class="fas fa-check feature-icon"></i> ${f}</li>`
-        ).join('');
+      featuresEl.innerHTML = this.config.features.map(f =>
+        `<li><i class="fas fa-check feature-icon"></i> ${f}</li>`
+      ).join('');
     }
   }
 
@@ -53,7 +53,7 @@ class MasterTool {
     this.files = [];
     this.updateFileList();
     this.updateButtons();
-    
+
     uploadArea.addEventListener('click', (e) => {
       if (e.target.closest('.file-item') || e.target.closest('.file-remove') || e.target.closest('.file-drag-handle')) {
         return;
@@ -62,10 +62,10 @@ class MasterTool {
     });
 
     uploadArea.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            fileInput.click();
-        }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
     });
 
     uploadArea.addEventListener('dragover', (e) => {
@@ -86,15 +86,15 @@ class MasterTool {
     fileInput.addEventListener('change', (e) => {
       this.handleFiles(e.target.files);
     });
-    
+
     if (clearBtn) {
-        clearBtn.addEventListener('click', () => this.clearFiles());
+      clearBtn.addEventListener('click', () => this.clearFiles());
     }
     if (processBtn) {
-        processBtn.addEventListener('click', () => this.processFiles());
+      processBtn.addEventListener('click', () => this.processFiles());
     }
     if (downloadBtn) {
-        downloadBtn.addEventListener('click', () => this.downloadResult());
+      downloadBtn.addEventListener('click', () => this.downloadResult());
     }
 
     // Global Modal click-away
@@ -109,17 +109,17 @@ class MasterTool {
 
   handleFiles(fileList) {
     let newFiles = Array.from(fileList);
-    
+
     if (this.config.allowedFileTypes && this.config.allowedFileTypes.length > 0) {
-        newFiles = newFiles.filter(f => {
-            const ext = '.' + f.name.split('.').pop().toLowerCase();
-            return this.config.allowedFileTypes.includes(f.type) || this.config.allowedFileTypes.includes(ext);
-        });
+      newFiles = newFiles.filter(f => {
+        const ext = '.' + f.name.split('.').pop().toLowerCase();
+        return this.config.allowedFileTypes.includes(f.type) || this.config.allowedFileTypes.includes(ext);
+      });
     }
 
     if (this.config.maxFiles > 0 && (this.files.length + newFiles.length > this.config.maxFiles)) {
-        this.showErrorModal(`Maximum of ${this.config.maxFiles} files allowed.`);
-        newFiles = newFiles.slice(0, this.config.maxFiles - this.files.length);
+      this.showErrorModal(`Maximum of ${this.config.maxFiles} files allowed.`);
+      newFiles = newFiles.slice(0, this.config.maxFiles - this.files.length);
     }
 
     newFiles.forEach(file => {
@@ -134,7 +134,7 @@ class MasterTool {
         this.updateFileList();
         this.updateButtons();
 
-        if (this.files.length >= 5) {
+        if (this.files.length >= 2) {
           setTimeout(() => {
             const actionButtons = document.querySelector('.tool-actions');
             if (actionButtons) actionButtons.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -143,7 +143,7 @@ class MasterTool {
       };
       reader.readAsArrayBuffer(file);
     });
-    
+
     const fileInput = document.getElementById('fileInput');
     if (fileInput) fileInput.value = '';
   }
@@ -151,7 +151,7 @@ class MasterTool {
   updateFileList() {
     const uploadArea = document.getElementById('uploadArea');
     if (!uploadArea) return;
-    
+
     let fileListEl = document.querySelector('.file-list');
     if (!fileListEl) {
       fileListEl = document.createElement('div');
@@ -175,10 +175,10 @@ class MasterTool {
 
     // Attach remove listeners
     fileListEl.querySelectorAll('.file-remove').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.removeFile(parseInt(btn.getAttribute('data-index')));
-        });
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.removeFile(parseInt(btn.getAttribute('data-index')));
+      });
     });
   }
 
@@ -201,7 +201,7 @@ class MasterTool {
     const fileListEl = document.querySelector('.file-list');
     if (fileListEl) fileListEl.remove();
     this.updateButtons();
-    
+
     const downloadBtn = document.getElementById('downloadBtn');
     if (downloadBtn) downloadBtn.classList.remove('visible');
 
@@ -217,7 +217,7 @@ class MasterTool {
   updateButtons() {
     const processBtn = document.getElementById('processBtn');
     const clearBtn = document.getElementById('clearBtn');
-    
+
     const minFiles = this.config.minFilesRequired !== undefined ? this.config.minFilesRequired : 1;
 
     if (processBtn) processBtn.disabled = this.files.length < minFiles;
@@ -232,7 +232,7 @@ class MasterTool {
 
     try {
       if (typeof this.logicCallback !== 'function') {
-          throw new Error("logicCallback is not a function.");
+        throw new Error("logicCallback is not a function.");
       }
       this.processedDataBytes = await this.logicCallback(this.files, this.config);
 
@@ -240,7 +240,7 @@ class MasterTool {
       const downloadBtn = document.getElementById('downloadBtn');
       if (downloadBtn) downloadBtn.classList.add('visible');
       this.showSuccessModal(this.config.successMessage || "Processed successfully!");
-      
+
     } catch (error) {
       console.error(error);
       this.closeModal();
@@ -253,11 +253,11 @@ class MasterTool {
 
     let blob;
     if (this.processedDataBytes instanceof Blob) {
-        blob = this.processedDataBytes;
+      blob = this.processedDataBytes;
     } else {
-        blob = new Blob([this.processedDataBytes], { type: this.config.downloadMimeType || 'application/pdf' });
+      blob = new Blob([this.processedDataBytes], { type: this.config.downloadMimeType || 'application/pdf' });
     }
-    
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -269,6 +269,8 @@ class MasterTool {
   }
 
   initReorder() {
+    window.__reorderToolInstance = this;
+
     if (document._reorderAttached) return;
     document._reorderAttached = true;
 
@@ -311,6 +313,8 @@ class MasterTool {
     document.addEventListener('dragstart', (e) => {
       const fileItem = e.target.closest('.file-item');
       if (fileItem) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', '');
         if (selectedItem) {
           selectedItem.classList.remove('selected');
           selectedItem = null;
@@ -377,12 +381,15 @@ class MasterTool {
         const targetIndex = parseInt(targetItem.dataset.index);
         const rect = targetItem.getBoundingClientRect();
         const midpoint = rect.top + rect.height / 2;
-        const actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex;
+        const actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex + 1;
 
-        if (draggedIndex !== actualTargetIndex) {
-          const [movedFile] = this.files.splice(draggedIndex, 1);
-          this.files.splice(actualTargetIndex, 0, movedFile);
-          this.updateFileList();
+        if (draggedIndex !== actualTargetIndex && draggedIndex !== actualTargetIndex - 1) {
+          const tool = window.__reorderToolInstance;
+          if (!tool) return;
+          const [movedFile] = tool.files.splice(draggedIndex, 1);
+          const insertAt = draggedIndex < actualTargetIndex ? actualTargetIndex - 1 : actualTargetIndex;
+          tool.files.splice(insertAt, 0, movedFile);
+          tool.updateFileList();
         }
       }
       draggedIndex = null;
@@ -417,9 +424,16 @@ class MasterTool {
       </div>
     `;
     modalOverlay.classList.add('active');
-    
+
     // Auto start the download after 500ms
-    setTimeout(() => this.downloadResult(), 500);
+    setTimeout(() => {
+        try {
+            this.downloadResult();
+            this.closeModal();
+        } catch (e) {
+            // Download failed — keep modal open so user can retry via the button
+        }
+    }, 500);
 
     document.getElementById('modalDownloadBtn').addEventListener('click', () => {
       this.downloadResult();
@@ -447,22 +461,22 @@ class MasterTool {
 
   closeModal() {
     const modalOverlay = document.getElementById('modalOverlay');
-    if(modalOverlay) modalOverlay.classList.remove('active');
+    if (modalOverlay) modalOverlay.classList.remove('active');
   }
 }
 
 window.MasterTool = MasterTool;
 
 // Helper to show reorder guide globally via inline onclick
-window.showReorderGuide = function(e) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    const modalContent = document.getElementById('modalContent');
-    const modalOverlay = document.getElementById('modalOverlay');
-    if(!modalContent || !modalOverlay) return;
-    modalContent.innerHTML = `
+window.showReorderGuide = function (e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const modalContent = document.getElementById('modalContent');
+  const modalOverlay = document.getElementById('modalOverlay');
+  if (!modalContent || !modalOverlay) return;
+  modalContent.innerHTML = `
         <div style="text-align: left; max-width: 450px;">
         <h3 style="margin-bottom: 1rem; color: var(--color-b);"><i class="fas fa-sort-amount-up"></i> How File Reordering Works</h3>
         <p style="margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.9rem;">The files will be processed in the exact sequence they appear in your list.</p>
@@ -480,8 +494,8 @@ window.showReorderGuide = function(e) {
         </button>
         </div>
     `;
-    modalOverlay.classList.add('active');
-    document.getElementById('modalReorderOkBtn').addEventListener('click', () => {
-        modalOverlay.classList.remove('active');
-    });
+  modalOverlay.classList.add('active');
+  document.getElementById('modalReorderOkBtn').addEventListener('click', () => {
+    modalOverlay.classList.remove('active');
+  });
 };
