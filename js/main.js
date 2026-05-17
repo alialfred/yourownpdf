@@ -579,6 +579,70 @@
     }
   };
 
+  // J-xxx: Section Navigation
+  const Navigation = {
+    init: function() {
+      // Bind click events to elements with data-scroll-to attribute
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('[data-scroll-to]');
+        if (target) {
+          e.preventDefault();
+          this.scrollToSection(target.dataset.scrollTo);
+          // Close mobile menu if open
+          if (typeof MobileMenu !== 'undefined') {
+            MobileMenu.closeMenu();
+          }
+        }
+      });
+    },
+
+    scrollToSection: function(sectionId) {
+      if (sectionId === 'top') {
+        const path = window.location.pathname;
+        const isHomePage = path.includes('index.html') || path === '/' || path === '';
+        
+        if (isHomePage) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          if (window.YOUROWNPDF && window.YOUROWNPDF.Router) {
+            window.YOUROWNPDF.Router.navigateTo('/index.html', 'top');
+          } else {
+            window.location.href = '/index.html';
+          }
+        }
+        return;
+      }
+
+      const section = document.getElementById(sectionId);
+      if (section) {
+        // Already on the page with the section, just scroll
+        this._performScroll(section);
+      } else {
+        // Not on the page, navigate to home then scroll
+        window.scrollTo(0, 0);
+        
+        if (window.YOUROWNPDF && window.YOUROWNPDF.Router) {
+          window.YOUROWNPDF.Router.navigateTo('/index.html', sectionId);
+        } else if (typeof navigateTo === 'function') {
+          navigateTo('/index.html');
+          setTimeout(() => {
+            const sec = document.getElementById(sectionId);
+            if (sec) this._performScroll(sec);
+          }, 500);
+        } else {
+          window.location.href = '/index.html#' + sectionId;
+        }
+      }
+    },
+
+    _performScroll: function(section) {
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 70;
+      const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+      window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+    }
+  };
+
   // J-078: Initialize everything when DOM is ready
   document.addEventListener('DOMContentLoaded', function() {
     // J-079: Initialize theme
@@ -589,6 +653,9 @@
 
     // J-081: Initialize search
     SearchFilter.init();
+
+    // Initialize Navigation
+    Navigation.init();
 
     // J-082: Initialize back to top
     BackToTop.init();
@@ -644,6 +711,7 @@
   window.YOUROWNPDF = {
     Theme: ThemeManager,
     MobileMenu: MobileMenu,
+    Navigation: Navigation,
     Search: SearchFilter,
     Modal: Modal,
     LibraryLoader: LibraryLoader,

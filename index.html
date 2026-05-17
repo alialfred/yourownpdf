@@ -7,6 +7,7 @@
   <title>YourOwnPDF.COM - Free Online PDF & Image Tools</title>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/master-styles.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -132,14 +133,14 @@
   <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">
+        <a href="/" class="logo" data-scroll-to="top">
           <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
 
         <nav class="nav" id="mainNav">
-          <a href="/" class="nav-link" data-route="/" onclick="if(window.MobileMenu) MobileMenu.closeMenu();">Home</a>
-          <a href="/tools" class="nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); if(window.MobileMenu) MobileMenu.closeMenu(); scrollToSection('pdf-tools')">PDF Tools</a>
-          <a href="/" class="nav-link" data-route="/" onclick="event.preventDefault(); if(window.navigateToImageTools) { navigateToImageTools(); } else if(window.scrollToSection) { scrollToSection('image-tools'); } if(window.MobileMenu) MobileMenu.closeMenu();">Image Tools</a>
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
 
         <div class="header-controls">
@@ -159,9 +160,9 @@
 
     <div class="mobile-nav" id="mobileNav">
       <div class="mobile-nav-content">
-        <a href="/" class="mobile-nav-link" data-route="/" onclick="if(window.MobileMenu) MobileMenu.closeMenu();">Home</a>
-        <a href="/tools" class="mobile-nav-link" data-route="/tools" onclick="event.preventDefault(); if(window.navigateTo) navigateTo('/tools'); if(window.MobileMenu) MobileMenu.closeMenu(); scrollToSection('pdf-tools')">PDF Tools</a>
-        <a href="/" class="mobile-nav-link" data-route="/" onclick="event.preventDefault(); if(window.navigateToImageTools) { navigateToImageTools(); } else if(window.scrollToSection) { scrollToSection('image-tools'); } if(window.MobileMenu) MobileMenu.closeMenu();">Image Tools</a>
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
         <div class="mobile-search">
           <span class="search-icon">🔍</span>
           <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
@@ -180,7 +181,7 @@
     <!-- Breadcrumbs removed - see commit history if needed
     <div class="container">
       <nav class="breadcrumbs" id="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/')}">Home</a>
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); window.scrollTo({top:0,behavior:'smooth'})">Home</a>
         <span class="breadcrumb-separator">›</span>
         <span class="breadcrumb-current">All Tools</span>
       </nav>
@@ -270,9 +271,10 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="js/router.js"></script>
   <script src="js/main.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/master-tool.js"></script>
   <script>
     // IDX-023: PDF Tools Data (74 tools - ordered by popularity)
     const pdfTools = [
@@ -435,52 +437,6 @@
       if (imageSection) {
         const imageHeader = imageSection.querySelector('.section-header');
         if (imageHeader) imageHeader.style.display = imageCount ? '' : 'none';
-      }
-    }
-
-    // IDX-027: Scroll to section - stops at section header (below sticky header)
-    function scrollToSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        const header = document.querySelector('.header');
-        const headerHeight = header ? header.offsetHeight : 70;
-        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-        window.scrollTo({ top: sectionTop, behavior: 'smooth' });
-      }
-    }
-
-    // IDX-027b: Navigate to Image Tools - handles both homepage and tool pages
-    function navigateToImageTools() {
-      try {
-        // Check if we're on homepage (section exists)
-        const imageSection = document.getElementById('image-tools');
-        if (imageSection) {
-          // Already on homepage, just scroll to section
-          scrollToSection('image-tools');
-        } else {
-          // On a tool page, navigate to homepage then scroll to Image Tools
-          // First scroll to top
-          window.scrollTo(0, 0);
-          // Then navigate - force reload to ensure homepage loads
-          if (typeof navigateTo === 'function') {
-            navigateTo('/index.html');
-          } else {
-            // Fallback to direct navigation
-            window.location.href = '/index.html#image-tools';
-            return;
-          }
-          // After page loads, scroll to Image Tools
-          setTimeout(() => {
-            const section = document.getElementById('image-tools');
-            if (section) {
-              section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }, 500);
-        }
-      } catch (e) {
-        console.error('Navigation error:', e);
-        // Fallback to direct navigation
-        window.location.href = '/index.html#image-tools';
       }
     }
 

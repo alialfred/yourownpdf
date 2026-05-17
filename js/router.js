@@ -26,6 +26,11 @@
       document.addEventListener('click', (e) => {
         const link = e.target.closest('a[href^="/"]');
         if (link) {
+          // Let Navigation module handle data-scroll-to links
+          if (link.hasAttribute('data-scroll-to')) {
+            return;
+          }
+          
           const href = link.getAttribute('href');
           console.log('DEBUG click: intercepted link', href);
           e.preventDefault();
@@ -53,29 +58,19 @@
     },
 
     // J-210: Navigate to URL (NO HASHTAGS)
-    navigateTo: function(path) {
-      // Fix local file routing FIRST - keep as index.html for homepage
-      if (path.includes('index.html') || path === '' || path === '/') {
-        path = '/index.html';
-      }
-
-      // Get current normalized path
-      let currentPath = window.location.pathname;
-      if (currentPath.endsWith('index.html') || currentPath === '' || currentPath === '/') {
-        currentPath = '/index.html';
-      }
-
-      // If already on this path, just scroll to top
-      if (path === currentPath) {
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      // J-211: Push state to history
+    navigateTo: function(path, sectionToScroll) {
+      // Always push state to update URL
       history.pushState({}, '', path);
 
-      // J-212: Load content without refresh
+      // Always try to load content (this handles both same-page and different-page)
       this.loadContent(path);
+
+      // Handle scroll based on where we are now
+      if (sectionToScroll) {
+        // Store for after content loads
+        window._scrollAfterNav = sectionToScroll;
+      }
+      // If no sectionToScroll, let loadContent handle it (it may scroll to top by default)
 
       // Close mobile menu after navigation
       if (window.YOUROWNPDF && window.YOUROWNPDF.MobileMenu && typeof window.YOUROWNPDF.MobileMenu.closeMenu === 'function') {
@@ -225,8 +220,13 @@ renderPage: function(html, pathname) {
     // Add new scripts
     const scripts = temp.querySelectorAll('script');
     scripts.forEach(script => {
-      // Skip main.js and router.js - already loaded
-      if (script.src && (script.src.includes('main.js') || script.src.includes('router.js') || script.src.includes('components.js'))) {
+      // Skip core scripts that are loaded globally on index.html
+      if (script.src && (
+          script.src.includes('main.js') || 
+          script.src.includes('router.js') || 
+          script.src.includes('components.js') ||
+          script.src.includes('master-tool.js')
+      )) {
         return;
       }
       const newScript = document.createElement('script');
@@ -234,7 +234,11 @@ renderPage: function(html, pathname) {
       if (script.src) {
         newScript.src = script.src;
       } else {
-        newScript.textContent = script.textContent;
+        // Dynamically convert top-level let/const to var to prevent SPA routing SyntaxErrors
+        // This solves the 'Identifier has already been declared' bug across all 80+ tool files
+        let code = script.textContent;
+        code = code.replace(/^(\s*)(let|const)\s+/gm, '$1var ');
+        newScript.textContent = code;
       }
       document.body.appendChild(newScript);
     });
@@ -243,24 +247,28 @@ renderPage: function(html, pathname) {
   // 5. Reinitialize UI components
   this.reinitializeComponents();
 
-  // 6. For homepage (index.html), ensure navigation functions are available
-  const isHomePage = pathname.includes('index.html') || pathname === '/' || pathname === '/index.html';
-  if (isHomePage) {
-    // Re-attach navigation functions in case they were lost
-    if (typeof window.scrollToSection !== 'function') {
-      window.scrollToSection = function(sectionId) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-          const header = document.querySelector('.header');
-          const headerHeight = header ? header.offsetHeight : 70;
-          const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-          window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+  // 6. Scroll to section if one was pending
+  if (window._scrollAfterNav) {
+    const sectionId = window._scrollAfterNav;
+    window._scrollAfterNav = null;
+    setTimeout(() => {
+      if (sectionId === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      
+      const section = document.getElementById(sectionId);
+      if (section) {
+        if (window.YOUROWNPDF && window.YOUROWNPDF.Navigation) {
+          window.YOUROWNPDF.Navigation._performScroll(section);
+        } else {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      };
-    }
+      }
+    }, 100);
   }
 
-  // 6. For tool pages, manually call init functions since DOMContentLoaded already fired
+  // 7. For tool pages, manually call init functions since DOMContentLoaded already fired
   if (isToolPage) {
     // Try to call any init function defined in the tool's inline script
     if (typeof initUpload === 'function') {
@@ -294,46 +302,6 @@ renderPage: function(html, pathname) {
 
       if (isHomePage && typeof renderToolCards === 'function') {
         renderToolCards();
-      }
-
-      // Reinitialize navigation functions for homepage
-      if (isHomePage) {
-        // Ensure scrollToSection is available globally
-        window.scrollToSection = window.scrollToSection || function(sectionId) {
-          const section = document.getElementById(sectionId);
-          if (section) {
-            const header = document.querySelector('.header');
-            const headerHeight = header ? header.offsetHeight : 70;
-            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-            window.scrollTo({ top: sectionTop, behavior: 'smooth' });
-          }
-        };
-
-        // Ensure navigateToImageTools is available globally
-        window.navigateToImageTools = window.navigateToImageTools || function() {
-          try {
-            const imageSection = document.getElementById('image-tools');
-            if (imageSection) {
-              window.scrollToSection('image-tools');
-            } else {
-              window.scrollTo(0, 0);
-              if (typeof window.navigateTo === 'function') {
-                window.navigateTo('/index.html');
-              } else {
-                window.location.href = '/index.html#image-tools';
-                return;
-              }
-              setTimeout(() => {
-                const section = document.getElementById('image-tools');
-                if (section) {
-                  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }, 500);
-            }
-          } catch (e) {
-            window.location.href = '/index.html#image-tools';
-          }
-        };
       }
 
       // Reinitialize search

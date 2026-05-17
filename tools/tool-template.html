@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Master Tool Template">
+  <title>Master Tool Template | YOUROWNPDF.COM</title>
+
+  <!-- Core CSS & Master Styles -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Tool page content only - no header/footer (uses global from index.html) -->
+  <div class="tool-page">
+    
+    <div class="tool-header-section">
+      <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+      <p class="tool-description-text" id="toolDescDisplay"></p>
+    </div>
+
+    <div class="tool-layout">
+      
+      <!-- LEFT COLUMN: Upload & Actions -->
+      <div class="tool-main">
+        <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Drag & drop files here</div>
+          <div class="upload-hint">or click to browse</div>
+          <input type="file" class="file-input" id="fileInput" multiple>
+        </div>
+
+        <div class="tool-actions">
+          <button class="action-btn primary-btn" id="processBtn" disabled>
+            <i class="fas fa-cog"></i> <span id="processBtnText">Process</span>
+          </button>
+          <button class="action-btn secondary-btn" id="clearBtn" disabled>
+            Clear All
+          </button>
+          <button class="action-btn success-btn" id="downloadBtn">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+
+        <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" onclick="window.showReorderGuide(event)"></i> Drag files in the list to reorder them.</p>
+      </div>
+
+      <!-- RIGHT COLUMN: Features -->
+      <div class="tool-info">
+        <div class="tool-features-column">
+          <h2>Features</h2>
+          <ul class="tool-features" id="featuresList">
+            <!-- Dynamically populated from config -->
+          </ul>
+        </div>
+        
+        <!-- Related Tools -->
+        <div class="related-tools-column">
+          <div class="related-tools">
+            <div class="related-tools-title">Try These Related Tools</div>
+            <div class="related-tools-grid" id="relatedToolsGrid">
+              <!-- Add relative tool cards here if needed -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../js/main.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/router.js"></script>
+  <script src="../js/tools-config.js"></script>
+  
+  <!-- Single Source of Truth for Tool Logic -->
+  <script src="../js/master-tool.js"></script>
+
+  <script>
+    (function() {
+      // 1. TOOL SPECIFIC CONFIGURATION
+      var TOOL_CONFIG = {
+        title: "📑 Master Tool Template",
+        description: "A clean, reusable template utilizing the Single Source of Truth architecture.",
+        buttonText: "Process Files",
+        allowedFileTypes: [], // Empty array allows all files
+        maxFiles: 0, // 0 means unlimited
+        minFilesRequired: 1,
+        successMessage: "Files processed successfully!",
+        errorMessage: "Error processing files: ",
+        downloadFilename: "yourownpdf-processed.pdf",
+        downloadMimeType: "application/pdf",
+        features: [
+          "Dynamic configuration",
+          "SPA-safe architecture",
+          "Drag & drop upload",
+          "Accessible UI components"
+        ]
+      };
+
+      // 2. TOOL SPECIFIC LOGIC
+      async function executeToolLogic(filesArray, config) {
+        // MOCK DELAY FOR TEMPLATE:
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(new Uint8Array([0, 1, 2, 3])); // Mock output data
+            }, 1500);
+        });
+      }
+
+      // 3. HAND OVER TO MASTER TOOL
+      function bootstrap() {
+         var toolInstance = new window.MasterTool(TOOL_CONFIG, executeToolLogic);
+         toolInstance.init();
+      }
+
+      // Ensure single initialization
+      document.addEventListener('DOMContentLoaded', bootstrap);
+      
+      // Fallback for SPA routing injection
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(function() {
+          if (document.getElementById('uploadArea') && !document.getElementById('processBtn').hasAttribute('data-initialized')) {
+             document.getElementById('processBtn').setAttribute('data-initialized', 'true');
+             bootstrap();
+          }
+        }, 50);
+      }
+    })();
+  </script>
+</body>
+</html>

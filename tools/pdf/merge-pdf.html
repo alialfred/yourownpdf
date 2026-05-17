@@ -6,487 +6,56 @@
   <meta name="description" content="Merge multiple PDF files into one document. Free online tool by YOUROWNPDF.COM. 100% client-side processing.">
   <title>Merge PDF — Free Online PDF Merger | YOUROWNPDF.COM</title>
 
-  <!-- MRG-001: Core CSS -->
+  <!-- Core CSS & Master Styles -->
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <style>
-    /* MRG-002: Tool page specific styles */
-    .tool-page {
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 2rem 3rem 2rem 2rem;
-      box-sizing: border-box;
-      background:
-        radial-gradient(ellipse at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 100%),
-        linear-gradient(rgba(180, 180, 180, 0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(180, 180, 180, 0.15) 1px, transparent 1px);
-      background-size: 100% 100%, 30px 30px, 30px 30px;
-      min-height: calc(100vh - 200px);
-    }
-
-    /* Dark mode support */
-    [data-theme="dark"] .tool-page {
-      background:
-        radial-gradient(ellipse at center, #1f2937 0%, #111827 50%, #0b0f19 100%),
-        linear-gradient(rgba(100, 100, 100, 0.2) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(100, 100, 100, 0.2) 1px, transparent 1px);
-      background-size: 100% 100%, 30px 30px, 30px 30px;
-    }
-
-    .tool-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin: 0 0.5rem 3rem 0.5rem;
-      max-width: 100%;
-    }
-
-    @media (max-width: 768px) {
-      .tool-layout {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-    }
-
-    .tool-upload-area {
-      background: var(--color-card-bg);
-      border: 2px dashed var(--color-border);
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .tool-upload-area:hover,
-    .tool-upload-area.dragover {
-      border-color: var(--color-b);
-      background: var(--color-card-hover);
-    }
-
-    .upload-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-    }
-
-    .upload-text {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .upload-hint {
-      color: var(--color-text-muted);
-      font-size: 0.875rem;
-    }
-
-    .file-input {
-      display: none;
-    }
-
-    .file-list {
-      margin-top: 1.5rem;
-      text-align: left;
-    }
-
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1rem;
-      background: var(--color-card-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
-      gap: 0.5rem;
-      cursor: grab;
-      position: relative;
-    }
-
-    .file-item:active {
-      cursor: grabbing;
-    }
-
-    .file-drag-handle {
-      cursor: grab;
-      color: var(--color-text-muted);
-      font-size: 1.25rem;
-      padding: 0.25rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .file-drag-handle:hover {
-      color: var(--color-b);
-    }
-
-    .file-drag-handle:active {
-      cursor: grabbing;
-    }
-
-    .file-item .file-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex: 1;
-    }
-
-    .file-remove {
-      background: none;
-      border: none;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      font-size: 1rem;
-      padding: 0.25rem 0.5rem;
-    }
-
-    .file-remove:hover {
-      color: #dc2626;
-    }
-
-    /* Drag & drop visual feedback */
-    .file-item.dragging,
-    .file-item.selected {
-      background: var(--color-card-hover);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-      transform: scale(1.02);
-      border-color: var(--color-b);
-    }
-
-    .file-item.drag-over {
-      border-top: 2px solid var(--color-b);
-    }
-
-    .file-item.drag-over::before {
-      content: '';
-      position: absolute;
-      top: -3px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--color-b);
-    }
-
-    .file-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .file-icon {
-      font-size: 1.5rem;
-    }
-
-    .file-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .file-name {
-      font-weight: 500;
-      color: var(--color-text);
-    }
-
-    .file-size {
-      font-size: 0.75rem;
-      color: var(--color-text-muted);
-    }
-
-    .file-remove {
-      background: none;
-      border: none;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      font-size: 1.25rem;
-      padding: 0.25rem;
-      transition: color 0.15s;
-    }
-
-    .file-remove:hover {
-      color: var(--color-b);
-    }
-
-    .tool-info {
-      background: var(--color-card-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      max-width: 100%;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    @media (max-width: 600px) {
-      .tool-info {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .tool-features {
-      list-style: none;
-      margin: 1rem 0;
-    }
-
-    /* Related Tools Section */
-    .related-tools {
-      margin-top: 0;
-      padding-top: 0;
-      border-top: none;
-    }
-
-    .tool-features-column,
-    .related-tools-column {
-      min-width: 0;
-    }
-
-    .related-tools-title {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .related-tools-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--color-text);
-    }
-
-    .related-tools-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      min-height: 100px;
-    }
-
-    @media (max-width: 500px) {
-      .related-tools-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .tool-features li {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-    }
-
-    .feature-icon {
-      color: var(--color-b);
-    }
-
-    .tool-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-merge {
-      background: var(--color-b);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-merge:hover:not(:disabled) {
-      background: #b91c1c;
-      transform: translateY(-1px);
-    }
-
-    .btn-merge:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn-clear {
-      background: var(--color-card-bg);
-      color: var(--color-text);
-      border: 1px solid var(--color-border);
-      padding: 1rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .btn-clear:hover:not(:disabled) {
-      background: var(--color-card-hover);
-    }
-
-    .btn-clear:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn-download {
-      background: #16a34a;
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-download.visible {
-      display: flex;
-    }
-
-    .btn-download:hover {
-      background: #15803d;
-    }
-
-    .how-to-use {
-      background: var(--color-card-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-top: 2rem;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 100%;
-    }
-
-    .how-to-use h2 {
-      margin-bottom: 1.5rem;
-    }
-
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .step {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .step-number {
-      width: 40px;
-      height: 40px;
-      background: var(--color-b);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .step-content h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    .step-content p {
-      color: var(--color-text-muted);
-    }
-
-    .step-image {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 0.75rem;
-      border: 2px solid var(--color-border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-top: 1rem;
-    }
-
-    .step-content ul {
-      color: var(--color-text-muted);
-      margin-top: 0.75rem;
-      padding-left: 1.25rem;
-    }
-
-    .step-content li {
-      margin-bottom: 0.5rem;
-    }
-
-    .reorder-hint {
-      font-size: 0.875rem;
-      color: var(--color-text-muted);
-      margin-top: 0.5rem;
-    }
-
-    .hint-icon {
-      cursor: help;
-      transition: all 0.2s ease;
-      display: inline-block;
-      color: #dc2626;
-    }
-
-    .hint-icon:hover {
-      color: #16a34a !important;
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 3px #16a34a);
-    }
-  </style>
 </head>
 <body>
   <!-- Tool page content only - no header/footer (uses global from index.html) -->
   <div class="tool-page">
-    <div class="tool-header" style="margin-bottom: 2rem;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">📑 Merge PDF</h1>
-      <p style="color: var(--color-text-muted); font-size: 1.125rem; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">Combine multiple PDF files into a single document — fast, free, and secure.</p>
+    
+    <div class="tool-header-section">
+      <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+      <p class="tool-description-text" id="toolDescDisplay"></p>
     </div>
 
     <div class="tool-layout">
-      <!-- MRG-008: Upload area + Actions (left column) -->
+      
+      <!-- LEFT COLUMN: Upload & Actions -->
       <div class="tool-main">
-        <div class="tool-upload-area" id="uploadArea">
+        <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
           <div class="upload-icon">📁</div>
-          <div class="upload-text">Drag & drop PDF files here</div>
-          <div class="upload-hint">or click to browse — multiple files allowed</div>
-          <input type="file" class="file-input" id="fileInput" multiple accept=".pdf,application/pdf">
+          <div class="upload-text">Drag & drop files here</div>
+          <div class="upload-hint">or click to browse</div>
+          <input type="file" class="file-input" id="fileInput" multiple>
         </div>
 
-        <!-- MRG-009: Action buttons under upload -->
-        <div class="tool-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-          <button class="btn-primary" id="mergeBtn" disabled onclick="processFiles()" style="padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
-            <i class="fas fa-object-group"></i> Merge PDF
+        <div class="tool-actions">
+          <button class="action-btn primary-btn" id="processBtn" disabled>
+            <i class="fas fa-object-group"></i> <span id="processBtnText">Merge PDF</span>
           </button>
-          <button class="btn-secondary" id="clearBtn" disabled onclick="clearFiles()" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 500; border-radius: 0.75rem; cursor: pointer;">
+          <button class="action-btn secondary-btn" id="clearBtn" disabled>
             Clear All
           </button>
-          <button class="btn-primary" id="downloadBtn" onclick="downloadMerged()" style="display: none; padding: 1rem 2.5rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.75rem; cursor: pointer;">
+          <button class="action-btn success-btn" id="downloadBtn">
             <i class="fas fa-download"></i> Download
           </button>
         </div>
 
-        <p class="reorder-hint" style="margin-top: 0.5rem;"><i class="fas fa-info-circle hint-icon" title="click icon for more guide" onclick="showReorderGuide(event)"></i> Drag files in the list to reorder them before merging.</p>
+        <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" onclick="window.showReorderGuide(event)"></i> Drag files in the list to reorder them.</p>
       </div>
 
-      <!-- MRG-009b: Tool info (right column) -->
+      <!-- RIGHT COLUMN: Features -->
       <div class="tool-info">
         <div class="tool-features-column">
-          <h2 style="margin-bottom: 1rem;">Features</h2>
-          <ul class="tool-features">
-            <li><i class="fas fa-check feature-icon"></i> Combine unlimited PDFs</li>
-            <li><i class="fas fa-check feature-icon"></i> Preserve original quality</li>
-            <li><i class="fas fa-check feature-icon"></i> Drag to reorder pages</li>
-            <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
-            <li><i class="fas fa-check feature-icon"></i> No file size limits</li>
-            <li><i class="fas fa-check feature-icon"></i> Works in any browser</li>
+          <h2>Features</h2>
+          <ul class="tool-features" id="featuresList">
+            <!-- Dynamically populated from config -->
           </ul>
         </div>
-
-        <!-- Related Tools - Right side of Features -->
+        
+        <!-- Related Tools -->
         <div class="related-tools-column">
           <div class="related-tools">
             <div class="related-tools-title">Try These Related Tools</div>
@@ -505,9 +74,10 @@
           </div>
         </div>
       </div>
+      
     </div>
 
-    <!-- MRG-010: How to use -->
+    <!-- How to use -->
     <div class="how-to-use">
       <h2>How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — Merge PDF</h2>
       <div class="steps">
@@ -568,473 +138,82 @@
     </div>
   </div>
 
-  <!-- MRG-013: Modal overlay -->
+  <!-- Modal overlay -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modalContent"></div>
   </div>
 
-  <!-- MRG-014: Scripts -->
+  <!-- Core Scripts -->
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
   <script src="../../js/tools-config.js"></script>
-
-  <!-- MRG-015: PDF-lib library -->
+  
+  <!-- Single Source of Truth for Tool Logic -->
+  <script src="../../js/master-tool.js"></script>
+  
+  <!-- Tool Specific Dependency -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
   <script>
-    // MRG-016: State management
-    let files = [];
-    let mergedPdfBytes = null;
+    (function() {
+      // 1. TOOL SPECIFIC CONFIGURATION
+      var TOOL_CONFIG = {
+        title: "📑 Merge PDF",
+        description: "Combine multiple PDF files into a single document — fast, free, and secure.",
+        buttonText: "Merge PDF",
+        allowedFileTypes: [".pdf", "application/pdf"],
+        maxFiles: 0, // 0 means unlimited
+        minFilesRequired: 2,
+        successMessage: "PDF files merged successfully!",
+        errorMessage: "Error merging PDF files: ",
+        downloadFilename: "yourownpdf-merged.pdf",
+        downloadMimeType: "application/pdf",
+        features: [
+          "Combine unlimited PDFs",
+          "Preserve original quality",
+          "Drag to reorder pages",
+          "100% client-side processing",
+          "No file size limits",
+          "Works in any browser"
+        ]
+      };
 
-    // MRG-017: DOM elements
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const mergeBtn = document.getElementById('mergeBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalContent = document.getElementById('modalContent');
-
-    // MRG-018: Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      initTheme();
-      initUpload();
-      initReorder();
-      // TBR-002: Related tools rendering - disabled for now
-      // console.log('Rendering related tools...');
-      // setTimeout(() => {
-      //   if (window.YOUROWNPDF && window.YOUROWNPDF.RelatedTools && typeof window.YOUROWNPDF.RelatedTools.render === 'function') {
-      //     window.YOUROWNPDF.RelatedTools.render('relatedToolsGrid', 'merge-pdf');
-      //   } else {
-      //     renderRelatedToolsManual();
-      //   }
-      // }, 100);
-    });
-
-    // MRG-019: Theme initialization
-    function initTheme() {
-      const savedTheme = localStorage.getItem('yourownpdf-theme');
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      const theme = savedTheme || systemTheme;
-      document.documentElement.setAttribute('data-theme', theme);
-      const themeBtn = document.querySelector('.theme-toggle');
-      if (themeBtn) themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-
-      document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('theme-toggle')) {
-          const current = document.documentElement.getAttribute('data-theme');
-          const next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('yourownpdf-theme', next);
-          e.target.textContent = next === 'dark' ? '☀️' : '🌙';
-        }
-      });
-    }
-
-    // MRG-020: Upload initialization
-    function initUpload() {
-      uploadArea.addEventListener('click', (e) => {
-        // Don't trigger upload if clicking on file-item, file-remove, or drag handle
-        if (e.target.closest('.file-item') || e.target.closest('.file-remove') || e.target.closest('.file-drag-handle')) {
-          return;
-        }
-        fileInput.click();
-      });
-
-      uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-      });
-
-      uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-      });
-
-      uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        handleFiles(e.dataTransfer.files);
-      });
-
-      fileInput.addEventListener('change', (e) => {
-        handleFiles(e.target.files);
-      });
-
-      // Modal close on overlay click
-      modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-      });
-    }
-
-    // MRG-021: Handle file selection
-    function handleFiles(fileList) {
-      const newFiles = Array.from(fileList).filter(f =>
-        f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
-      );
-
-      newFiles.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          files.push({
-            name: file.name,
-            size: file.size,
-            data: e.target.result
-          });
-          updateFileList();
-          updateButtons();
-
-          // Auto-scroll to action buttons when 5+ files uploaded
-          if (files.length >= 5) {
-            setTimeout(() => {
-              const actionButtons = document.querySelector('.tool-actions');
-              if (actionButtons) {
-                actionButtons.scrollIntoView({ behavior: 'smooth', block: 'end' });
-              }
-            }, 150);
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    }
-
-    // MRG-022: Update file list display
-    function updateFileList() {
-      let fileList = document.querySelector('.file-list');
-      if (!fileList) {
-        fileList = document.createElement('div');
-        fileList.className = 'file-list';
-        uploadArea.appendChild(fileList);
-      }
-
-      fileList.innerHTML = files.map((file, index) => `
-        <div class="file-item" draggable="true" data-index="${index}">
-          <div class="file-drag-handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></div>
-          <div class="file-info">
-            <span class="file-icon">📄</span>
-            <div class="file-details">
-              <span class="file-name">${file.name}</span>
-              <span class="file-size">${formatSize(file.size)}</span>
-            </div>
-          </div>
-          <button class="file-remove" onclick="removeFile(${index})"><i class="fas fa-times"></i></button>
-        </div>
-      `).join('');
-    }
-
-    // MRG-023: Format file size
-    function formatSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    // MRG-024: Remove file
-    function removeFile(index) {
-      files.splice(index, 1);
-      updateFileList();
-      updateButtons();
-    }
-
-    // MRG-025: Clear all files
-    function clearFiles() {
-      files = [];
-      const fileList = document.querySelector('.file-list');
-      if (fileList) fileList.remove();
-      updateButtons();
-      downloadBtn.classList.remove('visible');
-
-      // Focus on upload area
-      const uploadArea = document.getElementById('uploadArea');
-      if (uploadArea) {
-        uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        uploadArea.focus();
-      }
-    }
-
-    // MRG-026: Update button states
-    function updateButtons() {
-      mergeBtn.disabled = files.length < 2;
-      clearBtn.disabled = files.length === 0;
-    }
-
-    // MRG-027: Process files (merge)
-    async function processFiles() {
-      if (files.length < 2) return;
-
-      showLoadingModal('Merging PDF files...');
-
-      try {
-        const { PDFDocument } = PDFLib;
+      // 2. TOOL SPECIFIC LOGIC (PDF-Lib Merging)
+      async function executeToolLogic(filesArray, config) {
+        const { PDFDocument } = window.PDFLib;
         const mergedPdf = await PDFDocument.create();
 
-        for (const file of files) {
+        for (const file of filesArray) {
+          // file.data contains the ArrayBuffer read by the MasterTool
           const pdfDoc = await PDFDocument.load(file.data);
           const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
           pages.forEach(page => mergedPdf.addPage(page));
         }
 
-        mergedPdfBytes = await mergedPdf.save();
-
-        closeModal();
-        downloadBtn.classList.add('visible');
-        showSuccessModal('PDF files merged successfully!');
-      } catch (error) {
-        closeModal();
-        showErrorModal('Error merging PDF files: ' + error.message);
-      }
-    }
-
-    // MRG-028: Download merged PDF
-    function downloadMerged() {
-      if (!mergedPdfBytes) return;
-
-      const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'yourownpdf-merged.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // MRG-029: Reorder initialization with full drag & drop
-    function initReorder() {
-      let draggedItem = null;
-      let draggedIndex = null;
-      let dropIndicator = null;
-      let selectedItem = null;
-
-      // Click on file card - make it bigger, don't trigger upload
-      document.addEventListener('click', (e) => {
-        const fileItem = e.target.closest('.file-item');
-        const fileRemoveBtn = e.target.closest('.file-remove');
-
-        if (fileRemoveBtn) {
-          // Let the remove button work normally
-          return;
-        }
-
-        if (fileItem) {
-          // Remove previous selection
-          if (selectedItem && selectedItem !== fileItem) {
-            selectedItem.classList.remove('selected');
-          }
-          // Toggle selection
-          if (selectedItem === fileItem) {
-            fileItem.classList.remove('selected');
-            selectedItem = null;
-          } else {
-            fileItem.classList.add('selected');
-            selectedItem = fileItem;
-          }
-          // Stop propagation to prevent upload dialog
-          e.stopPropagation();
-        } else {
-          // Click elsewhere removes selection
-          if (selectedItem) {
-            selectedItem.classList.remove('selected');
-            selectedItem = null;
-          }
-        }
-      });
-
-      // Create drop indicator element
-      function createDropIndicator() {
-        const indicator = document.createElement('div');
-        indicator.className = 'drop-indicator';
-        indicator.style.cssText = 'height: 3px; background: var(--color-b); border-radius: 2px; margin: 4px 0; display: none;';
-        return indicator;
+        // Return the final bytes for the MasterTool to download
+        return await mergedPdf.save();
       }
 
-      document.addEventListener('dragstart', (e) => {
-        const fileItem = e.target.closest('.file-item');
-        if (fileItem) {
-          // Remove selection when starting drag
-          if (selectedItem) {
-            selectedItem.classList.remove('selected');
-            selectedItem = null;
-          }
-          draggedItem = fileItem;
-          draggedIndex = parseInt(fileItem.dataset.index);
-          fileItem.classList.add('dragging');
-          fileItem.style.opacity = '0.6';
-
-          // Create drop indicator
-          dropIndicator = createDropIndicator();
-          document.querySelector('.file-list')?.appendChild(dropIndicator);
-        }
-      });
-
-      document.addEventListener('dragend', (e) => {
-        if (draggedItem) {
-          draggedItem.classList.remove('dragging');
-          draggedItem.style.opacity = '1';
-          draggedItem = null;
-        }
-        if (dropIndicator) {
-          dropIndicator.remove();
-          dropIndicator = null;
-        }
-        // Remove all drag-over classes
-        document.querySelectorAll('.file-item.drag-over').forEach(item => {
-          item.classList.remove('drag-over');
-        });
-      });
-
-      document.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        const fileItem = e.target.closest('.file-item');
-        if (fileItem && dropIndicator) {
-          const rect = fileItem.getBoundingClientRect();
-          const midpoint = rect.top + rect.height / 2;
-
-          // Remove previous drag-over
-          document.querySelectorAll('.file-item.drag-over').forEach(item => {
-            if (item !== fileItem) item.classList.remove('drag-over');
-          });
-
-          // Add drag-over class for visual feedback
-          fileItem.classList.add('drag-over');
-
-          // Position the drop indicator
-          if (e.clientY < midpoint) {
-            fileList.insertBefore(dropIndicator, fileItem);
-          } else {
-            fileList.insertBefore(dropIndicator, fileItem.nextSibling);
-          }
-          dropIndicator.style.display = 'block';
-        }
-      });
-
-      document.addEventListener('dragleave', (e) => {
-        const fileItem = e.target.closest('.file-item');
-        if (fileItem && !fileItem.contains(e.relatedTarget)) {
-          fileItem.classList.remove('drag-over');
-        }
-      });
-
-      document.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const targetItem = e.target.closest('.file-item');
-        if (draggedIndex !== null && targetItem) {
-          const targetIndex = parseInt(targetItem.dataset.index);
-          const rect = targetItem.getBoundingClientRect();
-          const midpoint = rect.top + rect.height / 2;
-          const actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex;
-
-          if (draggedIndex !== actualTargetIndex) {
-            const [movedFile] = files.splice(draggedIndex, 1);
-            files.splice(actualTargetIndex, 0, movedFile);
-            updateFileList();
-          }
-        }
-        draggedIndex = null;
-      });
-    }
-
-    // MRG-030: Modal functions
-    function showLoadingModal(message) {
-      modalContent.innerHTML = `
-        <div style="text-align: center;">
-          <div class="spinner" style="margin: 0 auto 1rem;"></div>
-          <p>${message}</p>
-        </div>
-      `;
-      modalOverlay.classList.add('active');
-    }
-
-    function showSuccessModal(message) {
-      modalContent.innerHTML = `
-        <div style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-          <h3 style="margin-bottom: 1rem;">Success!</h3>
-          <p>${message}</p>
-          <button onclick="closeModal()" style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-            OK
-          </button>
-        </div>
-      `;
-      modalOverlay.classList.add('active');
-
-      // Auto close after 3 seconds
-      setTimeout(closeModal, 3000);
-    }
-
-    function showErrorModal(message) {
-      modalContent.innerHTML = `
-        <div style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">❌</div>
-          <h3 style="margin-bottom: 1rem; color: var(--color-b);">Error</h3>
-          <p>${message}</p>
-          <button onclick="closeModal()" style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-            OK
-          </button>
-        </div>
-      `;
-      modalOverlay.classList.add('active');
-    }
-
-    function closeModal() {
-      modalOverlay.classList.remove('active');
-    }
-
-    // Manual fallback for related tools
-    function renderRelatedToolsManual() {
-      const container = document.getElementById('relatedToolsGrid');
-      if (!container) return;
-
-      // Hardcoded related tools for merge-pdf
-      const relatedTools = [
-        { id: 'compress-pdf', name: 'Compress PDF', icon: '🗜️', category: 'pdf' },
-        { id: 'pdf-to-word', name: 'PDF to Word', icon: '📝', category: 'pdf' }
-      ];
-
-      container.innerHTML = relatedTools.map(tool => `
-        <a href="/tools/${tool.category}/${tool.id}" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/${tool.category}/${tool.id}')">
-          <div class="tool-card-icon">${tool.icon}</div>
-          <div class="tool-card-title">${tool.name}</div>
-          <div class="tool-card-desc">Free online tool</div>
-        </a>
-      `).join('');
-    }
-
-    // MRG-031: Show detailed reorder guide
-    function showReorderGuide(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
+      // 3. HAND OVER TO MASTER TOOL
+      function bootstrap() {
+         var toolInstance = new window.MasterTool(TOOL_CONFIG, executeToolLogic);
+         toolInstance.init();
       }
-      modalContent.innerHTML = `
-        <div style="text-align: left; max-width: 450px;">
-          <h3 style="margin-bottom: 1rem; color: var(--color-b);"><i class="fas fa-sort-amount-up"></i> How File Reordering Works</h3>
-          <p style="margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.9rem;">When merging multiple PDFs, the order matters. The files will be combined in the exact sequence they appear in your list.</p>
 
-          <div style="background: var(--color-card-bg); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
-            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Quick Tips:</h4>
-            <ul style="font-size: 0.85rem; color: var(--color-text-muted); padding-left: 1.25rem; margin: 0;">
-              <li style="margin-bottom: 0.5rem;">Click a file to select it (highlights in blue)</li>
-              <li style="margin-bottom: 0.5rem;">Drag the grip handle (☰) to reorder</li>
-              <li style="margin-bottom: 0.5rem;">First file = first in merged PDF</li>
-              <li>Last file = last in merged PDF</li>
-            </ul>
-          </div>
-
-          <p style="font-size: 0.8rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
-            <i class="fas fa-lightbulb" style="color: #f59e0b;"></i> Tip: Use this to combine related documents in the correct reading order.
-          </p>
-
-          <button onclick="closeModal()" style="margin-top: 1rem; padding: 0.75rem 2rem; background: var(--color-b); color: white; border: none; border-radius: 0.5rem; cursor: pointer; width: 100%;">
-            Got it!
-          </button>
-        </div>
-      `;
-      modalOverlay.classList.add('active');
-    }
+      // Ensure single initialization
+      document.addEventListener('DOMContentLoaded', bootstrap);
+      
+      // Fallback for SPA routing injection
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(function() {
+          if (document.getElementById('uploadArea') && !document.getElementById('processBtn').hasAttribute('data-initialized')) {
+             document.getElementById('processBtn').setAttribute('data-initialized', 'true');
+             bootstrap();
+          }
+        }, 50);
+      }
+    })();
   </script>
 </body>
 </html>

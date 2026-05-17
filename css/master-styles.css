@@ -1,0 +1,257 @@
+/* ==========================================================================
+   MASTER TOOL STYLES
+   Single Source of Truth for all tools layout, spacing, and buttons.
+   Do not change tool-specific styles here unless intended for ALL tools.
+   ========================================================================== */
+
+.tool-page {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 2rem 3rem 2rem 2rem;
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 100%),
+    linear-gradient(rgba(180, 180, 180, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 180, 180, 0.15) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+  min-height: calc(100vh - 200px);
+}
+
+[data-theme="dark"] .tool-page {
+  background:
+    radial-gradient(ellipse at center, #1f2937 0%, #111827 50%, #0b0f19 100%),
+    linear-gradient(rgba(100, 100, 100, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 100, 100, 0.2) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+}
+
+.tool-header-section {
+  margin-bottom: 2rem;
+}
+
+.tool-title-text {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.tool-description-text {
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.tool-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 0 0.5rem 3rem 0.5rem;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tool-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Upload Area */
+.upload-area {
+  background: var(--color-card-bg);
+  border: 2px dashed var(--color-border);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-area:hover,
+.upload-area.dragover,
+.upload-area:focus-visible {
+  border-color: var(--color-b);
+  background: var(--color-card-hover);
+  outline: none;
+}
+
+.upload-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.upload-text {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.upload-hint {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.file-input {
+  display: none;
+}
+
+/* File List */
+.file-list {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  cursor: grab;
+  position: relative;
+}
+
+.file-item:active { cursor: grabbing; }
+
+.file-drag-handle {
+  cursor: grab;
+  color: var(--color-text-muted);
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+.file-drag-handle:hover { color: var(--color-b); }
+.file-drag-handle:active { cursor: grabbing; }
+
+.file-item .file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.file-icon { font-size: 1.5rem; }
+.file-details { display: flex; flex-direction: column; }
+.file-name { font-weight: 500; color: var(--color-text); }
+.file-size { font-size: 0.75rem; color: var(--color-text-muted); }
+
+.file-remove {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  transition: color 0.15s;
+}
+.file-remove:hover { color: #dc2626; }
+
+/* Drag states */
+.file-item.dragging, .file-item.selected {
+  background: var(--color-card-hover);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transform: scale(1.02);
+  border-color: var(--color-b);
+}
+.file-item.drag-over { border-top: 2px solid var(--color-b); }
+.file-item.drag-over::before {
+  content: ''; position: absolute; top: -3px; left: 0; right: 0; height: 3px; background: var(--color-b);
+}
+
+/* Actions */
+.tool-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; justify-content: center; }
+#downloadBtn { display: none; }
+#downloadBtn.visible { display: inline-flex !important; }
+.action-btn { flex: 1; min-width: 200px; padding: 1rem 2rem; border: none; border-radius: 0.75rem; font-size: 1.125rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+
+.primary-btn { background: var(--color-b); color: white; }
+.primary-btn:hover:not(:disabled) { background: #b91c1c; transform: translateY(-1px); }
+.primary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.secondary-btn {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.secondary-btn:hover:not(:disabled) { background: var(--color-card-hover); }
+.secondary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.success-btn { background: #16a34a; color: white; display: none; }
+.success-btn.visible { display: flex; }
+.success-btn:hover { background: #15803d; }
+
+/* Hints */
+.reorder-hint {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+.hint-icon {
+  cursor: help;
+  transition: all 0.2s ease;
+  display: inline-block;
+  color: #dc2626;
+}
+.hint-icon:hover {
+  color: #16a34a;
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 3px #16a34a);
+}
+
+/* Right column */
+.tool-info {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .tool-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tool-info h2 { margin-bottom: 1rem; }
+
+.tool-features { list-style: none; margin: 0; padding: 0; }
+.tool-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; }
+.feature-icon { color: var(--color-b); }
+/* Related Tools Section */
+.related-tools { margin-top: 0; padding-top: 0; border-top: none; }
+.tool-features-column, .related-tools-column { min-width: 0; }
+.related-tools-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: var(--color-text); }
+.related-tools-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; min-height: 100px; }
+.tool-card { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 0.75rem; padding: 1rem; text-decoration: none; color: var(--color-text); transition: all 0.2s ease; text-align: center; }
+.tool-card:hover { transform: translateY(-2px); border-color: var(--color-b); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.tool-card .tool-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.tool-card .tool-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+.tool-card .tool-desc { font-size: 0.75rem; color: var(--color-text-muted); }
+
+/* How to use section */
+.how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; margin-left: auto; margin-right: auto; max-width: 100%; }
+.how-to-use h2 { margin-bottom: 1.5rem; }
+.steps { display: flex; flex-direction: column; gap: 1.5rem; }
+.step { display: flex; gap: 1rem; }
+.step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.step-content h3 { margin-bottom: 0.5rem; }
+.step-content p { color: var(--color-text-muted); }
+.step-image { width: 100%; max-width: 400px; border-radius: 0.75rem; border: 2px solid var(--color-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); margin-top: 1rem; }
+.step-content ul { color: var(--color-text-muted); margin-top: 0.75rem; padding-left: 1.25rem; }
+.step-content li { margin-bottom: 0.5rem; }
