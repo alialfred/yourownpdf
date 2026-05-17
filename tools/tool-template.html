@@ -12,62 +12,113 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-  <!-- Tool page content only - no header/footer (uses global from index.html) -->
-  <div class="tool-page">
-    
-    <div class="tool-header-section">
-      <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
-      <p class="tool-description-text" id="toolDescDisplay"></p>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
+        </a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
+        </nav>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
     </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <div class="tool-layout">
+  <main class="main" id="mainContent">
+    <div class="tool-page">
       
-      <!-- LEFT COLUMN: Upload & Actions -->
-      <div class="tool-main">
-        <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
-          <div class="upload-icon">📁</div>
-          <div class="upload-text">Drag & drop files here</div>
-          <div class="upload-hint">or click to browse</div>
-          <input type="file" class="file-input" id="fileInput" multiple>
-        </div>
-
-        <div class="tool-actions">
-          <button class="action-btn primary-btn" id="processBtn" disabled>
-            <i class="fas fa-cog"></i> <span id="processBtnText">Process</span>
-          </button>
-          <button class="action-btn secondary-btn" id="clearBtn" disabled>
-            Clear All
-          </button>
-          <button class="action-btn success-btn" id="downloadBtn">
-            <i class="fas fa-download"></i> Download
-          </button>
-        </div>
-
-        <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" onclick="window.showReorderGuide(event)"></i> Drag files in the list to reorder them.</p>
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+        <p class="tool-description-text" id="toolDescDisplay"></p>
       </div>
 
-      <!-- RIGHT COLUMN: Features -->
-      <div class="tool-info">
-        <div class="tool-features-column">
-          <h2>Features</h2>
-          <ul class="tool-features" id="featuresList">
-            <!-- Dynamically populated from config -->
-          </ul>
-        </div>
+      <div class="tool-layout">
         
-        <!-- Related Tools -->
-        <div class="related-tools-column">
-          <div class="related-tools">
-            <div class="related-tools-title">Try These Related Tools</div>
-            <div class="related-tools-grid" id="relatedToolsGrid">
-              <!-- Add relative tool cards here if needed -->
+        <!-- LEFT COLUMN: Upload & Actions -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drag & drop files here</div>
+            <div class="upload-hint">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" multiple>
+          </div>
+
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="processBtn" disabled>
+              <i class="fas fa-cog"></i> <span id="processBtnText">Process</span>
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn" disabled>
+              Clear All
+            </button>
+            <button class="action-btn success-btn" id="downloadBtn">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+
+          <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" onclick="window.showReorderGuide(event)"></i> Drag files in the list to reorder them.</p>
+        </div>
+
+        <!-- RIGHT COLUMN: Features -->
+        <div class="tool-info">
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+              <!-- Dynamically populated from config -->
+            </ul>
+          </div>
+          
+          <!-- Related Tools -->
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Try These Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
+                <!-- Add relative tool cards here if needed -->
+              </div>
             </div>
           </div>
         </div>
+        
       </div>
-      
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <!-- Modal overlay -->
   <div class="modal-overlay" id="modalOverlay">

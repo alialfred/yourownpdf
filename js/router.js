@@ -278,13 +278,9 @@ renderPage: function(html, pathname) {
       initReorder();
     }
 
-    // Focus on upload area after loading tool page
+    // Scroll to top when a tool page opens
     setTimeout(() => {
-      const uploadArea = document.getElementById('uploadArea');
-      if (uploadArea) {
-        uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        uploadArea.focus();
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
 
     if (typeof initTheme === 'function') {

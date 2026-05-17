@@ -255,3 +255,10 @@
 .step-image { width: 100%; max-width: 400px; border-radius: 0.75rem; border: 2px solid var(--color-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); margin-top: 1rem; }
 .step-content ul { color: var(--color-text-muted); margin-top: 0.75rem; padding-left: 1.25rem; }
 .step-content li { margin-bottom: 0.5rem; }
+
+@media (max-width: 600px) {
+  .step { flex-direction: column; align-items: center; text-align: center; }
+  .step-content ul { text-align: left; }
+  .how-to-use { padding: 1.5rem; }
+  .step-image { max-width: 100%; }
+}
