@@ -514,7 +514,7 @@ box-sizing: border-box;
 .coming-soon-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(162, 253, 177, 0.6);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: flex;
@@ -531,7 +531,7 @@ box-sizing: border-box;
   font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(6, 253, 88, 0.4);
   padding: 0.45rem 1rem;
   border-radius: 2rem;
   backdrop-filter: blur(2px);
