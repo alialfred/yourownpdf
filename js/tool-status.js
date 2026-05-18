@@ -24,11 +24,7 @@
         if (!existing) {
           var overlay = document.createElement('div');
           overlay.className = 'coming-soon-overlay';
-          overlay.innerHTML = '<span class="coming-soon-text"><span class="coming-soon-icon">\u25CF</span> Coming Soon</span>';
-          overlay.addEventListener('click', function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-          });
+          overlay.innerHTML = '<span class="coming-soon-text">Coming Soon</span>';
           card.appendChild(overlay);
         }
       }

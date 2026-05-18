@@ -513,37 +513,28 @@ box-sizing: border-box;
 /* C-028b: Coming Soon Glass Overlay */
 .coming-soon-overlay {
   position: absolute;
-  inset: 0;
-  background: rgba(162, 253, 177, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: inherit;
+  top: 6px;
+  right: 6px;
   z-index: 10;
-  pointer-events: auto;
-  cursor: default;
+  pointer-events: none;
 }
 
 .coming-soon-text {
   font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
+  display: inline-block;
+  background: #22c55e;
   color: #fff;
-  background: rgba(6, 253, 88, 0.4);
-  padding: 0.45rem 1rem;
-  border-radius: 2rem;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  letter-spacing: 0.02em;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .coming-soon-icon {
-  color: #22c55e;
-  margin-right: 0.25rem;
-  font-size: 0.85rem;
+  display: none;
 }
 
 /* C-029: Upload Box - Drag & Drop Zone */

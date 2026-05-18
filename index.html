@@ -56,6 +56,20 @@
       color: var(--color-text-muted);
     }
 
+    .hero-coming-ribbon {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      vertical-align: middle;
+    }
+
     .tools-section {
       padding: 3rem 0;
     }
@@ -195,8 +209,8 @@
 
         <div class="hero-stats">
           <div class="hero-stat">
-            <div class="hero-stat-value">94</div>
-            <div class="hero-stat-label">Tools</div>
+            <div class="hero-stat-value">0</div>
+            <div class="hero-stat-label">Tools <span class="hero-coming-ribbon">0 Coming Soon</span></div>
           </div>
           <div class="hero-stat">
             <div class="hero-stat-value">100%</div>
@@ -218,7 +232,7 @@
           <h2 class="section-title">
             <i class="section-title-icon">📄</i>
             PDF Tools
-            <span class="section-badge">74</span>
+            <span class="section-badge">0</span>
           </h2>
         </div>
 
@@ -239,7 +253,7 @@
           <h2 class="section-title">
             <i class="section-title-icon">🖼️</i>
             Image Tools
-            <span class="section-badge">20</span>
+            <span class="section-badge">0</span>
           </h2>
         </div>
 
@@ -272,135 +286,11 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script src="js/main.js"></script>
+  <script src="js/tools-config.js"></script>
   <script src="js/components.js"></script>
   <script src="js/router.js"></script>
   <script src="js/master-tool.js"></script>
-  <script src="js/tools-config.js"></script>
   <script>
-    // IDX-023: PDF Tools Data (74 tools - ordered by popularity)
-    const pdfTools = [
-      { id: 'merge-pdf', name: 'Merge PDF', desc: 'Combine multiple PDF files into one', icon: '📑', path: '/tools/pdf/merge-pdf.html' },
-      { id: 'compress-pdf', name: 'Compress PDF', desc: 'Reduce PDF file size while maintaining quality', icon: '🗜️', path: '/tools/pdf/compress-pdf.html' },
-      { id: 'split-pdf', name: 'Split PDF', desc: 'Extract pages from a PDF file', icon: '✂️', path: '/tools/pdf/split-pdf.html' },
-      { id: 'pdf-to-jpg', name: 'PDF to JPG', desc: 'Convert PDF pages to JPEG images', icon: '🖼️', path: '/tools/pdf/pdf-to-jpg.html' },
-      { id: 'pdf-to-word', name: 'PDF to Word', desc: 'Convert PDF to editable Word document', icon: '📝', path: '/tools/pdf/pdf-to-word.html' },
-      { id: 'rotate-pdf', name: 'Rotate PDF', desc: 'Rotate PDF pages 90, 180, or 270 degrees', icon: '🔄', path: '/tools/pdf/rotate-pdf.html' },
-      { id: 'protect-pdf', name: 'Protect PDF', desc: 'Add password protection to PDF files', icon: '🔒', path: '/tools/pdf/protect-pdf.html' },
-      { id: 'unlock-pdf', name: 'Unlock PDF', desc: 'Remove password protection from PDF', icon: '🔓', path: '/tools/pdf/unlock-pdf.html' },
-      { id: 'organize-pdf', name: 'Organize PDF', desc: 'Reorder, delete, or add pages', icon: '📋', path: '/tools/pdf/organize-pdf.html' },
-      { id: 'pdf-to-png', name: 'PDF to PNG', desc: 'Convert PDF pages to PNG images', icon: '🖼️', path: '/tools/pdf/pdf-to-png.html' },
-      { id: 'extract-pages-pdf', name: 'Extract Pages', desc: 'Extract specific pages from PDF', icon: '📄', path: '/tools/pdf/extract-pages-pdf.html' },
-      { id: 'remove-pages-pdf', name: 'Remove Pages', desc: 'Delete specific pages from PDF', icon: '❌', path: '/tools/pdf/remove-pages-pdf.html' },
-      { id: 'pdf-to-excel', name: 'PDF to Excel', desc: 'Convert PDF tables to Excel spreadsheets', icon: '📊', path: '/tools/pdf/pdf-to-excel.html' },
-      { id: 'watermark-pdf', name: 'Add Watermark', desc: 'Add text or image watermark to PDF', icon: '💧', path: '/tools/pdf/watermark-pdf.html' },
-      { id: 'page-numbers-pdf', name: 'Add Page Numbers', desc: 'Add numbering to PDF pages', icon: '🔢', path: '/tools/pdf/page-numbers-pdf.html' },
-      { id: 'repair-pdf', name: 'Repair PDF', desc: 'Fix corrupted or damaged PDF files', icon: '🔧', path: '/tools/pdf/repair-pdf.html' },
-      { id: 'compare-pdf', name: 'Compare PDFs', desc: 'Compare two PDF documents', icon: '⚖️', path: '/tools/pdf/compare-pdf.html' },
-      { id: 'pdf-to-ppt', name: 'PDF to PowerPoint', desc: 'Convert PDF to PowerPoint slides', icon: '📽️', path: '/tools/pdf/pdf-to-ppt.html' },
-      { id: 'pdf-to-text', name: 'PDF to Text', desc: 'Extract text content from PDF', icon: '📃', path: '/tools/pdf/pdf-to-text.html' },
-      { id: 'pdf-to-html', name: 'PDF to HTML', desc: 'Convert PDF to HTML web page', icon: '🌐', path: '/tools/pdf/pdf-to-html.html' },
-      { id: 'flatten-pdf', name: 'Flatten PDF', desc: 'Merge layers into single flat image', icon: '📐', path: '/tools/pdf/flatten-pdf.html' },
-      { id: 'extract-images-pdf', name: 'Extract Images', desc: 'Extract all images from PDF', icon: '🖼️', path: '/tools/pdf/extract-images-pdf.html' },
-      { id: 'sign-pdf', name: 'Sign PDF', desc: 'Add digital signature to PDF', icon: '✍️', path: '/tools/pdf/sign-pdf.html' },
-      { id: 'annotate-pdf', name: 'Annotate PDF', desc: 'Add comments and highlights', icon: '📝', path: '/tools/pdf/annotate-pdf.html' },
-      { id: 'crop-pdf', name: 'Crop PDF', desc: 'Adjust page margins and crop', icon: '📐', path: '/tools/pdf/crop-pdf.html' },
-      { id: 'resize-pdf', name: 'Resize PDF', desc: 'Change PDF page dimensions', icon: '📏', path: '/tools/pdf/resize-pdf.html' },
-      { id: 'pdf-to-images', name: 'PDF to Images', desc: 'Convert all pages to images', icon: '🖼️', path: '/tools/pdf/pdf-to-images.html' },
-      { id: 'merge-pdf-options', name: 'Merge with Options', desc: 'Combine with page selection', icon: '📑', path: '/tools/pdf/merge-pdf-options.html' },
-      { id: 'compress-pdf-options', name: 'Compress Options', desc: 'Custom compression settings', icon: '🗜️', path: '/tools/pdf/compress-pdf-options.html' },
-      { id: 'rotate-all-pdf', name: 'Rotate All Pages', desc: 'Rotate all pages at once', icon: '🔄', path: '/tools/pdf/rotate-all-pdf.html' },
-      { id: 'reverse-pdf', name: 'Reverse Pages', desc: 'Reverse page order in PDF', icon: '↩️', path: '/tools/pdf/reverse-pdf.html' },
-      { id: 'extract-text-pdf', name: 'Extract Text Only', desc: 'Extract plain text from PDF', icon: '📃', path: '/tools/pdf/extract-text-pdf.html' },
-      { id: 'optimize-pdf', name: 'Optimize PDF', desc: 'Optimize for web and print', icon: '⚡', path: '/tools/pdf/optimize-pdf.html' },
-      { id: 'convert-pdf-a', name: 'Convert to PDF/A', desc: 'Create archival PDF format', icon: '📚', path: '/tools/pdf/convert-pdf-a.html' },
-      { id: 'pdf-to-mail', name: 'PDF to Email', desc: 'Convert PDF to email body', icon: '📧', path: '/tools/pdf/pdf-to-mail.html' },
-      { id: 'redact-pdf', name: 'Redact PDF', desc: 'Remove sensitive information', icon: '🛡️', path: '/tools/pdf/redact-pdf.html' },
-      { id: 'fill-form-pdf', name: 'Fill PDF Form', desc: 'Fill interactive PDF forms', icon: '📋', path: '/tools/pdf/fill-form-pdf.html' },
-      { id: 'create-form-pdf', name: 'Create PDF Form', desc: 'Create fillable PDF forms', icon: '📝', path: '/tools/pdf/create-form-pdf.html' },
-      { id: 'add-bookmarks-pdf', name: 'Add Bookmarks', desc: 'Add navigation bookmarks', icon: '🔖', path: '/tools/pdf/add-bookmarks-pdf.html' },
-      { id: 'extract-links-pdf', name: 'Extract Links', desc: 'Extract all hyperlinks from PDF', icon: '🔗', path: '/tools/pdf/extract-links-pdf.html' },
-      { id: 'convert-html-to-pdf', name: 'HTML to PDF', desc: 'Convert web pages to PDF', icon: '🌐', path: '/tools/pdf/convert-html-to-pdf.html' },
-      { id: 'pdf-reviews', name: 'PDF Reviews', desc: 'Add review comments to PDF', icon: '⭐', path: '/tools/pdf/pdf-reviews.html' },
-      { id: 'pdf-encrypt', name: 'Encrypt PDF', desc: 'Encrypt PDF with AES-256', icon: '🔐', path: '/tools/pdf/pdf-encrypt.html' },
-      { id: 'pdf-decrypt', name: 'Decrypt PDF', desc: 'Remove encryption from PDF', icon: '🔓', path: '/tools/pdf/pdf-decrypt.html' },
-      { id: 'pdf-digitalsignature', name: 'Digital Signature', desc: 'Add certificate-based signature', icon: '📜', path: '/tools/pdf/pdf-digitalsignature.html' },
-      { id: 'pdf-timestamp', name: 'Timestamp', desc: 'Add trusted timestamp', icon: '⏰', path: '/tools/pdf/pdf-timestamp.html' },
-      { id: 'pdf-to-xps', name: 'PDF to XPS', desc: 'Convert PDF to XPS format', icon: '📄', path: '/tools/pdf/pdf-to-xps.html' },
-      { id: 'pdf-to-svg', name: 'PDF to SVG', desc: 'Convert PDF to vector graphics', icon: '🎨', path: '/tools/pdf/pdf-to-svg.html' },
-      { id: 'pdf-to-rtf', name: 'PDF to RTF', desc: 'Convert PDF to Rich Text', icon: '📝', path: '/tools/pdf/pdf-to-rtf.html' },
-      { id: 'pdf-to-epub', name: 'PDF to EPUB', desc: 'Convert PDF to eBook', icon: '📱', path: '/tools/pdf/pdf-to-epub.html' },
-      { id: 'pdf-to-txt', name: 'PDF to TXT', desc: 'Convert to plain text', icon: '📃', path: '/tools/pdf/pdf-to-txt.html' },
-      { id: 'pdf-to-tiff', name: 'PDF to TIFF', desc: 'Convert to TIFF image', icon: '🖼️', path: '/tools/pdf/pdf-to-tiff.html' },
-      { id: 'pdf-to-bmp', name: 'PDF to BMP', desc: 'Convert to BMP image', icon: '🖼️', path: '/tools/pdf/pdf-to-bmp.html' },
-      { id: 'pdf-to-gif', name: 'PDF to GIF', desc: 'Convert to GIF animation', icon: '🎞️', path: '/tools/pdf/pdf-to-gif.html' },
-      { id: 'merge-2-pdf', name: 'Merge 2 PDFs', desc: 'Combine two PDF files', icon: '📑', path: '/tools/pdf/merge-2-pdf.html' },
-      { id: 'merge-3-pdf', name: 'Merge 3 PDFs', desc: 'Combine three PDF files', icon: '📑', path: '/tools/pdf/merge-3-pdf.html' },
-      { id: 'merge-4-pdf', name: 'Merge 4 PDFs', desc: 'Combine four PDF files', icon: '📑', path: '/tools/pdf/merge-4-pdf.html' },
-      { id: 'merge-5-pdf', name: 'Merge 5 PDFs', desc: 'Combine five PDF files', icon: '📑', path: '/tools/pdf/merge-5-pdf.html' },
-      { id: 'split-2-pdf', name: 'Split into 2', desc: 'Divide PDF into 2 parts', icon: '✂️', path: '/tools/pdf/split-2-pdf.html' },
-      { id: 'split-3-pdf', name: 'Split into 3', desc: 'Divide PDF into 3 parts', icon: '✂️', path: '/tools/pdf/split-3-pdf.html' },
-      { id: 'split-4-pdf', name: 'Split into 4', desc: 'Divide PDF into 4 parts', icon: '✂️', path: '/tools/pdf/split-4-pdf.html' },
-      { id: 'split-range-pdf', name: 'Split by Range', desc: 'Split by page ranges', icon: '✂️', path: '/tools/pdf/split-range-pdf.html' },
-      { id: 'split-every-pdf', name: 'Split Every N', desc: 'Split every N pages', icon: '✂️', path: '/tools/pdf/split-every-pdf.html' },
-      { id: 'extract-first-pdf', name: 'Extract First Page', desc: 'Get first page only', icon: '📄', path: '/tools/pdf/extract-first-pdf.html' },
-      { id: 'extract-last-pdf', name: 'Extract Last Page', desc: 'Get last page only', icon: '📄', path: '/tools/pdf/extract-last-pdf.html' },
-      { id: 'extract-odd-pdf', name: 'Extract Odd Pages', desc: 'Get odd-numbered pages', icon: '📄', path: '/tools/pdf/extract-odd-pdf.html' },
-      { id: 'extract-even-pdf', name: 'Extract Even Pages', desc: 'Get even-numbered pages', icon: '📄', path: '/tools/pdf/extract-even-pdf.html' },
-      { id: 'delete-first-pdf', name: 'Delete First Page', desc: 'Remove first page', icon: '❌', path: '/tools/pdf/delete-first-pdf.html' },
-      { id: 'delete-last-pdf', name: 'Delete Last Page', desc: 'Remove last page', icon: '❌', path: '/tools/pdf/delete-last-pdf.html' },
-      { id: 'delete-blank-pdf', name: 'Remove Blank Pages', desc: 'Delete empty pages', icon: '❌', path: '/tools/pdf/delete-blank-pdf.html' },
-      { id: 'delete-duplicate-pdf', name: 'Remove Duplicates', desc: 'Delete duplicate pages', icon: '❌', path: '/tools/pdf/delete-duplicate-pdf.html' },
-      { id: 'reorder-pdf', name: 'Reorder Pages', desc: 'Drag and drop reorder', icon: '📋', path: '/tools/pdf/reorder-pdf.html' }
-    ];
-
-    // IDX-024: Image Tools Data (20 tools - ordered by popularity)
-    const imageTools = [
-      { id: 'compress-image', name: 'Compress Image', desc: 'Reduce image file size', icon: '🗜️', path: '/tools/image/compress.html' },
-      { id: 'resize-image', name: 'Resize Image', desc: 'Change image dimensions', icon: '📏', path: '/tools/image/resize.html' },
-      { id: 'crop-image', name: 'Crop Image', desc: 'Cut image to specific area', icon: '✂️', path: '/tools/image/crop.html' },
-      { id: 'rotate-image', name: 'Rotate Image', desc: 'Rotate image 90/180/270 degrees', icon: '🔄', path: '/tools/image/rotate.html' },
-      { id: 'jpg-to-png', name: 'JPG to PNG', desc: 'Convert JPEG to PNG', icon: '🔄', path: '/tools/image/convert.html' },
-      { id: 'png-to-jpg', name: 'PNG to JPG', desc: 'Convert PNG to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
-      { id: 'image-to-pdf', name: 'Image to PDF', desc: 'Convert images to PDF', icon: '📄', path: '/tools/image/image-to-pdf.html' },
-      { id: 'jpg-to-pdf', name: 'JPG to PDF', desc: 'Convert JPG images to a PDF document', icon: '📄', path: '/tools/image/jpg-to-pdf.html' },
-      { id: 'remove-background', name: 'Remove Background', desc: 'AI-powered background removal', icon: '🎯', path: '/tools/image/background-remove.html' },
-      { id: 'flip-image', name: 'Flip Image', desc: 'Horizontal or vertical flip', icon: '↔️', path: '/tools/image/flip.html' },
-      { id: 'grayscale-image', name: 'Grayscale', desc: 'Convert to black and white', icon: '⬛', path: '/tools/image/filters.html' },
-      { id: 'brightness-image', name: 'Adjust Brightness', desc: 'Increase or decrease brightness', icon: '☀️', path: '/tools/image/brightness.html' },
-      { id: 'contrast-image', name: 'Adjust Contrast', desc: 'Improve image contrast', icon: '◐', path: '/tools/image/contrast.html' },
-      { id: 'blur-image', name: 'Blur Image', desc: 'Apply blur effect', icon: '🌫️', path: '/tools/image/blur.html' },
-      { id: 'sharpen-image', name: 'Sharpen Image', desc: 'Enhance image clarity', icon: '🔪', path: '/tools/image/sharpen.html' },
-      { id: 'webp-to-jpg', name: 'WebP to JPG', desc: 'Convert WebP to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
-      { id: 'gif-to-png', name: 'GIF to PNG', desc: 'Convert GIF to PNG', icon: '🔄', path: '/tools/image/convert.html' },
-      { id: 'filter-image', name: 'Apply Filter', desc: 'Add artistic filters', icon: '🎨', path: '/tools/image/filters.html' },
-      { id: 'invert-image', name: 'Invert Colors', desc: 'Invert image colors', icon: '🔄', path: '/tools/image/filters.html' },
-      { id: 'saturation', name: 'Adjust Saturation', desc: 'Increase or decrease color saturation', icon: '🎨', path: '/tools/image/saturation.html' },
-      { id: 'text-overlay', name: 'Text Overlay', desc: 'Add text to images', icon: 'T', path: '/tools/image/text-overlay.html' }
-    ];
-
-    // IDX-025: Render tool cards
-    function renderToolCards() {
-      const pdfGrid = document.getElementById('pdfToolsGrid');
-      const imageGrid = document.getElementById('imageToolsGrid');
-
-      // Render PDF tools
-      pdfGrid.innerHTML = pdfTools.map(tool => `
-        <a href="${tool.path}" class="tool-card" onclick="event.preventDefault(); navigateTo('${tool.path}')" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-tool-name="${tool.name}" data-title="${tool.name}" data-desc="${tool.desc}">
-          <span class="tool-icon">${tool.icon}</span>
-          <div class="tool-title">${tool.name}</div>
-          <div class="tool-desc">${tool.desc}</div>
-        </a>
-      `).join('');
-
-      // Render Image tools
-      imageGrid.innerHTML = imageTools.map(tool => `
-        <a href="${tool.path}" class="tool-card" onclick="event.preventDefault(); navigateTo('${tool.path}')" data-tool-id="${tool.id}" data-tool-url="${tool.path}" data-tool-name="${tool.name}" data-title="${tool.name}" data-desc="${tool.desc}">
-          <span class="tool-icon">${tool.icon}</span>
-          <div class="tool-title">${tool.name}</div>
-          <div class="tool-desc">${tool.desc}</div>
-        </a>
-      `).join('');
-    }
 
     // IDX-026: Search functionality
     function handleSearch(query) {

@@ -150,11 +150,17 @@
         return null;
       },
 
-// J-224: Fetch page from server (Simplified)
+// J-224: Fetch page from server (Simplified) with file:// fallback
   fetchPage: function(pagePath) {
     return new Promise((resolve, reject) => {
-      // Always use absolute path from root to avoid relative URL issues
       const cleanPath = pagePath.startsWith('/') ? pagePath : '/' + pagePath;
+
+      // If fetch is unavailable (file:// protocol), fall back to hard navigation
+      if (window.location.origin === 'null' || window.location.protocol === 'file:') {
+        window.location.href = cleanPath;
+        return;
+      }
+
       const fullPath = window.location.origin + cleanPath;
 
       fetch(fullPath)
@@ -165,7 +171,8 @@
         .then(html => resolve(html))
         .catch(err => {
           console.error("Fetch error:", err);
-          reject(err);
+          // Fallback: hard navigate
+          window.location.href = cleanPath;
         });
     });
   },
@@ -296,8 +303,12 @@ renderPage: function(html, pathname) {
       const imageGrid = document.getElementById('imageToolsGrid');
       const isHomePage = pdfGrid && imageGrid;
 
-      if (isHomePage && typeof renderToolCards === 'function') {
-        renderToolCards();
+      if (isHomePage) {
+        if (typeof renderToolCards === 'function') {
+          renderToolCards();
+        } else if (window.YOUROWNPDF && window.YOUROWNPDF.Components && typeof window.YOUROWNPDF.Components.renderToolCards === 'function') {
+          window.YOUROWNPDF.Components.renderToolCards();
+        }
       }
 
       // Re-apply tool overlays (uses data-name to match workingTools config)
