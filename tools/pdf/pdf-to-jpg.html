@@ -3,253 +3,752 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Convert PDF pages to JPEG images. Free tool by YOUROWNPDF.COM">
-  <title>PDF to JPEG — Convert | YOUROWNPDF.COM</title>
+  <meta name="description" content="Convert PDF pages to JPEG images online free — High-quality PDF to JPG converter. 100% client-side by YOUROWNPDF.COM">
+  <title>PDF to JPEG — Convert PDF Pages to JPG Images Free | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
   <style>
-    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; transition: all 0.3s; cursor: pointer; }
+    .upload-area:hover, .upload-area.dragover { border-color: var(--color-b); background: var(--color-card-hover); }
     .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
     .file-input { display: none; }
-    .convert-settings { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
-    .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); }
-    .progress-bar { width: 100%; height: 8px; background: var(--color-bg); border-radius: 4px; margin: 1rem 0; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--color-b); width: 0; transition: width 0.3s; }
-    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
-    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; }
-    .btn-convert { background: var(--color-b); color: white; }
-    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-download { background: #16a34a; color: white; display: none; }
-    .btn-download.visible { display: flex; }
-    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
-    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
-    .step { display: flex; gap: 1rem; }
-    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .upload-selected { padding: 0.5rem 0; }
+    .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.5rem; }
+    .upload-selected-icon { font-size: 3.5rem; display: block; filter: hue-rotate(80deg) saturate(1.2); }
+    .upload-remove-btn { position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #22c55e; background: var(--color-card-bg); color: #22c55e; font-size: 1rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: all 0.2s; font-weight: 700; }
+    .upload-remove-btn:hover { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+    [data-theme="dark"] .upload-remove-btn:hover { background: #064e3b; border-color: #22c55e; color: #6ee7b7; }
+
+    .quality-group { margin: 1.5rem 0; }
+    .quality-group label { font-weight: 600; margin-bottom: 0.75rem; display: block; color: var(--color-text); }
+    .quality-options { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .quality-btn { flex: 1; min-width: 100px; padding: 0.85rem 0.5rem; border: 2px solid var(--color-border); border-radius: 0.75rem; background: var(--color-card-bg); color: var(--color-text); text-align: center; cursor: pointer; transition: all 0.2s; font-weight: 500; font-size: 0.9rem; line-height: 1.3; }
+    .quality-btn:hover { border-color: var(--color-b); background: var(--color-card-hover); }
+    .quality-btn.active { border-color: var(--color-b); background: #dcfce7; color: #166534; }
+    [data-theme="dark"] .quality-btn.active { background: #064e3b; color: #6ee7b7; border-color: #22c55e; }
+    .quality-btn .q-pct { display: block; font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+    .quality-btn .q-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+
+    .progress-area { display: none; margin-top: 1.5rem; }
+    .progress-area.visible { display: block; }
+    .progress-bar { height: 8px; background: var(--color-border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-b), #22c55e); border-radius: 4px; transition: width 0.3s; }
+    .progress-text { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem; }
+    .progress-text .prog-status { font-weight: 500; }
+
+    .hint-icon { color: var(--color-text-muted); cursor: pointer; transition: color 0.2s; }
+    .hint-icon:hover { color: var(--color-b); }
+
+    .info-trigger { color: #dc2626; cursor: pointer; transition: color 0.2s; }
+    .info-trigger:hover { color: #16a34a; }
+
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--color-card-bg); border-radius: 1rem; padding: 2rem; max-width: 640px; width: 92%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; animation: fadeIn 0.2s; }
+    .modal.info-modal { max-width: 720px; text-align: left; border-radius: 1rem; overflow: hidden; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
-  <main class="main">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">to JPEG</span>
-      </nav>
-    </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
-    <div class="container">
-      <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem;">📷 PDF to JPEG</h1>
-          <p style="color: var(--color-text-muted);">Convert PDF pages to JPEG images</p>
-        </div>
-        <div class="tool-layout">
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📄</div>
-            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
-            <div style="color: var(--color-text-muted);">or click to browse</div>
-            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+
+  <main class="main" id="mainContent">
+    <div class="tool-page">
+      
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">🖼️ PDF to JPEG</h1>
+        <p class="tool-description-text" id="toolDescDisplay">Convert every page of any PDF document into high-quality JPEG images. All processing happens in your browser.</p>
+      </div>
+
+      <div class="tool-layout">
+        
+        <!-- LEFT COLUMN: Upload & Actions -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload PDF">
+            <div class="upload-default" id="uploadDefault">
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">Drag & drop your PDF here</div>
+              <div class="upload-hint">or click to browse</div>
+            </div>
+            <div class="upload-selected" id="uploadSelected" style="display:none">
+              <div class="upload-selected-icon-wrap">
+                <span class="upload-selected-icon">📄</span>
+                <button class="upload-remove-btn" id="uploadRemoveBtn" title="Remove file">&times;</button>
+              </div>
+              <div class="upload-selected-name" id="uploadFileName"></div>
+              <div class="upload-selected-size" id="uploadFileSize"></div>
+            </div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf,application/pdf">
           </div>
 
-          <div class="convert-settings" id="convertSettings" style="display:none;">
-            <h3 style="margin-bottom: 1rem;">Conversion Options</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Quality</label>
-                <select id="quality">
-                  <option value="0.7">Low (smaller file)</option>
-                  <option value="0.85" selected>Medium</option>
-                  <option value="1">High (best quality)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Scale</label>
-                <select id="scale">
-                  <option value="1">1x</option>
-                  <option value="2" selected>2x</option>
-                  <option value="3">3x</option>
-                </select>
-              </div>
+          <!-- Quality Selector -->
+          <div class="quality-group">
+            <label><i class="fas fa-sliders-h"></i> Image Quality</label>
+            <div class="quality-options" id="qualityOptions">
+              <button class="quality-btn" data-level="low" data-quality="0.5" data-scale="1">
+                <span class="q-icon">🟢</span>
+                Low
+                <span class="q-pct">Small file, 1x scale</span>
+              </button>
+              <button class="quality-btn active" data-level="medium" data-quality="0.85" data-scale="1.5">
+                <span class="q-icon">🟡</span>
+                Medium
+                <span class="q-pct">Balanced, 1.5x scale</span>
+              </button>
+              <button class="quality-btn" data-level="high" data-quality="1" data-scale="2">
+                <span class="q-icon">🔴</span>
+                High
+                <span class="q-pct">Best quality, 2x scale</span>
+              </button>
             </div>
-            <div class="progress-bar" id="progressBar" style="display:none;">
+          </div>
+
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="convertBtn" disabled>
+              <i class="fas fa-image"></i> <span id="processBtnText">Convert to JPEG</span>
+            </button>
+            <button class="action-btn success-btn" id="downloadActionBtn" style="display:none">
+              <i class="fas fa-download"></i> Download ZIP
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn" disabled>
+              Clear
+            </button>
+          </div>
+
+          <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" id="infoTrigger" title="Click Me"></i> Higher quality and scale produce larger JPEG files. Choose based on your needs.</p>
+
+          <!-- Progress -->
+          <div class="progress-area" id="progressArea">
+            <div class="progress-bar">
               <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="tool-actions">
-              <button class="btn btn-convert" id="convertBtn" onclick="convertPdf()">
-                <i class="fas fa-image"></i> Convert to JPEG
+            <div class="progress-text">
+              <span class="prog-status" id="progStatus">Processing...</span>
+              <span id="progPercent">0%</span>
+            </div>
+            <div style="margin-top:0.75rem;text-align:center">
+              <button class="action-btn secondary-btn" id="cancelBtn" disabled style="padding:0.5rem 1.25rem;font-size:0.85rem">
+                <i class="fas fa-times"></i> Cancel
               </button>
-              <button class="btn btn-download" id="downloadBtn" onclick="downloadZip()">
-                <i class="fas fa-download"></i> Download ZIP
-              </button>
+            </div>
+          </div>
+
+          <!-- Hidden stat holders for modal -->
+          <div style="display:none">
+            <span id="pageCountVal">-</span>
+            <span id="totalSizeVal">-</span>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Features + Related Tools -->
+        <div class="tool-info">
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+              <li><i class="fas fa-check feature-icon"></i> Convert any PDF to high-quality JPEG</li>
+              <li><i class="fas fa-check feature-icon"></i> Three quality levels to choose from</li>
+              <li><i class="fas fa-check feature-icon"></i> Adjustable DPI scale (1x–2x)</li>
+              <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+              <li><i class="fas fa-check feature-icon"></i> Files never leave your device</li>
+              <li><i class="fas fa-check feature-icon"></i> Downloads as convenient ZIP archive</li>
+            </ul>
+          </div>
+          
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Try These Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
+                <a href="/tools/pdf/compress-pdf.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/compress-pdf')">
+                  <span class="tool-icon">🗜️</span>
+                  <span class="tool-title">Compress PDF</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+                <a href="/tools/pdf/merge-pdf.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/merge-pdf')">
+                  <span class="tool-icon">📑</span>
+                  <span class="tool-title">Merge PDF</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="how-to-use">
-          <h2>How to Convert PDF to JPEG on YOUROWNPDF.COM</h2>
-          <div class="steps">
-            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF file.</p></div></div>
-            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Convert</h3><p>Select quality and scale.</p></div></div>
-            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get JPEG images as ZIP.</p></div></div>
+        
+      </div>
+
+      <!-- How to Use -->
+      <div class="how-to-use">
+        <h2>How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — PDF to JPEG Converter</h2>
+        <p style="margin-bottom:1.5rem;color:var(--color-text-muted);font-size:0.95rem;line-height:1.6">
+          Turning a PDF document into individual JPEG images doesn&rsquo;t require expensive software. Follow this simple guide to
+          extract each page as a separate JPG using <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>&rsquo;s
+          free online PDF to JPEG converter. All processing happens in your browser &mdash; your files never leave your device.
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Upload Your PDF Document</h3>
+              <p>Start by clicking the upload area or dragging a PDF file from your computer and dropping it into the dotted box.
+              The tool accepts PDF files up to <strong>85 MB</strong> in size. Once uploaded, you&rsquo;ll see a confirmation
+              icon with your file name and size inside the upload box. If you chose the wrong file, simply click the
+              <strong>&times;</strong> button on the file icon to remove it and select a different PDF.</p>
+              <ul>
+                <li>Drag and drop your PDF onto the upload zone</li>
+                <li>Click the upload area to open file browser</li>
+                <li>Remove and replace files anytime with the × button</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+1:+Upload+PDF" alt="Upload PDF file" class="step-image">
+            </div>
           </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Choose Quality &amp; Scale</h3>
+              <p>Select the quality level that matches your needs:</p>
+              <ul>
+                <li><strong>Low</strong> &mdash; JPEG quality 0.5 at 1x scale. Produces the smallest file size. Perfect for previews and thumbnails.</li>
+                <li><strong>Medium</strong> &mdash; JPEG quality 0.85 at 1.5x scale. Good balance of image quality and file size for everyday use.</li>
+                <li><strong>High</strong> &mdash; JPEG quality 1.0 at 2x scale. Maximum image quality for printing or archiving.</li>
+              </ul>
+              <p>The scale factor controls the resolution (DPI) of the output images. Higher scale produces more detailed JPEGs but increases file size proportionally.</p>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+2:+Quality+Settings" alt="Choose quality and scale settings" class="step-image">
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Convert &amp; Monitor Progress</h3>
+              <p>Click the <strong>Convert to JPEG</strong> button to begin. The converter uses the PDF.js engine to accurately render every PDF element &mdash;
+              text, images, shapes, and fonts &mdash; directly onto a canvas before exporting as JPEG.</p>
+              <ul>
+                <li>A progress bar shows real-time status as each page is rendered and saved</li>
+                <li>Processing time depends on page count, complexity, and selected scale</li>
+                <li>Click <strong>Cancel</strong> at any time to stop the conversion</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+3:+Convert+to+JPEG" alt="Conversion progress" class="step-image">
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Download Your JPEG Images as ZIP</h3>
+              <p>When the conversion finishes, a pop-up displays your results: number of pages and total ZIP size.
+              Click <strong>Download</strong> to save the ZIP archive immediately, or press <strong>OK</strong> and use the
+              download button that appears below the progress bar.</p>
+              <ul>
+                <li>The ZIP file contains one JPEG image per PDF page</li>
+                <li>Files are named <code>page-1.jpg</code>, <code>page-2.jpg</code>, etc.</li>
+                <li>Ready to use, share, or upload immediately</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+4:+Download+ZIP" alt="Download JPEG ZIP archive" class="step-image">
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;padding:1rem;background:var(--color-card-hover);border-radius:0.75rem;font-size:0.85rem;line-height:1.7;color:var(--color-text-muted)">
+          <p><strong>Why convert PDF to JPEG?</strong> JPEG images are universally supported, easy to share on social media,
+          embed in presentations, or use in graphic design software. Converting a PDF to individual JPG pages lets you
+          extract specific pages without sharing the entire document. <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
+          offers a free, private, browser-based PDF to JPEG converter with no sign-up required.</p>
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
   </main>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>
-  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- Core Scripts -->
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
+
   <script>
-    // JPG-001: PDF to JPEG Tool
-    let pdfFile = null;
-    let pageCount = 0;
-    let zipBlob = null;
+// Configure PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
 
-    document.addEventListener('DOMContentLoaded', function() {
-      initTheme();
-      const u = document.getElementById('uploadArea');
-      const f = document.getElementById('fileInput');
-      u.addEventListener('click', () => f.click());
-      u.addEventListener('drop', e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
-      f.addEventListener('change', e => handle(e.target.files[0]));
-      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+(function() {
+
+  // ============================================================
+  // VALIDATION HELPERS
+  // ============================================================
+
+  window.validatePDF = function validatePDF(file) {
+    var maxSize = 85 * 1024 * 1024;
+    var validTypes = ['application/pdf'];
+    if (!file) return { valid: false, error: 'No file provided.' };
+    if (validTypes.indexOf(file.type) === -1 && !file.name.toLowerCase().endsWith('.pdf')) {
+      return { valid: false, error: 'Invalid file type. Please upload a PDF file.' };
+    }
+    if (file.size > maxSize) {
+      return { valid: false, error: 'File size exceeds 85MB limit.' };
+    }
+    return { valid: true };
+  };
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    var k = 1024;
+    var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    var i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  // ============================================================
+  // QUALITY PARAMS
+  // ============================================================
+
+  function getQualityParams(level) {
+    switch (level) {
+      case 'low':
+        return { jpegQuality: 0.5, scale: 1, label: 'Low' };
+      case 'medium':
+        return { jpegQuality: 0.85, scale: 1.5, label: 'Medium' };
+      case 'high':
+        return { jpegQuality: 1, scale: 2, label: 'High' };
+      default:
+        return { jpegQuality: 0.85, scale: 1.5, label: 'Medium' };
+    }
+  }
+
+  // ============================================================
+  // UI LOGIC
+  // ============================================================
+
+  var dom = {
+    uploadArea: document.getElementById('uploadArea'),
+    fileInput: document.getElementById('fileInput'),
+    qualityOptions: document.getElementById('qualityOptions'),
+    convertBtn: document.getElementById('convertBtn'),
+    clearBtn: document.getElementById('clearBtn'),
+    progressArea: document.getElementById('progressArea'),
+    progressFill: document.getElementById('progressFill'),
+    progStatus: document.getElementById('progStatus'),
+    progPercent: document.getElementById('progPercent'),
+    pageCountVal: document.getElementById('pageCountVal'),
+    totalSizeVal: document.getElementById('totalSizeVal'),
+    cancelBtn: document.getElementById('cancelBtn'),
+    downloadActionBtn: document.getElementById('downloadActionBtn')
+  };
+
+  var state = {
+    file: null,
+    zipBlob: null,
+    totalPages: 0,
+    selectedLevel: 'medium'
+  };
+
+  var _cancelRequested = false;
+
+  // Smooth progress animation
+  var _animTarget = 0;
+  var _animRunning = false;
+  var _animResolve = null;
+
+  function animateTo(targetPct, status) {
+    targetPct = Math.round(targetPct);
+    if (status) dom.progStatus.textContent = status;
+    if (targetPct <= _animTarget) return Promise.resolve();
+    _animTarget = targetPct;
+    return new Promise(function(resolve) {
+      _animResolve = resolve;
+      if (!_animRunning) {
+        _animRunning = true;
+        var current = parseInt(dom.progPercent.textContent) || 0;
+        (function step() {
+          if (current < _animTarget) {
+            current++;
+            dom.progressFill.style.width = current + '%';
+            dom.progPercent.textContent = current + '%';
+            setTimeout(function() { requestAnimationFrame(step); }, 50);
+          } else {
+            _animRunning = false;
+            if (_animResolve) {
+              var r = _animResolve;
+              _animResolve = null;
+              r();
+            }
+          }
+        })();
+      }
     });
+  }
 
-    function initTheme() {
-      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
-      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('yourownpdf-theme', t); e.target.textContent = t === 'dark' ? '☀️' : '🌙'; } });
+  // Quality button selection
+  dom.qualityOptions.addEventListener('click', function(e) {
+    var btn = e.target.closest('.quality-btn');
+    if (!btn) return;
+    dom.qualityOptions.querySelectorAll('.quality-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    state.selectedLevel = btn.dataset.level;
+  });
+
+  // Upload handlers
+  dom.uploadArea.addEventListener('click', function() {
+    dom.fileInput.click();
+  });
+
+  dom.uploadArea.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dom.uploadArea.classList.add('dragover');
+  });
+
+  dom.uploadArea.addEventListener('dragleave', function() {
+    dom.uploadArea.classList.remove('dragover');
+  });
+
+  dom.uploadArea.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dom.uploadArea.classList.remove('dragover');
+    var file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  dom.fileInput.addEventListener('change', function(e) {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(file) {
+    var validation = window.validatePDF(file);
+    if (!validation.valid) {
+      showModal(validation.error, true);
+      return;
     }
 
-    async function handle(file) {
-      if (!file) return;
-      pdfFile = file;
-      show('Analyzing...', true);
-      try {
-        await loadPdfLib();
-        const { PDFDocument } = PDFLib;
-        const arrayBuffer = await pdfFile.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-        pageCount = pdfDoc.getPageCount();
-        document.getElementById('convertSettings').style.display = 'block';
-        document.getElementById('convertBtn').disabled = false;
-        close();
-        show('PDF loaded! ' + pageCount + ' pages.');
-      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    state.file = file;
+    state.zipBlob = null;
+    state.totalPages = 0;
+
+    dom.convertBtn.disabled = false;
+    dom.clearBtn.disabled = false;
+    dom.cancelBtn.disabled = true;
+    _cancelRequested = false;
+    dom.progressArea.classList.remove('visible');
+    dom.downloadActionBtn.style.display = 'none';
+
+    // Show file inside upload area
+    document.getElementById('uploadDefault').style.display = 'none';
+    document.getElementById('uploadSelected').style.display = 'block';
+    document.getElementById('uploadFileName').textContent = file.name;
+    document.getElementById('uploadFileSize').textContent = formatBytes(file.size);
+
+    dom.convertBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Convert button
+  dom.convertBtn.addEventListener('click', handleConvert);
+
+  async function handleConvert() {
+    if (!state.file) {
+      showModal('Please upload a PDF file first.', true);
+      return;
     }
 
-    async function convertPdf() {
-      if (!pdfFile) return;
-      show('Converting...', true);
-      try {
-        await loadPdfLib();
-        await loadJSZip();
-        const { PDFDocument } = PDFLib;
-        const arrayBuffer = await pdfFile.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-        const pages = pdfDoc.getPages();
-        const quality = parseFloat(document.getElementById('quality').value);
-        const scale = parseInt(document.getElementById('scale').value);
-        const zip = new JSZip();
-        document.getElementById('progressBar').style.display = 'block';
+    _cancelRequested = false;
+    dom.cancelBtn.disabled = false;
+    dom.progressArea.classList.add('visible');
+    dom.cancelBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    dom.downloadActionBtn.style.display = 'none';
+    dom.convertBtn.disabled = true;
 
-        for (let i = 0; i < pages.length; i++) {
-          const page = pages[i];
-          const { width, height } = page.getSize();
-          const canvas = document.createElement('canvas');
-          canvas.width = width * scale;
-          canvas.height = height * scale;
-          const ctx = canvas.getContext('2d');
-          ctx.fillStyle = 'white';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = '#333';
-          ctx.font = 'bold ' + (24 * scale) + 'px Arial';
-          ctx.textAlign = 'center';
-          ctx.fillText('Page ' + (i + 1), canvas.width / 2, canvas.height / 2);
+    dom.progressFill.style.width = '0%';
+    dom.progPercent.textContent = '0%';
+    dom.progStatus.textContent = 'Processing...';
+    _animTarget = 0;
 
-          const dataUrl = canvas.toDataURL('image/jpeg', quality);
-          const base64 = dataUrl.split(',')[1];
-          zip.file('page-' + (i + 1) + '.jpg', base64, { base64: true });
+    try {
+      animateTo(3, 'Loading PDF...');
+      await new Promise(function(r) { setTimeout(r, 80); });
 
-          const percent = ((i + 1) / pages.length) * 100;
-          document.getElementById('progressFill').style.width = percent + '%';
+      var arrayBuffer = await state.file.arrayBuffer();
+
+      animateTo(8, 'Parsing document...');
+      var loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      var pdf = await loadingTask.promise;
+      var numPages = pdf.numPages;
+      state.totalPages = numPages;
+
+      if (!numPages || numPages === 0) {
+        throw new Error('PDF has no pages.');
+      }
+
+      var params = getQualityParams(state.selectedLevel);
+      var zip = new JSZip();
+      var totalPages = numPages;
+
+      for (var i = 1; i <= totalPages; i++) {
+        if (_cancelRequested) throw new Error('cancelled');
+
+        var pagePct = Math.round((i - 1) / totalPages * 85) + 8;
+        animateTo(pagePct, 'Rendering page ' + i + ' of ' + totalPages + '...');
+        await new Promise(function(r) { setTimeout(r, 30); });
+
+        var page = await pdf.getPage(i);
+        var vp = page.getViewport({ scale: params.scale });
+        var canvas = document.createElement('canvas');
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        var ctx = canvas.getContext('2d');
+
+        ctx.save();
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+        var blob = await new Promise(function(resolve) {
+          canvas.toBlob(resolve, 'image/jpeg', params.jpegQuality);
+        });
+
+        if (blob && blob.size > 0) {
+          zip.file('page-' + i + '.jpg', blob);
         }
+      }
 
-        zipBlob = await zip.generateAsync({ type: 'blob' });
-        document.getElementById('downloadBtn').classList.add('visible');
-        close();
-        show('Converted ' + pages.length + ' pages to JPEG!');
-      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+      animateTo(94, 'Creating ZIP archive...');
+      state.zipBlob = await zip.generateAsync({ type: 'blob' });
+
+      var totalSize = state.zipBlob.size;
+      await animateTo(100, 'Conversion complete!');
+
+      showResultModal(totalPages, totalSize);
+
+    } catch (err) {
+      if (_cancelRequested) {
+        dom.progressArea.classList.remove('visible');
+        dom.cancelBtn.disabled = true;
+        return;
+      }
+      console.error('Conversion error:', err);
+      var msg = err.message || 'Unknown error';
+
+      if (msg.indexOf('password') !== -1 || msg.indexOf('encrypted') !== -1) {
+        msg = 'This PDF is password protected. Please unlock it first.';
+      } else if (msg.indexOf('corrupt') !== -1 || msg.indexOf('malformed') !== -1 || msg.indexOf('InvalidPDF') !== -1) {
+        msg = 'The PDF file appears to be corrupted. Try another file.';
+      }
+
+      dom.progressArea.classList.remove('visible');
+      showModal('Conversion failed: ' + msg, true);
+    } finally {
+      dom.convertBtn.disabled = false;
+      dom.cancelBtn.disabled = true;
     }
+  }
 
-    async function loadPdfLib() {
-      if (window.PDFLib) return;
-      return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
+  function showResultModal(pageCount, totalSize) {
+    var overlay = document.getElementById('modalOverlay');
+    var content = document.getElementById('modalContent');
+    content.className = 'modal';
+    content.innerHTML =
+      '<div style="font-size:3rem;margin-bottom:1rem">✅</div>' +
+      '<p style="font-weight:600;margin-bottom:1rem">PDF Converted to JPEG!</p>' +
+      '<div style="text-align:left;margin:0 auto 1rem;padding:0.75rem;background:var(--color-card-hover);border-radius:0.5rem;font-size:0.9rem;line-height:1.8;display:inline-block">' +
+        '<div>Pages converted: <strong>' + pageCount + '</strong></div>' +
+        '<div>ZIP size: <strong>' + formatBytes(totalSize) + '</strong></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1.5rem">' +
+        '<button onclick="modalDownload()" style="padding:0.75rem 1.5rem;background:#16a34a;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600">⬇ Download ZIP</button>' +
+        '<button onclick="closeModal(); showPostDownload()" style="padding:0.75rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600">OK</button>' +
+      '</div>';
+    overlay.classList.add('active');
+  }
+
+  // Cancel
+  function requestCancel() {
+    _cancelRequested = true;
+    dom.cancelBtn.disabled = true;
+    dom.progStatus.textContent = 'Cancelling...';
+  }
+
+  dom.cancelBtn.addEventListener('click', requestCancel);
+
+  // Download
+  function triggerDownload() {
+    if (!state.zipBlob) {
+      showModal('No ZIP file available. Convert a PDF first.', true);
+      return;
     }
+    var url = URL.createObjectURL(state.zipBlob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'yourownpdf') + '-images.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
-    async function loadJSZip() {
-      if (window.JSZip) return;
-      return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
+  dom.downloadActionBtn.addEventListener('click', triggerDownload);
 
-    function downloadZip() {
-      if (!zipBlob) return;
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(zipBlob);
-      a.download = 'yourownpdf-jpg.zip';
+  // Remove uploaded file (X button inside upload area)
+  document.getElementById('uploadRemoveBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    clearUploadedFile();
+  });
+
+  function clearUploadedFile() {
+    state.file = null;
+    state.zipBlob = null;
+    state.totalPages = 0;
+    dom.fileInput.value = '';
+    document.getElementById('uploadDefault').style.display = 'block';
+    document.getElementById('uploadSelected').style.display = 'none';
+    dom.convertBtn.disabled = true;
+    dom.clearBtn.disabled = true;
+    dom.cancelBtn.disabled = true;
+    _cancelRequested = false;
+    dom.progressArea.classList.remove('visible');
+    dom.downloadActionBtn.style.display = 'none';
+  }
+
+  // Clear
+  dom.clearBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    clearUploadedFile();
+
+    dom.qualityOptions.querySelectorAll('.quality-btn').forEach(function(b) { b.classList.remove('active'); });
+    var mediumBtn = dom.qualityOptions.querySelector('[data-level="medium"]');
+    if (mediumBtn) mediumBtn.classList.add('active');
+    state.selectedLevel = 'medium';
+  });
+
+  // Modal helpers
+  window.showModal = function showModal(msg, isError) {
+    var overlay = document.getElementById('modalOverlay');
+    var content = document.getElementById('modalContent');
+    content.className = 'modal';
+    var icon = isError ? '❌' : '✅';
+    content.innerHTML =
+      '<div style="font-size:3rem;margin-bottom:1rem">' + icon + '</div>' +
+      '<p>' + msg + '</p>' +
+      '<button onclick="closeModal()" style="margin-top:1.5rem;padding:0.75rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer">OK</button>';
+    overlay.classList.add('active');
+  };
+
+  window.modalDownload = function modalDownload() {
+    closeModal();
+    window.showPostDownload();
+    if (state.zipBlob) {
+      var url = URL.createObjectURL(state.zipBlob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'yourownpdf') + '-images.zip';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
+  };
 
-    function show(msg, loading = false, error = false) {
-      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
-      document.getElementById('modalOverlay').classList.add('active');
-      if (!loading) setTimeout(close, 3000);
+  window.closeModal = function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+  };
+
+  window.showPostDownload = function showPostDownload() {
+    dom.progressArea.classList.remove('visible');
+    dom.cancelBtn.disabled = true;
+    dom.downloadActionBtn.style.display = 'flex';
+  };
+
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target.id === 'modalOverlay') closeModal();
+  });
+
+  // Info trigger — open detailed explanation modal
+  document.getElementById('infoTrigger').addEventListener('click', function() {
+    var overlay = document.getElementById('modalOverlay');
+    var content = document.getElementById('modalContent');
+    content.className = 'modal info-modal';
+    content.innerHTML =
+      '<div style="text-align:center;font-size:2rem;margin-bottom:0.25rem">&#8505;&#65039;</div>' +
+      '<h3 style="margin-bottom:0.25rem;color:#16a34a">PDF to JPEG Guide</h3>' +
+      '<p style="font-size:0.85rem;margin-bottom:0.75rem;color:#22c55e">Choose the right quality and scale for your JPEG output</p>' +
+      '<div style="font-size:0.85rem;line-height:1.7;color:var(--color-text-muted)">' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">Low Quality</strong> &mdash; JPEG quality 0.5 at 1x scale. Produces the smallest file size with acceptable clarity for quick previews, thumbnails, or sharing on messaging apps.</p>' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">Medium Quality</strong> &mdash; JPEG quality 0.85 at 1.5x scale. The default choice offering excellent image quality with reasonable file size. Great for presentations, documents, and most use cases.</p>' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">High Quality</strong> &mdash; JPEG quality 1.0 at 2x scale. Maximum detail and crispness suitable for printing, archiving, and professional design work. Expect larger file sizes.</p>' +
+        '<p><strong style="color:#16a34a">How it works:</strong> PDF.js renders every page element &mdash; text, vector graphics, embedded images &mdash; onto an HTML canvas at the chosen scale. The canvas is then exported as a JPEG image with the selected quality level. Each page becomes a separate JPG file packaged in a ZIP archive. All processing runs 100% in your browser &mdash; files never uploaded to any server. Free, private, no sign-up required.</p>' +
+      '</div>' +
+      '<div style="text-align:center;margin-top:1rem"><button onclick="closeModal()" style="padding:0.6rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600">Got it</button></div>';
+    overlay.classList.add('active');
+  });
+
+  // Theme toggle
+  (function initTheme() {
+    var saved = localStorage.getItem('yourownpdf-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', saved);
+    var toggle = document.querySelector('.theme-toggle');
+    if (toggle) {
+      toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+      toggle.addEventListener('click', function() {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('yourownpdf-theme', next);
+        toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+      });
     }
+  })();
 
-    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+})();
   </script>
 </body>
 </html>

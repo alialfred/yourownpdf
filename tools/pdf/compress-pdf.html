@@ -176,12 +176,12 @@
             <div class="quality-group" id="engineGroup">
               <label><i class="fas fa-cogs"></i> Compression Tool</label>
               <div class="quality-options" id="engineOptions">
-                <button class="quality-btn active" data-engine="pdf-lib">
+                <button class="quality-btn" data-engine="pdf-lib">
                   <span class="q-icon">📦</span>
                   pdf-lib
                   <span class="q-pct">In-place image recompress</span>
                 </button>
-                <button class="quality-btn" data-engine="jspdf">
+                <button class="quality-btn active" data-engine="jspdf">
                   <span class="q-icon">🔄</span>
                   jsPDF
                   <span class="q-pct">Page rasterize + rebuild</span>
@@ -923,7 +923,7 @@ if (typeof pdfjsLib !== 'undefined') {
     compressedBlob: null,
     compressedName: '',
     selectedLevel: 'medium',
-    selectedEngine: 'pdf-lib'
+    selectedEngine: 'jspdf'
   };
 
   // Cancel flag for aborting in-progress compression
@@ -1020,7 +1020,7 @@ if (typeof pdfjsLib !== 'undefined') {
 
     state.file = file;
     state.compressedBlob = null;
-    state.compressedName = file.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
+    state.compressedName = file.name.replace(/\.pdf$/i, '') + '-compressed-YourOwnPDF.com.pdf';
 
     dom.compressBtn.disabled = false;
     dom.clearBtn.disabled = false;
@@ -1051,6 +1051,7 @@ if (typeof pdfjsLib !== 'undefined') {
     _cancelRequested = false;
     dom.cancelBtn.disabled = false;
     dom.progressArea.classList.add('visible');
+    dom.cancelBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     dom.downloadActionBtn.style.display = 'none';
     dom.compressBtn.disabled = true;
 
@@ -1150,7 +1151,7 @@ if (typeof pdfjsLib !== 'undefined') {
     var url = URL.createObjectURL(state.compressedBlob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = state.compressedName || 'yourownpdf-compressed.pdf';
+    a.download = state.compressedName || 'yourownpdf-com-compressed.pdf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1181,6 +1182,7 @@ if (typeof pdfjsLib !== 'undefined') {
 
   // Clear
   dom.clearBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     clearUploadedFile();
 
     // Reset quality
@@ -1192,10 +1194,10 @@ if (typeof pdfjsLib !== 'undefined') {
     // Reset engine
     if (engineOptions) {
       engineOptions.querySelectorAll('.quality-btn').forEach(function(b) { b.classList.remove('active'); });
-      var pdfLibBtn = engineOptions.querySelector('[data-engine="pdf-lib"]');
-      if (pdfLibBtn) pdfLibBtn.classList.add('active');
+      var jsPdfBtn = engineOptions.querySelector('[data-engine="jspdf"]');
+      if (jsPdfBtn) jsPdfBtn.classList.add('active');
     }
-    state.selectedEngine = 'pdf-lib';
+    state.selectedEngine = 'jspdf';
   });
 
   // Modal helpers
@@ -1239,7 +1241,7 @@ if (typeof pdfjsLib !== 'undefined') {
       var url = URL.createObjectURL(state.compressedBlob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = state.compressedName || 'yourownpdf-compressed.pdf';
+      a.download = state.compressedName || 'yourownpdf-com-compressed.pdf';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

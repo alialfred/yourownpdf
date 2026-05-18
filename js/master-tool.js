@@ -277,7 +277,7 @@ class MasterTool {
     let draggedItem = null;
     let draggedIndex = null;
     let dropIndicator = null;
-    let selectedItem = null;
+    let selectedIndices = new Set();
 
     document.addEventListener('click', (e) => {
       const fileItem = e.target.closest('.file-item');
@@ -286,20 +286,25 @@ class MasterTool {
       if (fileRemoveBtn) return;
 
       if (fileItem) {
-        if (selectedItem && selectedItem !== fileItem) selectedItem.classList.remove('selected');
-        if (selectedItem === fileItem) {
-          fileItem.classList.remove('selected');
-          selectedItem = null;
+        const index = parseInt(fileItem.dataset.index);
+        if (e.ctrlKey || e.metaKey) {
+          if (selectedIndices.has(index)) {
+            selectedIndices.delete(index);
+            fileItem.classList.remove('selected');
+          } else {
+            selectedIndices.add(index);
+            fileItem.classList.add('selected');
+          }
         } else {
+          document.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+          selectedIndices.clear();
+          selectedIndices.add(index);
           fileItem.classList.add('selected');
-          selectedItem = fileItem;
         }
         e.stopPropagation();
       } else {
-        if (selectedItem) {
-          selectedItem.classList.remove('selected');
-          selectedItem = null;
-        }
+        document.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+        selectedIndices.clear();
       }
     });
 
@@ -315,10 +320,6 @@ class MasterTool {
       if (fileItem) {
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/plain', '');
-        if (selectedItem) {
-          selectedItem.classList.remove('selected');
-          selectedItem = null;
-        }
         draggedItem = fileItem;
         draggedIndex = parseInt(fileItem.dataset.index);
         fileItem.classList.add('dragging');
@@ -381,16 +382,41 @@ class MasterTool {
         const targetIndex = parseInt(targetItem.dataset.index);
         const rect = targetItem.getBoundingClientRect();
         const midpoint = rect.top + rect.height / 2;
-        const actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex + 1;
+        let actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex + 1;
 
-        if (draggedIndex !== actualTargetIndex && draggedIndex !== actualTargetIndex - 1) {
-          const tool = window.__reorderToolInstance;
-          if (!tool) return;
+        const tool = window.__reorderToolInstance;
+        if (!tool) return;
+
+        let indicesToMove = Array.from(selectedIndices).sort((a, b) => a - b);
+        if (indicesToMove.length === 0 || !indicesToMove.includes(draggedIndex)) {
+          indicesToMove = [draggedIndex];
+        }
+
+        const draggedInSet = indicesToMove.includes(draggedIndex);
+        if (!draggedInSet) {
+          indicesToMove = [draggedIndex];
+        }
+
+        if (indicesToMove.length === 1 && indicesToMove[0] === draggedIndex) {
+          if (draggedIndex === actualTargetIndex || draggedIndex === actualTargetIndex - 1) {
+            draggedIndex = null;
+            return;
+          }
           const [movedFile] = tool.files.splice(draggedIndex, 1);
           const insertAt = draggedIndex < actualTargetIndex ? actualTargetIndex - 1 : actualTargetIndex;
           tool.files.splice(insertAt, 0, movedFile);
-          tool.updateFileList();
+        } else {
+          const removedBeforeTarget = indicesToMove.filter(idx => idx < actualTargetIndex).length;
+          const movedItems = [];
+          for (let i = indicesToMove.length - 1; i >= 0; i--) {
+            movedItems.unshift(tool.files.splice(indicesToMove[i], 1)[0]);
+          }
+          const insertAt = actualTargetIndex - removedBeforeTarget;
+          tool.files.splice(insertAt, 0, ...movedItems);
         }
+
+        selectedIndices.clear();
+        tool.updateFileList();
       }
       draggedIndex = null;
     });

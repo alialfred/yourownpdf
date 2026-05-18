@@ -11,11 +11,12 @@ window.YOUROWNPDF = window.YOUROWNPDF || {};
 // ============================================================
 window.YOUROWNPDF.workingTools = [
   // --- PDF Tools ---        
-   "Merge PDF",                // ✅ Working
-   "Compress PDF",             // ✅ Working
+  "Merge PDF",                // ✅ Working
+  "Compress PDF",             // ✅ Working
+  "JPG to PDF",               // ✅ Working
   // "PDF to Word",          
   // "Split PDF",
-  // "PDF to JPG",
+  "PDF to JPG",                // ✅ Working
   // "Rotate PDF",
   // "Protect PDF",
   // "Unlock PDF",
@@ -151,6 +152,7 @@ window.YOUROWNPDF.RelatedTools = {
   'sharpen-image': ['blur-image', 'contrast-image'],
   'remove-background': ['resize-image', 'image-to-pdf'],
   'image-to-pdf': ['compress-image', 'pdf-to-jpg'],
+  'jpg-to-pdf': ['compress-image', 'merge-pdf'],
   'jpg-to-png': ['png-to-jpg', 'webp-to-jpg'],
   'png-to-jpg': ['jpg-to-png', 'webp-to-jpg'],
   'webp-to-jpg': ['jpg-to-png', 'png-to-jpg'],
@@ -187,6 +189,7 @@ window.YOUROWNPDF.ToolData = {
   'pdf-to-html': { name: 'PDF to HTML', icon: '🌐', category: 'pdf' },
   'pdf-to-images': { name: 'PDF to Images', icon: '🖼️', category: 'pdf' },
   'pdf-margin': { name: 'PDF Margin', icon: '📐', category: 'pdf' },
+  'jpg-to-pdf': { name: 'JPG to PDF', icon: '📄', category: 'image' },
 
   // Image Tools
   'compress-image': { name: 'Compress Image', icon: '🗜️', category: 'image' },
@@ -212,7 +215,7 @@ window.YOUROWNPDF.ToolData = {
 };
 
 // TC-003: Get current tool page filename
-window.YOUROWNPDF.RelatedTools.getCurrentTool = function() {
+window.YOUROWNPDF.RelatedTools.getCurrentTool = function () {
   let path = window.location.pathname;
 
   // Handle local file routing
@@ -235,7 +238,7 @@ window.YOUROWNPDF.RelatedTools.getCurrentTool = function() {
 };
 
 // TC-004: Get related tools for current page
-window.YOUROWNPDF.RelatedTools.getRelated = function() {
+window.YOUROWNPDF.RelatedTools.getRelated = function () {
   const currentTool = this.getCurrentTool();
   const related = this[currentTool] || this['default'];
   return related.map(toolId => {
@@ -248,7 +251,7 @@ window.YOUROWNPDF.RelatedTools.getRelated = function() {
 };
 
 // TC-005: Render related tools HTML
-window.YOUROWNPDF.RelatedTools.render = function(containerId, explicitToolId) {
+window.YOUROWNPDF.RelatedTools.render = function (containerId, explicitToolId) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.log('Container not found:', containerId);
@@ -320,6 +323,7 @@ function getToolIdFromName(name) {
     'PDF to HTML': 'pdf-to-html',
     'PDF to Images': 'pdf-to-images',
     'PDF Margin': 'pdf-margin',
+    'JPG to PDF': 'jpg-to-pdf',
     'Compress Image': 'compress-image',
     'Resize Image': 'resize-image',
     'Crop Image': 'crop-image',

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Convert JPG images to PDF online free. Combine multiple JPEG photos into one PDF document. 100% client-side by YOUROWNPDF.COM.">
+  <title>JPG to PDF — Convert JPEG Images to PDF Free | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
+        </a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
+        </nav>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="mainContent">
+    <div class="tool-page">
+      
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+        <p class="tool-description-text" id="toolDescDisplay"></p>
+      </div>
+
+      <div class="tool-layout">
+        
+        <!-- LEFT COLUMN: Upload & Actions -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Drag & drop JPG images here</div>
+            <div class="upload-hint">or click to browse (multiple files allowed)</div>
+            <input type="file" class="file-input" id="fileInput" multiple accept=".jpg,.jpeg,image/jpeg">
+          </div>
+
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="processBtn" disabled>
+              <i class="fas fa-file-pdf"></i> <span id="processBtnText">Convert to PDF</span>
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn" disabled>
+              Clear All
+            </button>
+            <button class="action-btn success-btn" id="downloadBtn">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+
+          <p class="reorder-hint"><i class="fas fa-info-circle hint-icon" onclick="window.showReorderGuide(event)"></i> Drag files in the list to reorder them.</p>
+        </div>
+
+        <!-- RIGHT COLUMN: Features -->
+        <div class="tool-info">
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+              <!-- Dynamically populated from config -->
+            </ul>
+          </div>
+          
+          <!-- Related Tools -->
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Try These Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
+                <a href="/tools/image/compress.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/image/compress')">
+                  <span class="tool-icon">🗜️</span>
+                  <span class="tool-title">Compress Image</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+                <a href="/tools/image/image-to-pdf.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/image/image-to-pdf')">
+                  <span class="tool-icon">📄</span>
+                  <span class="tool-title">Image to PDF</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- How to use -->
+      <div class="how-to-use">
+        <h2>How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — JPG to PDF</h2>
+        <p style="margin-bottom:1.5rem;color:var(--color-text-muted);font-size:0.95rem;line-height:1.6">
+          Converting JPEG images into a single PDF document is quick, free, and private with 
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>&rsquo;s
+          online JPG to PDF converter. All processing happens in your browser &mdash; your images never leave your device.
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Upload Your JPG Images</h3>
+              <p>Click the upload area or drag and drop JPG/JPEG files from your computer. You can select multiple images at once using Ctrl/Cmd + click. The tool accepts all standard JPEG files regardless of size.</p>
+              <ul>
+                <li>Drag and drop JPG files directly onto the upload zone</li>
+                <li>Click the upload area to open the file browser</li>
+                <li>Add more files anytime by clicking the upload area again</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+1:+Upload+JPG+Images" alt="Upload JPG images" class="step-image">
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Arrange Image Order (Optional)</h3>
+              <p>Before converting, you can reorder your images to ensure they appear in the correct sequence in the final PDF document. The first image in the list becomes the first page.</p>
+              <ul>
+                <li>Drag the handle (☰) on the left to reorder</li>
+                <li>Drop the image in your desired position</li>
+                <li>Remove unwanted images using the X button</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+2:+Reorder+Images" alt="Reorder JPG images" class="step-image">
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Click Convert to PDF</h3>
+              <p>Once you've added at least one image, click the "Convert to PDF" button. Each JPG image is embedded onto its own page in the PDF at full resolution.</p>
+              <ul>
+                <li>Each JPG becomes one PDF page</li>
+                <li>Original image quality is preserved</li>
+                <li>Processing completes in seconds</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+3:+Convert+to+PDF" alt="Click convert to PDF" class="step-image">
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Download Your PDF</h3>
+              <p>Click the green "Download" button to save your combined PDF file. The file will be named "yourownpdf-images.pdf" and saved to your downloads folder, ready to share or print.</p>
+              <ul>
+                <li>All images combined in the order you specified</li>
+                <li>Full resolution preserved for each page</li>
+                <li>Ready to share or print immediately</li>
+              </ul>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+4:+Download+PDF" alt="Download PDF" class="step-image">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
+  <script src="../../js/tools-config.js"></script>
+  
+  <!-- Single Source of Truth for Tool Logic -->
+  <script src="../../js/master-tool.js"></script>
+  
+  <!-- Tool Specific Dependency -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <script>
+    (function() {
+      // 1. TOOL SPECIFIC CONFIGURATION
+      var TOOL_CONFIG = {
+        title: "📄 JPG to PDF",
+        description: "Convert your JPEG images into a single PDF document — fast, free, and private.",
+        buttonText: "Convert to PDF",
+        allowedFileTypes: [".jpg", ".jpeg", "image/jpeg"],
+        maxFiles: 0, // 0 means unlimited
+        minFilesRequired: 1,
+        successMessage: "PDF created successfully!",
+        errorMessage: "Error converting JPG to PDF: ",
+        downloadFilename: "yourownpdf-images.pdf",
+        downloadMimeType: "application/pdf",
+        features: [
+          "Combine multiple JPG images",
+          "Preserve original quality",
+          "Drag to reorder images",
+          "100% client-side processing",
+          "No file size limits",
+          "Works in any browser"
+        ]
+      };
+
+      // 2. TOOL SPECIFIC LOGIC (PDF-Lib JPG to PDF)
+      async function executeToolLogic(filesArray, config) {
+        const { PDFDocument } = window.PDFLib;
+        const pdfDoc = await PDFDocument.create();
+
+        for (const file of filesArray) {
+          const jpgImage = await pdfDoc.embedJpg(file.data);
+          const page = pdfDoc.addPage([jpgImage.width, jpgImage.height]);
+          page.drawImage(jpgImage, {
+            x: 0,
+            y: 0,
+            width: jpgImage.width,
+            height: jpgImage.height
+          });
+        }
+
+        return await pdfDoc.save();
+      }
+
+      // 3. HAND OVER TO MASTER TOOL
+      function bootstrap() {
+         var toolInstance = new window.MasterTool(TOOL_CONFIG, executeToolLogic);
+         toolInstance.init();
+      }
+
+      // Ensure single initialization
+      document.addEventListener('DOMContentLoaded', bootstrap);
+      
+      // Fallback for SPA routing injection
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(function() {
+          if (document.getElementById('uploadArea') && !document.getElementById('processBtn').hasAttribute('data-initialized')) {
+             document.getElementById('processBtn').setAttribute('data-initialized', 'true');
+             bootstrap();
+          }
+        }, 50);
+      }
+    })();
+  </script>
+</body>
+</html>

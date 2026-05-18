@@ -15,10 +15,16 @@
     .file-input { display: none; }
     .file-list { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
     .file-list h3 { margin-bottom: 1rem; }
-    .file-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: var(--color-bg); border-radius: 0.5rem; margin-bottom: 0.5rem; }
-    .file-item-info { display: flex; align-items: center; gap: 0.75rem; }
-    .file-item-name { font-weight: 500; }
-    .file-item-pages { font-size: 0.75rem; color: var(--color-text-muted); }
+    .file-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--color-bg); border-radius: 0.5rem; margin-bottom: 0.5rem; cursor: grab; }
+    .file-item:active { cursor: grabbing; }
+    .file-item.selected { background: var(--color-card-hover); box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 1px solid var(--color-b); }
+    .file-item.dragging { opacity: 0.5; }
+    .file-item.drag-over { border-top: 2px solid var(--color-b); }
+    .file-drag-handle { cursor: grab; color: var(--color-text-muted); padding: 0 0.25rem; user-select: none; }
+    .file-drag-handle:active { cursor: grabbing; }
+    .file-item-info { display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0; }
+    .file-item-name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .file-item-pages { font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap; }
     .file-item-remove { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1.25rem; padding: 0.25rem; }
     .file-item-remove:hover { color: #dc2626; }
     .drag-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); display: none; align-items: center; justify-content: center; z-index: 1000; }
@@ -137,6 +143,7 @@
     // CMB-001: PDF Combine Tool
     let pdfFiles = [];
     let pdfBytes = null;
+    let selectedIndices = new Set();
 
     document.addEventListener('DOMContentLoaded', function() {
       initTheme();
@@ -153,6 +160,14 @@
       document.addEventListener('drop', e => { e.preventDefault(); document.getElementById('dragOverlay').classList.remove('active'); if (e.target.id !== 'uploadArea') handleFiles(e.dataTransfer.files); });
 
       document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+      document.addEventListener('keydown', e => {
+        if ((e.key === 'Delete' || e.key === 'Backspace') && selectedIndices.size > 0) {
+          const sorted = Array.from(selectedIndices).sort((a, b) => b - a);
+          sorted.forEach(idx => pdfFiles.splice(idx, 1));
+          selectedIndices.clear();
+          updateFileList();
+        }
+      });
     });
 
     function initTheme() {
@@ -208,7 +223,9 @@
       let totalPages = 0;
       container.innerHTML = pdfFiles.map((pdf, index) => {
         totalPages += pdf.pages;
-        return '<div class="file-item" data-index="' + index + '">' +
+        const sel = selectedIndices.has(index) ? ' selected' : '';
+        return '<div class="file-item' + sel + '" draggable="true" data-index="' + index + '">' +
+          '<span class="file-drag-handle">☰</span>' +
           '<div class="file-item-info">' +
             '<span style="font-size: 1.5rem;">📄</span>' +
             '<div>' +
@@ -216,16 +233,85 @@
               '<div class="file-item-pages">' + pdf.pages + ' page' + (pdf.pages !== 1 ? 's' : '') + '</div>' +
             '</div>' +
           '</div>' +
-          '<button class="file-item-remove" onclick="removeFile(' + index + ')" title="Remove">×</button>' +
+          '<button class="file-item-remove" title="Remove">×</button>' +
         '</div>';
       }).join('');
 
       totalEl.textContent = totalPages;
       combineBtn.disabled = pdfFiles.length < 2;
+
+      // Remove button listeners
+      container.querySelectorAll('.file-item-remove').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const item = e.target.closest('.file-item');
+          if (item) removeFile(parseInt(item.dataset.index));
+        });
+      });
+
+      // Multi-select click
+      container.querySelectorAll('.file-item').forEach(item => {
+        item.addEventListener('click', e => {
+          if (e.target.closest('.file-item-remove') || e.target.closest('.file-drag-handle')) return;
+          const idx = parseInt(item.dataset.index);
+          if (e.ctrlKey || e.metaKey) {
+            if (selectedIndices.has(idx)) { selectedIndices.delete(idx); item.classList.remove('selected'); }
+            else { selectedIndices.add(idx); item.classList.add('selected'); }
+          } else {
+            container.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+            selectedIndices.clear();
+            selectedIndices.add(idx);
+            item.classList.add('selected');
+          }
+        });
+      });
+
+      // Drag reorder
+      let dragSrcIdx = null;
+      container.querySelectorAll('.file-item').forEach(item => {
+        item.addEventListener('dragstart', e => {
+          dragSrcIdx = parseInt(item.dataset.index);
+          e.dataTransfer.effectAllowed = 'move';
+          item.classList.add('dragging');
+        });
+        item.addEventListener('dragend', e => {
+          item.classList.remove('dragging');
+          container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
+          dragSrcIdx = null;
+        });
+        item.addEventListener('dragover', e => {
+          e.preventDefault();
+          container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
+          item.classList.add('drag-over');
+        });
+        item.addEventListener('dragleave', e => {
+          if (!item.contains(e.relatedTarget)) item.classList.remove('drag-over');
+        });
+        item.addEventListener('drop', e => {
+          e.preventDefault();
+          container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
+          if (dragSrcIdx === null) return;
+          const targetIdx = parseInt(item.dataset.index);
+          if (dragSrcIdx === targetIdx) return;
+
+          let indices = Array.from(selectedIndices).sort((a, b) => a - b);
+          if (!indices.includes(dragSrcIdx)) indices = [dragSrcIdx];
+
+          const removedBeforeTarget = indices.filter(idx => idx < targetIdx).length;
+          const movedItems = [];
+          for (let i = indices.length - 1; i >= 0; i--) {
+            movedItems.unshift(pdfFiles.splice(indices[i], 1)[0]);
+          }
+          pdfFiles.splice(targetIdx - removedBeforeTarget, 0, ...movedItems);
+          selectedIndices.clear();
+          updateFileList();
+        });
+      });
     }
 
     function removeFile(index) {
       pdfFiles.splice(index, 1);
+      selectedIndices.clear();
       updateFileList();
     }
 

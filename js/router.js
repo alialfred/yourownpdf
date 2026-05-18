@@ -373,7 +373,7 @@ renderPage: function(html, pathname) {
         'compress-image', 'resize-image', 'crop-image', 'rotate-image',
         'flip-image', 'filter-image', 'brightness-image', 'contrast-image',
         'grayscale-image', 'invert-image', 'blur-image', 'sharpen-image',
-        'remove-background', 'image-to-pdf', 'jpg-to-png', 'png-to-jpg',
+        'remove-background', 'image-to-pdf', 'jpg-to-pdf', 'jpg-to-png', 'png-to-jpg',
         'webp-to-jpg', 'gif-to-png', 'ico-converter', 'base64-encode'
       ];
 
