@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get PDF file information. Free tool by YOUROWNPDF.COM">
+  <title>PDF Info — File Details | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
+    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .file-input { display: none; }
+    .info-display { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
+    .info-section { margin-bottom: 1.5rem; }
+    .info-section h3 { margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
+    .info-grid { display: grid; gap: 0.75rem; }
+    .info-row { display: grid; grid-template-columns: 140px 1fr; gap: 1rem; padding: 0.75rem; background: var(--color-bg); border-radius: 0.5rem; align-items: center; }
+    .info-label { font-weight: 500; color: var(--color-text-muted); }
+    .info-value { word-break: break-all; }
+    .badge { display: inline-flex; padding: 0.25rem 0.75rem; background: var(--color-b); color: white; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; }
+    .badge-success { background: #16a34a; }
+    .badge-warning { background: #f59e0b; }
+    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step { display: flex; gap: 1rem; }
+    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        </a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        </nav>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Info</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+    <div class="container">
+      <div class="tool-page">
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem;">ℹ️ PDF Info</h1>
+          <p style="color: var(--color-text-muted);">View detailed PDF file information</p>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
+            <div style="color: var(--color-text-muted);">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+          </div>
+
+          <div class="info-display" id="infoDisplay" style="display:none;">
+            <div class="info-section">
+              <h3>File Details</h3>
+              <div class="info-grid">
+                <div class="info-row"><span class="info-label">File Name</span><span class="info-value" id="fName">-</span></div>
+                <div class="info-row"><span class="info-label">File Size</span><span class="info-value"><span class="badge" id="fSize">-</span></span></div>
+                <div class="info-row"><span class="info-label">MIME Type</span><span class="info-value" id="fMime">-</span></div>
+                <div class="info-row"><span class="info-label">Last Modified</span><span class="info-value" id="fModified">-</span></div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>Document Properties</h3>
+              <div class="info-grid">
+                <div class="info-row"><span class="info-label">Title</span><span class="info-value" id="pTitle">-</span></div>
+                <div class="info-row"><span class="info-label">Author</span><span class="info-value" id="pAuthor">-</span></div>
+                <div class="info-row"><span class="info-label">Subject</span><span class="info-value" id="pSubject">-</span></div>
+                <div class="info-row"><span class="info-label">Keywords</span><span class="info-value" id="pKeywords">-</span></div>
+                <div class="info-row"><span class="info-label">Creator</span><span class="info-value" id="pCreator">-</span></div>
+                <div class="info-row"><span class="info-label">Producer</span><span class="info-value" id="pProducer">-</span></div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>PDF Statistics</h3>
+              <div class="info-grid">
+                <div class="info-row"><span class="info-label">Pages</span><span class="info-value"><span class="badge badge-success" id="pPages">-</span></span></div>
+                <div class="info-row"><span class="info-label">Created</span><span class="info-value" id="pCreated">-</span></div>
+                <div class="info-row"><span class="info-label">Modified</span><span class="info-value" id="pModified">-</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="how-to-use">
+          <h2>How to View PDF Info on YOUROWNPDF.COM</h2>
+          <div class="steps">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>View Info</h3><p>See all file details.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Done</h3><p>All info displayed instantly.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
+  <script>
+    // INF-001: PDF Info Tool
+    let pdfFile = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      const u = document.getElementById('uploadArea');
+      const f = document.getElementById('fileInput');
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('drop', e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
+      f.addEventListener('change', e => handle(e.target.files[0]));
+      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
+    });
+
+    function initTheme() {
+      const t = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      document.querySelector('.theme-toggle').textContent = t === 'dark' ? '☀️' : '🌙';
+      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const nt = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', nt); localStorage.setItem('yourownpdf-theme', nt); e.target.textContent = nt === 'dark' ? '☀️' : '🌙'; } });
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    async function handle(file) {
+      if (!file) return;
+      pdfFile = file;
+      show('Analyzing...', true);
+      try {
+        await loadPdfLib();
+        const { PDFDocument } = PDFLib;
+        const pdfDoc = await PDFDocument.load(await pdfFile.arrayBuffer());
+
+        document.getElementById('fName').textContent = pdfFile.name;
+        document.getElementById('fSize').textContent = formatSize(pdfFile.size);
+        document.getElementById('fMime').textContent = pdfFile.type || 'application/pdf';
+        document.getElementById('fModified').textContent = new Date(pdfFile.lastModified).toLocaleString();
+
+        document.getElementById('pTitle').textContent = pdfDoc.getTitle() || '-';
+        document.getElementById('pAuthor').textContent = pdfDoc.getAuthor() || '-';
+        document.getElementById('pSubject').textContent = pdfDoc.getSubject() || '-';
+        document.getElementById('pKeywords').textContent = pdfDoc.getKeywords() || '-';
+        document.getElementById('pCreator').textContent = pdfDoc.getCreator() || '-';
+        document.getElementById('pProducer').textContent = pdfDoc.getProducer() || '-';
+
+        document.getElementById('pPages').textContent = pdfDoc.getPageCount();
+        const cd = pdfDoc.getCreationDate();
+        const md = pdfDoc.getModificationDate();
+        document.getElementById('pCreated').textContent = cd ? cd.toLocaleString() : '-';
+        document.getElementById('pModified').textContent = md ? md.toLocaleString() : '-';
+
+        document.getElementById('infoDisplay').style.display = 'block';
+        close();
+        show('Info loaded!');
+      } catch (err) { close(); show('Error: ' + err.message, false, true); }
+    }
+
+    async function loadPdfLib() {
+      if (window.PDFLib) return;
+      return new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    function show(msg, loading = false, error = false) {
+      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
+      document.getElementById('modalOverlay').classList.add('active');
+      if (!loading) setTimeout(close, 3000);
+    }
+
+    function close() { document.getElementById('modalOverlay').classList.remove('active'); }
+  </script>
+</body>
+</html>

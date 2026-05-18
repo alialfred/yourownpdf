@@ -1,8 +1,114 @@
-// TC-001: Tools Configuration - Related Tools Mapping
-// Manual configuration: Add 2 related tools for each tool page
-// Format: 'tool-page-filename': ['related-tool-1', 'related-tool-2']
+// TC-001: Tools Configuration - Tool Status & Related Tools Mapping
 
 window.YOUROWNPDF = window.YOUROWNPDF || {};
+
+// ============================================================
+// 🛠️ TOOL STATUS CONFIG
+// ============================================================
+// Uncomment a line  → tool is WORKING (no overlay)
+// Comment out a line → tool shows "🔜 Coming Soon" overlay
+// Simply edit this array and refresh the page!
+// ============================================================
+window.YOUROWNPDF.workingTools = [
+  // --- PDF Tools ---        
+   "Merge PDF",                // ✅ Working
+   "Compress PDF",             // ✅ Working
+  // "PDF to Word",          
+  // "Split PDF",
+  // "PDF to JPG",
+  // "Rotate PDF",
+  // "Protect PDF",
+  // "Unlock PDF",
+  // "Organize PDF",
+  // "Extract Pages",
+  // "Remove Pages",
+  // "PDF to Excel",
+  // "Add Watermark",
+  // "Add Page Numbers",
+  // "Repair PDF",
+  // "Compare PDFs",
+  // "PDF to PowerPoint",
+  // "PDF to Text",
+  // "PDF to HTML",
+  // "Flatten PDF",
+  // "Extract Images",
+  // "Sign PDF",
+  // "Annotate PDF",
+  // "Crop PDF",
+  // "Resize PDF",
+  // "PDF to Images",
+  // "Merge with Options",
+  // "Compress Options",
+  // "Rotate All Pages",
+  // "Reverse Pages",
+  // "Extract Text Only",
+  // "Optimize PDF",
+  // "Convert to PDF/A",
+  // "PDF to Email",
+  // "Redact PDF",
+  // "Fill PDF Form",
+  // "Create PDF Form",
+  // "Add Bookmarks",
+  // "Extract Links",
+  // "HTML to PDF",
+  // "PDF Reviews",
+  // "Encrypt PDF",
+  // "Decrypt PDF",
+  // "Digital Signature",
+  // "Timestamp",
+  // "PDF to XPS",
+  // "PDF to SVG",
+  // "PDF to RTF",
+  // "PDF to EPUB",
+  // "PDF to TXT",
+  // "PDF to TIFF",
+  // "PDF to BMP",
+  // "PDF to GIF",
+  // "Merge 2 PDFs",
+  // "Merge 3 PDFs",
+  // "Merge 4 PDFs",
+  // "Merge 5 PDFs",
+  // "Split into 2",
+  // "Split into 3",
+  // "Split into 4",
+  // "Split by Range",
+  // "Split Every N",
+  // "Extract First Page",
+  // "Extract Last Page",
+  // "Extract Odd Pages",
+  // "Extract Even Pages",
+  // "Delete First Page",
+  // "Delete Last Page",
+  // "Remove Blank Pages",
+  // "Remove Duplicates",
+  // "Reorder Pages",
+
+  // --- Image Tools ---
+  // "Compress Image",
+  // "Resize Image",
+  // "Crop Image",
+  // "Rotate Image",
+  // "JPG to PNG",
+  // "PNG to JPG",
+  // "Image to PDF",
+  // "Remove Background",
+  // "Flip Image",
+  // "Grayscale",
+  // "Adjust Brightness",
+  // "Adjust Contrast",
+  // "Blur Image",
+  // "Sharpen Image",
+  // "WebP to JPG",
+  // "GIF to PNG",
+  // "Apply Filter",
+  // "Invert Colors",
+  // "Adjust Saturation",
+  // "Text Overlay",
+];
+
+// ============================================================
+// Related Tools Mapping
+// ============================================================
 
 window.YOUROWNPDF.RelatedTools = {
   // PDF Tools
@@ -178,7 +284,7 @@ window.YOUROWNPDF.RelatedTools.render = function(containerId, explicitToolId) {
   }
 
   container.innerHTML = relatedTools.map(tool => `
-    <a href="/tools/${tool.category}/${tool.id}" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/${tool.category}/${tool.id}')">
+    <a href="/tools/${tool.category}/${tool.id}" class="tool-card" data-tool-name="${tool.name}" onclick="event.preventDefault(); navigateTo('/tools/${tool.category}/${tool.id}')">
       <div class="tool-card-icon">${tool.icon}</div>
       <div class="tool-card-title">${tool.name}</div>
       <div class="tool-card-desc">Free online tool</div>

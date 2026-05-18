@@ -300,6 +300,11 @@ renderPage: function(html, pathname) {
         renderToolCards();
       }
 
+      // Re-apply tool overlays (uses data-name to match workingTools config)
+      if (window.YOUROWNPDF && typeof window.YOUROWNPDF.applyToolOverlays === 'function') {
+        window.YOUROWNPDF.applyToolOverlays();
+      }
+
       // Reinitialize search
       if (window.YOUROWNPDF && window.YOUROWNPDF.Search) window.YOUROWNPDF.Search.init();
 
