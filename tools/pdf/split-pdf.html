@@ -3,246 +3,375 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Split PDF into multiple files. Extract pages or page ranges from any PDF. Free online tool by YOUROWNPDF.COM">
+  <meta name="description" content="Split a PDF into separate files. Extract specific pages from any PDF. Free online tool by YOUROWNPDF.COM. 100% client-side processing.">
   <title>Split PDF — Extract Pages | YOUROWNPDF.COM</title>
+
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
-    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
-    @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover, .tool-upload-area.dragover { border-color: var(--color-b); background: var(--color-card-hover); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
-    .file-list { margin-top: 1.5rem; }
-    .file-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; margin-bottom: 0.5rem; }
-    .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
-    .page-range { display: flex; gap: 1rem; margin: 1rem 0; }
-    .page-input { flex: 1; }
-    .page-input label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
-    .page-input input { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-card-bg); color: var(--color-text); }
-    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; }
-    .btn { padding: 1rem 2rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-    .btn-split { background: var(--color-b); color: white; }
-    .btn-split:hover:not(:disabled) { background: #b91c1c; }
-    .btn-split:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-clear { background: var(--color-card-bg); color: var(--color-text); border: 1px solid var(--color-border); }
-    .btn-download { background: #16a34a; color: white; display: none; }
-    .btn-download.visible { display: flex; }
-    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
-    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
-    .step { display: flex; gap: 1rem; }
-    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
-    .page-preview { margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted); }
+    .page-range-section {
+      margin-bottom: 1.5rem;
+    }
+    .page-range-section h2 {
+      margin-bottom: 0.5rem;
+    }
+    .page-range-section > p {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+    }
+    .page-range-inputs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .page-input {
+      flex: 1;
+    }
+    .page-input label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.4rem;
+      color: var(--color-text);
+    }
+    .page-input label i {
+      margin-right: 0.3rem;
+      color: var(--color-b);
+    }
+    .page-input input {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+      background: var(--color-card-bg);
+      color: var(--color-text);
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .page-input input:focus {
+      outline: none;
+      border-color: var(--color-b);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+    .page-preview {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      padding: 0.5rem 0.75rem;
+      background: var(--color-card-hover);
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+    }
+    .page-preview i {
+      margin-right: 0.4rem;
+      color: var(--color-b);
+    }
+    @media (max-width: 600px) {
+      .page-range-inputs {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
-  <main class="main">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Split PDF</span>
-      </nav>
-    </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
-    <div class="container">
-      <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">✂️ Split PDF</h1>
-          <p style="color: var(--color-text-muted);">Extract pages or page ranges from your PDF. Choose specific pages to keep.</p>
-        </div>
-        <div class="tool-layout">
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📄</div>
-            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
-            <div style="color: var(--color-text-muted);">or click to browse</div>
+
+  <main class="main" id="mainContent">
+    <div class="tool-page">
+      
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+        <p class="tool-description-text" id="toolDescDisplay"></p>
+      </div>
+
+      <div class="tool-layout">
+        
+        <!-- LEFT COLUMN: Upload & Actions -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload PDF">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drag & drop your PDF here</div>
+            <div class="upload-hint">or click to browse</div>
             <input type="file" class="file-input" id="fileInput" accept=".pdf,application/pdf">
           </div>
-          <div class="tool-info">
-            <h2 style="margin-bottom: 1rem;">Page Range</h2>
-            <p style="color: var(--color-text-muted); margin-bottom: 1rem; font-size: 0.875rem;">Enter page numbers or ranges (e.g., 1-3, 5, 8-12)</p>
-            <div class="page-range">
-              <div class="page-input">
-                <label>From Page</label>
-                <input type="number" id="fromPage" min="1" value="1">
-              </div>
-              <div class="page-input">
-                <label>To Page</label>
-                <input type="number" id="toPage" min="1" value="1">
-              </div>
-            </div>
-            <p class="page-preview" id="pagePreview">Total pages: -</p>
-            <div class="tool-actions">
-              <button class="btn btn-split" id="splitBtn" disabled onclick="splitPdf()">
-                <i class="fas fa-cut"></i> Split PDF
-              </button>
-              <button class="btn btn-clear" id="clearBtn" disabled onclick="clearFile()">Clear</button>
-            </div>
-            <button class="btn btn-download" id="downloadBtn" onclick="downloadSplit()">
+
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="processBtn" disabled>
+              <i class="fas fa-cut"></i> <span id="processBtnText">Split PDF</span>
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn" disabled>
+              Clear All
+            </button>
+            <button class="action-btn success-btn" id="downloadBtn">
               <i class="fas fa-download"></i> Download
             </button>
           </div>
         </div>
-        <div class="how-to-use">
-          <h2>How to Split PDF on YOUROWNPDF.COM</h2>
-          <div class="steps">
-            <div class="step">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h3>Upload Your PDF</h3>
-                <p>Click or drag your PDF file into the upload area. Your file stays on your device.</p>
+
+        <!-- RIGHT COLUMN: Page Range + Features + Related -->
+        <div class="tool-info">
+          
+          <div class="page-range-section">
+            <h2><i class="fas fa-arrows-alt-h" style="color:var(--color-b);margin-right:0.4rem"></i> Page Range</h2>
+            <p>Select the pages you want to extract from the PDF.</p>
+            <div class="page-range-inputs">
+              <div class="page-input">
+                <label for="fromPage"><i class="fas fa-arrow-right"></i> From</label>
+                <input type="number" id="fromPage" min="1" value="1">
+              </div>
+              <div class="page-input">
+                <label for="toPage"><i class="fas fa-arrow-left"></i> To</label>
+                <input type="number" id="toPage" min="1" value="1">
               </div>
             </div>
-            <div class="step">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h3>Set Page Range</h3>
-                <p>Enter the start and end page numbers for the pages you want to extract. Use formats like 1-5 or 3,7,9 for multiple sections.</p>
+            <p class="page-preview" id="pagePreview"><i class="fas fa-info-circle"></i> Upload a PDF to see page count</p>
+          </div>
+
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+            </ul>
+          </div>
+          
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
               </div>
             </div>
-            <div class="step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h3>Download Result</h3>
-                <p>Click "Split PDF" and download your extracted pages as "yourownpdf-split.pdf".</p>
-              </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- How to use -->
+      <div class="how-to-use">
+        <h2 style="text-align:center">How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span></h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Upload Your PDF</h3>
+              <p>Click the upload area or drag and drop your PDF file. Only one PDF is needed. Your file stays entirely on your device — nothing is uploaded to any server.</p>
+              <ul>
+                <li>Drag and drop your PDF onto the upload zone</li>
+                <li>Click the upload area to browse for a file</li>
+                <li>Only PDF files are supported</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Select Pages to Extract</h3>
+              <p>Use the "From" and "To" fields to specify the page range you want to extract. For example, enter 3 and 8 to extract pages 3 through 8.</p>
+              <ul>
+                <li>Set the starting page number in the "From" field</li>
+                <li>Set the ending page number in the "To" field</li>
+                <li>The total page count updates automatically after upload</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Click Split PDF</h3>
+              <p>Click the green "Split PDF" button. The extraction happens instantly in your browser. A success message will appear when it's complete.</p>
+              <ul>
+                <li>Extraction is 100% client-side</li>
+                <li>Original quality is preserved</li>
+                <li>Ready in seconds</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Download Your Pages</h3>
+              <p>Click the green "Download" button to save your extracted PDF pages as a new file named "yourownpdf-split.pdf".</p>
+              <ul>
+                <li>The extracted pages are combined into a single PDF</li>
+                <li>All formatting and quality are preserved</li>
+                <li>Ready to share or print immediately</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
   </main>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
         <div class="footer-links">
-          <a href="/about" class="footer-link" onclick="event.preventDefault(); navigateTo('/about')">About</a>
-          <a href="/contact" class="footer-link" onclick="event.preventDefault(); navigateTo('/contact')">Contact</a>
-          <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
-          <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
         </div>
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>
-  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
+  <script src="../../js/tools-config.js"></script>
+  <script src="../../js/master-tool.js"></script>
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
   <script>
-    let pdfFile = null;
-    let totalPages = 0;
-    let splitBytes = null;
-
-    document.addEventListener('DOMContentLoaded', init);
-    function init() {
-      const savedTheme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('yourownpdf-theme', next); e.target.textContent = next === 'dark' ? '☀️' : '🌙'; } });
-
-      const uploadArea = document.getElementById('uploadArea');
-      const fileInput = document.getElementById('fileInput');
-      uploadArea.addEventListener('click', () => fileInput.click());
-      uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-      uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-      uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
-      fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
-
-      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') closeModal(); });
-    }
-
-    async function handleFile(file) {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = async e => {
-        pdfFile = { name: file.name, data: e.target.result };
-        const { PDFDocument } = PDFLib;
-        const doc = await PDFDocument.load(pdfFile.data);
-        totalPages = doc.getPageCount();
-        document.getElementById('toPage').max = totalPages;
-        document.getElementById('pagePreview').textContent = `Total pages: ${totalPages}`;
-        document.getElementById('splitBtn').disabled = false;
-        document.getElementById('clearBtn').disabled = false;
-        let fl = document.querySelector('.file-list') || document.createElement('div');
-        fl.className = 'file-list';
-        fl.innerHTML = '<div class="file-item"><span>📄</span><span>' + file.name + '</span></div>';
-        document.getElementById('uploadArea').appendChild(fl);
-        showModal('PDF loaded! Total: ' + totalPages + ' pages');
+    (function() {
+      var TOOL_CONFIG = {
+        title: "✂️ Split PDF",
+        description: "Extract specific pages from your PDF file. Enter a page range and get a new PDF with only the pages you need.",
+        buttonText: "Split PDF",
+        allowedFileTypes: [".pdf", "application/pdf"],
+        maxFiles: 1,
+        minFilesRequired: 1,
+        successMessage: "PDF split successfully!",
+        errorMessage: "Error splitting PDF: ",
+        downloadFilename: "yourownpdf-split.pdf",
+        downloadMimeType: "application/pdf",
+        features: [
+          "Extract any page range",
+          "Preserve original quality",
+          "100% client-side",
+          "No file size limits",
+          "Works offline in browser"
+        ]
       };
-      reader.readAsArrayBuffer(file);
-    }
 
-    async function splitPdf() {
-      if (!pdfFile) return;
-      showModal('Splitting PDF...', true);
-      try {
-        const { PDFDocument } = PDFLib;
-        const srcDoc = await PDFDocument.load(pdfFile.data);
-        const newPdf = await PDFDocument.create();
-        const from = parseInt(document.getElementById('fromPage').value) - 1;
-        const to = Math.min(parseInt(document.getElementById('toPage').value), totalPages);
-        const pages = await newPdf.copyPages(srcDoc, Array.from({ length: to - from }, (_, i) => from + i));
-        pages.forEach(p => newPdf.addPage(p));
-        splitBytes = await newPdf.save();
-        closeModal();
-        document.getElementById('downloadBtn').classList.add('visible');
-        showModal('PDF split successfully!');
-      } catch (err) {
-        closeModal();
-        showModal('Error: ' + err.message, false, true);
+      var toolInstance = null;
+
+      async function executeToolLogic(filesArray, config) {
+        var file = filesArray[0];
+        var srcDoc = await PDFLib.PDFDocument.load(file.data);
+        var totalPages = srcDoc.getPageCount();
+
+        var fromInput = document.getElementById('fromPage');
+        var toInput = document.getElementById('toPage');
+
+        var from = Math.max(1, parseInt(fromInput.value) || 1) - 1;
+        var to = Math.min(totalPages, parseInt(toInput.value) || totalPages);
+
+        if (from >= to) {
+          throw new Error('Invalid page range. "To" must be greater than "From".');
+        }
+
+        var newDoc = await PDFLib.PDFDocument.create();
+        var indices = [];
+        for (var i = from; i < to; i++) {
+          indices.push(i);
+        }
+        var pages = await newDoc.copyPages(srcDoc, indices);
+        for (var j = 0; j < pages.length; j++) {
+          newDoc.addPage(pages[j]);
+        }
+
+        return await newDoc.save();
       }
-    }
 
-    function downloadSplit() {
-      if (!splitBytes) return;
-      const blob = new Blob([splitBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'yourownpdf-split.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+      function updatePageInfo() {
+        if (toolInstance && toolInstance.files && toolInstance.files.length > 0) {
+          var fileData = toolInstance.files[0].data;
+          PDFLib.PDFDocument.load(fileData).then(function(doc) {
+            var totalPages = doc.getPageCount();
+            document.getElementById('toPage').max = totalPages;
+            if (parseInt(document.getElementById('toPage').value) > totalPages) {
+              document.getElementById('toPage').value = totalPages;
+            }
+            document.getElementById('pagePreview').innerHTML = '<i class="fas fa-file-pdf" style="color:var(--color-b)"></i> ' + totalPages + ' page' + (totalPages !== 1 ? 's' : '');
+          }).catch(function() {
+            document.getElementById('pagePreview').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#eab308"></i> Could not read PDF';
+          });
+        } else {
+          document.getElementById('pagePreview').innerHTML = '<i class="fas fa-info-circle"></i> Upload a PDF to see page count';
+        }
+      }
 
-    function clearFile() {
-      pdfFile = null;
-      splitBytes = null;
-      document.querySelector('.file-list')?.remove();
-      document.getElementById('splitBtn').disabled = true;
-      document.getElementById('clearBtn').disabled = true;
-      document.getElementById('downloadBtn').classList.remove('visible');
-      document.getElementById('pagePreview').textContent = 'Total pages: -';
-    }
+      var fileObserver = new MutationObserver(function() {
+        updatePageInfo();
+      });
 
-    function showModal(msg, loading = false, error = false) {
-      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="closeModal()" style="margin-top:1.5rem;padding:0.75rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer">OK</button></div>';
-      document.getElementById('modalOverlay').classList.add('active');
-      if (!loading) setTimeout(closeModal, 3000);
-    }
+      function bootstrap() {
+        toolInstance = new window.MasterTool(TOOL_CONFIG, executeToolLogic);
+        toolInstance.init();
 
-    function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+        var uploadArea = document.getElementById('uploadArea');
+        if (uploadArea) {
+          fileObserver.observe(uploadArea, { childList: true, subtree: true });
+        }
+
+        var fromInput = document.getElementById('fromPage');
+        var toInput = document.getElementById('toPage');
+        if (fromInput) {
+          fromInput.addEventListener('change', function() {
+            if (this.value < 1) this.value = 1;
+          });
+        }
+        if (toInput) {
+          toInput.addEventListener('change', function() {
+            var max = parseInt(this.max) || 9999;
+            if (this.value < 1) this.value = 1;
+            if (this.value > max) this.value = max;
+          });
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bootstrap);
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(function() {
+          if (document.getElementById('uploadArea') && document.getElementById('processBtn') && !document.getElementById('processBtn').hasAttribute('data-initialized')) {
+            document.getElementById('processBtn').setAttribute('data-initialized', 'true');
+            bootstrap();
+          }
+        }, 50);
+      }
+    })();
   </script>
 </body>
 </html>

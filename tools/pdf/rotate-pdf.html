@@ -3,197 +3,271 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Rotate PDF pages 90, 180, or 270 degrees. Free online tool by YOUROWNPDF.COM">
+  <meta name="description" content="Rotate PDF pages 90, 180, or 270 degrees. Free online tool by YOUROWNPDF.COM. 100% client-side processing.">
   <title>Rotate PDF — Rotate Pages | YOUROWNPDF.COM</title>
+
+  <!-- Core CSS & Master Styles -->
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
-    .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
-    @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
-    .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
-    .rotation-options { display: flex; gap: 1rem; margin: 1rem 0; }
-    .rotation-option { flex: 1; padding: 1.5rem; border: 2px solid var(--color-border); border-radius: 0.5rem; text-align: center; cursor: pointer; transition: all 0.15s; font-size: 2rem; }
-    .rotation-option:hover { border-color: var(--color-b); }
-    .rotation-option.active { border-color: var(--color-b); background: var(--color-card-hover); }
-    .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; }
-    .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-    .btn-rotate { background: var(--color-b); color: white; }
-    .btn-rotate:hover:not(:disabled) { background: #b91c1c; }
-    .btn-rotate:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-download { background: #16a34a; color: white; display: none; }
-    .btn-download.visible { display: flex; }
-    .how-to-use { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 2rem; margin-top: 2rem; }
-    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
-    .step { display: flex; gap: 1rem; }
-    .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-  </style>
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
   <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
-  <main class="main">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Rotate PDF</span>
-      </nav>
-    </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
-    <div class="container">
-      <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem;">🔄 Rotate PDF</h1>
-          <p style="color: var(--color-text-muted);">Rotate all PDF pages by 90, 180, or 270 degrees.</p>
-        </div>
-        <div class="tool-layout">
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📄</div>
-            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
-            <div style="color: var(--color-text-muted);">or click to browse</div>
-            <input type="file" class="file-input" id="fileInput" accept=".pdf">
+
+  <main class="main" id="mainContent">
+    <div class="tool-page">
+
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">Loading Tool...</h1>
+        <p class="tool-description-text" id="toolDescDisplay"></p>
+      </div>
+
+      <div class="tool-layout">
+
+        <!-- LEFT COLUMN: Upload, Settings & Actions -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload files">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drag & drop your PDF here</div>
+            <div class="upload-hint">or click to browse</div>
+            <input type="file" class="file-input" id="fileInput" accept=".pdf,application/pdf">
           </div>
-          <div class="tool-info">
-            <h2 style="margin-bottom: 1rem;">Rotation Angle</h2>
-            <div class="rotation-options">
-              <div class="rotation-option" data-angle="90" onclick="selectAngle(this)">↻<br><span style="font-size: 0.75rem;">90°</span></div>
-              <div class="rotation-option active" data-angle="180" onclick="selectAngle(this)">↺<br><span style="font-size: 0.75rem;">180°</span></div>
-              <div class="rotation-option" data-angle="270" onclick="selectAngle(this)">↶<br><span style="font-size: 0.75rem;">270°</span></div>
-            </div>
-            <ul style="list-style: none; margin: 1rem 0;">
-              <li>✓ Rotates all pages</li>
-              <li>✓ 100% client-side</li>
-              <li>✓ No file upload</li>
-            </ul>
-            <div class="tool-actions">
-              <button class="btn btn-rotate" id="rotateBtn" disabled onclick="rotatePdf()">
-                <i class="fas fa-sync-alt"></i> Rotate PDF
+
+          <!-- Rotation Settings -->
+          <div class="tool-settings" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 0.75rem;">
+            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i class="fas fa-sync-alt"></i> Rotation Angle</h3>
+            <div class="rotation-options" style="display: flex; gap: 0.75rem;">
+              <button class="rotation-btn" data-angle="90" onclick="window.__rotateAngle=90; document.querySelectorAll('.rotation-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');" style="flex:1; padding:1rem; border:2px solid var(--color-border); border-radius:0.5rem; background:var(--color-card-bg); cursor:pointer; text-align:center; font-size:1.5rem; transition:all 0.15s;">
+                ↻<br><span style="font-size:0.75rem;">90°</span>
               </button>
-              <button class="btn" style="background: var(--color-card-bg); border: 1px solid var(--color-border);" id="clearBtn" disabled onclick="clearFile()">Clear</button>
+              <button class="rotation-btn active" data-angle="180" onclick="window.__rotateAngle=180; document.querySelectorAll('.rotation-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');" style="flex:1; padding:1rem; border:2px solid var(--color-b); border-radius:0.5rem; background:var(--color-card-hover); cursor:pointer; text-align:center; font-size:1.5rem; transition:all 0.15s;">
+                ↺<br><span style="font-size:0.75rem;">180°</span>
+              </button>
+              <button class="rotation-btn" data-angle="270" onclick="window.__rotateAngle=270; document.querySelectorAll('.rotation-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active');" style="flex:1; padding:1rem; border:2px solid var(--color-border); border-radius:0.5rem; background:var(--color-card-bg); cursor:pointer; text-align:center; font-size:1.5rem; transition:all 0.15s;">
+                ↶<br><span style="font-size:0.75rem;">270°</span>
+              </button>
             </div>
-            <button class="btn btn-download" id="downloadBtn" onclick="downloadRotated()">
+          </div>
+
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="processBtn" disabled>
+              <i class="fas fa-sync-alt"></i> <span id="processBtnText">Rotate PDF</span>
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn" disabled>
+              Clear All
+            </button>
+            <button class="action-btn success-btn" id="downloadBtn">
               <i class="fas fa-download"></i> Download
             </button>
           </div>
         </div>
-        <div class="how-to-use">
-          <h2>How to Rotate PDF on YOUROWNPDF.COM</h2>
-          <div class="steps">
-            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PDF</h3><p>Click or drag your PDF into the upload area.</p></div></div>
-            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Select Rotation</h3><p>Choose 90°, 180°, or 270° rotation.</p></div></div>
-            <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get your rotated PDF file.</p></div></div>
+
+        <!-- RIGHT COLUMN: Features -->
+        <div class="tool-info">
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+              <!-- Dynamically populated from config -->
+            </ul>
+          </div>
+
+          <!-- Related Tools -->
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Try These Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
+                <a href="/tools/pdf/pdf-to-jpg.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/pdf-to-jpg')">
+                  <span class="tool-icon">🖼️</span>
+                  <span class="tool-title">PDF to JPG</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+                <a href="/tools/pdf/merge-pdf.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/pdf/merge-pdf')">
+                  <span class="tool-icon">📑</span>
+                  <span class="tool-title">Merge PDF</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- How to use -->
+      <div class="how-to-use">
+        <h2 style="text-align:center">How to Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span></h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Upload Your PDF</h3>
+              <p>Click on the upload area or drag and drop your PDF file. Only PDF (.pdf) files are supported.</p>
+              <ul>
+                <li>Drag and drop a file directly onto the upload zone</li>
+                <li>Click the upload area to open file browser</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Select Rotation Angle</h3>
+              <p>Choose how much you want to rotate your pages: 90°, 180°, or 270°. All pages will be rotated by the same amount.</p>
+              <ul>
+                <li>90° — rotate clockwise a quarter turn</li>
+                <li>180° — flip upside down</li>
+                <li>270° — rotate counter-clockwise a quarter turn</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Click Rotate PDF</h3>
+              <p>Click the "Rotate PDF" button. The rotation happens entirely in your browser — your file never leaves your device.</p>
+              <ul>
+                <li>Wait for the rotation to complete (usually seconds)</li>
+                <li>A success message will appear when done</li>
+                <li>The "Download" button will become available</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Download Your Rotated PDF</h3>
+              <p>Click the green "Download" button to save your rotated PDF file. The file will be named "yourownpdf-rotated.pdf".</p>
+              <ul>
+                <li>Your rotated PDF preserves original quality</li>
+                <li>All pages are rotated by the angle you selected</li>
+                <li>Ready to share or print immediately</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
   </main>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
         <div class="footer-links">
-          <a href="/about" class="footer-link" onclick="event.preventDefault(); navigateTo('/about')">About</a>
-          <a href="/contact" class="footer-link" onclick="event.preventDefault(); navigateTo('/contact')">Contact</a>
-          <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
-          <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
         </div>
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>
-  <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- Core Scripts -->
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
+  <script src="../../js/tools-config.js"></script>
+
+  <!-- Single Source of Truth for Tool Logic -->
+  <script src="../../js/master-tool.js"></script>
+
+  <!-- Tool Specific Dependency -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
   <script>
-    let pdfFile = null;
-    let rotatedBytes = null;
-    let rotationAngle = 180;
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const theme = localStorage.getItem('yourownpdf-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
-      document.addEventListener('click', e => { if (e.target.classList.contains('theme-toggle')) { const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('yourownpdf-theme', next); e.target.textContent = next === 'dark' ? '☀️' : '🌙'; } });
-
-      const uploadArea = document.getElementById('uploadArea');
-      const fileInput = document.getElementById('fileInput');
-      uploadArea.addEventListener('click', () => fileInput.click());
-      uploadArea.addEventListener('drop', e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
-      fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
-      document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') closeModal(); });
-    });
-
-    function handleFile(file) {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        pdfFile = { name: file.name, data: e.target.result };
-        document.getElementById('rotateBtn').disabled = false;
-        document.getElementById('clearBtn').disabled = false;
-        showModal('PDF loaded successfully!');
+    (function() {
+      // 1. TOOL SPECIFIC CONFIGURATION
+      var TOOL_CONFIG = {
+        title: "🔄 Rotate PDF",
+        description: "Rotate all PDF pages by 90°, 180°, or 270° — fast, free, and secure.",
+        buttonText: "Rotate PDF",
+        allowedFileTypes: [".pdf", "application/pdf"],
+        maxFiles: 1,
+        minFilesRequired: 1,
+        successMessage: "PDF rotated successfully!",
+        errorMessage: "Error rotating PDF: ",
+        downloadFilename: "yourownpdf-rotated.pdf",
+        downloadMimeType: "application/pdf",
+        features: [
+          "Rotate 90°, 180°, or 270°",
+          "Rotates all pages at once",
+          "Preserves original quality",
+          "100% client-side processing",
+          "No file size limits",
+          "Works in any browser"
+        ]
       };
-      reader.readAsArrayBuffer(file);
-    }
 
-    function selectAngle(el) {
-      document.querySelectorAll('.rotation-option').forEach(o => o.classList.remove('active'));
-      el.classList.add('active');
-      rotationAngle = parseInt(el.dataset.angle);
-    }
+      // 2. TOOL SPECIFIC LOGIC (PDF-Lib Rotation)
+      async function executeToolLogic(filesArray, config) {
+        var angle = window.__rotateAngle || 180;
+        var { PDFDocument, degrees } = window.PDFLib;
+        var doc = await PDFDocument.load(filesArray[0].data);
+        var pages = doc.getPages();
+        pages.forEach(function(page) {
+          page.setRotation(degrees(page.getRotation().angle + angle));
+        });
+        return await doc.save();
+      }
 
-    async function rotatePdf() {
-      if (!pdfFile) return;
-      showModal('Rotating PDF...', true);
-      try {
-        const { PDFDocument, degrees } = PDFLib;
-        const doc = await PDFDocument.load(pdfFile.data);
-        const pages = doc.getPages();
-        pages.forEach(page => { page.setRotation(degrees(page.getRotation().angle + rotationAngle)); });
-        rotatedBytes = await doc.save();
-        closeModal();
-        document.getElementById('downloadBtn').classList.add('visible');
-        showModal('PDF rotated successfully!');
-      } catch (err) { closeModal(); showModal('Error: ' + err.message, false, true); }
-    }
+      // 3. HAND OVER TO MASTER TOOL
+      function bootstrap() {
+        window.__rotateAngle = 180;
+        var toolInstance = new window.MasterTool(TOOL_CONFIG, executeToolLogic);
+        toolInstance.init();
+      }
 
-    function downloadRotated() {
-      if (!rotatedBytes) return;
-      const blob = new Blob([rotatedBytes], { type: 'application/pdf' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'yourownpdf-rotated.pdf';
-      a.click();
-    }
+      document.addEventListener('DOMContentLoaded', bootstrap);
 
-    function clearFile() { pdfFile = null; rotatedBytes = null; document.getElementById('rotateBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
-
-    function showModal(msg, loading = false, error = false) {
-      document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="closeModal()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';
-      document.getElementById('modalOverlay').classList.add('active');
-      if (!loading) setTimeout(closeModal, 3000);
-    }
-
-    function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(function() {
+          if (document.getElementById('uploadArea') && !document.getElementById('processBtn').hasAttribute('data-initialized')) {
+             document.getElementById('processBtn').setAttribute('data-initialized', 'true');
+             bootstrap();
+          }
+        }, 50);
+      }
+    })();
   </script>
 </body>
 </html>

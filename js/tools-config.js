@@ -15,9 +15,9 @@ window.YOUROWNPDF.workingTools = [
   "Compress PDF",             // ✅ Working
   "JPG to PDF",               // ✅ Working
   // "PDF to Word",          
-  // "Split PDF",
+  "Split PDF",               // ✅ Working
   "PDF to JPG",                // ✅ Working
-  // "Rotate PDF",
+  "Rotate PDF",               // ✅ Working
   // "Protect PDF",
   // "Unlock PDF",
   // "Organize PDF",

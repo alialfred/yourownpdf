@@ -209,8 +209,8 @@
 
         <div class="hero-stats">
           <div class="hero-stat">
-            <div class="hero-stat-value">0</div>
-            <div class="hero-stat-label">Tools <span class="hero-coming-ribbon">0 Coming Soon</span></div>
+            <div class="hero-stat-value">93</div>
+            <div class="hero-stat-label">Tools <span class="hero-coming-ribbon" style="display:none">0 Coming Soon</span></div>
           </div>
           <div class="hero-stat">
             <div class="hero-stat-value">100%</div>
@@ -294,20 +294,20 @@
 
     // IDX-026: Search functionality
     function handleSearch(query) {
-      const term = query.toLowerCase().trim();
-      const allCards = document.querySelectorAll('.tool-card');
-      let pdfCount = 0;
-      let imageCount = 0;
+      var term = query.toLowerCase().trim();
+      var allCards = document.querySelectorAll('.tool-card');
+      var pdfCount = 0;
+      var imageCount = 0;
 
-      allCards.forEach(card => {
-        const title = card.dataset.title || '';
-        const desc = card.dataset.desc || '';
-        const toolId = card.dataset.toolId || '';
-        const path = card.getAttribute('href') || '';
-        const match = title.toLowerCase().includes(term) ||
-                      desc.toLowerCase().includes(term) ||
-                      toolId.toLowerCase().includes(term) ||
-                      path.toLowerCase().includes(term);
+      allCards.forEach(function(card) {
+        var title = card.dataset.title || '';
+        var desc = card.dataset.desc || '';
+        var toolId = card.dataset.toolId || '';
+        var path = card.getAttribute('href') || '';
+        var match = title.toLowerCase().indexOf(term) !== -1 ||
+                    desc.toLowerCase().indexOf(term) !== -1 ||
+                    toolId.toLowerCase().indexOf(term) !== -1 ||
+                    path.toLowerCase().indexOf(term) !== -1;
 
         if (match) {
           card.style.display = '';
@@ -319,15 +319,15 @@
       });
 
       // Show/hide section headers
-      const pdfSection = document.getElementById('pdf-tools');
-      const imageSection = document.getElementById('image-tools');
+      var pdfSection = document.getElementById('pdf-tools');
+      var imageSection = document.getElementById('image-tools');
 
       if (pdfSection) {
-        const pdfHeader = pdfSection.querySelector('.section-header');
+        var pdfHeader = pdfSection.querySelector('.section-header');
         if (pdfHeader) pdfHeader.style.display = pdfCount ? '' : 'none';
       }
       if (imageSection) {
-        const imageHeader = imageSection.querySelector('.section-header');
+        var imageHeader = imageSection.querySelector('.section-header');
         if (imageHeader) imageHeader.style.display = imageCount ? '' : 'none';
       }
     }
@@ -335,27 +335,27 @@
     // IDX-028: Mobile menu toggle - handled by main.js MobileMenu
 
     // IDX-029: Initialize
-    document.addEventListener('DOMContentLoaded', function() {
+    function initApp() {
       // Render all tool cards
-      renderToolCards();
+      if (typeof renderToolCards === 'function') renderToolCards();
 
       // Initialize mobile menu
-      initMobileMenu();
+      if (typeof initMobileMenu === 'function') initMobileMenu();
 
       // Search is handled by main.js SearchFilter
       // Sync both search inputs when either changes
-      const globalSearch = document.getElementById('globalSearch');
-      const mobileSearch = document.getElementById('mobileSearch');
+      var globalSearch = document.getElementById('globalSearch');
+      var mobileSearch = document.getElementById('mobileSearch');
 
       if (globalSearch && mobileSearch) {
-        globalSearch.addEventListener('input', (e) => mobileSearch.value = e.target.value);
-        mobileSearch.addEventListener('input', (e) => globalSearch.value = e.target.value);
+        globalSearch.addEventListener('input', function(e) { mobileSearch.value = e.target.value; });
+        mobileSearch.addEventListener('input', function(e) { globalSearch.value = e.target.value; });
       }
 
       // Back to top
-      const backToTop = document.getElementById('backToTop');
+      var backToTop = document.getElementById('backToTop');
       if (backToTop) {
-        window.addEventListener('scroll', () => {
+        window.addEventListener('scroll', function() {
           if (window.scrollY > 300) {
             backToTop.classList.add('visible');
           } else {
@@ -363,7 +363,7 @@
           }
         });
 
-        backToTop.addEventListener('click', () => {
+        backToTop.addEventListener('click', function() {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
@@ -371,27 +371,34 @@
       // Theme toggle is handled by main.js ThemeManager
 
       // Initialize theme
-      const savedTheme = localStorage.getItem('yourownpdf-theme');
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      const theme = savedTheme || systemTheme;
+      var savedTheme = localStorage.getItem('yourownpdf-theme');
+      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var theme = savedTheme || systemTheme;
       document.documentElement.setAttribute('data-theme', theme);
-      const themeBtn = document.querySelector('.theme-toggle');
+      var themeBtn = document.querySelector('.theme-toggle');
       if (themeBtn) {
         themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
       }
 
       // Link click handlers (for clean URLs)
-      document.addEventListener('click', (e) => {
-        const link = e.target.closest('a[href^="/tools/"]');
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('a[href^="/tools/"]');
         if (link) {
-          const href = link.getAttribute('href');
+          var href = link.getAttribute('href');
           if (href && window.navigateTo) {
             e.preventDefault();
             navigateTo(href);
           }
         }
       });
-    });
+    }
+
+    // Scripts load at end of <body>, so DOM is already parsed — run immediately
+    initApp();
+    // Also keep DOMContentLoaded as safety net for async edge cases
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    }
   </script>
   <script src="js/tool-status.js"></script>
 </body>
