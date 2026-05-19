@@ -21,7 +21,7 @@ window.YOUROWNPDF.workingTools = [
   "Rotate PDF",               // ✅ Working
   // "Protect PDF",
   // "Unlock PDF",
-  // "Organize PDF",
+  "Organize PDF",             // ✅ Working
   // "Extract Pages",
   // "Remove Pages",
   // "PDF to Excel",
