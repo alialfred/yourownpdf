@@ -17,6 +17,7 @@ window.YOUROWNPDF.workingTools = [
   // "PDF to Word",          
   "Split PDF",               // ✅ Working
   "PDF to JPG",                // ✅ Working
+  "PDF to PNG",               // ✅ Working
   "Rotate PDF",               // ✅ Working
   // "Protect PDF",
   // "Unlock PDF",

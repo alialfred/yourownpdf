@@ -213,6 +213,8 @@ renderPage: function(html, pathname) {
   // Always remove old tool-specific styles first
   const existingStyle = document.getElementById('tool-specific-styles');
   if (existingStyle) existingStyle.remove();
+  const toolPageStyle = document.getElementById('tool-page-styles');
+  if (toolPageStyle) toolPageStyle.remove();
 
   if (isToolPage) {
     // Add tool-specific styles

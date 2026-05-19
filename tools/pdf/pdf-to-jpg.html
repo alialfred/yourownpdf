@@ -629,14 +629,13 @@ if (typeof pdfjsLib !== 'undefined') {
     var url = URL.createObjectURL(state.zipBlob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'yourownpdf') + '-images.zip';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
+      a.download = 'yourownpdf-' + (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'document') + '-images.zip';
 
-  dom.downloadActionBtn.addEventListener('click', triggerDownload);
+
+
+
+
+    dom.downloadActionBtn.addEventListener('click', triggerDownload);
 
   // Remove uploaded file (X button inside upload area)
   document.getElementById('uploadRemoveBtn').addEventListener('click', function(e) {
@@ -690,7 +689,7 @@ if (typeof pdfjsLib !== 'undefined') {
       var url = URL.createObjectURL(state.zipBlob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'yourownpdf') + '-images.zip';
+      a.download = 'yourownpdf-' + (state.file ? state.file.name.replace(/\.pdf$/i, '') : 'document') + '-images.zip';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

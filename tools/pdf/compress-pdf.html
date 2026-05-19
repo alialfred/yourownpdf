@@ -1020,7 +1020,7 @@ if (typeof pdfjsLib !== 'undefined') {
 
     state.file = file;
     state.compressedBlob = null;
-    state.compressedName = file.name.replace(/\.pdf$/i, '') + '-compressed-YourOwnPDF.com.pdf';
+    state.compressedName = 'yourownpdf-compressed-' + file.name.replace(/\.pdf$/i, '') + '.pdf';
 
     dom.compressBtn.disabled = false;
     dom.clearBtn.disabled = false;
@@ -1151,7 +1151,7 @@ if (typeof pdfjsLib !== 'undefined') {
     var url = URL.createObjectURL(state.compressedBlob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = state.compressedName || 'yourownpdf-com-compressed.pdf';
+    a.download = state.compressedName || 'yourownpdf-compressed-document.pdf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1241,7 +1241,7 @@ if (typeof pdfjsLib !== 'undefined') {
       var url = URL.createObjectURL(state.compressedBlob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = state.compressedName || 'yourownpdf-com-compressed.pdf';
+      a.download = state.compressedName || 'yourownpdf-compressed-document.pdf';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

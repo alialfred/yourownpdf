@@ -258,10 +258,18 @@ class MasterTool {
       blob = new Blob([this.processedDataBytes], { type: this.config.downloadMimeType || 'application/pdf' });
     }
 
+    var originalName = this.files.length > 0 ? this.files[0].name.replace(/\.[^/.]+$/, '') : '';
+    var configName = this.config.downloadFilename || 'processed.pdf';
+    var ext = configName.includes('.') ? configName.substring(configName.lastIndexOf('.')) : '.pdf';
+    var toolPart = configName.replace(ext, '').replace(/^yourownpdf-/, '');
+    var base = 'yourownpdf-' + toolPart;
+    if (originalName) base += '-' + originalName;
+    base += ext;
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = this.config.downloadFilename || 'processed.pdf';
+    a.download = base;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
