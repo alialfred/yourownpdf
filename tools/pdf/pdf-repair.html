@@ -136,6 +136,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('repairInfo').style.display = 'block';
       document.getElementById('repairBtn').disabled = false;
       show('PDF loaded! Ready to repair.');

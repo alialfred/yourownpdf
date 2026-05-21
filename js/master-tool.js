@@ -50,6 +50,8 @@ class MasterTool {
 
     if (!uploadArea || !fileInput) return;
 
+    this.setupUploadPlaceholder(uploadArea);
+
     this.files = [];
     this.updateFileList();
     this.updateButtons();
@@ -70,6 +72,7 @@ class MasterTool {
 
     uploadArea.addEventListener('dragover', (e) => {
       e.preventDefault();
+      if (e.dataTransfer.types && !e.dataTransfer.types.includes('Files')) return;
       uploadArea.classList.add('dragover');
     });
 
@@ -80,7 +83,9 @@ class MasterTool {
     uploadArea.addEventListener('drop', (e) => {
       e.preventDefault();
       uploadArea.classList.remove('dragover');
-      this.handleFiles(e.dataTransfer.files);
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        this.handleFiles(e.dataTransfer.files);
+      }
     });
 
     fileInput.addEventListener('change', (e) => {
@@ -104,6 +109,35 @@ class MasterTool {
         if (overlay && e.target === overlay) this.closeModal();
       });
       document._modalOverlayAttached = true;
+    }
+  }
+
+  setupUploadPlaceholder(uploadArea) {
+    const iconEl = uploadArea.querySelector('.upload-icon');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'upload-icon-wrapper';
+    if (iconEl) {
+      iconEl.className = 'upload-icon-main';
+      iconEl.innerHTML = '<i class="fas fa-cloud-upload-alt"></i>';
+      iconEl.parentNode.insertBefore(wrapper, iconEl);
+      wrapper.appendChild(iconEl);
+    }
+
+    const extSet = new Set();
+    (this.config.allowedFileTypes || []).forEach(function(t) {
+      var ext = t.startsWith('.') ? t.slice(1) : '';
+      if (ext) extSet.add(ext.toUpperCase());
+    });
+    if (extSet.size > 0) {
+      var badgesDiv = document.querySelector('.upload-file-types');
+      if (!badgesDiv) {
+        badgesDiv = document.createElement('div');
+        badgesDiv.className = 'upload-file-types';
+        wrapper.parentNode.insertBefore(badgesDiv, wrapper.nextSibling);
+      }
+      badgesDiv.innerHTML = Array.from(extSet).map(function(e) {
+        return '<span class="file-type-badge">' + e + '</span>';
+      }).join('');
     }
   }
 
@@ -180,6 +214,8 @@ class MasterTool {
         this.removeFile(parseInt(btn.getAttribute('data-index')));
       });
     });
+
+    uploadArea.classList.toggle('has-files', this.files.length > 0);
   }
 
   formatSize(bytes) {
@@ -209,6 +245,7 @@ class MasterTool {
 
     const uploadArea = document.getElementById('uploadArea');
     if (uploadArea) {
+      uploadArea.classList.remove('has-files');
       uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
       uploadArea.focus();
     }
@@ -228,7 +265,7 @@ class MasterTool {
     const minFiles = this.config.minFilesRequired !== undefined ? this.config.minFilesRequired : 1;
     if (this.files.length < minFiles) return;
 
-    this.showLoadingModal(`Processing... Please wait.`);
+    this.showLoadingModal(`Processing your file... Please wait.`);
 
     try {
       if (typeof this.logicCallback !== 'function') {
@@ -284,8 +321,28 @@ class MasterTool {
 
     let draggedItem = null;
     let draggedIndex = null;
-    let dropIndicator = null;
     let selectedIndices = new Set();
+    let currentGapDomPos = null;
+    let dragMaxY = null;
+    document.addEventListener('mousedown', (e) => {
+      document.querySelectorAll('.file-item.grab-active').forEach(el => el.classList.remove('grab-active'));
+      const fileItem = e.target.closest('.file-item');
+      if (fileItem && !e.target.closest('.file-remove')) {
+        fileItem.classList.add('grab-active');
+        document.body.style.cursor = 'grabbing';
+        if (!(e.ctrlKey || e.metaKey)) {
+          document.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+          selectedIndices.clear();
+          selectedIndices.add(parseInt(fileItem.dataset.index));
+          fileItem.classList.add('selected');
+        }
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      document.querySelectorAll('.file-item.grab-active').forEach(el => el.classList.remove('grab-active'));
+      document.body.style.cursor = '';
+    });
 
     document.addEventListener('click', (e) => {
       const fileItem = e.target.closest('.file-item');
@@ -316,13 +373,6 @@ class MasterTool {
       }
     });
 
-    const createDropIndicator = () => {
-      const indicator = document.createElement('div');
-      indicator.className = 'drop-indicator';
-      indicator.style.cssText = 'height: 3px; background: var(--color-b); border-radius: 2px; margin: 4px 0; display: none;';
-      return indicator;
-    }
-
     document.addEventListener('dragstart', (e) => {
       const fileItem = e.target.closest('.file-item');
       if (fileItem) {
@@ -330,49 +380,68 @@ class MasterTool {
         e.dataTransfer.setData('text/plain', '');
         draggedItem = fileItem;
         draggedIndex = parseInt(fileItem.dataset.index);
+        fileItem.classList.remove('grab-active');
         fileItem.classList.add('dragging');
-        fileItem.style.opacity = '0.6';
-
-        dropIndicator = createDropIndicator();
-        document.querySelector('.file-list')?.appendChild(dropIndicator);
+        document.body.style.cursor = 'grabbing';
+        currentGapDomPos = draggedIndex;
+        var be = document.querySelector('.tool-actions');
+        if (!be || be.offsetHeight === 0) be = document.querySelector('.tool-main');
+        if (!be || be.offsetHeight === 0) be = document.querySelector('.file-list');
+        if (be) {
+          var br = be.getBoundingClientRect();
+          dragMaxY = Math.floor(br.bottom + window.scrollY - window.innerHeight + 40);
+        } else {
+          dragMaxY = null;
+        }
       }
     });
 
     document.addEventListener('dragend', (e) => {
       if (draggedItem) {
-        draggedItem.classList.remove('dragging');
-        draggedItem.style.opacity = '1';
+        draggedItem.classList.remove('dragging', 'grab-active');
         draggedItem = null;
       }
-      if (dropIndicator) {
-        dropIndicator.remove();
-        dropIndicator = null;
-      }
+      document.body.style.cursor = '';
+      clearShift();
       document.querySelectorAll('.file-item.drag-over').forEach(item => item.classList.remove('drag-over'));
+      draggedIndex = null;
+      currentGapDomPos = null;
+      dragMaxY = null;
     });
 
     document.addEventListener('dragover', (e) => {
       e.preventDefault();
-      const fileItem = e.target.closest('.file-item');
-      if (fileItem && dropIndicator) {
-        const rect = fileItem.getBoundingClientRect();
-        const midpoint = rect.top + rect.height / 2;
+      if (draggedIndex === null) return;
 
-        document.querySelectorAll('.file-item.drag-over').forEach(item => {
-          if (item !== fileItem) item.classList.remove('drag-over');
-        });
+      const nonDragging = document.querySelectorAll('.file-item:not(.dragging)');
+      if (nonDragging.length === 0) return;
 
-        fileItem.classList.add('drag-over');
+      let gap = 0;
+      for (const item of nonDragging) {
+        const rect = item.getBoundingClientRect();
+        if (e.clientY > rect.top + rect.height / 2) gap++;
+      }
 
-        const fileListEl = document.querySelector('.file-list');
-        if (fileListEl) {
-          if (e.clientY < midpoint) {
-            fileListEl.insertBefore(dropIndicator, fileItem);
-          } else {
-            fileListEl.insertBefore(dropIndicator, fileItem.nextSibling);
-          }
+      document.querySelectorAll('.file-item.drag-over').forEach(item => item.classList.remove('drag-over'));
+      const closestItem = nonDragging[Math.min(gap, nonDragging.length - 1)];
+      if (closestItem) closestItem.classList.add('drag-over');
+
+      if (gap !== currentGapDomPos) {
+        currentGapDomPos = gap;
+        updateShift(gap, draggedIndex);
+      }
+
+      // Auto-scroll when dragging near viewport edges
+      const edge = 50;
+      const y = e.clientY;
+      var cur = document.documentElement.scrollTop;
+      if (y < edge && cur > 0) {
+        document.documentElement.scrollTop = Math.floor(cur - Math.floor(8 * ((edge - y) / edge)));
+      } else if (y > window.innerHeight - edge && dragMaxY !== null) {
+        var remaining = dragMaxY - cur;
+        if (remaining > 1) {
+          document.documentElement.scrollTop = Math.floor(Math.min(cur + Math.floor(Math.min(8, remaining * 0.5)), dragMaxY));
         }
-        dropIndicator.style.display = 'block';
       }
     });
 
@@ -385,49 +454,82 @@ class MasterTool {
 
     document.addEventListener('drop', (e) => {
       e.preventDefault();
-      const targetItem = e.target.closest('.file-item');
-      if (draggedIndex !== null && targetItem) {
-        const targetIndex = parseInt(targetItem.dataset.index);
-        const rect = targetItem.getBoundingClientRect();
-        const midpoint = rect.top + rect.height / 2;
-        let actualTargetIndex = e.clientY < midpoint ? targetIndex : targetIndex + 1;
-
-        const tool = window.__reorderToolInstance;
-        if (!tool) return;
-
-        let indicesToMove = Array.from(selectedIndices).sort((a, b) => a - b);
-        if (indicesToMove.length === 0 || !indicesToMove.includes(draggedIndex)) {
-          indicesToMove = [draggedIndex];
-        }
-
-        const draggedInSet = indicesToMove.includes(draggedIndex);
-        if (!draggedInSet) {
-          indicesToMove = [draggedIndex];
-        }
-
-        if (indicesToMove.length === 1 && indicesToMove[0] === draggedIndex) {
-          if (draggedIndex === actualTargetIndex || draggedIndex === actualTargetIndex - 1) {
-            draggedIndex = null;
-            return;
-          }
-          const [movedFile] = tool.files.splice(draggedIndex, 1);
-          const insertAt = draggedIndex < actualTargetIndex ? actualTargetIndex - 1 : actualTargetIndex;
-          tool.files.splice(insertAt, 0, movedFile);
-        } else {
-          const removedBeforeTarget = indicesToMove.filter(idx => idx < actualTargetIndex).length;
-          const movedItems = [];
-          for (let i = indicesToMove.length - 1; i >= 0; i--) {
-            movedItems.unshift(tool.files.splice(indicesToMove[i], 1)[0]);
-          }
-          const insertAt = actualTargetIndex - removedBeforeTarget;
-          tool.files.splice(insertAt, 0, ...movedItems);
-        }
-
-        selectedIndices.clear();
-        tool.updateFileList();
+      clearShift();
+      if (draggedIndex === null) {
+        currentGapDomPos = null;
+        return;
       }
+
+      const tool = window.__reorderToolInstance;
+      if (!tool) return;
+
+      const targetIdx = currentGapDomPos !== null ? currentGapDomPos : draggedIndex;
+
+      let indicesToMove = Array.from(selectedIndices).sort((a, b) => a - b);
+      if (indicesToMove.length === 0 || !indicesToMove.includes(draggedIndex)) {
+        indicesToMove = [draggedIndex];
+      }
+
+      const draggedInSet = indicesToMove.includes(draggedIndex);
+      if (!draggedInSet) {
+        indicesToMove = [draggedIndex];
+      }
+
+      if (indicesToMove.length === 1 && indicesToMove[0] === draggedIndex) {
+        if (draggedIndex === targetIdx) {
       draggedIndex = null;
+      currentGapDomPos = null;
+      dragMaxY = null;
+          return;
+        }
+        const [movedFile] = tool.files.splice(draggedIndex, 1);
+        tool.files.splice(targetIdx, 0, movedFile);
+      } else {
+        const movedItems = [];
+        for (let i = indicesToMove.length - 1; i >= 0; i--) {
+          movedItems.unshift(tool.files.splice(indicesToMove[i], 1)[0]);
+        }
+        tool.files.splice(targetIdx, 0, ...movedItems);
+      }
+
+      selectedIndices.clear();
+      tool.updateFileList();
+      draggedIndex = null;
+      currentGapDomPos = null;
     });
+
+    function updateShift(gap, excludeIdx) {
+      const items = document.querySelectorAll('.file-item');
+      const nonDragging = document.querySelectorAll('.file-item:not(.dragging)');
+      let itemHeight = 60;
+      if (nonDragging.length > 0) {
+        const first = nonDragging[0];
+        const style = getComputedStyle(first);
+        itemHeight = first.offsetHeight + (parseFloat(style.marginBottom) || 0);
+      }
+      items.forEach(item => {
+        const idx = parseInt(item.dataset.index);
+        if (idx === excludeIdx) {
+          item.style.transform = '';
+          return;
+        }
+        const p = idx < excludeIdx ? idx : idx - 1;
+        const fullDomPos = idx;
+        const visualSlot = p < gap ? p : p + 1;
+        const shift = visualSlot - fullDomPos;
+        if (shift === 0) {
+          item.style.transform = '';
+        } else {
+          item.style.transform = `translateY(${shift * itemHeight}px)`;
+        }
+      });
+    }
+
+    function clearShift() {
+      document.querySelectorAll('.file-item').forEach(item => {
+        item.style.transform = '';
+      });
+    }
   }
 
   showLoadingModal(message) {
@@ -491,6 +593,7 @@ class MasterTool {
     `;
     modalOverlay.classList.add('active');
     document.getElementById('modalOkBtn').addEventListener('click', () => this.closeModal());
+    setTimeout(() => this.closeModal(), 5000);
   }
 
   closeModal() {
@@ -500,6 +603,12 @@ class MasterTool {
 }
 
 window.MasterTool = MasterTool;
+
+// Global modal helpers for inline onclick usage
+window.closeModal = function() {
+  var overlay = document.getElementById('modalOverlay');
+  if (overlay) overlay.classList.remove('active');
+};
 
 // Helper to show reorder guide globally via inline onclick
 window.showReorderGuide = function (e) {

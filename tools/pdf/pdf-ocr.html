@@ -167,6 +167,7 @@
     async function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('ocrSettings').style.display = 'block';
       document.getElementById('ocrBtn').disabled = false;
       show('PDF loaded! Ready for OCR.');

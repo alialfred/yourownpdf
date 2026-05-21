@@ -14,7 +14,7 @@ window.YOUROWNPDF.workingTools = [
   "Merge PDF",                // ✅ Working
   "Compress PDF",             // ✅ Working
   "JPG to PDF",               // ✅ Working
-  // "PDF to Word",          
+  "PDF to Word",               // ✅ Working
   "Split PDF",               // ✅ Working
   "PDF to JPG",                // ✅ Working
   "PDF to PNG",               // ✅ Working
@@ -22,6 +22,7 @@ window.YOUROWNPDF.workingTools = [
   // "Protect PDF",
   // "Unlock PDF",
   "Organize PDF",             // ✅ Working
+  // "PPT to PDF",✅ not Working
   // "Extract Pages",
   // "Remove Pages",
   // "PDF to Excel",
@@ -86,9 +87,9 @@ window.YOUROWNPDF.workingTools = [
   // "Reorder Pages",
 
   // --- Image Tools ---
-  // "Compress Image",
-  // "Resize Image",
-  // "Crop Image",
+  "Compress Image",             // ✅ Working
+  "Resize Image",             // ✅ Working
+  "Crop Image",               // ✅ Working
   // "Rotate Image",
   // "JPG to PNG",
   // "PNG to JPG",
@@ -121,6 +122,7 @@ window.YOUROWNPDF.RelatedTools = {
   'protect-pdf': ['unlock-pdf', 'pdf-to-word'],
   'unlock-pdf': ['protect-pdf', 'merge-pdf'],
   'organize-pdf': ['merge-pdf', 'split-pdf'],
+  'ppt-to-pdf': ['pdf-to-word', 'compress-pdf'],
   'repair-pdf': ['compress-pdf', 'pdf-to-word'],
   'compare-pdf': ['pdf-to-word', 'merge-pdf'],
   'watermark-pdf': ['page-numbers-pdf', 'compress-pdf'],
@@ -174,6 +176,7 @@ window.YOUROWNPDF.ToolData = {
   'protect-pdf': { name: 'Protect PDF', icon: '🔒', category: 'pdf' },
   'unlock-pdf': { name: 'Unlock PDF', icon: '🔓', category: 'pdf' },
   'organize-pdf': { name: 'Organize PDF', icon: '📂', category: 'pdf' },
+  'ppt-to-pdf': { name: 'PPT to PDF', icon: '📽️', category: 'pdf' },
   'repair-pdf': { name: 'Repair PDF', icon: '🔧', category: 'pdf' },
   'compare-pdf': { name: 'Compare PDF', icon: '📊', category: 'pdf' },
   'watermark-pdf': { name: 'Watermark PDF', icon: '💧', category: 'pdf' },
@@ -308,6 +311,7 @@ function getToolIdFromName(name) {
     'Protect PDF': 'protect-pdf',
     'Unlock PDF': 'unlock-pdf',
     'Organize PDF': 'organize-pdf',
+    'PPT to PDF': 'ppt-to-pdf',
     'Repair PDF': 'repair-pdf',
     'Compare PDF': 'compare-pdf',
     'Watermark PDF': 'watermark-pdf',

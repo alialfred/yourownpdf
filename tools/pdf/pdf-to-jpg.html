@@ -11,10 +11,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
   <style>
-    .upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; transition: all 0.3s; cursor: pointer; }
-    .upload-area:hover, .upload-area.dragover { border-color: var(--color-b); background: var(--color-card-hover); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .upload-selected { padding: 0.5rem 0; }
     .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.5rem; }
     .upload-selected-icon { font-size: 3.5rem; display: block; filter: hue-rotate(80deg) saturate(1.2); }
@@ -91,14 +87,14 @@
 
   <main class="main" id="mainContent">
     <div class="tool-page">
-      
+
       <div class="tool-header-section">
         <h1 class="tool-title-text" id="toolTitleDisplay">🖼️ PDF to JPEG</h1>
         <p class="tool-description-text" id="toolDescDisplay">Convert every page of any PDF document into high-quality JPEG images. All processing happens in your browser.</p>
       </div>
 
       <div class="tool-layout">
-        
+
         <!-- LEFT COLUMN: Upload & Actions -->
         <div class="tool-main">
           <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload PDF">
@@ -190,7 +186,7 @@
               <li><i class="fas fa-check feature-icon"></i> Downloads as convenient ZIP archive</li>
             </ul>
           </div>
-          
+
           <div class="related-tools-column">
             <div class="related-tools">
               <div class="related-tools-title">Try These Related Tools</div>
@@ -209,7 +205,7 @@
             </div>
           </div>
         </div>
-        
+
       </div>
 
       <!-- How to Use -->
@@ -464,6 +460,10 @@ if (typeof pdfjsLib !== 'undefined') {
     if (e.target.files[0]) handleFile(e.target.files[0]);
   });
 
+  function handleFiles(files) {
+    if (files && files.length > 0) handleFile(files[0]);
+  }
+
   function handleFile(file) {
     var validation = window.validatePDF(file);
     if (!validation.valid) {
@@ -472,6 +472,7 @@ if (typeof pdfjsLib !== 'undefined') {
     }
 
     state.file = file;
+    document.getElementById('uploadArea').dataset.fileLoaded = '1';
     state.zipBlob = null;
     state.totalPages = 0;
 
@@ -645,6 +646,7 @@ if (typeof pdfjsLib !== 'undefined') {
 
   function clearUploadedFile() {
     state.file = null;
+    document.getElementById('uploadArea').dataset.fileLoaded = '';
     state.zipBlob = null;
     state.totalPages = 0;
     dom.fileInput.value = '';

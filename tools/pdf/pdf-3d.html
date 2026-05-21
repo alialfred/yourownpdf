@@ -143,6 +143,7 @@
     async function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       show('Analyzing PDF for 3D content...', true);
       try {
         await loadPdfLib();

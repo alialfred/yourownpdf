@@ -373,8 +373,8 @@ renderPage: function(html, pathname) {
         'protect-pdf', 'unlock-pdf', 'organize-pdf', 'repair-pdf',
         'compare-pdf', 'watermark-pdf', 'page-numbers-pdf',
         'extract-pdf', 'remove-pages-pdf', 'extract-images-pdf',
-        'pdf-to-jpg', 'pdf-to-png', 'pdf-to-word', 'pdf-to-excel',
-        'pdf-to-ppt', 'pdf-to-text', 'pdf-to-html', 'pdf-to-images'
+      'pdf-to-jpg', 'pdf-to-png', 'pdf-to-word', 'pdf-to-excel',
+      'pdf-to-ppt', 'ppt-to-pdf', 'pdf-to-text', 'pdf-to-html', 'pdf-to-images'
       ];
 
       pdfTools.forEach(tool => {

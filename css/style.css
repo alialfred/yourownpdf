@@ -42,6 +42,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 body {
@@ -51,6 +53,8 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   transition: background var(--transition-normal), color var(--transition-normal);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 h1,
@@ -139,6 +143,7 @@ h6 {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   transition: all 0.2s;
+  user-select: none;
 }
 
 .nav-link:hover {
@@ -303,6 +308,7 @@ box-sizing: border-box;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   transition: background var(--transition-fast);
+  user-select: none;
 }
 
 .mobile-nav-link:hover {
@@ -712,6 +718,7 @@ box-sizing: border-box;
   width: 90%;
   box-shadow: var(--shadow-lg);
   animation: modalIn 0.3s ease;
+  user-select: none;
 }
 
 @keyframes modalIn {
@@ -735,6 +742,23 @@ box-sizing: border-box;
 
   0%,
   90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* C-038a: Modal Auto-Close (5 seconds — 3s visible, 2s flash) */
+.modal-auto-close {
+  animation: modalAutoClose 5s ease-out forwards;
+}
+
+@keyframes modalAutoClose {
+
+  0%,
+  60% {
     opacity: 1;
   }
 
@@ -785,6 +809,7 @@ box-sizing: border-box;
   padding: 2rem 0;
   margin-top: 4rem;
   transition: background var(--transition-normal), border-color var(--transition-normal);
+  user-select: none;
 }
 
 .footer-inner {
@@ -2166,7 +2191,14 @@ input[type="number"] {
   }
 }
 
-/* C-150: Selection Color */
+/* C-150: User Select None for all tool pages */
+.tool-page,
+.tool-page * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* C-151: Selection Color */
 ::selection {
   background: var(--color-b);
   color: white;

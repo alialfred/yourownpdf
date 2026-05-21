@@ -202,6 +202,7 @@
     async function handle(file) {
       if (!file || file.type !== 'application/pdf') { show('Please select a PDF file', false, true); return; }
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       pdfBytes = await file.arrayBuffer();
       pdfDoc = await PDFLib.PDFDocument.load(pdfBytes, { ignoreEncryption: true });
       const pageCount = pdfDoc.getPageCount();

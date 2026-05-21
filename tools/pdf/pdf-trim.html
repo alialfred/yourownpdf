@@ -165,6 +165,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('trimSettings').style.display = 'block';
       document.getElementById('trimBtn').disabled = false;
       show('PDF loaded!');

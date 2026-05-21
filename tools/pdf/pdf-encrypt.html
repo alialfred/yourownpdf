@@ -184,6 +184,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('encryptBtn').disabled = false;
       show('PDF loaded! Set encryption password.');
     }

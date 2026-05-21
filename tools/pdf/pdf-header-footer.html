@@ -159,6 +159,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('hfSettings').style.display = 'block';
       document.getElementById('addBtn').disabled = false;
       show('PDF loaded!');

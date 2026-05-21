@@ -207,6 +207,7 @@
     async function handle(file) {
       if (!file || !file.type.startsWith('image/')) { show('Please select an image file', false, true); return; }
       imageFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       const fmt = file.type.split('/')[1].toUpperCase();
       document.getElementById('origFormat').textContent = fmt;
       document.getElementById('fileInfo').style.display = 'flex';

@@ -148,6 +148,7 @@
     async function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('fileName').textContent = pdfFile.name;
       document.getElementById('fileSize').textContent = formatBytes(pdfFile.size);
       document.getElementById('fileInfo').style.display = 'block';

@@ -6,20 +6,19 @@
   <meta name="description" content="Combine multiple PDFs into one. Free tool by YOUROWNPDF.COM">
   <title>PDF Combine — Merge PDFs | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .file-list { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; margin-top: 1rem; }
     .file-list h3 { margin-bottom: 1rem; }
     .file-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--color-bg); border-radius: 0.5rem; margin-bottom: 0.5rem; cursor: grab; }
+    .file-item:hover { background: var(--color-card-hover); }
     .file-item:active { cursor: grabbing; }
     .file-item.selected { background: var(--color-card-hover); box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 1px solid var(--color-b); }
-    .file-item.dragging { opacity: 0.5; }
-    .file-item.drag-over { border-top: 2px solid var(--color-b); }
+    .file-item.grab-active { opacity: 0.7; transform: scale(0.96); background: var(--color-card-hover, rgba(0,0,0,0.05)); }
+    .file-item.dragging { opacity: 0.3; transform: scale(0.92); box-shadow: inset 0 0 0 2px var(--color-b); }
+    .file-item.drag-over { background: rgba(34,197,94,0.05); }
     .file-drag-handle { cursor: grab; color: var(--color-text-muted); padding: 0 0.25rem; user-select: none; }
     .file-drag-handle:active { cursor: grabbing; }
     .file-item-info { display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0; }
@@ -27,9 +26,6 @@
     .file-item-pages { font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap; }
     .file-item-remove { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1.25rem; padding: 0.25rem; }
     .file-item-remove:hover { color: #dc2626; }
-    .drag-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); display: none; align-items: center; justify-content: center; z-index: 1000; }
-    .drag-overlay.active { display: flex; }
-    .drag-overlay-content { text-align: center; color: white; font-size: 2rem; }
     .combine-options { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
     .combine-options h3 { margin-bottom: 1rem; }
     .combine-summary { margin: 1rem 0; padding: 1rem; background: var(--color-bg); border-radius: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
@@ -129,12 +125,6 @@
       </div>
     </div>
   </footer>
-  <div class="drag-overlay" id="dragOverlay">
-    <div class="drag-overlay-content">
-      <div>📄</div>
-      <div style="margin-top: 1rem;">Drop PDFs to add</div>
-    </div>
-  </div>
   <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
   <script src="../../js/main.js"></script>
   <script src="../../js/components.js"></script>
@@ -154,10 +144,7 @@
       a.addEventListener('click', () => f.click());
       u.addEventListener('drop', e => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
       f.addEventListener('change', e => handleFiles(e.target.files));
-
-      document.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('dragOverlay').classList.add('active'); });
-      document.addEventListener('dragleave', e => { if (e.relatedTarget === null) document.getElementById('dragOverlay').classList.remove('active'); });
-      document.addEventListener('drop', e => { e.preventDefault(); document.getElementById('dragOverlay').classList.remove('active'); if (e.target.id !== 'uploadArea') handleFiles(e.dataTransfer.files); });
+      document.addEventListener('dragover', function(ev) { const edge = 50; const y = ev.clientY; const step = 6; if (y < edge && window.scrollY > 0) { window.scrollBy(0, -step * ((edge - y) / edge)); } else if (y > window.innerHeight - edge) { var el = document.querySelector('.tool-actions'); if (!el || el.offsetHeight === 0) el = document.querySelector('.tool-main'); if (!el || el.offsetHeight === 0) el = document.querySelector('.file-list'); if (el) { var r = el.getBoundingClientRect(); var maxY = r.bottom + window.scrollY - window.innerHeight + 40; var rem = maxY - window.scrollY; if (rem > 1) { window.scrollBy(0, Math.min(step * ((y - (window.innerHeight - edge)) / edge), rem * 0.5)); } } } });
 
       document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
       document.addEventListener('keydown', e => {
@@ -268,14 +255,34 @@
 
       // Drag reorder
       let dragSrcIdx = null;
+      if (!document._pcGrabAttached) {
+        document._pcGrabAttached = true;
+        document.addEventListener('mousedown', function(ev) {
+          document.querySelectorAll('.file-item.grab-active').forEach(function(el) { el.classList.remove('grab-active'); });
+          const fi = ev.target.closest('.file-item');
+          if (fi && !ev.target.closest('.file-item-remove')) {
+            fi.classList.add('grab-active'); document.body.style.cursor = 'grabbing';
+            if (!(ev.ctrlKey || ev.metaKey)) {
+              document.querySelectorAll('.file-item.selected').forEach(function(el) { el.classList.remove('selected'); });
+              selectedIndices.clear();
+              selectedIndices.add(parseInt(fi.dataset.index));
+              fi.classList.add('selected');
+            }
+          }
+        });
+        document.addEventListener('mouseup', function() { document.querySelectorAll('.file-item.grab-active').forEach(function(el) { el.classList.remove('grab-active'); }); document.body.style.cursor = ''; });
+      }
       container.querySelectorAll('.file-item').forEach(item => {
         item.addEventListener('dragstart', e => {
           dragSrcIdx = parseInt(item.dataset.index);
           e.dataTransfer.effectAllowed = 'move';
+          item.classList.remove('grab-active');
           item.classList.add('dragging');
+          document.body.style.cursor = 'grabbing';
         });
         item.addEventListener('dragend', e => {
-          item.classList.remove('dragging');
+          item.classList.remove('dragging', 'grab-active');
+          document.body.style.cursor = '';
           container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
           dragSrcIdx = null;
         });

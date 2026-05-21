@@ -185,6 +185,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('signBtn').disabled = false;
       show('PDF loaded! Add signature details.');
     }

@@ -6,14 +6,11 @@
   <meta name="description" content="Sign PDF documents online. Free tool by YOUROWNPDF.COM">
   <title>Sign PDF — Add Signature to PDF | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .sign-area { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
     .sign-canvas-container { border: 2px solid var(--color-border); border-radius: 0.5rem; margin-bottom: 1rem; }
     #signCanvas { width: 100%; height: 200px; cursor: crosshair; background: white; }
@@ -166,6 +163,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('signBtn').disabled = false;
       show('PDF loaded! Draw signature.');
     }

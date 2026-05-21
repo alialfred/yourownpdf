@@ -135,6 +135,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('flattenInfo').style.display = 'block';
       document.getElementById('flattenBtn').disabled = false;
       show('PDF loaded!');

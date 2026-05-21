@@ -6,6 +6,7 @@
   <meta name="description" content="Compress PDF files online - Reduce PDF size by up to 75% with three quality levels. 100% free & client-side by YOUROWNPDF.COM">
   <title>Compress PDF — Reduce File Size Online Free | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -15,10 +16,6 @@
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; transition: all 0.3s; cursor: pointer; }
-    .tool-upload-area:hover, .tool-upload-area.dragover { border-color: var(--color-b); background: var(--color-card-hover); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .upload-selected { padding: 0.5rem 0; }
     .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.5rem; }
     .upload-selected-icon { font-size: 3.5rem; display: block; filter: hue-rotate(80deg) saturate(1.2); }
@@ -1019,6 +1016,7 @@ if (typeof pdfjsLib !== 'undefined') {
     }
 
     state.file = file;
+    document.getElementById('uploadArea').dataset.fileLoaded = '1';
     state.compressedBlob = null;
     state.compressedName = 'yourownpdf-compressed-' + file.name.replace(/\.pdf$/i, '') + '.pdf';
 
@@ -1168,6 +1166,7 @@ if (typeof pdfjsLib !== 'undefined') {
 
   function clearUploadedFile() {
     state.file = null;
+    document.getElementById('uploadArea').dataset.fileLoaded = '';
     state.compressedBlob = null;
     dom.fileInput.value = '';
     document.getElementById('uploadDefault').style.display = 'block';

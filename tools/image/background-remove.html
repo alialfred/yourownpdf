@@ -183,6 +183,7 @@
     async function handle(file) {
       if (!file || !file.type.startsWith('image/')) { show('Please select an image file', false, true); return; }
       imageFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('processBtn').disabled = false;
       document.getElementById('previewPlaceholder').textContent = 'Image loaded! Click "Remove Background"';
       show('Image loaded! Ready to remove background.');

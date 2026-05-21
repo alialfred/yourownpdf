@@ -141,14 +141,16 @@
       modal.innerHTML = content;
       overlay.classList.add('active');
 
-      // J-018: Add blink/flash then fade out after 10 seconds
-      modal.classList.add('modal-blink');
-      setTimeout(() => {
-        modal.classList.remove('modal-blink');
-      }, duration);
+      // J-018: Add blink/flash then fade out after duration (or never for 0)
+      if (duration > 0) {
+        modal.classList.add('modal-blink');
+        setTimeout(() => {
+          modal.classList.remove('modal-blink');
+        }, duration);
 
-      // J-019: Auto close after duration
-      this.timeout = setTimeout(() => this.hide(), duration);
+        // J-019: Auto close after duration
+        this.timeout = setTimeout(() => this.hide(), duration);
+      }
     },
 
     // J-020: Hide modal
@@ -171,8 +173,38 @@
     // J-022: Show success modal
     showSuccess: function(message) {
       this.show(`<div class="success-message">${message}</div>`);
+    },
+
+    // J-023: Confirm dialog
+    confirm: function(message) {
+      return new Promise((resolve) => {
+        const content = `<div class="confirm-dialog"><p style="margin-bottom:1.5rem;font-size:1.1rem">${message}</p><div style="display:flex;gap:1rem;justify-content:center"><button class="btn btn-cancel" style="padding:0.75rem 1.5rem;border-radius:0.5rem;border:1px solid var(--color-border);background:var(--color-card-bg);color:var(--color-text);cursor:pointer;font-size:1rem">Cancel</button><button class="btn btn-ok" style="padding:0.75rem 1.5rem;border-radius:0.5rem;border:none;background:var(--color-b);color:white;cursor:pointer;font-size:1rem;font-weight:600">OK</button></div></div>`;
+        this.show(content, 0);
+        const cleanup = () => { this.hide(); document.querySelector('#modalContent .btn-ok')?.removeEventListener('click', onOk); document.querySelector('#modalContent .btn-cancel')?.removeEventListener('click', onCancel); };
+        const onOk = () => { cleanup(); resolve(true); };
+        const onCancel = () => { cleanup(); resolve(false); };
+        document.querySelector('#modalContent .btn-ok')?.addEventListener('click', onOk);
+        document.querySelector('#modalContent .btn-cancel')?.addEventListener('click', onCancel);
+      });
     }
   };
+
+  // J-024: File replace confirmation via capture-phase interceptor
+  document.addEventListener('click', function(e) {
+    var uploadArea = e.target.closest('#uploadArea');
+    if (!uploadArea || uploadArea.dataset.fileLoaded !== '1') return;
+    // Don't intercept clicks on the remove button inside the upload area
+    if (e.target.closest('.upload-remove-btn, #uploadRemoveBtn')) return;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    Modal.confirm('A file is already loaded. Uploading a new file will replace the current one. Continue?').then(function(ok) {
+      if (ok) {
+        delete uploadArea.dataset.fileLoaded;
+        var fileInput = uploadArea.querySelector('input[type="file"]');
+        if (fileInput) fileInput.click();
+      }
+    });
+  }, true);
 
   // J-023: Heavy library download handler
   const LibraryLoader = {
@@ -803,4 +835,22 @@ function hideLoading(button) {
 // J-100: Format timestamp
 function formatTimestamp(date) {
   return new Date(date).toLocaleString();
+}
+
+// J-101: Create a standard upload box inside a container
+function createStandardUploadBox(container, opts) {
+  opts = opts || {};
+  var icon = opts.icon || '📄';
+  var text = opts.text || 'Drag & drop your file here';
+  var hint = opts.hint || 'or click to browse';
+  var accept = opts.accept || '';
+  var multiple = opts.multiple !== false;
+
+  container.innerHTML =
+    '<div class="tool-upload-area" id="' + (opts.areaId || 'uploadArea') + '">' +
+      '<div class="upload-icon">' + icon + '</div>' +
+      '<div class="upload-text">' + text + '</div>' +
+      '<div class="upload-hint">' + hint + '</div>' +
+      '<input type="file" class="file-input" id="' + (opts.inputId || 'fileInput') + '" accept="' + accept + '"' + (multiple ? ' multiple' : '') + '>' +
+    '</div>';
 }

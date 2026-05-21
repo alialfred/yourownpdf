@@ -6,14 +6,11 @@
   <meta name="description" content="Convert JPG images to PDF online. Free tool by YOUROWNPDF.COM">
   <title>JPG to PDF — Convert JPEG to PDF | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
     .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; }
     .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
@@ -27,10 +24,12 @@
     .step-number { width: 40px; height: 40px; background: var(--color-b); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
     .file-list { margin-top: 1rem; max-height: 300px; overflow-y: auto; }
     .file-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border-bottom: 1px solid var(--color-border); cursor: grab; }
+    .file-item:hover { background: var(--color-card-hover); }
     .file-item:active { cursor: grabbing; }
     .file-item.selected { background: var(--color-card-hover); box-shadow: 0 2px 8px rgba(0,0,0,0.12); border-color: var(--color-b); border-radius: 0.25rem; }
-    .file-item.dragging { opacity: 0.5; }
-    .file-item.drag-over { border-top: 2px solid var(--color-b); }
+    .file-item.grab-active { opacity: 0.7; transform: scale(0.96); background: var(--color-card-hover, rgba(0,0,0,0.05)); }
+    .file-item.dragging { opacity: 0.3; transform: scale(0.92); box-shadow: inset 0 0 0 2px var(--color-b); }
+    .file-item.drag-over { }
     .file-drag-handle { cursor: grab; color: var(--color-text-muted); padding: 0 0.25rem; user-select: none; }
     .file-drag-handle:active { cursor: grabbing; }
     .file-item-info { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 0; }
@@ -129,11 +128,12 @@
       initTheme();
       const u = document.getElementById('uploadArea');
       const f = document.getElementById('fileInput');
-      u.addEventListener('click', (e) => { if (e.target === u || e.target.classList.contains('upload-icon')) f.click(); });
-      u.addEventListener('dragover', e => { e.preventDefault(); u.classList.add('dragover'); });
+      u.addEventListener('click', () => f.click());
+      u.addEventListener('dragover', e => { e.preventDefault(); if (e.dataTransfer.types && !e.dataTransfer.types.includes('Files')) return; u.classList.add('dragover'); });
       u.addEventListener('dragleave', () => u.classList.remove('dragover'));
       u.addEventListener('drop', e => { e.preventDefault(); u.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
       f.addEventListener('change', e => handleFiles(e.target.files));
+      document.addEventListener('dragover', function(ev) { const edge = 50; const y = ev.clientY; const step = 6; if (y < edge && window.scrollY > 0) { window.scrollBy(0, -step * ((edge - y) / edge)); } else if (y > window.innerHeight - edge) { var el = document.querySelector('.tool-actions'); if (!el || el.offsetHeight === 0) el = document.querySelector('.tool-main'); if (!el || el.offsetHeight === 0) el = document.querySelector('.file-list'); if (el) { var r = el.getBoundingClientRect(); var maxY = r.bottom + window.scrollY - window.innerHeight + 40; var rem = maxY - window.scrollY; if (rem > 1) { window.scrollBy(0, Math.min(step * ((y - (window.innerHeight - edge)) / edge), rem * 0.5)); } } } });
       document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') close(); });
       document.addEventListener('keydown', e => {
         if ((e.key === 'Delete' || e.key === 'Backspace') && selectedIndices.size > 0) {
@@ -202,14 +202,34 @@
 
       // Drag reorder
       let dragSrcIdx = null;
+      if (!document._jpdGrabAttached) {
+        document._jpdGrabAttached = true;
+        document.addEventListener('mousedown', function(ev) {
+          document.querySelectorAll('.file-item.grab-active').forEach(function(el) { el.classList.remove('grab-active'); });
+          const fi = ev.target.closest('.file-item');
+          if (fi && !ev.target.closest('.file-remove-btn')) {
+            fi.classList.add('grab-active'); document.body.style.cursor = 'grabbing';
+            if (!(ev.ctrlKey || ev.metaKey)) {
+              document.querySelectorAll('.file-item.selected').forEach(function(el) { el.classList.remove('selected'); });
+              selectedIndices.clear();
+              selectedIndices.add(parseInt(fi.dataset.index));
+              fi.classList.add('selected');
+            }
+          }
+        });
+        document.addEventListener('mouseup', function() { document.querySelectorAll('.file-item.grab-active').forEach(function(el) { el.classList.remove('grab-active'); }); document.body.style.cursor = ''; });
+      }
       fl.querySelectorAll('.file-item').forEach(item => {
         item.addEventListener('dragstart', e => {
           dragSrcIdx = parseInt(item.dataset.index);
           e.dataTransfer.effectAllowed = 'move';
+          item.classList.remove('grab-active');
           item.classList.add('dragging');
+          document.body.style.cursor = 'grabbing';
         });
         item.addEventListener('dragend', e => {
-          item.classList.remove('dragging');
+          item.classList.remove('dragging', 'grab-active');
+          document.body.style.cursor = '';
           fl.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
           dragSrcIdx = null;
         });

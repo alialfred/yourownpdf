@@ -156,6 +156,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       originalSize = file.size;
       document.getElementById('origSize').textContent = formatSize(originalSize);
       document.getElementById('optimizeSettings').style.display = 'block';

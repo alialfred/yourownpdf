@@ -129,6 +129,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('convertBtn').disabled = false;
       document.getElementById('clearBtn').disabled = false;
       show('PDF loaded!');
@@ -179,7 +180,7 @@
       a.click();
     }
 
-    function clearFile() { pdfFile = null; extractedText = ''; document.getElementById('textOutput').style.display = 'none'; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
+    function clearFile() { pdfFile = null; document.getElementById('uploadArea').dataset.fileLoaded = ''; extractedText = ''; document.getElementById('textOutput').style.display = 'none'; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
 
     function show(msg, loading = false, error = false) {
       document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';

@@ -1188,6 +1188,7 @@ var pdfTools = [
   { id: 'page-numbers-pdf', name: 'Add Page Numbers', desc: 'Add numbering to PDF pages', icon: '🔢', path: '/tools/pdf/page-numbers-pdf.html' },
   { id: 'repair-pdf', name: 'Repair PDF', desc: 'Fix corrupted or damaged PDF files', icon: '🔧', path: '/tools/pdf/repair-pdf.html' },
   { id: 'compare-pdf', name: 'Compare PDFs', desc: 'Compare two PDF documents', icon: '⚖️', path: '/tools/pdf/compare-pdf.html' },
+  { id: 'ppt-to-pdf', name: 'PPT to PDF', desc: 'Convert PowerPoint to PDF format', icon: '📽️', path: '/tools/pdf/ppt-to-pdf.html' },
   { id: 'pdf-to-ppt', name: 'PDF to PowerPoint', desc: 'Convert PDF to PowerPoint slides', icon: '📽️', path: '/tools/pdf/pdf-to-ppt.html' },
   { id: 'pdf-to-text', name: 'PDF to Text', desc: 'Extract text content from PDF', icon: '📃', path: '/tools/pdf/pdf-to-text.html' },
   { id: 'pdf-to-html', name: 'PDF to HTML', desc: 'Convert PDF to HTML web page', icon: '🌐', path: '/tools/pdf/pdf-to-html.html' },
@@ -1229,7 +1230,6 @@ var pdfTools = [
   { id: 'merge-3-pdf', name: 'Merge 3 PDFs', desc: 'Combine three PDF files', icon: '📑', path: '/tools/pdf/merge-3-pdf.html' },
   { id: 'merge-4-pdf', name: 'Merge 4 PDFs', desc: 'Combine four PDF files', icon: '📑', path: '/tools/pdf/merge-4-pdf.html' },
   { id: 'merge-5-pdf', name: 'Merge 5 PDFs', desc: 'Combine five PDF files', icon: '📑', path: '/tools/pdf/merge-5-pdf.html' },
-  { id: 'split-2-pdf', name: 'Split into 2', desc: 'Divide PDF into 2 parts', icon: '✂️', path: '/tools/pdf/split-2-pdf.html' },
   { id: 'split-3-pdf', name: 'Split into 3', desc: 'Divide PDF into 3 parts', icon: '✂️', path: '/tools/pdf/split-3-pdf.html' },
   { id: 'split-4-pdf', name: 'Split into 4', desc: 'Divide PDF into 4 parts', icon: '✂️', path: '/tools/pdf/split-4-pdf.html' },
   { id: 'split-range-pdf', name: 'Split by Range', desc: 'Split by page ranges', icon: '✂️', path: '/tools/pdf/split-range-pdf.html' },
@@ -1246,10 +1246,10 @@ var pdfTools = [
 ];
 
 var imageTools = [
-  { id: 'compress-image', name: 'Compress Image', desc: 'Reduce image file size', icon: '🗜️', path: '/tools/image/compress.html' },
-  { id: 'resize-image', name: 'Resize Image', desc: 'Change image dimensions', icon: '📏', path: '/tools/image/resize.html' },
-  { id: 'crop-image', name: 'Crop Image', desc: 'Cut image to specific area', icon: '✂️', path: '/tools/image/crop.html' },
-  { id: 'rotate-image', name: 'Rotate Image', desc: 'Rotate image 90/180/270 degrees', icon: '🔄', path: '/tools/image/rotate.html' },
+  { id: 'compress-image', name: 'Compress Image', desc: 'Reduce image file size', icon: '🗜️', path: '/tools/image/compress-image' },
+  { id: 'resize-image', name: 'Resize Image', desc: 'Change image dimensions', icon: '📏', path: '/tools/image/resize-image' },
+  { id: 'crop-image', name: 'Crop Image', desc: 'Cut image to specific area', icon: '✂️', path: '/tools/image/crop-image' },
+  { id: 'rotate-image', name: 'Rotate Image', desc: 'Rotate image 90/180/270 degrees', icon: '🔄', path: '/tools/image/rotate-image' },
   { id: 'jpg-to-png', name: 'JPG to PNG', desc: 'Convert JPEG to PNG', icon: '🔄', path: '/tools/image/convert.html' },
   { id: 'png-to-jpg', name: 'PNG to JPG', desc: 'Convert PNG to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
   { id: 'image-to-pdf', name: 'Image to PDF', desc: 'Convert images to PDF', icon: '📄', path: '/tools/image/image-to-pdf.html' },

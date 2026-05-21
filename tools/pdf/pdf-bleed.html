@@ -161,6 +161,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('bleedInfo').style.display = 'block';
       document.getElementById('applyBtn').disabled = false;
       show('PDF loaded!');

@@ -100,7 +100,7 @@
       </div>
 
       <div class="tool-layout">
-        
+
         <!-- LEFT COLUMN: Upload & Page Manager -->
         <div class="tool-main">
           <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload PDF">
@@ -277,6 +277,10 @@
   // VALIDATION
   // ============================================================
 
+  function handleFiles(files) {
+    if (files && files.length > 0) handleFile(files[0]);
+  }
+
   function validatePDF(file) {
     var maxSize = 85 * 1024 * 1024;
     if (!file) return { valid: false, error: 'No file provided.' };
@@ -336,6 +340,7 @@
 
     try {
       state.file = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       var arrayBuffer = await file.arrayBuffer();
       var { PDFDocument } = window.PDFLib;
       state.pdfDoc = await PDFDocument.load(arrayBuffer);
@@ -580,6 +585,7 @@
 
   function clearAll() {
     state.file = null;
+    document.getElementById('uploadArea').dataset.fileLoaded = '';
     state.pdfDoc = null;
     state.pageOrder = [];
     state.processedBytes = null;

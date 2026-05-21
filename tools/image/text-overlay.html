@@ -194,6 +194,7 @@
     async function handle(file) {
       if (!file || !file.type.startsWith('image/')) { show('Please select an image file', false, true); return; }
       imageFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       originalImage = new Image();
       originalImage.onload = () => {
         document.getElementById('previewCanvas').style.display = 'block';

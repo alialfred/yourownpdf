@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resize images online free — Change dimensions of JPG, PNG, WEBP, GIF. 100% client-side by YOUROWNPDF.COM">
+  <title>Resize Image — Change Dimensions Online Free | YOUROWNPDF.COM</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style id="tool-page-styles">
+    .resize-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    @media (max-width: 900px) { .resize-layout { grid-template-columns: 1fr; } }
+
+    .preview-section { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 0.75rem; padding: 1.5rem; }
+    .preview-section h3 { margin-bottom: 1rem; font-size: 1.05rem; }
+    .preview-stage { position: relative; background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px; border-radius: 0.5rem; overflow: hidden; min-height: 280px; display: flex; align-items: center; justify-content: center; }
+    #previewCanvas { max-width: 100%; max-height: 400px; display: none; }
+    .preview-placeholder { color: var(--color-text-muted); font-size: 1.1rem; }
+    .size-stats { display: flex; gap: 1.5rem; margin-top: 1rem; padding: 0.75rem; background: var(--color-card-hover); border-radius: 0.5rem; flex-wrap: wrap; }
+    .size-stat { text-align: center; flex: 1; min-width: 80px; }
+    .size-stat-num { font-size: 1.25rem; font-weight: 700; color: var(--color-b); }
+    .size-stat-label { font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .settings-section { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 0.75rem; padding: 1.5rem; }
+    .settings-section h3 { margin-bottom: 1rem; font-size: 1.05rem; }
+    .preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.5rem; margin-bottom: 1.25rem; }
+    .preset-btn { padding: 0.5rem 0.25rem; text-align: center; background: var(--color-card-hover); border: 1px solid var(--color-border); border-radius: 0.5rem; cursor: pointer; font-size: 0.8rem; transition: all 0.15s; }
+    .preset-btn:hover { border-color: var(--color-b); }
+    .preset-btn.active { border-color: var(--color-b); background: #dcfce7; color: #166534; }
+    [data-theme="dark"] .preset-btn.active { background: #064e3b; color: #6ee7b7; border-color: #22c55e; }
+    .form-row { display: flex; gap: 1rem; }
+    .form-group { flex: 1; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; color: var(--color-text); }
+    .form-group input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); font-size: 0.9rem; box-sizing: border-box; }
+    .form-group input:focus { outline: none; border-color: var(--color-b); }
+    .checkbox-group { margin-top: 0.75rem; }
+    .checkbox-group label { font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+    .checkbox-group input { width: auto; }
+
+    .tool-actions { margin-top: 1.5rem; }
+
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--color-card-bg); border-radius: 1rem; padding: 2rem; max-width: 640px; width: 92%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; animation: fadeIn 0.2s; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
+        </a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
+        </nav>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="mainContent">
+    <div class="tool-page">
+
+      <div class="tool-header-section">
+        <h1 class="tool-title-text" id="toolTitleDisplay">📐 Resize Image</h1>
+        <p class="tool-description-text" id="toolDescDisplay">Change the dimensions of any image — JPG, PNG, WEBP, or GIF. All processing happens in your browser.</p>
+      </div>
+
+      <div class="tool-layout">
+
+        <!-- LEFT COLUMN: Upload -->
+        <div class="tool-main">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload image">
+            <div class="upload-default" id="uploadDefault">
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-text">Drag & drop your image here</div>
+              <div class="upload-hint">or click to browse • JPG, PNG, WEBP, GIF</div>
+            </div>
+            <input type="file" class="file-input" id="fileInput" accept="image/*">
+          </div>
+
+          <p class="reorder-hint" id="hintRow" style="display:none"><i class="fas fa-info-circle hint-icon" onclick="showInfoModal()" title="Click Me"></i> Choose a preset or enter custom dimensions. Keep aspect ratio locked with the checkbox.</p>
+        </div>
+
+        <!-- RIGHT COLUMN: Features -->
+        <div class="tool-info">
+          <div class="tool-features-column">
+            <h2>Features</h2>
+            <ul class="tool-features" id="featuresList">
+              <li><i class="fas fa-check feature-icon"></i> Quick presets for common sizes</li>
+              <li><i class="fas fa-check feature-icon"></i> Custom width & height input</li>
+              <li><i class="fas fa-check feature-icon"></i> Maintain aspect ratio toggle</li>
+              <li><i class="fas fa-check feature-icon"></i> Live preview</li>
+              <li><i class="fas fa-check feature-icon"></i> Supports JPG, PNG, WEBP, GIF</li>
+              <li><i class="fas fa-check feature-icon"></i> 100% client-side processing</li>
+            </ul>
+          </div>
+
+          <div class="related-tools-column">
+            <div class="related-tools">
+              <div class="related-tools-title">Try These Related Tools</div>
+              <div class="related-tools-grid" id="relatedToolsGrid">
+                <a href="/tools/image/crop-image.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/image/crop-image')">
+                  <span class="tool-icon">✂️</span>
+                  <span class="tool-title">Crop Image</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+                <a href="/tools/image/rotate-image.html" class="tool-card" onclick="event.preventDefault(); navigateTo('/tools/image/rotate-image')">
+                  <span class="tool-icon">🔄</span>
+                  <span class="tool-title">Rotate Image</span>
+                  <span class="tool-desc">Free online tool</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Resize area (hidden until image loaded) -->
+      <div class="resize-layout" id="resizeArea" style="display:none">
+
+        <!-- LEFT: Preview -->
+        <div class="preview-section">
+          <h3><i class="fas fa-eye"></i> Preview</h3>
+          <div class="preview-stage">
+            <span class="preview-placeholder" id="previewPlaceholder">No image loaded</span>
+            <canvas id="previewCanvas"></canvas>
+          </div>
+          <div class="size-stats">
+            <div class="size-stat"><div class="size-stat-num" id="origW">-</div><div class="size-stat-label">Original W</div></div>
+            <div class="size-stat"><div class="size-stat-num" id="origH">-</div><div class="size-stat-label">Original H</div></div>
+            <div class="size-stat"><div class="size-stat-num" id="newW">-</div><div class="size-stat-label">New W</div></div>
+            <div class="size-stat"><div class="size-stat-num" id="newH">-</div><div class="size-stat-label">New H</div></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Settings -->
+        <div class="settings-section">
+          <h3><i class="fas fa-sliders-h"></i> Dimensions</h3>
+          <div class="preset-grid" id="presetGrid">
+            <button class="preset-btn" data-w="1920" data-h="1080">1920×1080</button>
+            <button class="preset-btn" data-w="1280" data-h="720">1280×720</button>
+            <button class="preset-btn" data-w="800" data-h="600">800×600</button>
+            <button class="preset-btn" data-w="640" data-h="480">640×480</button>
+            <button class="preset-btn" data-w="500" data-h="500">500×500</button>
+            <button class="preset-btn" data-w="300" data-h="300">300×300</button>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="widthInput">Width (px)</label>
+              <input type="number" id="widthInput" min="1" max="10000">
+            </div>
+            <div class="form-group">
+              <label for="heightInput">Height (px)</label>
+              <input type="number" id="heightInput" min="1" max="10000">
+            </div>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="maintainRatio" checked> Maintain aspect ratio</label>
+          </div>
+          <div class="tool-actions">
+            <button class="action-btn primary-btn" id="resizeBtn">
+              <i class="fas fa-check"></i> <span>Apply Resize</span>
+            </button>
+            <button class="action-btn success-btn" id="downloadBtn">
+              <i class="fas fa-download"></i> Download
+            </button>
+            <button class="action-btn secondary-btn" id="clearBtn">
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="how-to-use" style="margin-top: 2rem;">
+        <h2 style="text-align:center">How to Use Resize Image — <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span></h2>
+        <p style="margin-bottom:1.5rem;color:var(--color-text-muted);font-size:0.95rem;line-height:1.6">
+          Need an image at a specific size? Use <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>&rsquo;s
+          free image resizer. All processing runs in your browser — your files never leave your device.
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Upload Your Image</h3>
+              <p>Click the upload area or drag and drop an image. Supports JPG, PNG, WEBP, and GIF formats up to 85 MB.</p>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+1:+Upload+Image" alt="Upload image" class="step-image">
+              <ul>
+                <li>Drag and drop a file directly onto the upload zone</li>
+                <li>Click the upload area to open file browser</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Set Dimensions</h3>
+              <p>Choose a quick preset or enter custom width and height. Toggle <strong>Maintain aspect ratio</strong> to lock proportions.</p>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+2:+Set+Dimensions" alt="Set dimensions" class="step-image">
+              <ul>
+                <li>Click any preset button for common sizes</li>
+                <li>Enter exact pixel values in the width/height fields</li>
+                <li>Uncheck aspect ratio to set independent width & height</li>
+                <li>The live preview updates as you adjust</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Download Your Resized Image</h3>
+              <p>Click <strong>Apply Resize</strong> to preview the result, then <strong>Download</strong> to save as PNG.</p>
+              <img src="https://placehold.co/600x350/f3f4f6/6b7280?text=Step+3:+Download+Resized+Image" alt="Download resized image" class="step-image">
+              <ul>
+                <li>Preview updates instantly with new dimensions</li>
+                <li>Download your resized image as a PNG file</li>
+                <li>Free, private, no sign-up required</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../../js/main.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/router.js"></script>
+
+  <script>
+(function() {
+
+  // ============================================================
+  // STATE & DOM
+  // ============================================================
+
+  var dom = {
+    uploadArea: document.getElementById('uploadArea'),
+    fileInput: document.getElementById('fileInput'),
+    resizeArea: document.getElementById('resizeArea'),
+    previewCanvas: document.getElementById('previewCanvas'),
+    previewPlaceholder: document.getElementById('previewPlaceholder'),
+    origW: document.getElementById('origW'),
+    origH: document.getElementById('origH'),
+    newW: document.getElementById('newW'),
+    newH: document.getElementById('newH'),
+    widthInput: document.getElementById('widthInput'),
+    heightInput: document.getElementById('heightInput'),
+    maintainRatio: document.getElementById('maintainRatio'),
+    presetGrid: document.getElementById('presetGrid'),
+    resizeBtn: document.getElementById('resizeBtn'),
+    downloadBtn: document.getElementById('downloadBtn'),
+    clearBtn: document.getElementById('clearBtn'),
+    hintRow: document.getElementById('hintRow'),
+  };
+
+  var state = {
+    file: null,
+    originalImg: null,
+    aspectRatio: 1,
+    resized: false
+  };
+
+  // ============================================================
+  // VALIDATION
+  // ============================================================
+
+  function handleFiles(files) {
+    if (files && files.length > 0) handleFile(files[0]);
+  }
+
+  function validateImage(file) {
+    var maxSize = 85 * 1024 * 1024;
+    if (!file) return { valid: false, error: 'No file provided.' };
+    if (!file.type.startsWith('image/')) {
+      return { valid: false, error: 'Please upload a valid image file (JPG, PNG, WEBP, GIF).' };
+    }
+    if (file.size > maxSize) {
+      return { valid: false, error: 'File size exceeds 85MB limit.' };
+    }
+    return { valid: true };
+  }
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    var k = 1024;
+    var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    var i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  // ============================================================
+  // UPLOAD
+  // ============================================================
+
+  dom.uploadArea.addEventListener('click', function() {
+    dom.fileInput.click();
+  });
+
+  dom.uploadArea.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dom.uploadArea.classList.add('dragover');
+  });
+
+  dom.uploadArea.addEventListener('dragleave', function() {
+    dom.uploadArea.classList.remove('dragover');
+  });
+
+  dom.uploadArea.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dom.uploadArea.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  dom.fileInput.addEventListener('change', function(e) {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(file) {
+    var validation = validateImage(file);
+    if (!validation.valid) {
+      showModal(validation.error, true);
+      return;
+    }
+
+    showLoading('Loading image...');
+
+    state.file = file;
+    document.getElementById('uploadArea').dataset.fileLoaded = '1';
+    var img = new Image();
+    img.onload = function() {
+      state.originalImg = img;
+      state.aspectRatio = img.width / img.height;
+      state.resized = false;
+
+      dom.origW.textContent = img.width;
+      dom.origH.textContent = img.height;
+      dom.widthInput.value = img.width;
+      dom.heightInput.value = img.height;
+      dom.newW.textContent = img.width;
+      dom.newH.textContent = img.height;
+
+      dom.previewCanvas.width = img.width;
+      dom.previewCanvas.height = img.height;
+      var ctx = dom.previewCanvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      dom.previewCanvas.style.display = 'block';
+      dom.previewPlaceholder.style.display = 'none';
+
+      dom.uploadArea.style.display = 'none';
+      dom.resizeArea.style.display = 'grid';
+      dom.hintRow.style.display = 'block';
+      dom.resizeBtn.disabled = false;
+      dom.clearBtn.disabled = false;
+
+      closeModal();
+      showModal('Image loaded! ' + img.width + '×' + img.height + 'px.', false);
+    };
+    img.onerror = function() {
+      closeModal();
+      showModal('Failed to load image. The file may be corrupted.', true);
+    };
+    img.src = URL.createObjectURL(file);
+  }
+
+  // ============================================================
+  // PRESETS
+  // ============================================================
+
+  dom.presetGrid.addEventListener('click', function(e) {
+    var btn = e.target.closest('.preset-btn');
+    if (!btn) return;
+    var w = parseInt(btn.getAttribute('data-w'));
+    var h = parseInt(btn.getAttribute('data-h'));
+    dom.widthInput.value = w;
+    dom.heightInput.value = h;
+    updateSizeDisplay();
+    dom.presetGrid.querySelectorAll('.preset-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+  });
+
+  // ============================================================
+  // DIMENSION INPUTS
+  // ============================================================
+
+  dom.widthInput.addEventListener('input', function() {
+    if (dom.maintainRatio.checked && state.originalImg) {
+      dom.heightInput.value = Math.round(parseInt(this.value || 0) / state.aspectRatio);
+    }
+    updateSizeDisplay();
+    dom.presetGrid.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
+  });
+
+  dom.heightInput.addEventListener('input', function() {
+    if (dom.maintainRatio.checked && state.originalImg) {
+      dom.widthInput.value = Math.round(parseInt(this.value || 0) * state.aspectRatio);
+    }
+    updateSizeDisplay();
+    dom.presetGrid.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
+  });
+
+  function updateSizeDisplay() {
+    dom.newW.textContent = dom.widthInput.value || '-';
+    dom.newH.textContent = dom.heightInput.value || '-';
+  }
+
+  // ============================================================
+  // APPLY RESIZE
+  // ============================================================
+
+  dom.resizeBtn.addEventListener('click', applyResize);
+
+  function applyResize() {
+    if (!state.originalImg) return;
+    var w = parseInt(dom.widthInput.value);
+    var h = parseInt(dom.heightInput.value);
+    if (!w || !h || w < 1 || h < 1) {
+      showModal('Please enter valid width and height values.', true);
+      return;
+    }
+    if (w > 10000 || h > 10000) {
+      showModal('Maximum dimensions are 10000×10000 pixels.', true);
+      return;
+    }
+
+    dom.previewCanvas.width = w;
+    dom.previewCanvas.height = h;
+    var ctx = dom.previewCanvas.getContext('2d');
+    ctx.drawImage(state.originalImg, 0, 0, w, h);
+    state.resized = true;
+    dom.newW.textContent = w;
+    dom.newH.textContent = h;
+    showModal('Image resized to ' + w + '×' + h + 'px!');
+  }
+
+  // ============================================================
+  // DOWNLOAD
+  // ============================================================
+
+  dom.downloadBtn.addEventListener('click', function() {
+    if (!state.resized) {
+      applyResize();
+    }
+    var originalName = state.file ? state.file.name.replace(/\.[^/.]+$/, '') : 'image';
+    var mime = (state.file && state.file.type === 'image/png') ? 'image/png' : 'image/png';
+    dom.previewCanvas.toBlob(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'yourownpdf-resized-' + originalName + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, mime);
+  });
+
+  // ============================================================
+  // CLEAR
+  // ============================================================
+
+  dom.clearBtn.addEventListener('click', clearAll);
+
+  function clearAll() {
+    state.file = null;
+    document.getElementById('uploadArea').dataset.fileLoaded = '';
+    state.originalImg = null;
+    state.resized = false;
+    dom.fileInput.value = '';
+    dom.uploadArea.style.display = 'block';
+    dom.resizeArea.style.display = 'none';
+    dom.hintRow.style.display = 'none';
+    dom.previewCanvas.style.display = 'none';
+    dom.previewPlaceholder.style.display = 'block';
+    dom.clearBtn.disabled = true;
+    dom.resizeBtn.disabled = true;
+    dom.origW.textContent = '-';
+    dom.origH.textContent = '-';
+    dom.newW.textContent = '-';
+    dom.newH.textContent = '-';
+    dom.widthInput.value = '';
+    dom.heightInput.value = '';
+    dom.presetGrid.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ============================================================
+  // INFO MODAL
+  // ============================================================
+
+  window.showInfoModal = function() {
+    var overlay = document.getElementById('modalOverlay');
+    var content = document.getElementById('modalContent');
+    content.className = 'modal info-modal';
+    content.innerHTML =
+      '<div style="text-align:center;font-size:2rem;margin-bottom:0.25rem">&#8505;&#65039;</div>' +
+      '<h3 style="margin-bottom:0.25rem;color:#16a34a;text-align:center">Image Resize Guide</h3>' +
+      '<p style="font-size:0.85rem;margin-bottom:0.75rem;color:#22c55e;text-align:center">Choose dimensions, lock aspect ratio, and resize instantly</p>' +
+      '<div style="font-size:0.85rem;line-height:1.7;color:var(--color-text-muted)">' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">Presets</strong> &mdash; Click any preset button to instantly set common dimensions like 1920×1080 or 800×600.</p>' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">Custom</strong> &mdash; Enter exact pixel values in the Width and Height fields.</p>' +
+        '<p style="margin-bottom:0.5rem"><strong style="color:#16a34a">Aspect ratio</strong> &mdash; Keep this checked to automatically maintain the image proportions when changing one dimension.</p>' +
+        '<p><strong style="color:#16a34a">How it works:</strong> Upload an image, choose your target dimensions, and the image is resized using canvas-based rendering. The resized image is saved as PNG. All processing runs 100% in your browser &mdash; files never uploaded to any server. Free, private, no sign-up required.</p>' +
+      '</div>' +
+      '<div style="text-align:center;margin-top:1rem"><button onclick="closeModal()" style="padding:0.6rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600">Got it</button></div>';
+    overlay.classList.add('active');
+  };
+
+  // ============================================================
+  // MODAL
+  // ============================================================
+
+  function showLoading(msg) {
+    var content = document.getElementById('modalContent');
+    var overlay = document.getElementById('modalOverlay');
+    content.innerHTML = '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>';
+    overlay.classList.add('active');
+  }
+
+  function showModal(msg, isError) {
+    var overlay = document.getElementById('modalOverlay');
+    var content = document.getElementById('modalContent');
+    var icon = isError ? '❌' : '✅';
+    content.innerHTML =
+      '<div style="font-size:3rem;margin-bottom:1rem">' + icon + '</div>' +
+      '<p>' + msg + '</p>' +
+      '<button onclick="closeModal()" style="margin-top:1.5rem;padding:0.75rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer">OK</button>';
+    overlay.classList.add('active');
+    if (!isError) {
+      setTimeout(closeModal, 5000);
+    }
+  }
+
+  window.closeModal = function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+  };
+
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target.id === 'modalOverlay') closeModal();
+  });
+
+  // ============================================================
+  // THEME
+  // ============================================================
+
+  (function initTheme() {
+    var saved = localStorage.getItem('yourownpdf-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', saved);
+    var toggle = document.querySelector('.theme-toggle');
+    if (toggle) {
+      toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+      toggle.addEventListener('click', function() {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('yourownpdf-theme', next);
+        toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+      });
+    }
+  })();
+
+})();
+  </script>
+</body>
+</html>

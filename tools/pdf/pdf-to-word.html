@@ -6,14 +6,11 @@
   <meta name="description" content="Convert PDF to Word document online. Free tool by YOUROWNPDF.COM">
   <title>PDF to Word — Convert PDF to DOCX | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/master-styles.css">
   <style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
-    .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .file-input { display: none; }
     .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
     .tool-actions { display: flex; gap: 1rem; margin-top: 1rem; }
     .btn { padding: 1rem 1.5rem; font-size: 1rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
@@ -147,6 +144,7 @@
     function handleFile(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('convertBtn').disabled = false;
       document.getElementById('clearBtn').disabled = false;
       showModal('PDF loaded successfully!');
@@ -245,7 +243,7 @@
       a.click();
     }
 
-    function clearFile() { pdfFile = null; wordBlob = null; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
+    function clearFile() { pdfFile = null; document.getElementById('uploadArea').dataset.fileLoaded = ''; wordBlob = null; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
 
     function showModal(msg, loading = false, error = false) {
       document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="closeModal()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';

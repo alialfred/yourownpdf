@@ -136,6 +136,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('linearizeInfo').style.display = 'block';
       document.getElementById('linearizeBtn').disabled = false;
       show('PDF loaded!');

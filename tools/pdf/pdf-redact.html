@@ -143,6 +143,7 @@
     function handle(file) {
       if (!file) return;
       pdfFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('redactSettings').style.display = 'block';
       document.getElementById('redactBtn').disabled = false;
       show('PDF loaded!');
