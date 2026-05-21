@@ -611,6 +611,46 @@
     }
   };
 
+  // J-xxx: Security message injection
+  const SecurityMessage = {
+    init: function() {
+      this.injectSubtitle();
+      this.injectFooter();
+      this.injectHowToSection();
+    },
+
+    injectSubtitle: function() {
+      var subtitle = document.querySelector('.tool-description-text') ||
+                     document.querySelector('.tool-header p') ||
+                     document.querySelector('.about-hero p') ||
+                     document.querySelector('h1 + p');
+      if (subtitle && !subtitle.classList.contains('_secureSub')) {
+        subtitle.classList.add('_secureSub');
+        subtitle.innerHTML += '<br><strong class="security-text" style="font-size:1.1em;"><span class="security-icon">🛡️</span> Your files never leave your device.</strong>';
+      }
+    },
+
+    injectFooter: function() {
+      var footerInner = document.querySelector('.footer-inner');
+      if (footerInner && !footerInner.querySelector('.security-footer-line')) {
+        var p = document.createElement('p');
+        p.className = 'security-footer-line';
+        p.innerHTML = '<span class="security-icon">🛡️</span><span class="security-text"> Your files never leave your device.</span>';
+        footerInner.appendChild(p);
+      }
+    },
+
+    injectHowToSection: function() {
+      var howTo = document.querySelector('.how-to-use');
+      if (howTo && !howTo.querySelector('.how-to-security')) {
+        var div = document.createElement('div');
+        div.className = 'how-to-security';
+        div.innerHTML = '<span class="security-icon">🛡️</span><span class="security-text"> Your files never leave your device.</span>';
+        howTo.appendChild(div);
+      }
+    }
+  };
+
   // J-xxx: Section Navigation
   const Navigation = {
     init: function() {
@@ -730,6 +770,9 @@
         console.warn('Library loading warning:', err.message);
       });
     }
+
+    // Initialize security message
+    SecurityMessage.init();
   });
 
   // J-091: Listen for system theme changes
@@ -756,7 +799,8 @@
     Clipboard: Clipboard,
     FormValidator: FormValidator,
     Storage: Storage,
-    Events: Events
+    Events: Events,
+    SecurityMessage: SecurityMessage
   };
 
 })();

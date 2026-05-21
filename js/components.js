@@ -1171,7 +1171,7 @@
 // ============================================================
 // IDX-023: PDF Tools Data (74 tools - ordered by popularity)
 var pdfTools = [
-  { id: 'merge-pdf', name: 'Merge PDF', desc: 'Combine multiple PDF files into one', icon: '📑', path: '/tools/pdf/merge-pdf.html' },
+  { id: 'merge-pdf', name: 'Merge PDF', desc: 'Combine multiple PDF files into one', icon: '<i class="fas fa-object-group"></i>', path: '/tools/pdf/merge-pdf.html' },
   { id: 'compress-pdf', name: 'Compress PDF', desc: 'Reduce PDF file size while maintaining quality', icon: '🗜️', path: '/tools/pdf/compress-pdf.html' },
   { id: 'split-pdf', name: 'Split PDF', desc: 'Extract pages from a PDF file', icon: '✂️', path: '/tools/pdf/split-pdf.html' },
   { id: 'pdf-to-jpg', name: 'PDF to JPG', desc: 'Convert PDF pages to JPEG images', icon: '🖼️', path: '/tools/pdf/pdf-to-jpg.html' },

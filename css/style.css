@@ -719,6 +719,7 @@ box-sizing: border-box;
   box-shadow: var(--shadow-lg);
   animation: modalIn 0.3s ease;
   user-select: none;
+  text-align: center;
 }
 
 @keyframes modalIn {
@@ -840,6 +841,27 @@ box-sizing: border-box;
 .footer-text {
   font-size: 0.875rem;
   color: var(--color-text-muted);
+}
+
+.security-footer-line {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.4rem;
+  opacity: 0.9;
+}
+
+.security-text {
+  background: linear-gradient(90deg, #22c55e, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.security-icon {
+  -webkit-text-fill-color: initial;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
 
 /* C-043: Breadcrumbs */

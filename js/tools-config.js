@@ -169,7 +169,7 @@ window.YOUROWNPDF.RelatedTools = {
 
 // TC-002: Tool data - name, icon, category for each tool
 window.YOUROWNPDF.ToolData = {
-  'merge-pdf': { name: 'Merge PDF', icon: '📑', category: 'pdf' },
+  'merge-pdf': { name: 'Merge PDF', icon: '<i class="fas fa-object-group"></i>', category: 'pdf' },
   'compress-pdf': { name: 'Compress PDF', icon: '🗜️', category: 'pdf' },
   'split-pdf': { name: 'Split PDF', icon: '✂️', category: 'pdf' },
   'rotate-pdf': { name: 'Rotate PDF', icon: '🔄', category: 'pdf' },

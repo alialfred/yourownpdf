@@ -332,6 +332,9 @@ renderPage: function(html, pathname) {
 
       // Reinitialize lazy loading
       if (window.YOUROWNPDF && window.YOUROWNPDF.LazyLoad) window.YOUROWNPDF.LazyLoad.init();
+
+      // Reinitialize security message
+      if (window.YOUROWNPDF && window.YOUROWNPDF.SecurityMessage) window.YOUROWNPDF.SecurityMessage.init();
     },
 
     // J-233: Update active navigation state

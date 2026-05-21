@@ -26,7 +26,7 @@ class MasterTool {
     const featuresEl = document.getElementById('featuresList');
     const fileInput = document.getElementById('fileInput');
 
-    if (titleEl) titleEl.textContent = this.config.title || "Tool";
+    if (titleEl) titleEl.innerHTML = this.config.title || "Tool";
     if (descEl) descEl.textContent = this.config.description || "";
     if (btnTextEl) btnTextEl.textContent = this.config.buttonText || "Process";
 
