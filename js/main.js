@@ -140,6 +140,7 @@
 
       modal.innerHTML = content;
       overlay.classList.add('active');
+      this.focusFirstButton();
 
       // J-018: Add blink/flash then fade out after duration (or never for 0)
       if (duration > 0) {
@@ -180,11 +181,21 @@
       return new Promise((resolve) => {
         const content = `<div class="confirm-dialog"><p style="margin-bottom:1.5rem;font-size:1.1rem">${message}</p><div style="display:flex;gap:1rem;justify-content:center"><button class="btn btn-cancel" style="padding:0.75rem 1.5rem;border-radius:0.5rem;border:1px solid var(--color-border);background:var(--color-card-bg);color:var(--color-text);cursor:pointer;font-size:1rem">Cancel</button><button class="btn btn-ok" style="padding:0.75rem 1.5rem;border-radius:0.5rem;border:none;background:var(--color-b);color:white;cursor:pointer;font-size:1rem;font-weight:600">OK</button></div></div>`;
         this.show(content, 0);
+        this.focusFirstButton();
         const cleanup = () => { this.hide(); document.querySelector('#modalContent .btn-ok')?.removeEventListener('click', onOk); document.querySelector('#modalContent .btn-cancel')?.removeEventListener('click', onCancel); };
         const onOk = () => { cleanup(); resolve(true); };
         const onCancel = () => { cleanup(); resolve(false); };
         document.querySelector('#modalContent .btn-ok')?.addEventListener('click', onOk);
         document.querySelector('#modalContent .btn-cancel')?.addEventListener('click', onCancel);
+      });
+    },
+
+    focusFirstButton: function() {
+      requestAnimationFrame(() => {
+        const modal = document.querySelector('.modal');
+        if (!modal) return;
+        const btn = modal.querySelector('button');
+        if (btn) btn.focus();
       });
     }
   };
@@ -617,6 +628,38 @@
       this.injectSubtitle();
       this.injectFooter();
       this.injectHowToSection();
+      this.attachClickHandler();
+    },
+
+    attachClickHandler: function() {
+      document.addEventListener('click', function(e) {
+        var target = e.target.closest('.security-text');
+        if (!target) return;
+        var overlay = document.getElementById('modalOverlay');
+        var modal = document.getElementById('modalContent');
+        if (!overlay || !modal) return;
+        modal.innerHTML =
+          '<div style="font-size:2.5rem;margin-bottom:0.75rem">🛡️</div>' +
+          '<h3 style="margin-bottom:0.75rem;color:var(--color-b)">Your Files Never Leave Your Device</h3>' +
+          '<div style="font-size:0.9rem;line-height:1.7;color:var(--color-text-muted);text-align:left;display:inline-block;max-width:420px">' +
+            '<p style="margin-bottom:0.75rem">Every tool on <strong>YOUROWNPDF.COM</strong> runs entirely inside your browser. No file data is ever uploaded, transmitted, or stored on any server.</p>' +
+            '<p style="margin-bottom:0.75rem">This message appears across the entire site — in tool descriptions, the how-to guide section, and the footer — as a constant reminder that your privacy is guaranteed.</p>' +
+            '<p><strong>🔒 What this means for you:</strong></p>' +
+            '<ul style="padding-left:1.25rem;margin:0.25rem 0 0">' +
+              '<li>Your documents stay on your device at all times</li>' +
+              '<li>No account or sign-up required</li>' +
+              '<li>No file size limits imposed by servers</li>' +
+              '<li>Works offline after initial page load</li>' +
+              '<li>Zero data collection or tracking</li>' +
+            '</ul>' +
+          '</div>' +
+          '<button onclick="closeModal()" style="margin-top:1.25rem;padding:0.6rem 2rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600">Got it</button>';
+        overlay.classList.add('active');
+        requestAnimationFrame(function() {
+          var gotIt = modal.querySelector('button');
+          if (gotIt) gotIt.focus();
+        });
+      });
     },
 
     injectSubtitle: function() {
@@ -626,7 +669,10 @@
                      document.querySelector('h1 + p');
       if (subtitle && !subtitle.classList.contains('_secureSub')) {
         subtitle.classList.add('_secureSub');
-        subtitle.innerHTML += '<br><strong class="security-text" style="font-size:1.1em;"><span class="security-icon">🛡️</span> Your files never leave your device.</strong>';
+        var sec = document.createElement('p');
+        sec.className = 'security-subtitle';
+        sec.innerHTML = '<strong class="security-text" style="font-size:1.1em;"><span class="security-icon">🛡️</span> Your files never leave your device.</strong>';
+        subtitle.parentNode.insertBefore(sec, subtitle.nextSibling);
       }
     },
 
@@ -750,6 +796,16 @@
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) Modal.hide();
       });
+    }
+
+    // Focus first button when any modal opens
+    const modalObserver = new MutationObserver(function() {
+      if (overlay && overlay.classList.contains('active')) {
+        Modal.focusFirstButton();
+      }
+    });
+    if (overlay) {
+      modalObserver.observe(overlay, { attributes: true, attributeFilter: ['class'] });
     }
 
     // J-088: Close modal on escape key
