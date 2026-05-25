@@ -1,14 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Convert PowerPoint presentations to PDF online. Free tool by YOUROWNPDF.COM">
-  <title>PowerPoint to PDF — Convert PPTX to PDF | YOUROWNPDF.COM</title>
+  <meta name="description" content="Convert Excel spreadsheets to PDF online. Free tool by YOUROWNPDF.COM">
+  <title>Excel to PDF — Convert XLSX to PDF | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
-  
-  <link rel="stylesheet" href="../../css/master-styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>
+  <style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
@@ -30,95 +28,80 @@
   </style>
 </head>
 <body>
-    <header class="header">
+  <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" data-scroll-to="top">
-          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav" id="mainNav">
-          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
-          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
-          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <nav class="nav">
+          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
         </nav>
-        <div class="header-controls">
-          <div class="search-box hide-mobile">
-            <span class="search-icon">ðŸ”</span>
-            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
-          </div>
-          <button class="theme-toggle" aria-label="Toggle theme">ðŸŒ™</button>
-          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <div class="mobile-nav-content">
-        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
-        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
-        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
-        <div class="mobile-search">
-          <span class="search-icon">ðŸ”</span>
-          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
-        </div>
+        <button class="theme-toggle">🌙</button>
       </div>
     </div>
   </header>
-  <main class="main" id="mainContent">
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Excel to PDF</span>
+      </nav>
+    </div>
+    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
     <div class="container">
       <div class="tool-page">
-        <div class="tool-header-section">
-          <h1 class="tool-title-text" id="toolTitleDisplay">📽️ PowerPoint to PDF</h1>
-          <p class="tool-description-text" id="toolDescDisplay">Convert your PowerPoint presentations (.pptx) to PDF format</p>
+        <div class="tool-header" style="margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem; color: var(--color-b);">📊 Excel to PDF</h1>
+          <p style="color: var(--color-text-muted);">Convert your Excel spreadsheets (.xlsx) to PDF format</p>
         </div>
-        <div class="tool-layout"><div class="tool-main"><div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
+        <div class="tool-layout">
+          <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
             <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-            <div class="upload-text">Drag & drop your PowerPoint file here</div>
-            <div class="upload-hint">or click to browse (.pptx)</div>
-            <input type="file" class="file-input" id="fileInput" accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation">
-          </div></div>
+            <div class="upload-text">Drag & drop your Excel file here</div>
+            <div class="upload-hint">or click to browse (.xlsx)</div>
+            <input type="file" class="file-input" id="fileInput" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          </div>
           <div class="tool-info">
             <div style="background: var(--color-card-hover); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
               <strong>📚 First time?</strong> Library downloads once, works instantly after!
             </div>
             <ul style="list-style: none;">
-              <li>✓ Converts PPTX to PDF</li>
-              <li>✓ Basic conversion</li>
+              <li>✓ Converts XLSX to PDF</li>
+              <li>✓ Preserves layout</li>
               <li>✓ 100% client-side</li>
             </ul>
             <div class="tool-actions">
-              <button class="action-btn primary-btn" id="convertBtn" disabled onclick="convertToPdf()">
+              <button class="btn btn-convert" id="convertBtn" disabled onclick="convertToPdf()">
                 <i class="fas fa-file-pdf"></i> Convert to PDF
               </button>
-              <button class="action-btn secondary-btn" id="clearBtn" disabled onclick="clearFile()">Clear</button>
+              <button class="btn" style="background: var(--color-card-bg); border: 1px solid var(--color-border);" id="clearBtn" disabled onclick="clearFile()">Clear</button>
             </div>
-            <button class="action-btn success-btn" id="downloadBtn" onclick="downloadPdf()">
+            <button class="btn btn-download" id="downloadBtn" onclick="downloadPdf()">
               <i class="fas fa-download"></i> Download PDF
             </button>
           </div>
         </div>
         <div class="how-to-use">
-          <h2>How to <span style="color:var(--color-b)">Convert PowerPoint to PDF</span> on <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span></h2>
+          <h2>How to <span style="color:var(--color-b)">Convert Excel to PDF</span> on <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span></h2>
           <div class="steps">
-            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload PowerPoint</h3><p>Click or drag your .pptx file.</p></div></div>
-            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Convert</h3><p>Slides are extracted and converted to PDF.</p></div></div>
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Upload Excel</h3><p>Click or drag your .xlsx file.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Convert</h3><p>Data is extracted and converted to PDF.</p></div></div>
             <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Download</h3><p>Get "yourownpdf-converted.pdf".</p></div></div>
           </div>
         </div>
       </div>
     </div>
-    </main>
-    <footer class="footer">
+    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
+  </main>
+  <footer class="footer">
     <div class="container">
       <div class="footer-inner">
-        <div class="footer-links">
-          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
-          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
-          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
-          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
-        </div>
-        <p class="footer-text">&copy; 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> &mdash; All rights reserved.</p>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -127,7 +110,7 @@
   <script src="../../js/components.js"></script>
   <script src="../../js/router.js"></script>
   <script>
-    let pptFile = null;
+    let xlsxFile = null;
     let pdfBytes = null;
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -146,63 +129,56 @@
 
     function handle(file) {
       if (!file) return;
-      pptFile = file;
+      xlsxFile = file;
+      document.getElementById('uploadArea').dataset.fileLoaded = '1';
       document.getElementById('convertBtn').disabled = false;
       document.getElementById('clearBtn').disabled = false;
-      show('PowerPoint file loaded!');
+      show('Excel file loaded!');
     }
 
     async function convertToPdf() {
-      if (!pptFile) return;
+      if (!xlsxFile) return;
       show('Loading libraries...', true);
       try {
-        await loadPptxParser();
+        await loadXlsxParser();
         await loadPdfLib();
 
-        // Read PPTX as ZIP
-        const arr = await pptFile.arrayBuffer();
-        const zip = await JSZip.loadAsync(arr);
-
-        // Get slide files
-        const slideFiles = Object.keys(zip.files).filter(f => f.startsWith('ppt/slides/slide')).sort();
+        const arr = await xlsxFile.arrayBuffer();
+        const data = new Uint8Array(arr);
+        const workbook = XLSX.read(data, { type: 'array' });
 
         const { PDFDocument, StandardFonts, rgb } = PDFLib;
         const pdfDoc = await PDFDocument.create();
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-        for (const slideFile of slideFiles.slice(0, 20)) {
-          const slide = zip.files[slideFile];
-          const content = await slide.async('string');
-          // Extract text from slide XML
-          const textMatch = content.match(/<a:t>([^<]*)<\/a:t>/g);
+        for (const sheetName of workbook.SheetNames) {
+          const sheet = workbook.Sheets[sheetName];
+          const csv = XLSX.utils.sheet_to_csv(sheet);
+          const lines = csv.split('\n').filter(l => l.trim());
+
           let page = pdfDoc.addPage([595.28, 841.89]);
-          let y = 750;
+          let y = 800;
 
-          page.drawText('Slide ' + slideFile.split('slide')[1].split('.')[0], { x: 50, y, size: 14, font, color: rgb(0.2, 0.2, 0.2) });
-          y -= 30;
-
-          if (textMatch) {
-            const texts = textMatch.map(t => t.replace(/<[^>]*>/g, '')).slice(0, 30);
-            for (const text of texts) {
-              if (y < 50) { page = pdfDoc.addPage([595.28, 841.89]); y = 750; }
-              page.drawText(text.substring(0, 60), { x: 50, y, size: 10, font, color: rgb(0, 0, 0) });
-              y -= 12;
-            }
+          for (const line of lines) {
+            if (y < 50) { page = pdfDoc.addPage([595.28, 841.89]); y = 800; }
+            const cells = line.split(',');
+            page.drawText(cells.join(' | '), { x: 50, y, size: 10, font, color: rgb(0, 0, 0) });
+            y -= 15;
           }
         }
 
         pdfBytes = await pdfDoc.save();
         close();
         document.getElementById('downloadBtn').classList.add('visible');
-        show('PowerPoint converted to PDF!');
+        show('Excel converted to PDF!');
       } catch (err) { close(); show('Error: ' + err.message, false, true); }
     }
 
-    async function loadPptxParser() {
-      if (window.JSZip) return;
+    async function loadXlsxParser() {
+      if (window.XLSX) return;
       return new Promise((resolve, reject) => {
         const s = document.createElement('script');
-        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
         s.onload = resolve;
         s.onerror = reject;
         document.head.appendChild(s);
@@ -229,7 +205,7 @@
       a.click();
     }
 
-    function clearFile() { pptFile = null; pdfBytes = null; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
+    function clearFile() { xlsxFile = null; document.getElementById('uploadArea').dataset.fileLoaded = ''; pdfBytes = null; document.getElementById('convertBtn').disabled = true; document.getElementById('clearBtn').disabled = true; document.getElementById('downloadBtn').classList.remove('visible'); }
 
     function show(msg, loading = false, error = false) {
       document.getElementById('modalContent').innerHTML = loading ? '<div style="text-align:center"><div class="spinner" style="margin:0 auto 1rem"></div><p>' + msg + '</p></div>' : '<div style="text-align:center"><div style="font-size:3rem;margin-bottom:1rem">' + (error ? '❌' : '✅') + '</div><p>' + msg + '</p><button onclick="close()" style="margin-top:1rem;padding:0.5rem 1.5rem;background:var(--color-b);color:white;border:none;border-radius:0.5rem">OK</button></div>';

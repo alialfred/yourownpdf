@@ -43,13 +43,7 @@
     .form-group input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; background: var(--color-bg); color: var(--color-text); font-size: 0.9rem; box-sizing: border-box; }
     .form-group input:focus { outline: none; border-color: var(--color-b); }
 
-    .upload-selected { padding: 1.5rem; }
-    .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.75rem; }
-    .upload-selected-icon { font-size: 3rem; }
-    .upload-remove-btn { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: #dc2626; color: white; border: none; font-size: 1rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
-    .upload-remove-btn:hover { background: #b91c1c; }
-    .upload-selected-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; word-break: break-all; color: #16a34a; }
-    .upload-selected-size { font-size: 0.8rem; color: #16a34a; }
+
 
     .tool-actions { margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
     .action-btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 600; border: none; border-radius: 0.5rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.15s; }
@@ -110,21 +104,12 @@
         <!-- LEFT COLUMN: Upload -->
         <div class="tool-main">
           <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload image">
-            <div class="upload-default" id="uploadDefault">
-              <div class="upload-icon">🖼️</div>
-              <div class="upload-text">Drag & drop your image here</div>
-              <div class="upload-hint">or click to browse • JPG, PNG, WEBP</div>
-            </div>
-            <div class="upload-selected" id="uploadSelected" style="display:none">
-              <div class="upload-selected-icon-wrap">
-                <span class="upload-selected-icon">✅</span>
-                <button class="upload-remove-btn" id="uploadRemoveBtn" title="Remove file">&times;</button>
-              </div>
-              <div class="upload-selected-name" id="uploadFileName"></div>
-              <div class="upload-selected-size" id="uploadFileSize"></div>
-            </div>
+            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="upload-text">Drag & drop your image here</div>
+            <div class="upload-hint">or click to browse • JPG, PNG, WEBP</div>
             <input type="file" class="file-input" id="fileInput" accept="image/*">
           </div>
+          <div class="file-list" id="fileList"></div>
 
           <p class="reorder-hint" id="hintRow"><i class="fas fa-info-circle hint-icon" onclick="showInfoModal()" title="Click Me"></i> Upload an image, then set your crop area using the presets or manual inputs.</p>
         </div>
@@ -311,11 +296,6 @@
 
   var dom = {
     uploadArea: document.getElementById('uploadArea'),
-    uploadDefault: document.getElementById('uploadDefault'),
-    uploadSelected: document.getElementById('uploadSelected'),
-    uploadFileName: document.getElementById('uploadFileName'),
-    uploadFileSize: document.getElementById('uploadFileSize'),
-    uploadRemoveBtn: document.getElementById('uploadRemoveBtn'),
     fileInput: document.getElementById('fileInput'),
     cropArea: document.getElementById('cropArea'),
     previewCanvas: document.getElementById('previewCanvas'),
@@ -371,6 +351,12 @@
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
   // ============================================================
   // UPLOAD
   // ============================================================
@@ -396,11 +382,6 @@
 
   dom.fileInput.addEventListener('change', function(e) {
     if (e.target.files[0]) handleFile(e.target.files[0]);
-  });
-
-  dom.uploadRemoveBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    clearAll();
   });
 
   function handleFile(file) {
@@ -441,10 +422,13 @@
       dom.previewCanvas.style.display = 'block';
       dom.previewPlaceholder.style.display = 'none';
 
-      dom.uploadDefault.style.display = 'none';
-      dom.uploadSelected.style.display = 'block';
-      dom.uploadFileName.textContent = state.file.name;
-      dom.uploadFileSize.textContent = formatBytes(state.file.size);
+      var fileList = document.getElementById('fileList');
+      fileList.innerHTML = '';
+      var item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML =
+        '<div class="file-info"><span class="file-icon">🖼️</span><div class="file-details"><span class="file-name">' + escapeHtml(state.file.name) + '</span><span class="file-size">' + formatBytes(state.file.size) + '</span></div></div>';
+      fileList.appendChild(item);
       dom.cropArea.style.display = 'grid';
       dom.cropBtn.disabled = false;
       dom.clearBtn.disabled = false;
@@ -578,8 +562,7 @@
     state.originalImg = null;
     state.cropped = false;
     dom.fileInput.value = '';
-    dom.uploadDefault.style.display = 'block';
-    dom.uploadSelected.style.display = 'none';
+    document.getElementById('fileList').innerHTML = '';
     dom.cropArea.style.display = 'none';
     dom.previewCanvas.style.display = 'none';
     dom.previewPlaceholder.style.display = 'block';

@@ -3,172 +3,6 @@
 (function() {
   'use strict';
 
-  // J-102: UploadBox class - Drag & drop file upload component
-  class UploadBox {
-    constructor(options = {}) {
-      this.container = options.container || document.body;
-      this.multiple = options.multiple !== false;
-      this.accept = options.accept || '*';
-      this.onFilesSelected = options.onFilesSelected || (() => {});
-      this.maxFiles = options.maxFiles || 50;
-      this.files = [];
-      this.render();
-    }
-
-    // J-103: Render upload box
-    render() {
-      this.element = document.createElement('div');
-      this.element.className = 'upload-box';
-      this.element.innerHTML = `
-        <div class="upload-box-icon">📁</div>
-        <div class="upload-box-text">Drag & drop files here or click to browse</div>
-        <div class="upload-box-hint">${this.getHintText()}</div>
-        <input type="file" class="file-input-hidden" ${this.multiple ? 'multiple' : ''} accept="${this.accept}">
-      `;
-      this.container.appendChild(this.element);
-      this.fileInput = this.element.querySelector('input[type="file"]');
-      this.bindEvents();
-    }
-
-    // J-104: Get hint text based on accepted types
-    getHintText() {
-      if (this.accept.includes('pdf')) return 'PDF files only';
-      if (this.accept.includes('image')) return 'Images: JPG, PNG, GIF, WebP';
-      return 'Select files to upload';
-    }
-
-    // J-105: Bind drag/drop and click events
-    bindEvents() {
-      // Click to open file picker
-      this.element.addEventListener('click', () => this.fileInput.click());
-
-      // Drag over
-      this.element.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        this.element.classList.add('dragover');
-      });
-
-      // Drag leave
-      this.element.addEventListener('dragleave', () => {
-        this.element.classList.remove('dragover');
-      });
-
-      // Drop
-      this.element.addEventListener('drop', (e) => {
-        e.preventDefault();
-        this.element.classList.remove('dragover');
-        this.handleFiles(e.dataTransfer.files);
-      });
-
-      // File input change
-      this.fileInput.addEventListener('change', (e) => {
-        this.handleFiles(e.target.files);
-      });
-    }
-
-    // J-106: Handle selected files
-    handleFiles(fileList) {
-      const newFiles = Array.from(fileList);
-
-      if (!this.multiple) {
-        this.files = newFiles.slice(0, 1);
-      } else {
-        const remaining = this.maxFiles - this.files.length;
-        this.files = [...this.files, ...newFiles.slice(0, remaining)];
-      }
-
-      this.updateDisplay();
-      this.onFilesSelected(this.files);
-    }
-
-    // J-107: Update display with file list
-    updateDisplay() {
-      if (this.files.length === 0) {
-        this.element.querySelector('.upload-box-hint').textContent = this.getHintText();
-        return;
-      }
-
-      this.element.querySelector('.upload-box-hint').textContent =
-        `${this.files.length} file${this.files.length > 1 ? 's' : ''} selected`;
-
-      // Create file list if not exists
-      let fileList = this.element.querySelector('.file-list');
-      if (!fileList) {
-        fileList = document.createElement('div');
-        fileList.className = 'file-list';
-        this.element.appendChild(fileList);
-      }
-
-      fileList.innerHTML = this.files.map((file, index) => this.renderFileItem(file, index)).join('');
-
-      // Add clear button
-      this.addClearButton(fileList);
-    }
-
-    // J-108: Render individual file item
-    renderFileItem(file, index) {
-      const icon = this.getFileIcon(file);
-      const size = window.YOUROWNPDF.Utils.formatSize(file.size);
-      return `
-        <div class="file-item" data-index="${index}">
-          <div class="file-info">
-            <span class="file-icon">${icon}</span>
-            <span class="file-name">${file.name}</span>
-            <span class="file-size">${size}</span>
-          </div>
-          <button class="clear-btn" onclick="event.stopPropagation(); uploadBox_${this.id}?.removeFile(${index})">✕</button>
-        </div>
-      `;
-    }
-
-    // J-109: Get file icon based on type
-    getFileIcon(file) {
-      const ext = window.YOUROWNPDF.Utils.getExtension(file.name);
-      if (ext === 'pdf') return '📄';
-      if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(ext)) return '🖼️';
-      return '📁';
-    }
-
-    // J-110: Add clear all button
-    addClearButton(fileList) {
-      if (fileList.querySelector('.clear-all-btn')) return;
-
-      const clearBtn = document.createElement('button');
-      clearBtn.className = 'btn btn-secondary clear-all-btn';
-      clearBtn.textContent = 'Clear All';
-      clearBtn.style.marginTop = '1rem';
-      clearBtn.onclick = () => this.clearAll();
-      fileList.appendChild(clearBtn);
-    }
-
-    // J-111: Remove single file
-    removeFile(index) {
-      this.files.splice(index, 1);
-      this.updateDisplay();
-      this.onFilesSelected(this.files);
-    }
-
-    // J-112: Clear all files
-    clearAll() {
-      this.files = [];
-      const fileList = this.element.querySelector('.file-list');
-      if (fileList) fileList.remove();
-      this.updateDisplay();
-      this.onFilesSelected(this.files);
-      this.fileInput.value = '';
-    }
-
-    // J-113: Get current files
-    getFiles() {
-      return this.files;
-    }
-
-    // J-114: Set unique ID for instance
-    setId(id) {
-      this.id = id;
-    }
-  }
-
   // J-115: ToolCard component - Clickable tool cards
   class ToolCard {
     constructor(options = {}) {
@@ -490,17 +324,6 @@
         container: this.optionsSection
       });
       panel.render();
-    }
-
-    // J-140: Add upload box
-    addUploadBox(options = {}) {
-      const uploadBox = new UploadBox({
-        container: this.uploadSection,
-        multiple: options.multiple !== false,
-        accept: options.accept || '*',
-        onFilesSelected: options.onFilesSelected || (() => {})
-      });
-      return uploadBox;
     }
 
     // J-141: Add download button
@@ -968,19 +791,6 @@
     return breadcrumbs;
   }
 
-  // J-184: UploadBox instance creator
-  function createUploadBox(container, options = {}) {
-    const uploadBox = new UploadBox({
-      container,
-      multiple: options.multiple !== false,
-      accept: options.accept || '*',
-      onFilesSelected: options.onFilesSelected || (() => {})
-    });
-    uploadBox.setId('uploadBox-' + Date.now());
-    window['uploadBox_' + uploadBox.id.split('-')[1]] = uploadBox;
-    return uploadBox;
-  }
-
   // J-185: DownloadButton instance creator
   function createDownloadButton(container, options = {}) {
     const btn = new DownloadButton({
@@ -1045,7 +855,6 @@
 
   // J-190: Export all components to global scope
   window.YOUROWNPDF.Components = {
-    UploadBox,
     ToolCard,
     Breadcrumbs,
     DownloadButton,
@@ -1066,7 +875,6 @@
     EmptyState,
     AdPlaceholder,
     createBreadcrumbs,
-    createUploadBox,
     createDownloadButton,
     createProgressBar,
     createToolPage,
@@ -1254,7 +1062,7 @@ var imageTools = [
   { id: 'png-to-jpg', name: 'PNG to JPG', desc: 'Convert PNG to JPEG', icon: '🔄', path: '/tools/image/convert.html' },
   { id: 'image-to-pdf', name: 'Image to PDF', desc: 'Convert images to PDF', icon: '📄', path: '/tools/image/image-to-pdf.html' },
   { id: 'jpg-to-pdf', name: 'JPG to PDF', desc: 'Convert JPG images to a PDF document', icon: '📄', path: '/tools/image/jpg-to-pdf.html' },
-  { id: 'remove-background', name: 'Remove Background', desc: 'AI-powered background removal', icon: '🎯', path: '/tools/image/background-remove.html' },
+  { id: 'remove-background', name: 'Remove Background', desc: 'AI-powered background removal', icon: '🎯', path: '/tools/image/remove-background.html' },
   { id: 'flip-image', name: 'Flip Image', desc: 'Horizontal or vertical flip', icon: '↔️', path: '/tools/image/flip.html' },
   { id: 'grayscale-image', name: 'Grayscale', desc: 'Convert to black and white', icon: '⬛', path: '/tools/image/filters.html' },
   { id: 'brightness-image', name: 'Adjust Brightness', desc: 'Increase or decrease brightness', icon: '☀️', path: '/tools/image/brightness.html' },

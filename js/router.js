@@ -115,11 +115,13 @@
         pagePath = this.routes[route] || this.routes['/404'];
       } else if (pathname.startsWith('/tools/pdf/')) {
         // J-220: Load PDF tool pages
-        const toolName = pathname.split('/').pop();
+        let toolName = pathname.split('/').pop();
+        toolName = toolName.replace(/\.html$/i, '');
         pagePath = `tools/pdf/${toolName}.html`;
       } else if (pathname.startsWith('/tools/image/')) {
         // J-221: Load image tool pages
-        const toolName = pathname.split('/').pop();
+        let toolName = pathname.split('/').pop();
+        toolName = toolName.replace(/\.html$/i, '');
         pagePath = `tools/image/${toolName}.html`;
       } else if (pathname === '/tools' || pathname.startsWith('/tools/')) {
         pagePath = 'index.html';
@@ -390,7 +392,8 @@ renderPage: function(html, pathname) {
         'flip-image', 'filter-image', 'brightness-image', 'contrast-image',
         'grayscale-image', 'invert-image', 'blur-image', 'sharpen-image',
         'remove-background', 'image-to-pdf', 'jpg-to-pdf', 'jpg-to-png', 'png-to-jpg',
-        'webp-to-jpg', 'gif-to-png', 'ico-converter', 'base64-encode'
+        'webp-to-jpg', 'gif-to-png', 'ico-converter', 'base64-encode',
+        'convert'
       ];
 
       imageTools.forEach(tool => {

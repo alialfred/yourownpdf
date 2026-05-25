@@ -191,10 +191,10 @@
           <!-- LEFT COLUMN: Upload + Settings -->
           <div>
             <!-- TMP-030: UPLOAD BOX (drag & drop, file support) -->
-            <div class="tool-upload-area" id="uploadArea">
-              <div class="upload-icon">📄</div>
-              <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your file here</div>
-              <div style="color: var(--color-text-muted);">or click to browse • PDF files</div>
+            <div class="tool-upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
+              <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+              <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop files here</div>
+              <div style="color: var(--color-text-muted);">or click to browse</div>
               <input type="file" class="file-input" id="fileInput" accept=".pdf">
             </div>
 

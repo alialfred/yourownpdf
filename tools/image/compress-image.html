@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -13,14 +13,7 @@
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-bottom: 3rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .upload-selected { padding: 0.5rem 0; }
-    .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.5rem; }
-    .upload-selected-icon { font-size: 3.5rem; display: block; filter: hue-rotate(80deg) saturate(1.2); }
-    .upload-remove-btn { position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #22c55e; background: var(--color-card-bg); color: #22c55e; font-size: 1rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: all 0.2s; font-weight: 700; }
-    .upload-remove-btn:hover { background: #dcfce7; border-color: #16a34a; color: #15803d; }
-    [data-theme="dark"] .upload-remove-btn:hover { background: #064e3b; border-color: #22c55e; color: #6ee7b7; }
-    .upload-selected-name { font-weight: 600; font-size: 0.95rem; word-break: break-all; margin-bottom: 0.25rem; color: #16a34a; }
-    .upload-selected-size { font-size: 0.8rem; color: #22c55e; }
+
 
     .quality-group { margin: 1.5rem 0; }
     .quality-group label { font-weight: 600; margin-bottom: 0.75rem; display: block; color: var(--color-text); }
@@ -90,48 +83,59 @@
   </style>
 </head>
 <body>
-  <header class="header">
+    <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
+        <a href="/" class="logo" data-scroll-to="top">
           <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">ðŸ”</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">ðŸŒ™</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">ðŸ”</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="main">
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+  <main class="main" id="mainContent">
     <div class="container">
       <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem; color: var(--color-b); margin-bottom: 0.5rem;">🗜️ Compress Image</h1>
-          <p style="color: var(--color-text-muted);">Reduce image file size by up to 75% while maintaining quality. All processing happens in your browser.</p>
+        <div class="tool-header-section">
+          <h1 class="tool-title-text" id="toolTitleDisplay">🗜️ Compress Image</h1>
+          <p class="tool-description-text" id="toolDescDisplay">Reduce image file size by up to 75% while maintaining quality. All processing happens in your browser.</p>
         </div>
         <div class="tool-layout">
           <div>
             <!-- Upload Area -->
-            <div class="tool-upload-area" id="uploadArea">
-              <div class="upload-default" id="uploadDefault">
-                <div class="upload-icon">🖼️</div>
-                <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your image here</div>
-                <div style="color: var(--color-text-muted);">or click to browse • JPG, PNG, WEBP, GIF</div>
-              </div>
-              <div class="upload-selected" id="uploadSelected" style="display:none">
-                <div class="upload-selected-icon-wrap">
-                  <span class="upload-selected-icon">🖼️</span>
-                  <button class="upload-remove-btn" id="uploadRemoveBtn" title="Remove file">&times;</button>
-                </div>
-                <div class="upload-selected-name" id="uploadFileName"></div>
-                <div class="upload-selected-size" id="uploadFileSize"></div>
-              </div>
+            <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
+              <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+              <div class="upload-text">Drag & drop your image here</div>
+              <div class="upload-hint">or click to browse • JPG, PNG, WEBP, GIF</div>
               <input type="file" class="file-input" id="fileInput" accept="image/*">
             </div>
+            <div class="file-list" id="fileList"></div>
 
             <!-- Preview -->
             <div class="preview-container" id="previewContainer" style="display:none">
@@ -196,7 +200,7 @@
               <button class="btn btn-primary" id="compressBtn" disabled>
                 <i class="fas fa-compress-alt"></i> Compress
               </button>
-              <button class="btn btn-download" id="downloadActionBtn">
+              <button class="action-btn success-btn" id="downloadActionBtn">
                 <i class="fas fa-download"></i> Download
               </button>
               <button class="btn btn-clear" id="clearBtn" disabled>Clear</button>
@@ -354,8 +358,7 @@
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
-  </main>
+    </main>
 
   <footer class="footer">
     <div class="container">
@@ -429,6 +432,12 @@
     var sizes = ['Bytes', 'KB', 'MB', 'GB'];
     var i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
   }
 
   function getExtension(format) {
@@ -591,10 +600,13 @@
     dom.downloadActionBtn.classList.remove('visible');
     dom.sizeStats.style.display = 'none';
 
-    document.getElementById('uploadDefault').style.display = 'none';
-    document.getElementById('uploadSelected').style.display = 'block';
-    document.getElementById('uploadFileName').textContent = file.name;
-    document.getElementById('uploadFileSize').textContent = formatBytes(file.size);
+    var fileList = document.getElementById('fileList');
+    fileList.innerHTML = '';
+    var item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML =
+      '<div class="file-info"><span class="file-icon">🖼️</span><div class="file-details"><span class="file-name">' + escapeHtml(file.name) + '</span><span class="file-size">' + formatBytes(file.size) + '</span></div></div>';
+    fileList.appendChild(item);
 
     loadPreview(file);
     dom.compressBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -733,19 +745,13 @@
   dom.downloadActionBtn.addEventListener('click', triggerDownload);
 
   // Remove file
-  document.getElementById('uploadRemoveBtn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    clearUploadedFile();
-  });
-
   function clearUploadedFile() {
     state.file = null;
     document.getElementById('uploadArea').dataset.fileLoaded = '';
     state.originalImage = null;
     state.compressedBlob = null;
     dom.fileInput.value = '';
-    document.getElementById('uploadDefault').style.display = 'block';
-    document.getElementById('uploadSelected').style.display = 'none';
+    document.getElementById('fileList').innerHTML = '';
     dom.previewContainer.style.display = 'none';
     dom.previewPlaceholder.style.display = 'block';
     dom.previewCanvas.style.display = 'none';

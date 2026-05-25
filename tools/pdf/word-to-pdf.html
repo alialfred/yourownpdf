@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,12 +6,14 @@
   <meta name="description" content="Convert Word documents to PDF online. Free tool by YOUROWNPDF.COM">
   <title>Word to PDF — Convert DOCX to PDF | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
+  
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 3rem 2rem; text-align: center; cursor: pointer; ; user-select: none; }
+    .upload-area:hover, .upload-area.dragover { border-color: var(--color-b); }
     .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
     .file-input { display: none; }
     .tool-info { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
@@ -30,44 +32,54 @@
   </style>
 </head>
 <body>
-  <header class="header">
+    <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">ðŸ”</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">ðŸŒ™</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">ðŸ”</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
-  <main class="main">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Word to PDF</span>
-      </nav>
-    </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+  <main class="main" id="mainContent">
     <div class="container">
       <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem; color: var(--color-b);">📝 Word to PDF</h1>
-          <p style="color: var(--color-text-muted);">Convert your Word documents (.docx) to PDF format</p>
+        <div class="tool-header-section">
+          <h1 class="tool-title-text" id="toolTitleDisplay">📝 Word to PDF</h1>
+          <p class="tool-description-text" id="toolDescDisplay">Convert your Word documents (.docx) to PDF format</p>
         </div>
-        <div class="tool-layout">
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📝</div>
-            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your Word file here</div>
-            <div style="color: var(--color-text-muted);">or click to browse (.docx)</div>
+        <div class="tool-layout"><div class="tool-main"><div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
+            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="upload-text">Drag & drop your Word file here</div>
+            <div class="upload-hint">or click to browse (.docx)</div>
             <input type="file" class="file-input" id="fileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-          </div>
+          </div></div>
           <div class="tool-info">
             <div class="first-time-notice" id="firstTimeNotice">
               <strong>📚 First time?</strong> This tool downloads a library on first use. Works instantly next time!
@@ -80,12 +92,12 @@
               <li>✓ No upload required</li>
             </ul>
             <div class="tool-actions">
-              <button class="btn btn-convert" id="convertBtn" disabled onclick="convertToPdf()">
+              <button class="action-btn primary-btn" id="convertBtn" disabled onclick="convertToPdf()">
                 <i class="fas fa-file-pdf"></i> Convert to PDF
               </button>
-              <button class="btn" style="background: var(--color-card-bg); border: 1px solid var(--color-border);" id="clearBtn" disabled onclick="clearFile()">Clear</button>
+              <button class="action-btn secondary-btn" id="clearBtn" disabled onclick="clearFile()">Clear</button>
             </div>
-            <button class="btn btn-download" id="downloadBtn" onclick="downloadPdf()">
+            <button class="action-btn success-btn" id="downloadBtn" onclick="downloadPdf()">
               <i class="fas fa-download"></i> Download PDF
             </button>
           </div>
@@ -100,8 +112,7 @@
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
-  </main>
+    </main>
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
@@ -111,7 +122,7 @@
           <a href="/privacy" class="footer-link" onclick="event.preventDefault(); navigateTo('/privacy')">Privacy Policy</a>
           <a href="/terms" class="footer-link" onclick="event.preventDefault(); navigateTo('/terms')">Terms of Service</a>
         </div>
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p>
       </div>
     </div>
   </footer>

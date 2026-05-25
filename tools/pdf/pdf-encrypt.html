@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,12 +6,14 @@
   <meta name="description" content="Encrypt PDF with password. Free tool by YOUROWNPDF.COM">
   <title>Encrypt PDF — Password Protect | YOUROWNPDF.COM</title>
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
+  
+  <link rel="stylesheet" href="../../css/master-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>
     .tool-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
     .tool-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
     @media (max-width: 900px) { .tool-layout { grid-template-columns: 1fr; } }
-    .tool-upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 2rem; text-align: center; cursor: pointer; }
-    .tool-upload-area:hover { border-color: var(--color-b); }
+    .upload-area { background: var(--color-card-bg); border: 2px dashed var(--color-border); border-radius: 1rem; padding: 2rem; text-align: center; cursor: pointer; ; user-select: none; }
+    .upload-area:hover, .upload-area.dragover { border-color: var(--color-b); }
     .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
     .file-input { display: none; }
     .encrypt-settings { background: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; }
@@ -43,42 +45,52 @@
   </style>
 </head>
 <body>
-  <header class="header">
+    <header class="header">
     <div class="container">
       <div class="header-inner">
-        <a href="/" class="logo" onclick="event.preventDefault(); navigateTo('/')">
-          <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span>
+        <a href="/" class="logo" data-scroll-to="top">
+          <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span>
         </a>
-        <nav class="nav">
-          <a href="/" class="nav-link" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-          <a href="/tools" class="nav-link" onclick="event.preventDefault(); navigateTo('/tools')">All Tools</a>
+        <nav class="nav" id="mainNav">
+          <a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a>
+          <a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+          <a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a>
         </nav>
-        <button class="theme-toggle">🌙</button>
+        <div class="header-controls">
+          <div class="search-box hide-mobile">
+            <span class="search-icon">ðŸ”</span>
+            <input type="text" class="search-input" placeholder="Search 90+ tools..." id="globalSearch">
+          </div>
+          <button class="theme-toggle" aria-label="Toggle theme">ðŸŒ™</button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-content">
+        <a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a>
+        <a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a>
+        <div class="mobile-search">
+          <span class="search-icon">ðŸ”</span>
+          <input type="text" class="search-input" placeholder="Search 90+ tools..." id="mobileSearch">
+        </div>
       </div>
     </div>
   </header>
-  <main class="main">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/')">Home</a>
-        <span class="breadcrumb-separator">›</span>
-        <a href="/tools" class="breadcrumb-item" onclick="event.preventDefault(); navigateTo('/tools')">PDF Tools</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Encrypt</span>
-      </nav>
-    </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 1rem 0;">Advertisement - 728x90</div></div>
+  <main class="main" id="mainContent">
     <div class="container">
       <div class="tool-page">
-        <div class="tool-header" style="margin-bottom: 2rem;">
-          <h1 style="font-size: 2.5rem; color: var(--color-b);">🔐 Encrypt PDF</h1>
-          <p style="color: var(--color-text-muted);">Password protect your PDF documents</p>
+        <div class="tool-header-section">
+          <h1 class="tool-title-text" id="toolTitleDisplay">🔐 Encrypt PDF</h1>
+          <p class="tool-description-text" id="toolDescDisplay">Password protect your PDF documents</p>
         </div>
-        <div class="tool-layout">
-          <div class="tool-upload-area" id="uploadArea">
-            <div class="upload-icon">📄</div>
-            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drag & drop your PDF here</div>
-            <div style="color: var(--color-text-muted);">or click to browse</div>
+        <div class="tool-layout"><div class="tool-main"><div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload file">
+            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="upload-text">Drag & drop your PDF here</div>
+            <div class="upload-hint">or click to browse</div>
             <input type="file" class="file-input" id="fileInput" accept=".pdf">
           </div>
 
@@ -112,7 +124,7 @@
               <button class="btn btn-encrypt" id="encryptBtn" disabled onclick="encryptPdf()">
                 <i class="fas fa-lock"></i> Encrypt PDF
               </button>
-              <button class="btn btn-download" id="downloadBtn" onclick="downloadPdf()">
+              <button class="action-btn success-btn" id="downloadBtn" onclick="downloadPdf()">
                 <i class="fas fa-download"></i> Download
               </button>
             </div>
@@ -128,12 +140,17 @@
         </div>
       </div>
     </div>
-    <div class="container"><div class="ad-placeholder" style="margin: 2rem 0;">Advertisement - 728x90</div></div>
-  </main>
-  <footer class="footer">
+    </main>
+    <footer class="footer">
     <div class="container">
       <div class="footer-inner">
-        <p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">pdf</span><span class="logo-3">own</span><span class="logo-4">.com</span> — All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/about" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/about')}">About</a>
+          <a href="/contact" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/contact')}">Contact</a>
+          <a href="/privacy" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/privacy')}">Privacy Policy</a>
+          <a href="/terms" class="footer-link" onclick="if(window.navigateTo){event.preventDefault(); navigateTo('/terms')}">Terms of Service</a>
+        </div>
+        <p class="footer-text">&copy; 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> &mdash; All rights reserved.</p>
       </div>
     </div>
   </footer>

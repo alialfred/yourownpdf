@@ -11,17 +11,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
   <style id="tool-page-styles">
-    .upload-default .upload-text { color: #16a34a; font-weight: 600; }
-    .upload-default .upload-hint { color: #22c55e; }
-    .upload-selected { padding: 0.5rem 0; }
-    .upload-selected-icon-wrap { position: relative; display: inline-block; margin-bottom: 0.5rem; }
-    .upload-selected-icon { font-size: 3.5rem; display: block; filter: hue-rotate(80deg) saturate(1.2); }
-    .upload-selected-name { color: #16a34a; font-weight: 600; }
-    .upload-selected-size { color: #22c55e; }
-    .upload-remove-btn { position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #22c55e; background: var(--color-card-bg); color: #22c55e; font-size: 1rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: all 0.2s; font-weight: 700; }
-    .upload-remove-btn:hover { background: #dcfce7; border-color: #16a34a; color: #15803d; }
-    [data-theme="dark"] .upload-remove-btn:hover { background: #064e3b; border-color: #22c55e; color: #6ee7b7; }
-
     .scale-group { margin: 1.5rem 0; }
     .scale-group label { font-weight: 600; margin-bottom: 0.75rem; display: block; color: var(--color-text); }
     .scale-options { display: flex; gap: 0.75rem; flex-wrap: wrap; }
@@ -99,21 +88,12 @@
         <!-- LEFT COLUMN: Upload & Actions -->
         <div class="tool-main">
           <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Upload PDF">
-            <div class="upload-default" id="uploadDefault">
-              <div class="upload-icon">📄</div>
-              <div class="upload-text">Drag & drop your PDF here</div>
-              <div class="upload-hint">or click to browse</div>
-            </div>
-            <div class="upload-selected" id="uploadSelected" style="display:none">
-              <div class="upload-selected-icon-wrap">
-                <span class="upload-selected-icon">📄</span>
-                <button class="upload-remove-btn" id="uploadRemoveBtn" title="Remove file">&times;</button>
-              </div>
-              <div class="upload-selected-name" id="uploadFileName"></div>
-              <div class="upload-selected-size" id="uploadFileSize"></div>
-            </div>
+            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="upload-text">Drag & drop your PDF here</div>
+            <div class="upload-hint">or click to browse</div>
             <input type="file" class="file-input" id="fileInput" accept=".pdf,application/pdf">
           </div>
+          <div class="file-list" id="fileList"></div>
 
           <!-- Scale Selector -->
           <div class="scale-group">
@@ -347,6 +327,12 @@ if (typeof pdfjsLib !== 'undefined') {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
   // ============================================================
   // SCALE PARAMS
   // ============================================================
@@ -488,11 +474,14 @@ if (typeof pdfjsLib !== 'undefined') {
     dom.progressArea.classList.remove('visible');
     dom.downloadActionBtn.style.display = 'none';
 
-    // Show file inside upload area
-    document.getElementById('uploadDefault').style.display = 'none';
-    document.getElementById('uploadSelected').style.display = 'block';
-    document.getElementById('uploadFileName').textContent = file.name;
-    document.getElementById('uploadFileSize').textContent = formatBytes(file.size);
+    // Show file in file list
+    var fileList = document.getElementById('fileList');
+    fileList.innerHTML = '';
+    var item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML =
+      '<div class="file-info"><span class="file-icon">📄</span><div class="file-details"><span class="file-name">' + escapeHtml(file.name) + '</span><span class="file-size">' + formatBytes(file.size) + '</span></div></div>';
+    fileList.appendChild(item);
 
     dom.convertBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -645,20 +634,13 @@ if (typeof pdfjsLib !== 'undefined') {
 
   dom.downloadActionBtn.addEventListener('click', triggerDownload);
 
-  // Remove uploaded file (X button inside upload area)
-  document.getElementById('uploadRemoveBtn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    clearUploadedFile();
-  });
-
   function clearUploadedFile() {
     state.file = null;
     document.getElementById('uploadArea').dataset.fileLoaded = '';
     state.zipBlob = null;
     state.totalPages = 0;
     dom.fileInput.value = '';
-    document.getElementById('uploadDefault').style.display = 'block';
-    document.getElementById('uploadSelected').style.display = 'none';
+    document.getElementById('fileList').innerHTML = '';
     dom.convertBtn.disabled = true;
     dom.clearBtn.disabled = true;
     dom.cancelBtn.disabled = true;
