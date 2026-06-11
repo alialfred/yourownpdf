@@ -1,0 +1,55 @@
+# ----------------------------------------------------------------------
+# YourOwnPDF.com - Server Header Configuration (.htaccess)
+# ----------------------------------------------------------------------
+
+# Enable Rewrite Engine for React SPA Client-side Routing
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]
+</IfModule>
+
+# 1. Enable ETags (Entity Tags) for Cache Validation
+FileETag MTime Size
+
+# 2. Configure Cache-Control & Expires Headers
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Default cache path (1 month)
+    ExpiresDefault "access plus 1 month"
+    
+    # HTML Entrypoints - Always revalidate to ensure immediate updates are fetched (0 seconds)
+    ExpiresByType text/html "access plus 0 seconds"
+    
+    # Static Assets with Vite hash identifiers - Cache indefinitely (1 year)
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/wasm "access plus 1 year"
+    
+    # Images and Media
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    
+    # Crawler index files
+    ExpiresByType text/plain "access plus 1 hour"
+    ExpiresByType application/xml "access plus 1 hour"
+</IfModule>
+
+# 3. Add Custom Headers (Set Cache-Control explicitly)
+<IfModule mod_headers.c>
+    # HTML entrypoints require revalidation
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+    
+    # Hashed assets can be cached permanently in the browser
+    <FilesMatch "\-(.*)\.(js|css|wasm|png|jpg|jpeg|svg|woff2)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>

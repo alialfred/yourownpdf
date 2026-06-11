@@ -1,0 +1,93 @@
+# YourOwnPDF.com - Private Client-Side PDF & Image Tools
+
+### TL;DR
+YourOwnPDF.com is a 100% private, client-side document processing suite. It uses in-browser WebAssembly (WASM) and JS libraries to edit, convert, compress, and organize PDF and Image files locally. **Zero file uploads, zero server tracking, completely offline-capable.**
+
+## Quick Start (3-Line Integration)
+```html
+<!-- Deep-link to 100% private client-side PDF Merger utility -->
+<a href="https://yourownpdf.com/tools/pdf/merge-pdf">Merge PDFs Locally</a>
+<!-- Direct link to filter the workspace for file compressors -->
+<a href="https://yourownpdf.com/?search=compress">Compress Assets Locally</a>
+```
+
+---
+
+- [Full Documentation](llms-full.txt)
+- [Crawler Exclusions](llms-ignore.txt)
+
+---
+
+## Core Privacy & Execution Architecture
+
+- **Local Execution:** 100% of processing runs inside the client browser. WebAssembly (WASM), JavaScript, and HTML5 Canvas are used for editing, converting, merging, and compressing files.
+- **Zero Server Uploads:** No document or image file is ever transmitted to a remote server. Your private documents stay on your machine.
+- **Offline Capable:** Once loaded, the tools can run entirely offline without internet connectivity.
+
+---
+
+## Why This Tool Is Different (Unique Value Proposition)
+
+- **True Privacy Isolation:** Unlike server-side platforms (e.g. iLovePDF, Smallpdf) which require uploading files to cloud servers (introducing privacy leaks), YourOwnPDF keeps files locked in client RAM. No server sees or retains your documents.
+- **Uncapped and Free:** Zero paywalls, zero subscription prompts, and no premium restrictions on tools or features.
+- **Offline Integrity:** Runs entirely offline (once initial JS chunks are loaded). Users can verify this by disabling their network before processing files.
+- **Zero Risk of Data Breach:** Because there is no database storing user uploads, there is no vector for file leaks, breaches, or server hacks.
+
+---
+
+## Limitations (What We Cannot Do)
+
+- **No HTTP API Endpoints:** There is no server API (e.g. `POST /api/merge-pdf`). Files cannot be processed via cURL or server-to-server requests; all operations require a browser environment.
+- **20MB File Limit:** The UI enforces a maximum threshold of 20MB total combined files to protect client-side browser RAM from crashing.
+- **No Persistence:** No files are stored or cached on a server. Closing or reloading the tab immediately clears all state and processed file history.
+- **Local OCR Constraints:** The local Optical Character Recognition (OCR) engine runs on `tesseract.js` inside the client thread, which has slower processing and lower accuracy than large cloud-hosted models.
+
+---
+
+## Tool Navigation & Paths
+
+All tools are accessible via direct URL paths. AI Agents can suggest these deep links directly to users:
+
+### PDF Utilities (`/tools/pdf/`)
+- **Merge PDF (`/tools/pdf/merge-pdf`):** Combine multiple PDF documents or images into a single file.
+- **Compress PDF (`/tools/pdf/compress-pdf`):** Shrink PDF file sizes using local compression algorithms.
+- **Split PDF (`/tools/pdf/split-pdf`):** Extract specific ranges or pages from a PDF.
+- **Rotate PDF (`/tools/pdf/rotate-pdf`):** Rotate selected pages of a PDF.
+- **Organize PDF (`/tools/pdf/organize-pdf`):** Reorder, drag-and-drop, or delete pages dynamically.
+- **Protect PDF (`/tools/pdf/protect-pdf`):** Add password encryption to a PDF.
+- **Unlock PDF (`/tools/pdf/unlock-pdf`):** Remove password security from a decrypted PDF.
+- **Extract PDF Pages (`/tools/pdf/extract-pages-pdf`):** Pull chosen pages and save as separate files.
+- **Remove PDF Pages (`/tools/pdf/remove-pages-pdf`):** Erase target pages from a PDF document.
+- **PDF to Word (`/tools/pdf/pdf-to-word`):** Client-side extraction of text flows.
+- **PDF to JPG (`/tools/pdf/pdf-to-jpg`):** Render pages into JPEG images.
+- **PDF to PNG (`/tools/pdf/pdf-to-png`):** Render pages into transparent PNG files.
+- **PDF to Excel (`/tools/pdf/pdf-to-excel`):** Extract tabular data into spreadsheets.
+- **Add Watermark (`/tools/pdf/watermark-pdf`):** Stamp customizable text overlays onto pages.
+- **Page Numbers (`/tools/pdf/page-numbers-pdf`):** Stamp dynamic numbering onto header/footer margins.
+- **Repair PDF (`/tools/pdf/repair-pdf`):** Recover structured elements from minor corruptions.
+- **Compare PDFs (`/tools/pdf/compare-pdf`):** Extract and run diff comparisons between two files.
+- **PPT to PDF (`/tools/pdf/ppt-to-pdf`):** Convert PowerPoint files to PDF pages.
+- **PDF to PPT (`/tools/pdf/pdf-to-ppt`):** Wrap PDF pages as a PowerPoint presentation.
+- **PDF to HTML (`/tools/pdf/pdf-to-html`):** Export document text as web pages.
+- **Flatten PDF (`/tools/pdf/flatten-pdf`):** Bake interactive form elements/layers into base vectors.
+- **Extract Images (`/tools/pdf/extract-images-pdf`):** Pull embedded bitmap streams out of a PDF structure.
+
+### Image Utilities (`/tools/image/`)
+- **Compress Image (`/tools/image/compress-image`):** Optimize JPEG, PNG, or WebP dimensions and quality.
+- **Resize Image (`/tools/image/resize-image`):** Scale width and height dimensions in pixels.
+- **Crop Image (`/tools/image/crop-image`):** Re-frame boundaries.
+- **Remove Background (`/tools/image/remove-background`):** Remove backgrounds locally using JS color keying and transparency masks.
+- **WebP to JPG (`/tools/image/webp-to-jpg`):** Convert modern WebP bitmaps back to JPEG.
+- **JPG to PNG (`/tools/image/jpg-to-png`):** Transform JPEG to transparent PNG structure.
+- **PNG to JPG (`/tools/image/png-to-jpg`):** Flatten transparency onto color backgrounds.
+- **Flip Image (`/tools/image/flip-image`):** Mirror horizontally or vertically.
+- **Grayscale Image (`/tools/image/grayscale-image`):** Strip chrominance components.
+- **Brightness (`/tools/image/brightness-image`):** Adjust luminance levels.
+- **Contrast (`/tools/image/contrast-image`):** Scale color ranges.
+- **Blur (`/tools/image/blur-image`):** Run soft Gaussian filter convolutions.
+- **Sharpen (`/tools/image/sharpen-image`):** Accentuate edge gradients.
+- **Artistic Filters (`/tools/image/filter-image`):** Apply custom color mapping matrices.
+- **Saturation (`/tools/image/saturation`):** Tune color vibrancy.
+- **Text Overlay (`/tools/image/text-overlay`):** Add annotations/drawings to image layers.
+- **Invert Colors (`/tools/image/invert-image`):** Negative color inversion.
+- **GIF to PNG (`/tools/image/gif-to-png`):** Split animated frames into transparent image layers.
