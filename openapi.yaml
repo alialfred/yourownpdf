@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: YourOwnPDF.com Web Navigation API
+  description: >
+    YourOwnPDF is a 100% client-side web application suite for PDF and image editing.
+    It does not contain backend server endpoints for processing files. All file operations
+    occur in memory inside the user's browser tab using WebAssembly and client-side JavaScript.
+    
+    This specification documents the semantic routes and deep-linking parameters of the SPA
+    so that AI agents, crawlers, and assistant tools can direct users to the appropriate tools.
+  version: 1.0.0
+servers:
+  - url: https://yourownpdf.com
+    description: Production environment
+paths:
+  /:
+    get:
+      summary: Get Homepage / Tools Grid
+      description: Returns the main homepage listing all 40+ offline PDF and Image processing utility cards.
+      parameters:
+        - name: search
+          in: query
+          description: Pre-filter the tools grid by search queries (e.g., "compress", "merge").
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Main HTML page loaded, displaying filtered or complete list of client-side tools.
+
+  /tools/pdf/{toolId}:
+    get:
+      summary: Load PDF processing tool
+      description: Launches the specific client-side PDF utility. The user interface allows drag-and-drop file inputs which are processed entirely locally.
+      parameters:
+        - name: toolId
+          in: path
+          description: The identifier for the PDF tool to load.
+          required: true
+          schema:
+            type: string
+            enum:
+              - merge-pdf
+              - compress-pdf
+              - split-pdf
+              - rotate-pdf
+              - organize-pdf
+              - pdf-to-word
+              - pdf-to-jpg
+              - pdf-to-png
+              - pdf-to-excel
+              - watermark-pdf
+              - page-numbers-pdf
+              - repair-pdf
+              - compare-pdf
+              - ppt-to-pdf
+              - pdf-to-ppt
+              - pdf-to-html
+              - flatten-pdf
+              - extract-images-pdf
+              - protect-pdf
+              - unlock-pdf
+      responses:
+        '200':
+          description: Tool interface rendered successfully. File uploads processed locally in RAM.
+
+  /tools/image/{toolId}:
+    get:
+      summary: Load Image processing tool
+      description: Launches the specific client-side image utility. All bitmap calculations and canvas outputs run locally.
+      parameters:
+        - name: toolId
+          in: path
+          description: The identifier for the Image tool to load.
+          required: true
+          schema:
+            type: string
+            enum:
+              - compress-image
+              - resize-image
+              - crop-image
+              - remove-background
+              - webp-to-jpg
+              - jpg-to-png
+              - png-to-jpg
+              - flip-image
+              - grayscale-image
+              - brightness-image
+              - contrast-image
+              - blur-image
+              - sharpen-image
+              - filter-image
+              - saturation
+              - text-overlay
+              - invert-image
+              - gif-to-png
+      responses:
+        '200':
+          description: Image tool interface rendered successfully.

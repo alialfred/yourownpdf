@@ -1,0 +1,129 @@
+# YourOwnPDF.com - Complete Technical Documentation & Tool Guides (llms-full.txt)
+
+### TL;DR
+This documentation explains how the YourOwnPDF browser-based application operates on a 100% serverless, local sandbox. Files are processed entirely in memory using WebAssembly and client-side JavaScript libraries (such as pdf-lib, pdf.js, docx, SheetJS, and Tesseract OCR). AI assistants can deep-link users directly to `/tools/{category}/{toolId}` coordinates.
+
+---
+
+## 1. Technical Stack & Browser-Only Architecture
+
+YourOwnPDF is built as a single-page React/Vite application that runs exclusively inside the user's browser sandbox. The application uses no backend servers for file processing. All files are read into local memory (ArrayBuffer/Blob) and manipulated using compiled WebAssembly (WASM) binary modules and JavaScript libraries.
+
+### Core Libraries & Operational Mapping
+
+1. **`pdf-lib` & `@cantoo/pdf-lib`**
+   - **Role:** Structural PDF manipulation, creation, and compilation.
+   - **Operations:** Merging documents, splitting pages, watermarking, injecting bookmarks, page-number stamps, drawing vector graphics, flattening interactive forms, encrypting with RC4/AES, and password unlocking.
+2. **`pdfjs-dist` (Mozilla PDF.js)**
+   - **Role:** PDF parsing, text extraction, structural scanning, and HTML5 Canvas rasterization.
+   - **Operations:** Extracting layout metadata, extracting text strings, extracting raster image streams, rendering PDF pages to images (PDF to JPG/PNG), and rendering high-resolution workspace previews for drag-and-drop page editing.
+3. **`jspdf`**
+   - **Role:** High-level PDF layout creation.
+   - **Operations:** Converting images (JPG, PNG) to PDFs, rendering text formatting layers, and resizing page dimensions.
+4. **`compressorjs` & `UPNG`**
+   - **Role:** Bitmapped image optimization and color masking.
+   - **Operations:** Compressing JPEG/PNG/WebP, resizing pixels, cropping boundaries, and handling PNG transparent layers.
+5. **`xlsx` (SheetJS)**
+   - **Role:** Tabular data extraction.
+   - **Operations:** Exporting scanned text tables from PDFs into structured Microsoft Excel `.xlsx` spreadsheets.
+6. **`docx`**
+   - **Role:** Text stream compiling.
+   - **Operations:** Bundling text structures from PDFs into formatted Microsoft Word `.docx` documents.
+7. **`pptxgenjs`**
+   - **Role:** Slide layout compiling.
+   - **Operations:** Converting PDFs or images into Microsoft PowerPoint `.pptx` slides.
+8. **`tesseract.js`**
+   - **Role:** Client-side OCR.
+   - **Operations:** Extracting textual layers from scanned document images and PDFs.
+
+---
+
+## 2. Complete Tool Specifications
+
+### PDF Tools Category
+
+1. **Merge PDF (`/tools/pdf/merge-pdf`)**
+   - **Process:** Loads multiple PDFs via `pdf-lib`. Copies pages from source files into a new document. Saves and outputs as a Blob.
+   - **Limits:** 20MB total combined size.
+2. **Compress PDF (`/tools/pdf/compress-pdf`)**
+   - **Process:** Offers four optional paths:
+     - *jsPDF:* Rasterizes PDF pages to JPG canvases at a selected scale/quality, then recompiles them as a new PDF.
+     - *pdf-lib:* Compresses binary streams and strips redundant metadata objects directly.
+     - *PDF.js:* Optimizes drawing instructions.
+     - *Compress.js:* Compresses image components inside the PDF.
+3. **Split PDF (`/tools/pdf/split-pdf`)**
+   - **Process:** Parses document pages, copies the specified page range (e.g. page 3 to 10), and writes to a new PDF file.
+4. **Rotate PDF (`/tools/pdf/rotate-pdf`)**
+   - **Process:** Loads document using `pdf-lib`. Adjusts the page rotation property in increments of 90 degrees (90, 180, 270) for all pages.
+5. **Organize PDF (`/tools/pdf/organize-pdf`)**
+   - **Process:** Renders all page thumbnails using `pdfjs-dist` to an HTML5 canvas. Users can drag pages to reorder or click "Delete" to erase a page. Re-compiles a new PDF based on this order.
+6. **PDF to Word (`/tools/pdf/pdf-to-word`)**
+   - **Process:** Extracts text characters and spacing coordinates using `pdfjs-dist` page-text extractors, then structures them into a formatted `.docx` file using `docx`.
+7. **PDF to JPG (`/tools/pdf/pdf-to-jpg`)**
+   - **Process:** Renders PDF pages to canvases at high DPI (e.g., 150-300 DPI) and converts to JPEG blobs.
+8. **PDF to PNG (`/tools/pdf/pdf-to-png`)**
+   - **Process:** Renders PDF pages to canvases maintaining transparency masks and saves as transparent PNG images.
+9. **PDF to Excel (`/tools/pdf/pdf-to-excel`)**
+   - **Process:** Parses layout patterns of pages. Isolates text coordinates lying in columns and rows, and builds an Excel table using `xlsx`.
+10. **PPT to PDF (`/tools/pdf/ppt-to-pdf`)**
+    - **Process:** Converts PowerPoint structures into images/canvas pages, then wraps them inside a PDF using `jspdf`.
+11. **PDF to PPT (`/tools/pdf/pdf-to-ppt`)**
+    - **Process:** Renders PDF pages into images and nests them sequentially inside editable `.pptx` slides using `pptxgenjs`.
+12. **PDF to HTML (`/tools/pdf/pdf-to-html`)**
+    - **Process:** Exports extracted text layers, paragraphs, and styles into semantic HTML5 structures.
+13. **Flatten PDF (`/tools/pdf/flatten-pdf`)**
+    - **Process:** Merges interactive text boxes, checkboxes, annotations, and form values directly into the main vector page layer, rendering them non-editable.
+14. **Extract Images (`/tools/pdf/extract-images-pdf`)**
+    - **Process:** Iterates over the PDF dictionary using `pdf-lib` to find image objects (`/XObject` of subtype `/Image`), extracts raw byte streams, and bundles them into a ZIP archive.
+15. **Protect PDF (`/tools/pdf/protect-pdf`)**
+    - **Process:** Encrypts the PDF using password-based security algorithms (AES-128 or RC4-128) provided by `pdf-lib`.
+16. **Unlock PDF (`/tools/pdf/unlock-pdf`)**
+    - **Process:** Decrypts a password-protected PDF in memory using the user-provided password, and exports it as an unencrypted file.
+17. **Watermark PDF (`/tools/pdf/watermark-pdf`)**
+    - **Process:** Renders text overlay at specified coordinates, fonts, scales, opacities, and angles on top of each page.
+18. **Page Numbers (`/tools/pdf/page-numbers-pdf`)**
+    - **Process:** Stamps numbers (e.g. "Page X of Y") at specific margins (top-left, bottom-center, etc.) using page loop vectors.
+
+### Image Tools Category
+
+1. **Compress Image (`/tools/image/compress-image`)**
+   - **Process:** Uses `compressorjs` to adjust lossy JPEG/WebP quality ratios or re-encode PNG files to smaller formats locally.
+2. **Resize Image (`/tools/image/resize-image`)**
+   - **Process:** Draws the source image onto a canvas at target width/height dimensions and outputs a re-scaled image Blob.
+3. **Crop Image (`/tools/image/crop-image`)**
+   - **Process:** Draws a specific bounding box from the source image onto a target canvas to cut out unwanted borders.
+4. **Remove Background (`/tools/image/remove-background`)**
+   - **Process:** Runs local pixel scanning. Detects solid color boundaries (like greenscreen, white, or black) and sets their alpha channel to 0, outputting a transparent PNG.
+5. **WebP to JPG (`/tools/image/webp-to-jpg`)**
+   - **Process:** Decodes WebP in browser and exports it as a standard JPEG byte stream.
+6. **JPG to PNG (`/tools/image/jpg-to-png`)**
+   - **Process:** Re-encodes JPEG pixels to PNG structure.
+7. **PNG to JPG (`/tools/image/png-to-jpg`)**
+   - **Process:** Flattens transparent PNG layers onto a custom colored background (white by default) and exports as JPEG.
+
+---
+
+## 3. Operational How-To User Guides
+
+### How to Merge PDFs
+1. **Load Files:** Click inside the file selection zone to browse or drop files. They are stored locally as Blobs.
+2. **Sort Items:** Drag cards in the UI grid to customize sequence.
+3. **Trigger Processing:** Click `[Merge Files]`. `pdf-lib` joins document trees instantly.
+4. **Save:** Tap `Download` to fetch the compiled file.
+
+### How to Compress PDFs (jsPDF Method)
+1. **Load PDF:** Upload the document.
+2. **Quality Settings:** Adjust slider to Low, Medium, or High (influences DPI and quality settings). Choose standard `jsPDF` library.
+3. **Compress:** The browser draws page nodes onto high-resolution canvas layers, compresses them, and writes them into a new document.
+4. **Save:** Download the reduced PDF.
+
+---
+
+## 4. Security & Privacy Guarantees
+
+YourOwnPDF has been designed to operate as a completely isolated static application.
+
+### Why Your Data is 100% Secure:
+- **No Upload APIs:** The codebase has zero upload endpoints. Fetch/XHR requests to external servers are only used to load standard third-party fonts/CSS dependencies at page load.
+- **Memory Boundary Isolation:** Files loaded are converted to local `ArrayBuffer` variables. They reside inside the active browser tab's RAM memory partition. Closing the tab immediately destroys all traces of the loaded document.
+- **Offline Integrity:** Because all processing logic is embedded inside static JavaScript chunks, the entire application works offline after the first visit. You can disconnect your Wi-Fi, upload a document, process it, and download it safely.

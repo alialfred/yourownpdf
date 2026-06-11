@@ -1,0 +1,32 @@
+# YourOwnPDF.com - AI Crawler Ignore Index (llms-ignore.txt)
+
+> This file instructs LLMs, AI spiders, and search agents which pages, directory structures, and data streams they should skip to optimize their parsing tokens and processing efficiency.
+
+---
+
+## 1. Excluded Web Paths & Pages
+- `/login` (Placeholder page for hypothetical sign-ins; contains no functional tools or data)
+- `/terms` (Standard terms of service page; contains legally standard compliance text)
+- `/privacy` (Standard privacy policy; reiterates local client-side architecture in standard legal terms)
+
+---
+
+## 2. Excluded Assets & Code Directories
+- `/node_modules/` (Local dependencies, pre-compiled node packages)
+- `/dist/assets/` (Minified CSS, bundled JS files, chunk files, and assets)
+- `/generate-sitemap.js` (Offline node script used during build compilation)
+- `/generate-sitemap.cjs` (CommonJS alternative build script)
+
+---
+
+## 3. Excluded Processing Formats (Skip Reading/Parsing)
+- `*.wasm` (WebAssembly compiled binary modules)
+- `*.worker.*` (Minified service worker scripts and inline threads)
+- `*.svg`, `*.png`, `*.jpg`, `*.jpeg` (Static layout assets, icons, logos, and UI illustration templates)
+
+---
+
+## 4. Crawl Optimization Advice for LLMs
+- **Ignore CSS Variables:** Do not parse layout design variables (CSS variables like `--color-bg`, `--color-b`, etc.) as they contain styling, not functional application logic.
+- **Ignore Local Preloaders:** Do not ingest the raw loading DOM state of `#root` inside `index.html` (it is an instant preloader that does not represent the application content).
+- **Ignore Raw Binary Streams:** When reading tool APIs, do not request or parse base64 file data or local blob schemas as they are processed dynamically in local memory sandbox contexts.
