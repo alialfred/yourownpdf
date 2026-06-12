@@ -1,4 +1,4 @@
-import{d as e,f as t,v as n}from"./index-BrBUCQkS.js";var r=n(t(),1),i=e(),a=`openapi: 3.0.3
+import{d as e,f as t,v as n}from"./index-BvxjVbNF.js";var r=n(t(),1),i=e(),a=`openapi: 3.0.3
 info:
   title: YourOwnPDF.com Web Navigation API
   description: >
@@ -8,7 +8,7 @@ info:
     
     This specification documents the semantic routes and deep-linking parameters of the SPA
     so that AI agents, crawlers, and assistant tools can direct users to the appropriate tools.
-  version: 1.0.0
+  version: 1.1.0
 servers:
   - url: https://yourownpdf.com
     description: Production environment
@@ -28,6 +28,70 @@ paths:
         '200':
           description: Main HTML page loaded, displaying filtered or complete list of client-side tools.
 
+  /how-to-use:
+    get:
+      summary: Beginner guide page
+      description: Returns the guide showing client-side mockups of how to upload, adjust settings, and download outputs safely.
+      responses:
+        '200':
+          description: Guide page rendered successfully.
+
+  /api:
+    get:
+      summary: API & Developer specs page
+      description: Returns this API documentation and YAML spec page for bot integrations.
+      responses:
+        '200':
+          description: API page rendered successfully.
+
+  /pricing:
+    get:
+      summary: Pricing Page
+      description: Displays comparative metrics of Free and Pro tiers, explaining local memory allocation guidelines.
+      responses:
+        '200':
+          description: Pricing page rendered successfully.
+
+  /faq:
+    get:
+      summary: Frequently Asked Questions
+      description: Displays indexed accordions mapping technical, security, and integration answers.
+      responses:
+        '200':
+          description: FAQ page rendered successfully.
+
+  /changelog:
+    get:
+      summary: Release changelogs
+      description: Displays details and summary lists of all application build features, fixes, and improvements.
+      responses:
+        '200':
+          description: Changelog page rendered successfully.
+
+  /use-cases:
+    get:
+      summary: Audience Profiles Hub
+      description: Displays target profiles listing how different professionals utilize local PDF utilities.
+      responses:
+        '200':
+          description: Use cases hub page rendered successfully.
+
+  /use-cases/{profileId}:
+    get:
+      summary: Audience Profile Details
+      description: Returns the detailed industry profile containing case studies, why-local justifications, and recommended tools.
+      parameters:
+        - name: profileId
+          in: path
+          description: The audience category profile.
+          required: true
+          schema:
+            type: string
+            enum: [students, legal, healthcare, designers, business]
+      responses:
+        '200':
+          description: Profile detail page rendered successfully.
+
   /tools/pdf/{toolId}:
     get:
       summary: Load PDF processing tool
@@ -45,9 +109,33 @@ paths:
               - split-pdf
               - rotate-pdf
               - organize-pdf
+              - jpg-to-pdf
+              - image-to-pdf
               - pdf-to-word
               - pdf-to-jpg
               - pdf-to-png
+              - compress-image
+              - resize-image
+              - crop-image
+              - remove-background
+              - webp-to-jpg
+              - protect-pdf
+              - jpg-to-png
+              - png-to-jpg
+              - flip-image
+              - grayscale-image
+              - brightness-image
+              - contrast-image
+              - blur-image
+              - sharpen-image
+              - filter-image
+              - saturation
+              - text-overlay
+              - invert-image
+              - gif-to-png
+              - unlock-pdf
+              - extract-pages-pdf
+              - remove-pages-pdf
               - pdf-to-excel
               - watermark-pdf
               - page-numbers-pdf
@@ -55,11 +143,10 @@ paths:
               - compare-pdf
               - ppt-to-pdf
               - pdf-to-ppt
+              - pdf-to-text
               - pdf-to-html
               - flatten-pdf
               - extract-images-pdf
-              - protect-pdf
-              - unlock-pdf
       responses:
         '200':
           description: Tool interface rendered successfully. File uploads processed locally in RAM.
@@ -273,7 +360,7 @@ paths:
             font-size: 2.25rem;
           }
         }
-      `}),(0,i.jsxs)(`div`,{className:`api-container`,children:[(0,i.jsxs)(`div`,{className:`api-header`,children:[(0,i.jsx)(`h1`,{children:`API Integration Specification`}),(0,i.jsx)(`p`,{children:`Understand deep-linking parameters, local execution boundaries, and client-side code integration.`})]}),(0,i.jsxs)(`div`,{className:`api-warning-card`,children:[(0,i.jsx)(`span`,{className:`lock-icon`,children:`🔒`}),(0,i.jsxs)(`div`,{children:[(0,i.jsx)(`h4`,{children:`Zero Remote Server APIs (100% Client-Side)`}),(0,i.jsxs)(`p`,{children:[`To maintain absolute file privacy, `,(0,i.jsxs)(`strong`,{children:[(0,i.jsxs)(`span`,{className:`logo-inline`,children:[(0,i.jsx)(`span`,{className:`logo-1`,children:`Your`}),(0,i.jsx)(`span`,{className:`logo-2`,children:`Own`}),(0,i.jsx)(`span`,{className:`logo-3`,children:`PDF`}),(0,i.jsx)(`span`,{className:`logo-4`,children:`.com`})]}),` does not support HTTP request endpoints`]}),` (e.g. `,(0,i.jsx)(`code`,{children:`POST https://yourownpdf.com/api/merge`}),`). Any tool configuration, processing logic, and download packaging occur entirely in memory within the local browser sandbox.`]})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-link`,style:{color:`var(--color-b)`}}),` Web Deep-Linking & Routing API`]}),(0,i.jsx)(`p`,{children:`Integrators, developer portals, or AI assistants can route users directly to specific tools or preset search indexes.`}),(0,i.jsx)(`h3`,{children:`1. Filtering the Tools Grid`}),(0,i.jsx)(`p`,{children:`You can pre-filter the tools grid on the homepage by appending a query string:`}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/?search={query}`})]}),(0,i.jsx)(`ul`,{children:(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example:`}),` `,(0,i.jsx)(`a`,{href:`/?search=compress`,onClick:e=>s(e,`/?search=compress`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/?search=compress`}),` filters and displays only compression tools.`]})}),(0,i.jsx)(`h3`,{children:`2. Launching PDF & Image Utilities`}),(0,i.jsx)(`p`,{children:`Direct deep-links to launch individual tool pages:`}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/tools/pdf/{toolId}`})]}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/tools/image/{toolId}`})]}),(0,i.jsxs)(`ul`,{children:[(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example PDF:`}),` `,(0,i.jsx)(`a`,{href:`/tools/pdf/merge-pdf`,onClick:e=>s(e,`/tools/pdf/merge-pdf`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/tools/pdf/merge-pdf`}),` launches the client-side PDF merger.`]}),(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example Image:`}),` `,(0,i.jsx)(`a`,{href:`/tools/image/compress-image`,onClick:e=>s(e,`/tools/image/compress-image`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/tools/image/compress-image`}),` launches the client-side image compressor.`]})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-file-code`,style:{color:`var(--color-b)`}}),` OpenAPI Specification`]}),(0,i.jsx)(`p`,{children:`Download or copy the raw OpenAPI schema to help configure crawlers, plugins, or AI assistant agents.`}),(0,i.jsxs)(`div`,{className:`code-box-wrapper`,children:[(0,i.jsxs)(`div`,{className:`code-box-header`,children:[(0,i.jsx)(`span`,{className:`code-box-lang`,children:`YAML (openapi.yaml)`}),(0,i.jsx)(`button`,{className:`code-box-copy-btn`,onClick:o,children:t?`Copied!`:`Copy Schema`})]}),(0,i.jsx)(`pre`,{children:(0,i.jsx)(`code`,{children:a})})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-code-branch`,style:{color:`var(--color-b)`}}),` Client-Side Processing Examples`]}),(0,i.jsx)(`p`,{children:`If you are building your own browser application and want to process files locally, you can reference the implementation snippets below using open-source packages:`}),(0,i.jsxs)(`h3`,{children:[`1. Merge PDFs Locally using `,(0,i.jsx)(`code`,{children:`pdf-lib`})]}),(0,i.jsxs)(`div`,{className:`code-box-wrapper`,children:[(0,i.jsx)(`div`,{className:`code-box-header`,children:(0,i.jsx)(`span`,{className:`code-box-lang`,children:`JavaScript (ESM)`})}),(0,i.jsx)(`pre`,{children:(0,i.jsx)(`code`,{children:`import { PDFDocument } from 'pdf-lib';
+      `}),(0,i.jsxs)(`div`,{className:`api-container`,children:[(0,i.jsxs)(`nav`,{"aria-label":`breadcrumb`,style:{marginBottom:`1.5rem`,fontSize:`0.85rem`,color:`var(--color-text-muted)`,display:`flex`,alignItems:`center`,gap:`0.5rem`,flexWrap:`wrap`,userSelect:`none`},children:[(0,i.jsx)(`a`,{href:`/`,onClick:t=>{t.preventDefault(),e(`/`,`top`)},style:{color:`var(--color-text-muted)`,textDecoration:`none`,transition:`color 0.2s`,fontWeight:`500`},onMouseEnter:e=>e.currentTarget.style.color=`var(--color-b)`,onMouseLeave:e=>e.currentTarget.style.color=`var(--color-text-muted)`,children:`Home`}),(0,i.jsx)(`span`,{style:{opacity:.4,fontSize:`0.75rem`},children:(0,i.jsx)(`i`,{className:`fas fa-chevron-right`})}),(0,i.jsx)(`span`,{style:{fontWeight:`600`,color:`var(--color-text)`},children:`API Docs`})]}),(0,i.jsxs)(`div`,{className:`api-header`,children:[(0,i.jsx)(`h1`,{children:`API Integration Specification`}),(0,i.jsx)(`p`,{children:`Understand deep-linking parameters, local execution boundaries, and client-side code integration.`})]}),(0,i.jsxs)(`div`,{className:`api-warning-card`,children:[(0,i.jsx)(`span`,{className:`lock-icon`,children:`🔒`}),(0,i.jsxs)(`div`,{children:[(0,i.jsx)(`h4`,{children:`Zero Remote Server APIs (100% Client-Side)`}),(0,i.jsxs)(`p`,{children:[`To maintain absolute file privacy, `,(0,i.jsxs)(`strong`,{children:[(0,i.jsxs)(`span`,{className:`logo-inline`,children:[(0,i.jsx)(`span`,{className:`logo-1`,children:`Your`}),(0,i.jsx)(`span`,{className:`logo-2`,children:`Own`}),(0,i.jsx)(`span`,{className:`logo-3`,children:`PDF`}),(0,i.jsx)(`span`,{className:`logo-4`,children:`.com`})]}),` does not support HTTP request endpoints`]}),` (e.g. `,(0,i.jsx)(`code`,{children:`POST https://yourownpdf.com/api/merge`}),`). Any tool configuration, processing logic, and download packaging occur entirely in memory within the local browser sandbox.`]})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-link`,style:{color:`var(--color-b)`}}),` Web Deep-Linking & Routing API`]}),(0,i.jsx)(`p`,{children:`Integrators, developer portals, or AI assistants can route users directly to specific tools or preset search indexes.`}),(0,i.jsx)(`h3`,{children:`1. Filtering the Tools Grid`}),(0,i.jsx)(`p`,{children:`You can pre-filter the tools grid on the homepage by appending a query string:`}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/?search={query}`})]}),(0,i.jsx)(`ul`,{children:(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example:`}),` `,(0,i.jsx)(`a`,{href:`/?search=compress`,onClick:e=>s(e,`/?search=compress`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/?search=compress`}),` filters and displays only compression tools.`]})}),(0,i.jsx)(`h3`,{children:`2. Launching PDF & Image Utilities`}),(0,i.jsx)(`p`,{children:`Direct deep-links to launch individual tool pages:`}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/tools/pdf/{toolId}`})]}),(0,i.jsxs)(`div`,{className:`api-route-line`,children:[(0,i.jsx)(`span`,{className:`api-method-badge method-get`,children:`GET`}),(0,i.jsx)(`span`,{children:`https://yourownpdf.com/tools/image/{toolId}`})]}),(0,i.jsxs)(`ul`,{children:[(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example PDF:`}),` `,(0,i.jsx)(`a`,{href:`/tools/pdf/merge-pdf`,onClick:e=>s(e,`/tools/pdf/merge-pdf`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/tools/pdf/merge-pdf`}),` launches the client-side PDF merger.`]}),(0,i.jsxs)(`li`,{children:[(0,i.jsx)(`strong`,{children:`Example Image:`}),` `,(0,i.jsx)(`a`,{href:`/tools/image/compress-image`,onClick:e=>s(e,`/tools/image/compress-image`),style:{color:`var(--color-b)`},children:`https://yourownpdf.com/tools/image/compress-image`}),` launches the client-side image compressor.`]})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-file-code`,style:{color:`var(--color-b)`}}),` OpenAPI Specification`]}),(0,i.jsx)(`p`,{children:`Download or copy the raw OpenAPI schema to help configure crawlers, plugins, or AI assistant agents.`}),(0,i.jsxs)(`div`,{className:`code-box-wrapper`,children:[(0,i.jsxs)(`div`,{className:`code-box-header`,children:[(0,i.jsx)(`span`,{className:`code-box-lang`,children:`YAML (openapi.yaml)`}),(0,i.jsx)(`button`,{className:`code-box-copy-btn`,onClick:o,children:t?`Copied!`:`Copy Schema`})]}),(0,i.jsx)(`pre`,{children:(0,i.jsx)(`code`,{children:a})})]})]}),(0,i.jsxs)(`div`,{className:`api-section`,children:[(0,i.jsxs)(`h2`,{children:[(0,i.jsx)(`i`,{className:`fas fa-code-branch`,style:{color:`var(--color-b)`}}),` Client-Side Processing Examples`]}),(0,i.jsx)(`p`,{children:`If you are building your own browser application and want to process files locally, you can reference the implementation snippets below using open-source packages:`}),(0,i.jsxs)(`h3`,{children:[`1. Merge PDFs Locally using `,(0,i.jsx)(`code`,{children:`pdf-lib`})]}),(0,i.jsxs)(`div`,{className:`code-box-wrapper`,children:[(0,i.jsx)(`div`,{className:`code-box-header`,children:(0,i.jsx)(`span`,{className:`code-box-lang`,children:`JavaScript (ESM)`})}),(0,i.jsx)(`pre`,{children:(0,i.jsx)(`code`,{children:`import { PDFDocument } from 'pdf-lib';
 
 async function mergePdfFiles(fileBufferArray) {
   // Create a brand new PDF document in memory
