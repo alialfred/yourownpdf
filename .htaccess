@@ -2,6 +2,17 @@
 # YourOwnPDF.com - Server Header Configuration (.htaccess)
 # ----------------------------------------------------------------------
 
+# 301 Redirects for Old/Invalid URLs to resolve GSC 404 errors
+Redirect 301 /tool/image-compressor /tools/image/compress-image/
+Redirect 301 /tools/pdf/remove-pages-pdf.html /tools/pdf/remove-pages-pdf/
+Redirect 301 /tools/pdf/protect-pdf.html /tools/pdf/protect-pdf/
+Redirect 301 /tools/pdf/watermark-pdf.html /tools/pdf/watermark-pdf/
+Redirect 301 /tools/pdf/pdf-to-txt.html /tools/pdf/pdf-to-text/
+Redirect 301 /pdf-tools /#pdf-tools
+Redirect 301 /image-tools /#image-tools
+Redirect 301 /about /about/
+Redirect 301 /tool /
+
 # Enable Rewrite Engine for React SPA Client-side Routing
 <IfModule mod_rewrite.c>
     RewriteEngine On
