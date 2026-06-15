@@ -1,4 +1,4 @@
-import{f as e,p as t}from"./index-DBZ8iWWs.js";t();var n=e(),r=({onNavigate:e})=>{let t=(t,n)=>{t.preventDefault(),e(n)};return(0,n.jsxs)(`div`,{className:`guide-page-wrapper`,style:{padding:`3rem 1.5rem`,background:`var(--color-bg)`,minHeight:`80vh`},children:[(0,n.jsx)(`style`,{children:`
+import{f as e,p as t}from"./index-r8xaTnlI.js";t();var n=e(),r=({onNavigate:e})=>{let t=(t,n)=>{t.preventDefault(),e(n)};return(0,n.jsxs)(`div`,{className:`guide-page-wrapper`,style:{padding:`3rem 1.5rem`,background:`var(--color-bg)`,minHeight:`80vh`},children:[(0,n.jsx)(`style`,{children:`
         .guide-container {
           max-width: 950px;
           margin: 0 auto;
