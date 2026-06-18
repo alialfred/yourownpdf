@@ -68,7 +68,7 @@ PDF Tool {#core-benefits}Using a dedicated, decentralized free PDF manager offer
 that go far beyond privacy.Feature ChecklistTraditional Cloud ToolsLocal Browser-Based ToolsFile Processing
 Location Remote Cloud Servers Your Device's Local RAMData Leak Risks High (Server Vulnerability)Absolute Zero 
 (No Upload)Speed/Performance Limited by Upload/Download SpeedsInstant (Hardware Acceleration)File Size 
-Restrictions Of ten Capped at 20MB for Free Tiers Unlimited (Bound only by system RAM)Internet Dependency Mandatory 
+Restrictions Of ten Capped at 100MB for Free Tiers Unlimited (Bound only by system RAM)Internet Dependency Mandatory 
 throughout the processOnly required to load the initial pageUnmatched Performance SpeedBecause there is zero
  file transmission latency, a local tool saves valuable minutes when compiling large bundles of documents. 
 You skip the queue entirely.No Registration Obstacles Most server-dependent sites wall off extensive file 
@@ -111,10 +111,10 @@ Q6: Can I rearrange the order of pages after importing them?
 Yes. The visual workspace provides clear thumbnails for every imported file. You can drag, drop, sort, and 
 reposition any page or image into any precise sequential layout before executing the final merge.
 Q7: What is the maximum number of files I can combine at one time?
-While our tool places no limit on the number of files (you can merge dozens of pages), there is a 20MB total 
-file size limit per merge session. This means the sum of all your selected PDFs and images cannot exceed 20MB.
+While our tool places no limit on the number of files (you can merge dozens of pages), there is a 100MB total 
+file size limit per merge session. This means the sum of all your selected PDFs and images cannot exceed 100MB.
 If your files are larger, try our free Image Compressor or PDF Compressor tools first to reduce file sizes 
-before merging. The 20MB limit ensures fast, reliable performance for all users.
+before merging. The 100MB limit ensures fast, reliable performance for all users.
 Q8: Does this browser tool work on mobile phones?
 Yes. Because it uses standard web script frameworks, you can easily load the tool on any Android or iOS 
 browser to stitch documents together right from your smartphone or tablet.

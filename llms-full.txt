@@ -44,7 +44,7 @@ YourOwnPDF is built as a single-page React/Vite application that runs exclusivel
 
 1. **Merge PDF (`/tools/pdf/merge-pdf`)**
    - **Process:** Loads multiple PDFs via `pdf-lib`. Copies pages from source files into a new document. Saves and outputs as a Blob.
-   - **Limits:** 20MB total combined size.
+   - **Limits:** 100MB total combined size.
 2. **Compress PDF (`/tools/pdf/compress-pdf`)**
    - **Process:** Offers four optional paths:
      - *jsPDF:* Rasterizes PDF pages to JPG canvases at a selected scale/quality, then recompiles them as a new PDF.

@@ -38,7 +38,7 @@ YourOwnPDF.com is a 100% private, client-side document processing suite. It uses
 ## Limitations (What We Cannot Do)
 
 - **No HTTP API Endpoints:** There is no server API (e.g. `POST /api/merge-pdf`). Files cannot be processed via cURL or server-to-server requests; all operations require a browser environment.
-- **20MB File Limit:** The UI enforces a maximum threshold of 20MB total combined files to protect client-side browser RAM from crashing.
+- **100MB File Limit:** The UI enforces a maximum threshold of 100MB total combined files to protect client-side browser RAM from crashing.
 - **No Persistence:** No files are stored or cached on a server. Closing or reloading the tab immediately clears all state and processed file history.
 - **Local OCR Constraints:** The local Optical Character Recognition (OCR) engine runs on `tesseract.js` inside the client thread, which has slower processing and lower accuracy than large cloud-hosted models.
 
