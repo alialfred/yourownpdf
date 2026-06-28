@@ -7,7 +7,11 @@ Redirect 301 /tool/image-compressor /tools/image/compress-image/
 Redirect 301 /tools/pdf/remove-pages-pdf.html /tools/pdf/remove-pages-pdf/
 Redirect 301 /tools/pdf/protect-pdf.html /tools/pdf/protect-pdf/
 Redirect 301 /tools/pdf/watermark-pdf.html /tools/pdf/watermark-pdf/
-Redirect 301 /tools/pdf/pdf-to-txt.html /tools/pdf/pdf-to-text/
+Redirect 301 /tools/pdf/pdf-to-txt.html /
+Redirect 301 /tools/image/jpg-to-pdf /tools/image/image-to-pdf/
+Redirect 301 /tools/image/jpg-to-pdf/ /tools/image/image-to-pdf/
+Redirect 301 /tools/pdf/jpg-to-pdf /tools/image/image-to-pdf/
+Redirect 301 /tools/pdf/jpg-to-pdf/ /tools/image/image-to-pdf/
 Redirect 301 /pdf-tools /#pdf-tools
 Redirect 301 /image-tools /#image-tools
 Redirect 301 /about /about/
