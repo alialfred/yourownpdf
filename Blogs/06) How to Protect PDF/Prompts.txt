@@ -1,0 +1,7 @@
+
+		Prompt for Antigravity
+Remove Beta lable from  "Protect PDF" tool card and Here "D:\zWordPress\yourownpdf-react\public\Blogs\" are all four articles in this folder for the Protect PDF tool. Update these articles and also place the images and video in it where they need to be placed in the article. The video is also present in it, update that video too.
+
+
+		Prompt for GPT
+You are the best keyword searcher and have 20 years of experience. These "" are keywords for"". I need THE BEST Keywords for "" in the same way.
