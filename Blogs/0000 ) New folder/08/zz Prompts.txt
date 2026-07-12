@@ -1,0 +1,183 @@
+
+		Prompt for Antigravity
+For the "Organize PDF" tool, please complete the following tasks:
+1. **Remove the "Beta" label** (If it is there) from the "Organize PDF" tool card.
+2. Go to the following folder:
+   ```
+ D:\zWordPress\yourownpdf-react\public\Blogs\08) How to Organize PDF
+   ```
+   * Locate the video named **`main.mkv`**.
+   * Place this video on the **main card** of all **4 articles** for the "Protect PDF" tool.
+3. Inside the same folder, you will find four language folders:
+   * English
+   * Urdu
+   * Arabic
+   * Hindi
+4. In each language folder:
+   * Open **`Article.txt`** and use its content for the corresponding article.
+   * Place the video named **`UnderTheTitle.mkv`** immediately **below the article title**.
+   * One or more images are also included in the folder. Review each image and insert it at the most appropriate location within the article based on its content and context.
+5. Ensure that the formatting, media placement, and overall layout remain consistent across all four language versions.
+Update all four of these articles in the project.
+And Run the react project.
+
+
+		Prompt for GPT
+Act as a world-class SEO Keyword Research Expert with 20+ years of experience specializing in search intent analysis, semantic SEO, topical authority, and Google ranking.
+
+I will provide:
+
+1. A complete keyword list for an existing tool ("unlock pdf").
+2. The name of a new tool.
+
+Your task is NOT to simply replace the old tool name with the new one.
+
+Instead, analyze the old keyword structure and recreate an equivalent keyword strategy specifically for the new tool.
+
+Requirements:
+
+• Keep the same keyword organization and formatting.
+• Include all keyword variations that real users search for.
+• Cover every search intent:
+  - Core keywords
+  - Long-tail keywords
+  - Action keywords
+  - Problem-solving keywords
+  - Free keywords
+  - Online keywords
+  - Tool-related keywords
+  - Feature keywords
+  - Alternative wording
+  - Beginner queries
+  - Professional queries
+  - Question-based searches
+• Include singular and plural variations where appropriate.
+• Include synonyms and semantically related keywords.
+• Remove duplicates.
+• Do NOT invent unnatural keywords that nobody searches.
+• Prioritize keywords with high search volume and realistic ranking potential.
+• Follow modern Google SEO and semantic search (LSI/NLP) best practices.
+• Keep the keyword style and hierarchy similar to the provided example.
+• Output only the keyword list in the same format as the original—no explanations.
+
+Old Tool:
+[unlock pdf]
+
+New Tool:
+[Organize PDF]
+
+Old Tool Keywords:
+
+[{{PRIMARY_KEYWORD}
+
+- Core Unlocking:
+unlock pdf,
+unlock protected pdf,
+unlock secured pdf,
+remove pdf password,
+remove password from pdf,
+pdf password remover,
+remove pdf security,
+remove pdf restrictions,
+decrypt pdf,
+unprotect pdf
+
+- Unlock & Remove:
+unlock pdf online,
+unlock pdf without losing formatting,
+remove password from pdf online,
+remove owner password from pdf,
+remove editing restrictions from pdf,
+remove printing restrictions from pdf,
+remove copying restrictions from pdf,
+unlock encrypted pdf,
+make pdf editable,
+remove pdf encryption
+
+- Value Intent:
+unlock pdf free,
+unlock pdf online,
+unlock pdf online free,
+unlock pdf free no sign up,
+unlock pdf free no limit,
+unlock pdf without registration,
+free pdf unlocker,
+online pdf unlocker,
+pdf unlocker free,
+remove pdf password free
+
+- Tool / Unlocker Intent:
+pdf unlocker,
+pdf unlocker online,
+pdf unlocker free,
+pdf unlock tool,
+online pdf unlock tool,
+pdf password remover,
+remove password from pdf tool,
+pdf security remover,
+pdf restriction remover,
+pdf password removal tool
+
+}
+
+{{SECONDARY_KEYWORDS}
+
+how to unlock pdf without losing formatting
+
+unlock pdf for free
+
+remove pdf password online free
+
+unlock encrypted pdf online free
+
+unlock protected pdf online
+
+unlock secured pdf online
+
+remove owner password from pdf online
+
+remove editing restrictions from pdf
+
+remove printing restrictions from pdf
+
+remove copying restrictions from pdf
+
+unlock pdf without registration
+
+unlock pdf free no watermark
+
+unlock pdf online without sign up
+
+remove password from pdf while keeping formatting
+
+make pdf editable after unlocking
+
+unlock multiple pdf files at once
+
+unlock pdf for whatsapp
+
+unlock pdf for email
+
+unlock pdf without losing quality
+
+remove pdf restrictions for online submission
+
+unlock pdf quickly online
+
+best free pdf unlocker
+
+unlock pdf no login
+
+remove password from secured pdf
+
+remove pdf security online free
+
+unlock large pdf files
+
+pdf unlock fast online
+
+remove pdf encryption free
+
+unlock protected pdf document
+
+download unlocked pdf]
