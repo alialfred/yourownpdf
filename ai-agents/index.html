@@ -1,161 +1,354 @@
-<!doctype html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logo2.png?v=2" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI Agents integration specification page featuring Model Context Protocol (MCP) server configuration and OpenAI function schemas.">
+<!DOCTYPE html><html lang="en" data-theme="dark" dir="ltr"><head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/logo2.png?v=2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Agents | YourOwnPDF.com online for free. No file uploads. 100% private and secure client-side processing. Try it now for free!">
     
-    <title>AI Agents Specification & Integration Guide | YourOwnPDF</title>
+    <title>AI Agents | YourOwnPDF.com</title>
     
     <!-- SEO Tags -->
     <link rel="canonical" href="https://yourownpdf.com/ai-agents/">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourownpdf.com/ai-agents/" />
-    <meta property="og:title" content="YourOwnPDF — Free 100% Client-Side PDF & Image Tools" />
-    <meta property="og:description" content="AI Agents integration specification page featuring Model Context Protocol (MCP) server configuration and OpenAI function schemas." />
-    <meta property="og:image" content="https://yourownpdf.com/logo1.png" />
-    <meta property="og:site_name" content="YourOwnPDF" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourownpdf.com/ai-agents/">
+    <meta property="og:title" content="AI Agents | YourOwnPDF.com">
+    <meta property="og:description" content="AI Agents | YourOwnPDF.com online for free. No file uploads. 100% private and secure client-side processing. Try it now for free!">
+    <meta property="og:image" content="https://yourownpdf.com/logo1.png">
+    <meta property="og:site_name" content="YourOwnPDF">
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://yourownpdf.com/ai-agents/" />
-    <meta name="twitter:title" content="YourOwnPDF — Free 100% Client-Side PDF & Image Tools" />
-    <meta name="twitter:description" content="AI Agents integration specification page featuring Model Context Protocol (MCP) server configuration and OpenAI function schemas." />
-    <meta name="twitter:image" content="https://yourownpdf.com/logo1.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://yourownpdf.com/ai-agents/">
+    <meta name="twitter:title" content="AI Agents | YourOwnPDF.com">
+    <meta name="twitter:description" content="AI Agents | YourOwnPDF.com online for free. No file uploads. 100% private and secure client-side processing. Try it now for free!">
+    <meta name="twitter:image" content="https://yourownpdf.com/logo1.png">
     
     <!-- Pinterest Domain Verification (Optional: replace content with your verification hash) -->
     <!-- <meta name="p:domain_verify" content="YOUR_PINTEREST_VERIFICATION_HASH_HERE" /> -->
     
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Noto+Color+Emoji&family=Noto+Sans+Devanagari:wght@400..700&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@500;600;700;800;900&amp;family=Noto+Color+Emoji&amp;family=Noto+Sans+Devanagari:wght@400..700&amp;family=Noto+Nastaliq+Urdu:wght@400..700&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/jameel-noori@1.1.2/jameel-noori.min.css" rel="stylesheet">
     
     <!-- FontAwesome Vector Icons (Deferred) -->
     <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="all" onload="this.media='all'">
     <noscript>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     </noscript>
-    <script type="module" crossorigin src="/assets/index-DsA-W7Dy.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-hAg4IN2K.css">
-  </head>
+    <script type="module" crossorigin="" src="/assets/index-Xkpoh-vg.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/assets/index-hAg4IN2K.css">
+  <link rel="modulepreload" as="script" crossorigin="" href="/assets/Home-DQQi0v0r.js"><link rel="modulepreload" as="script" crossorigin="" href="/assets/ToolCard-AouEREVe.js"><link rel="modulepreload" as="script" crossorigin="" href="/assets/workingTools-S15ftB4D.js"><meta http-equiv="last-modified" content="2026-07-20          21:42"><link rel="alternate" hreflang="en" href="https://yourownpdf.com/ai-agents/"><link rel="alternate" hreflang="ar" href="https://yourownpdf.com/ar/ai-agents/"><link rel="alternate" hreflang="hi" href="https://yourownpdf.com/hi/ai-agents/"><link rel="alternate" hreflang="ur" href="https://yourownpdf.com/ur/ai-agents/"><link rel="alternate" hreflang="x-default" href="https://yourownpdf.com/ai-agents/"><script id="dynamic-schema" type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"YourOwnPDF AI Agents Specification and Tool Calling Interface","headline":"Zero-Upload PDF & Image Tools Specification for LLMs & AI Agents","description":"Integration definitions, Model Context Protocol (MCP) details, and natural language instructions for AI agents to invoke client-side PDF and image utilities.","inLanguage":"en","articleSection":"Developer and AI Integration Guide"}</script></head>
   <body style="margin:0; background-color: #f8fafc;">
-    <div id="root">
-      <header style="padding: 1rem; border-bottom: 1px solid #e2e8f0; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-family: sans-serif;">
-        <span style="font-weight: 800; font-size: 1.25rem;">Your<span style="color:#10b981;">Own</span>PDF</span>
-        <nav>
-          <a href="/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">Home</a> | 
-          <a href="/how-to-use/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">How to Use</a> | 
-          <a href="/pricing/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">Pricing</a> | 
-          <a href="/faq/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">FAQ</a> | 
-          <a href="/changelog/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">Changelog</a> | 
-          <a href="/api/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">API Docs</a> | 
-          <a href="/ai-agents/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">AI Agents</a> |
-          <a href="/use-cases/" style="margin: 0 0.5rem; text-decoration: none; color: #1e293b;">Use Cases</a>
-        </nav>
-      </header>
-      <main style="max-width: 900px; margin: 2rem auto; padding: 0 1rem; font-family: sans-serif; line-height: 1.6; color: #1e293b;">
-        <h1>AI Agents Specification & Integration Guide | YourOwnPDF</h1>
-        <p>AI Agents integration specification page featuring Model Context Protocol (MCP) server configuration and OpenAI function schemas.</p>
-        <p>100% client-side document utilities running directly in browser memory. Zero file uploads to servers.</p>
+    <div id="root"><div style="display: flex; flex-direction: column; min-height: 100vh; background: var(--color-bg); color: var(--color-text); transition: background-color 0.3s, color 0.3s;"><header class="header "><div class="container"><div class="header-inner"><div class="header-left-group"><a href="/" class="logo" data-scroll-to="top"><span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span></a></div><nav class="nav" id="mainNav"><a href="/" class="nav-link" data-route="/" data-scroll-to="top">Home</a><a href="#" class="nav-link" data-scroll-to="pdf-tools">PDF Tools</a><a href="#" class="nav-link" data-scroll-to="image-tools">Image Tools</a><a href="/how-to-use/" class="nav-link" data-route="/how-to-use">How to Use</a></nav><div class="header-controls"><div class="search-box hide-mobile"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search 70+ tools..." id="globalSearch" type="text" value=""></div><div class="language-selector"><button class="lang-select-btn" aria-expanded="false" aria-label="Select language" style="display: flex; align-items: center; gap: 0.4rem;"><img alt="" src="/flags/gb.png" style="width: 18px; height: 12px; border-radius: 1.5px; object-fit: cover;"><span class="lang-label">ENGLISH</span><span class="lang-arrow">▾</span></button></div><button class="theme-toggle" aria-label="Toggle theme">☀️</button><button class="menu-toggle " id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button></div></div></div><div class="mobile-nav " id="mobileNav"><div class="mobile-nav-content"><a href="/" class="mobile-nav-link" data-route="/" data-scroll-to="top">Home</a><a href="#" class="mobile-nav-link" data-scroll-to="pdf-tools">PDF Tools</a><a href="#" class="mobile-nav-link" data-scroll-to="image-tools">Image Tools</a><a href="/how-to-use/" class="mobile-nav-link" data-route="/how-to-use">How to Use</a><div class="mobile-search"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search 70+ tools..." id="mobileSearch" type="text" value=""></div></div></div></header><main style="flex: 1 1 0%;"><div style="padding: 3rem 1.5rem; background: var(--color-bg); min-height: 80vh;"><style>
+        .agent-container {
+          max-width: 900px;
+          margin: 0 auto;
+          font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+          color: var(--color-text);
+          line-height: 1.7;
+        }
+
+        .agent-header {
+          margin-bottom: 3.5rem;
+          text-align: center;
+        }
+
+        .agent-header h1 {
+          font-size: 2.75rem;
+          font-weight: 800;
+          margin-bottom: 0.75rem;
+          background: linear-gradient(135deg, var(--color-b, #10b981), #06b6d4);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .agent-header p {
+          font-size: 1.2rem;
+          color: var(--color-text-muted);
+          max-width: 720px;
+          margin: 0 auto;
+        }
+
+        .agent-privacy-callout {
+          background: rgba(16, 185, 129, 0.04);
+          border: 1px dashed rgba(16, 185, 129, 0.3);
+          border-radius: 1rem;
+          padding: 1.5rem;
+          margin-bottom: 3rem;
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+        }
+
+        .agent-privacy-callout span.icon {
+          font-size: 2.5rem;
+          line-height: 1;
+        }
+
+        .agent-privacy-callout h4 {
+          margin: 0 0 0.25rem 0;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: var(--color-text);
+        }
+
+        .agent-privacy-callout p {
+          margin: 0;
+          font-size: 0.9rem;
+          color: var(--color-text-muted);
+        }
+
+        .agent-card {
+          background: var(--color-card-bg);
+          border: 1px solid var(--color-border);
+          border-radius: 1.25rem;
+          padding: 2.5rem;
+          margin-bottom: 2.5rem;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+        }
+
+        .agent-card h2 {
+          font-size: 1.6rem;
+          font-weight: 750;
+          margin-top: 0;
+          margin-bottom: 1.25rem;
+          color: var(--color-text);
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+
+        .agent-card h3 {
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin-top: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .agent-list {
+          margin: 0.75rem 0 1.5rem 1.5rem;
+        }
+
+        .agent-list li {
+          margin-bottom: 0.6rem;
+        }
+
+        .code-box-wrapper {
+          background: var(--color-code-bg, #0f172a);
+          border: 1px solid var(--color-border);
+          border-radius: 0.75rem;
+          margin: 1.25rem 0;
+          overflow: hidden;
+        }
+
+        .code-box-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: var(--color-code-header-bg, #1e293b);
+          padding: 0.5rem 1rem;
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .code-box-lang {
+          font-size: 0.8rem;
+          font-family: monospace;
+          color: var(--color-text-muted);
+          font-weight: 600;
+        }
+
+        .code-box-copy-btn {
+          background: transparent;
+          border: 1px solid var(--color-border);
+          color: var(--color-text-muted);
+          padding: 0.25rem 0.75rem;
+          font-size: 0.8rem;
+          border-radius: 0.35rem;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+
+        .code-box-copy-btn:hover {
+          background: var(--color-border);
+          color: var(--color-text);
+        }
+
+        .agent-card pre {
+          margin: 0;
+          padding: 1.25rem;
+          overflow-x: auto;
+        }
+
+        .agent-card code {
+          font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+          font-size: 0.875rem;
+          color: #e2e8f0;
+        }
+
+        .tools-table-container {
+          width: 100%;
+          overflow-x: auto;
+          margin: 1.5rem 0;
+          border: 1px solid var(--color-border);
+          border-radius: 0.75rem;
+        }
+
+        .tools-table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: left;
+          font-size: 0.9rem;
+        }
+
+        .tools-table th {
+          background: var(--color-code-header-bg, #1e293b);
+          color: var(--color-text);
+          font-weight: 700;
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .tools-table td {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .tools-table tr:last-child td {
+          border-bottom: none;
+        }
+
+        .badge-path {
+          display: inline-block;
+          font-family: monospace;
+          font-size: 0.8rem;
+          padding: 0.15rem 0.4rem;
+          border-radius: 0.25rem;
+          background: var(--color-border);
+          color: var(--color-text);
+        }
+
+        .badge-secure {
+          display: inline-block;
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding: 0.1rem 0.35rem;
+          border-radius: 0.25rem;
+          background: rgba(16, 185, 129, 0.15);
+          color: var(--color-b);
+        }
+      </style><div class="agent-container"><div class="agent-header"><h1>AI Agents Portal</h1><p>Integrate YourOwnPDF's secure, zero-upload document and image tools into your autonomous agent execution flows, custom LLM toolkits, and client setups.</p></div><div class="agent-privacy-callout"><span class="icon">🛡️</span><div><h4>Local Sandbox Processing Guaranteed</h4><p>AI Agents can process sensitive business records and legal contracts with zero leak risk. All executions occur strictly within local browser memory using WebAssembly. No files are uploaded to servers.</p></div></div><div class="agent-card"><h2><i class="fas fa-question-circle" style="color: var(--color-b);"></i>Do you have a tool that I can call?</h2><p>Yes! YourOwnPDF.com provides multiple integration frameworks allowing AI agents (e.g., GPTs, Gemini, Claude, and custom Python/JS agents) to discover and call our local utility stack:</p><ul class="agent-list" style="padding-inline: 20px 0px;"><li><strong>Browser Automation (Playwright/Puppeteer)</strong>: Since the site is a client-side Single Page Application (SPA), browser-capable agents can load the tools directly in a headless browser, drop file payloads, and fetch output downloads securely.</li><li><strong>Model Context Protocol (MCP)</strong>: Run our lightweight local MCP server package to expose document operations as local tools for tools-compatible desktop LLM assistants.</li><li><strong>OpenAPI Schema Integration</strong>: Link the agent to our official OpenAPI Specification to enable intelligent routing recommendations.</li></ul></div><div class="agent-card"><h2><i class="fas fa-server" style="color: var(--color-b);"></i>Model Context Protocol (MCP) Setup</h2><p>Developers using Claude Desktop, Cursor, or other MCP-hosting clients can register YourOwnPDF tools by adding the following definition to their configuration file:</p><div class="code-box-wrapper" style="direction: ltr;"><div class="code-box-header"><span class="code-box-lang">JSON (mcp-settings.json)</span><button class="code-box-copy-btn">Copy Config</button></div><pre><code>{
+  "mcpServers": {
+    "yourownpdf-agent-tools": {
+      "command": "npx",
+      "args": ["-y", "@yourownpdf/mcp-server"],
+      "env": {
+        "YOP_API_ENVIRONMENT": "local-sandbox"
+      }
+    }
+  }
+}</code></pre></div><p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem;">* Note: Running via npx requires Node.js to be installed on the host machine where the agent runs.</p></div><div class="agent-card"><h2><i class="fas fa-robot" style="color: var(--color-b);"></i>OpenAI Custom Tool Schema</h2><p>Use this JSON definition to build custom GPTs or Assistants API setups with access to secure file transformations:</p><div class="code-box-wrapper" style="direction: ltr;"><div class="code-box-header"><span class="code-box-lang">JSON (OpenAI Schema)</span><button class="code-box-copy-btn">Copy Schema</button></div><pre><code>{
+  "name": "yourownpdf_tool_calling",
+  "description": "Execute local document and image transformations safely inside browser memory.",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "merge_pdfs",
+        "description": "Merge multiple PDF documents into a single output PDF client-side.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Array of base64-encoded PDF files to combine."
+              }
+            }
+          },
+          "required": ["files"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "compress_image",
+        "description": "Compress JPEG/PNG image assets locally using HTML5 canvas algorithms.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "string",
+              "description": "Base64-encoded source image file."
+            },
+            "quality": {
+              "type": "number",
+              "description": "Target quality factor between 0.1 and 1.0.",
+              "minimum": 0.1,
+              "maximum": 1.0
+            }
+          },
+          "required": ["image", "quality"]
+        }
+      }
+    }
+  ]
+}</code></pre></div></div><div class="agent-card"><h2><i class="fas fa-th-list" style="color: var(--color-b);"></i>AI Agent Tool Directory</h2><p>Reference directory mapping available tools to their routing endpoints for agent redirection:</p><div class="tools-table-container"><table class="tools-table" style="text-align: left;"><thead><tr><th style="text-align: left;">Tool Identifier</th><th style="text-align: left;">Direct Target URI</th><th style="text-align: left;">Primary Function</th><th style="text-align: left;">Privacy</th></tr></thead><tbody><tr><td><code>merge-pdf</code></td><td><span class="badge-path">/tools/pdf/merge-pdf</span></td><td>Combine multiple PDFs into a single file</td><td><span class="badge-secure">100% Local</span></td></tr><tr><td><code>compress-pdf</code></td><td><span class="badge-path">/tools/pdf/compress-pdf</span></td><td>Reduce PDF file sizes safely offline</td><td><span class="badge-secure">100% Local</span></td></tr><tr><td><code>pdf-to-word</code></td><td><span class="badge-path">/tools/pdf/pdf-to-word</span></td><td>Extract formatted text structures locally</td><td><span class="badge-secure">100% Local</span></td></tr><tr><td><code>compress-image</code></td><td><span class="badge-path">/tools/image/compress-image</span></td><td>Optimize JPG/PNG image dimension bytes</td><td><span class="badge-secure">100% Local</span></td></tr><tr><td><code>remove-background</code></td><td><span class="badge-path">/tools/image/remove-background</span></td><td>Extract clear PNG subject layers locally</td><td><span class="badge-secure">100% Local</span></td></tr></tbody></table></div><p><span>To see all 40+ endpoints, refer to the full <a href="/api" style="color: var(--color-b);">API Docs</a> page.</span></p></div><div class="agent-card"><h2><i class="fas fa-terminal" style="color: var(--color-b);"></i>LLM Tool Calling &amp; Execution Examples</h2><p>Here are concrete examples demonstrating how autonomous LLM agents invoke these tools under the hood:</p><h3>Example 1: Playwright Browser Agent (Python)</h3><p>An autonomous browser agent (such as a WebVoyager loop or a selenium/playwright agent) can run a local PDF merge by interacting directly with the DOM. Because processing is 100% client-side, the agent doesn't require API keys or backend tokens:</p><div class="code-box-wrapper" style="direction: ltr;"><div class="code-box-header"><span class="code-box-lang">Python (Playwright script)</span></div><pre><code>from playwright.sync_api import sync_playwright
+
+def agent_merge_pdfs(file_paths):
+    with sync_playwright() as p:
+        # Launch headless browser and navigate to the tools path
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto("https://yourownpdf.com/tools/pdf/merge-pdf")
         
-        <h2>Available Utilities</h2>
-        <ul>
-          <li><a href="/tools/pdf/merge-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Merge PDF</a> - Combine multiple PDF files into one</li>
-          <li><a href="/tools/pdf/compress-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Compress PDF</a> - Reduce PDF file size while maintaining quality</li>
-          <li><a href="/tools/pdf/split-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Split PDF</a> - Extract pages from a PDF file</li>
-          <li><a href="/tools/pdf/pdf-to-jpg/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to JPG</a> - Convert PDF pages to JPEG images</li>
-          <li><a href="/tools/pdf/pdf-to-word/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to Word</a> - Convert PDF to editable Word document</li>
-          <li><a href="/tools/pdf/rotate-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Rotate PDF</a> - Rotate PDF pages 90, 180, or 270 degrees</li>
-          <li><a href="/tools/pdf/protect-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Protect PDF</a> - Add password protection to PDF files</li>
-          <li><a href="/tools/pdf/unlock-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Unlock PDF</a> - Remove password protection from PDF</li>
-          <li><a href="/tools/pdf/organize-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Organize PDF</a> - Reorder, delete, or add pages</li>
-          <li><a href="/tools/pdf/pdf-to-png/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to PNG</a> - Convert PDF pages to PNG images</li>
-          <li><a href="/tools/pdf/extract-pages-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Pages</a> - Extract specific pages from PDF</li>
-          <li><a href="/tools/pdf/remove-pages-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Pages</a> - Delete specific pages from PDF</li>
-          <li><a href="/tools/pdf/pdf-to-excel/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to Excel</a> - Convert PDF tables to Excel spreadsheets</li>
-          <li><a href="/tools/pdf/watermark-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Add Watermark</a> - Add text or image watermark to PDF</li>
-          <li><a href="/tools/pdf/page-numbers-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Add Page Numbers</a> - Add numbering to PDF pages</li>
-          <li><a href="/tools/pdf/repair-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Repair PDF</a> - Fix corrupted or damaged PDF files</li>
-          <li><a href="/tools/pdf/compare-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Compare PDFs</a> - Compare two PDF documents</li>
-          <li><a href="/tools/pdf/ppt-to-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">PPT to PDF</a> - Convert PowerPoint to PDF format</li>
-          <li><a href="/tools/pdf/pdf-to-ppt/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to PowerPoint</a> - Convert PDF to PowerPoint slides</li>
-          <li><a href="/tools/pdf/pdf-to-html/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to HTML</a> - Convert PDF to HTML web page</li>
-          <li><a href="/tools/pdf/flatten-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Flatten PDF</a> - Merge layers into single flat image</li>
-          <li><a href="/tools/pdf/extract-images-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Images</a> - Extract all images from PDF</li>
-          <li><a href="/tools/pdf/sign-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Sign PDF</a> - Add digital signature to PDF</li>
-          <li><a href="/tools/pdf/annotate-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Annotate PDF</a> - Add comments and highlights</li>
-          <li><a href="/tools/pdf/crop-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Crop PDF</a> - Adjust page margins and crop</li>
-          <li><a href="/tools/pdf/resize-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Resize PDF</a> - Change PDF page dimensions</li>
-          <li><a href="/tools/pdf/pdf-to-images/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to Images</a> - Convert all pages to images</li>
-          <li><a href="/tools/pdf/merge-pdf-options/" style="color: #10b981; text-decoration: none; font-weight: 600;">Merge with Options</a> - Combine with page selection</li>
-          <li><a href="/tools/pdf/compress-pdf-options/" style="color: #10b981; text-decoration: none; font-weight: 600;">Compress Options</a> - Custom compression settings</li>
-          <li><a href="/tools/pdf/rotate-all-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Rotate All Pages</a> - Rotate all pages at once</li>
-          <li><a href="/tools/pdf/reverse-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Reverse Pages</a> - Reverse page order in PDF</li>
-          <li><a href="/tools/pdf/extract-text-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Text Only</a> - Extract plain text from PDF</li>
-          <li><a href="/tools/pdf/optimize-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Optimize PDF</a> - Optimize for web and print</li>
-          <li><a href="/tools/pdf/convert-pdf-a/" style="color: #10b981; text-decoration: none; font-weight: 600;">Convert to PDF/A</a> - Create archival PDF format</li>
-          <li><a href="/tools/pdf/pdf-to-mail/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to Email</a> - Convert PDF to email body</li>
-          <li><a href="/tools/pdf/redact-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Redact PDF</a> - Remove sensitive information</li>
-          <li><a href="/tools/pdf/fill-form-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Fill PDF Form</a> - Fill interactive PDF forms</li>
-          <li><a href="/tools/pdf/create-form-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Create PDF Form</a> - Create fillable PDF forms</li>
-          <li><a href="/tools/pdf/add-bookmarks-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Add Bookmarks</a> - Add navigation bookmarks</li>
-          <li><a href="/tools/pdf/extract-links-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Links</a> - Extract all hyperlinks from PDF</li>
-          <li><a href="/tools/pdf/html-to-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">HTML to PDF & PDF to HTML</a> - Convert between HTML and PDF files</li>
-          <li><a href="/tools/pdf/pdf-reviews/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF Reviews</a> - Add review comments to PDF</li>
-          <li><a href="/tools/pdf/encrypt-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Encrypt PDF</a> - Encrypt PDF with AES-256</li>
-          <li><a href="/tools/pdf/pdf-digital-signature/" style="color: #10b981; text-decoration: none; font-weight: 600;">Digital Signature</a> - Add certificate-based signature</li>
-          <li><a href="/tools/pdf/pdf-timestamp/" style="color: #10b981; text-decoration: none; font-weight: 600;">Timestamp</a> - Add trusted timestamp</li>
-          <li><a href="/tools/pdf/pdf-to-svg/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to SVG</a> - Convert PDF to vector graphics</li>
-          <li><a href="/tools/pdf/pdf-to-rtf/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to RTF</a> - Convert PDF to Rich Text</li>
-          <li><a href="/tools/pdf/pdf-to-gif/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to GIF</a> - Convert to GIF animation</li>
-          <li><a href="/tools/pdf/merge-2-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Merge 2 PDFs</a> - Combine two PDF files</li>
-          <li><a href="/tools/pdf/delete-blank-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Blank Pages</a> - Delete empty pages</li>
-          <li><a href="/tools/pdf/delete-duplicate-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Duplicates</a> - Delete duplicate pages</li>
-          <li><a href="/tools/pdf/reorder-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Reorder Pages</a> - Drag and drop reorder</li>
-          <li><a href="/tools/image/compress-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Compress Image</a> - Reduce image file size</li>
-          <li><a href="/tools/image/resize-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Resize Image</a> - Change image dimensions</li>
-          <li><a href="/tools/image/crop-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Crop Image</a> - Cut image to specific area</li>
-          <li><a href="/tools/image/rotate-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Rotate Image</a> - Rotate image 90/180/270 degrees</li>
-          <li><a href="/tools/image/jpg-to-png/" style="color: #10b981; text-decoration: none; font-weight: 600;">JPG to PNG</a> - Convert JPEG to PNG</li>
-          <li><a href="/tools/image/png-to-jpg/" style="color: #10b981; text-decoration: none; font-weight: 600;">PNG to JPG</a> - Convert PNG to JPEG</li>
-          <li><a href="/tools/image/image-to-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Image to PDF</a> - Convert images to PDF</li>
-          <li><a href="/tools/image/jpg-to-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">JPG to PDF</a> - Convert JPG images to a PDF document</li>
-          <li><a href="/tools/image/remove-background/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Background</a> - AI-powered background removal</li>
-          <li><a href="/tools/image/flip-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Flip Image</a> - Horizontal or vertical flip</li>
-          <li><a href="/tools/image/grayscale-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Grayscale</a> - Convert to black and white</li>
-          <li><a href="/tools/image/brightness-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Adjust Brightness</a> - Increase or decrease brightness</li>
-          <li><a href="/tools/image/contrast-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Adjust Contrast</a> - Improve image contrast</li>
-          <li><a href="/tools/image/blur-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Blur Image</a> - Apply blur effect</li>
-          <li><a href="/tools/image/sharpen-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Sharpen Image</a> - Enhance image clarity</li>
-          <li><a href="/tools/image/webp-to-jpg/" style="color: #10b981; text-decoration: none; font-weight: 600;">WebP to JPG</a> - Convert WebP to JPEG</li>
-          <li><a href="/tools/image/gif-to-png/" style="color: #10b981; text-decoration: none; font-weight: 600;">GIF to PNG</a> - Convert GIF to PNG</li>
-          <li><a href="/tools/image/filter-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Apply Filter</a> - Add artistic filters</li>
-          <li><a href="/tools/image/invert-image/" style="color: #10b981; text-decoration: none; font-weight: 600;">Invert Colors</a> - Invert image colors</li>
-          <li><a href="/tools/image/saturation/" style="color: #10b981; text-decoration: none; font-weight: 600;">Adjust Saturation</a> - Increase or decrease color saturation</li>
-          <li><a href="/tools/image/text-overlay/" style="color: #10b981; text-decoration: none; font-weight: 600;">Text Overlay</a> - Add text to images</li>
-        </ul>
-      </main>
-      <footer style="text-align: center; padding: 2rem; border-top: 1px solid #e2e8f0; font-family: sans-serif; font-size: 0.85rem; color: #64748b;">
-        <p>&copy; 2026 YourOwnPDF.com — All rights reserved.</p>
-      </footer>
-</div>
-      </div>
-    </div>
+        # Select the files and inject them into the local upload input element
+        page.set_input_files("input[type='file']", file_paths)
+        
+        # Click the action button to merge pages locally in browser memory
+        page.click("button:has-text('Merge PDF')")
+        
+        # Intercept and save the direct compiled file download
+        with page.expect_download() as download_info:
+            page.click("button:has-text('Download')")
+        download = download_info.value
+        download.save_as("output_merged_pdf.pdf")
+        browser.close()</code></pre></div><h3>Example 2: Claude Desktop (MCP Settings invocation)</h3><p>When a user requests file modifications: "Merge invoice_Jan.pdf and invoice_Feb.pdf together", the host LLM client routes the request to our local MCP tool calling server:</p><div class="code-box-wrapper" style="direction: ltr;"><div class="code-box-header"><span class="code-box-lang">JSON (Tool Call &amp; Result payload)</span></div><pre><code>// 1. LLM requests local server execution
+{
+  "name": "merge_pdfs",
+  "arguments": {
+    "files": [
+      "JVBERi0xLjQKJWRvY3VtZW50XzE...",
+      "JVBERi0xLjQKJWRvY3VtZW50XzI..."
+    ]
+  }
+}
+
+// 2. Local MCP server response returned to the LLM (0 server roundtrips)
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Merge operation successful. Integrated output contains 2 source files. File saved as output_merged_pdf.pdf."
+    }
+  ]
+}</code></pre></div></div></div></div></main><footer class="footer"><div class="container"><div class="footer-inner"><div class="footer-links"><a href="/about/" class="footer-link">About</a><a href="/how-to-use/" class="footer-link">How to Use</a><a href="/use-cases/" class="footer-link">Use Cases</a><a href="/pricing/" class="footer-link">Pricing</a><a href="/faq/" class="footer-link">FAQ</a><a href="/changelog/" class="footer-link">Changelog</a><a href="/api/" class="footer-link">API Docs</a><a href="/ai-agents/" class="footer-link">AI Agents</a><a href="/contact/" class="footer-link">Contact</a><a href="/privacy/" class="footer-link">Privacy Policy</a><a href="/terms/" class="footer-link">Terms of Service</a><a href="#" class="footer-link" title="Keyboard Shortcuts">Shortcuts ⌨️</a></div><p class="footer-text">© 2026 <span class="logo-1">Your</span><span class="logo-2">Own</span><span class="logo-3">PDF</span><span class="logo-4">.com</span> — All rights reserved.</p><p class="security-footer-line"><span class="security-icon">🛡️</span><span class="security-text" style="cursor: pointer;"> Your files never leave your device.</span></p><p style="font-size: 0.75rem; opacity: 0.45; margin-top: 0.5rem; user-select: none;">v0.1.2.5 • Built on 2026-07-20          21:42</p></div></div></footer></div></div>
     
     <!-- Google Analytics 4 (Deferred to prevent blocking) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-34FTNQ3RP0"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-34FTNQ3RP0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-34FTNQ3RP0');
     </script>
-  </body>
-</html>
+  
+
+</body></html>
