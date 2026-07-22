@@ -1,0 +1,161 @@
+		
+Act as a world-class SEO Keyword Research Expert with 20+ years of experience specializing in search intent analysis, semantic SEO, topical authority, and Google ranking.
+
+I will provide:
+
+1. A complete keyword list for an existing tool ("Old Tool").
+2. The name of a ("New Tool").
+
+Your task is NOT to simply replace the old tool name with the new one.
+
+Instead, analyze the old keyword structure and recreate an equivalent or better keyword strategy specifically for the new tool.
+
+Requirements:
+
+• Keep the same keyword organization and formatting.
+• Include all keyword variations that real users search for.
+• Cover every search intent:
+  - Core keywords
+  - Long-tail keywords
+  - Action keywords
+  - Problem-solving keywords
+  - Free keywords
+  - Online keywords
+  - Tool-related keywords
+  - Feature keywords
+  - Alternative wording
+  - Beginner queries
+  - Professional queries
+  - Question-based searches
+• Include singular and plural variations where appropriate.
+• Include synonyms and semantically related keywords.
+• Remove duplicates.
+• Do NOT invent unnatural keywords that nobody searches.
+• Prioritize keywords with high search volume and realistic ranking potential.
+• Follow modern Google SEO and semantic search (LSI/NLP) best practices.
+• Keep the keyword style and hierarchy similar to the provided example.
+• Output only the keyword list in the same format as the original—no explanations.
+
+Old Tool:
+[PDF to JPG]
+
+New Tool:
+[PDF to PNG]
+
+Old Tool Keywords:
+
+[
+{{PRIMARY_KEYWORD}
+
+- Core Conversion:
+pdf to jpg,
+pdf to jpeg,
+convert pdf to jpg,
+convert pdf to jpeg,
+pdf to image,
+pdf to photo,
+pdf to picture,
+extract images from pdf,
+save pdf as jpg,
+convert pdf pages to jpg
+
+- Convert & Export:
+convert pdf to jpg online,
+convert pdf to jpg without losing quality,
+pdf to jpg converter,
+pdf to jpg high quality,
+pdf to jpg hd,
+convert scanned pdf to jpg,
+convert multiple pdf pages to jpg,
+pdf page to jpg,
+export pdf as jpg,
+pdf image converter
+
+- Value Intent:
+pdf to jpg free,
+pdf to jpg online,
+pdf to jpg online free,
+pdf to jpg free no sign up,
+pdf to jpg free no limit,
+pdf to jpg without registration,
+free pdf to jpg converter,
+online pdf to jpg converter,
+pdf to jpg converter free,
+convert pdf to jpg free
+
+- Tool / Converter Intent:
+pdf to jpg converter,
+pdf to jpg converter online,
+pdf to jpg converter free,
+pdf to jpg conversion tool,
+online pdf to jpg tool,
+pdf image converter,
+convert pdf to jpg tool,
+pdf page converter,
+pdf to jpeg converter,
+pdf to image converter online
+
+}
+
+{{SECONDARY_KEYWORDS}
+
+how to convert pdf to jpg without losing quality
+
+convert pdf to jpg for free
+
+convert scanned pdf to jpg online free
+
+convert pdf to high quality jpg
+
+convert pdf pages to separate jpg files
+
+convert pdf to jpg without registration
+
+pdf to jpg free no watermark
+
+convert pdf to jpg online without sign up
+
+convert pdf to jpg while keeping quality
+
+extract images from pdf online
+
+convert multiple pdf pages to jpg at once
+
+convert pdf to jpg for whatsapp
+
+convert pdf to jpg for email
+
+save pdf as jpg for uploading
+
+pdf to jpg without losing formatting
+
+convert pdf for online submission
+
+convert pdf to jpg quickly online
+
+best free pdf to jpg converter
+
+pdf to jpg no login
+
+convert password protected pdf to jpg
+
+convert color pdf to jpg
+
+convert black and white pdf to jpg
+
+pdf to jpg in bulk
+
+convert large pdf to jpg
+
+pdf to jpg fast online
+
+convert pdf to jpeg free
+
+extract each pdf page as jpg
+
+convert pdf to image online free
+
+download pdf as jpg
+
+}}
+]

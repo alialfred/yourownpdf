@@ -1,0 +1,26 @@
+Have to change
+Line 2"Tool Name", Line 9"Article Folder Address".
+		Prompt for Antigravity
+/Gole
+For the "Organize PDF"(this is the tool thet I will call "given above" from now on) tool, please complete the following tasks:
+1. First Lock and Feel the all four articles of "Merge PDF" tool page.
+2. Make the same theme for the tool given above.
+3. **Remove the "Beta" label** (If it is there) from the "given above" tool card.
+4. Go to the following folder:
+   ```
+D:\zWordPress\yourownpdf-react\public\Blogs\08) How to Organize PDF
+   ```
+   * Locate the video named **`main.mov`**.
+   * Place this video on the **main card** of all **4 articles** for the "given above" tool.
+5. Inside the same folder, you will find four language folders:
+   * English
+   * Urdu
+   * Arabic
+   * Hindi
+6. In each language folder:
+   * Open **`Article.txt`** and use its content for the corresponding article.
+   * Place the video named **`UnderTheTitle.mov`** immediately **below the article title(use this video only once in one article)**.
+   * One or more images are also included in the same folder. Review each image and insert it at the most appropriate location within the article based on its content and context.
+5. Ensure that the formatting, media placement, and overall layout remain consistent across all four language versions.
+Update/Create all four of these articles in the project.
+And Run the react project.
