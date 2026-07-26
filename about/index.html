@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo2.png?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#3b82f6" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="description" content="Learn how YourOwnPDF guarantees absolute privacy by processing all files inside browser memory without server uploads.">
     
     <title>About Us | YourOwnPDF</title>
@@ -42,7 +44,7 @@
     <noscript>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     </noscript>
-    <script type="module" crossorigin src="/assets/index-C4f9yOUZ.js"></script>
+    <script type="module" crossorigin src="/assets/index-D3E5pxgm.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-mZ2-JSxv.css">
   </head>
   <body style="margin:0; background-color: #f8fafc;">
@@ -116,6 +118,11 @@
           <li><a href="/tools/pdf/pdf-to-rtf/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to RTF</a> - Convert PDF to Rich Text</li>
           <li><a href="/tools/pdf/pdf-to-gif/" style="color: #10b981; text-decoration: none; font-weight: 600;">PDF to GIF</a> - Convert to GIF animation</li>
           <li><a href="/tools/pdf/merge-2-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Merge 2 PDFs</a> - Combine two PDF files</li>
+          <li><a href="/tools/pdf/extract-last-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Last Page</a> - Get last page only</li>
+          <li><a href="/tools/pdf/extract-odd-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Odd Pages</a> - Get odd-numbered pages</li>
+          <li><a href="/tools/pdf/extract-even-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Extract Even Pages</a> - Get even-numbered pages</li>
+          <li><a href="/tools/pdf/delete-first-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Delete First Page</a> - Remove first page</li>
+          <li><a href="/tools/pdf/delete-last-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Delete Last Page</a> - Remove last page</li>
           <li><a href="/tools/pdf/delete-blank-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Blank Pages</a> - Delete empty pages</li>
           <li><a href="/tools/pdf/delete-duplicate-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Remove Duplicates</a> - Delete duplicate pages</li>
           <li><a href="/tools/pdf/reorder-pdf/" style="color: #10b981; text-decoration: none; font-weight: 600;">Reorder Pages</a> - Drag and drop reorder</li>
@@ -157,6 +164,13 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-34FTNQ3RP0');
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>

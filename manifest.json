@@ -1,0 +1,28 @@
+{
+  "short_name": "YourOwnPDF",
+  "name": "YourOwnPDF - Client-Side PDF & Image Tools",
+  "icons": [
+    {
+      "src": "/Logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo1.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "display": "standalone",
+  "orientation": "any",
+  "description": "100% private, client-side PDF and image editing toolsuite. Zero file uploads."
+}
