@@ -27,10 +27,70 @@
     <meta name="twitter:url" content="https://yourownpdf.com/privacy/" />
     <meta name="twitter:title" content="YourOwnPDF — Free 100% Client-Side PDF & Image Tools" />
     <meta name="twitter:description" content="Zero server uploads privacy policy detailing client-side memory safety, data isolation, and sandbox processing." />
-    <meta name="twitter:image" content="https://yourownpdf.com/logo1.png" />
-    
-    <!-- Pinterest Domain Verification (Optional: replace content with your verification hash) -->
-    <!-- <meta name="p:domain_verify" content="YOUR_PINTEREST_VERIFICATION_HASH_HERE" /> -->
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://yourownpdf.com/#webapp",
+          "name": "YourOwnPDF",
+          "url": "https://yourownpdf.com/",
+          "description": "Free online PDF & image tools. Merge, compress, split, convert & edit PDFs with 100% private client-side processing.",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "All (Web Browser, Windows, macOS, Linux, iOS, Android)",
+          "browserRequirements": "Requires JavaScript and HTML5 capability",
+          "softwareVersion": "0.1.2.8",
+          "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "featureList": [
+            "100% Private Client-Side File Processing",
+            "Zero Cloud File Uploads",
+            "Offline Service Worker Support",
+            "40+ PDF and Image Tools"
+          ],
+          "author": {
+            "@type": "Organization",
+            "@id": "https://yourownpdf.com/#organization"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://yourownpdf.com/#organization",
+          "name": "YourOwnPDF",
+          "url": "https://yourownpdf.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://yourownpdf.com/logo1.png",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": [
+            "https://github.com/alialfred/yourownpdf"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://yourownpdf.com/#website",
+          "url": "https://yourownpdf.com/",
+          "name": "YourOwnPDF",
+          "publisher": {
+            "@id": "https://yourownpdf.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://yourownpdf.com/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
     
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +104,7 @@
     <noscript>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     </noscript>
-    <script type="module" crossorigin src="/assets/index-BtqlED5h.js"></script>
+    <script type="module" crossorigin src="/assets/index-B9v_HXKd.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-B1MxDu5b.css">
   </head>
   <body style="margin:0; background-color: #f8fafc;">
