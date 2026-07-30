@@ -1,0 +1,28 @@
+/Gole
+For the "Remove Pages"(this is the tool thet I will call "given above" from now on) tool,     	please complete the following tasks:
+1. First Lock and Feel the all four articles of "Merge PDF" tool page.
+2. Make the same theme for the tool given above.
+3. Just like there are articles in four different languages above the three toggle buttons, write       them here in the same way.
+4. **Remove the "Beta" label** (If it is there) from the "given above" tool card.
+5. Go to the following folder:
+   ```
+D:\zWordPress\yourownpdf-react\public\Blogs\12) WaterMark
+   ```
+   * Locate the video named **`main.mp4`**.
+   * Place this video on the **main card** of all **4 articles** for the "given above" tool.
+6. Inside the same folder, you will find four language folders:
+   * English
+   * Urdu
+   * Arabic
+   * Hindi
+7. In each language folder:
+   * Open **`Article.txt`** and use its content for the corresponding article.
+   * Place the video named **`UnderTheTitle.mp4`** immediately **below the article title(use this video only once in the article)**.
+   * One or more images are also included in the same folder. Review each image and insert it at the most appropriate location within the article based on its content and context.
+8.For the images that I have given to place in the article, you can make changes yourself to the article to adjust them. 
+9. Ensure that the formatting, media placement, and overall layout remain consistent across all four language versions.
+Update all four of these articles in the project.
+10. The title of the article should be in the same language as the article, both on the card and as the title inside the page.
+Do not use Hindi in Urdu and do not use Urdu in Hindi at all.
+11. Carefuly write H1.H2.H3 and others.
+And Run the react project.
