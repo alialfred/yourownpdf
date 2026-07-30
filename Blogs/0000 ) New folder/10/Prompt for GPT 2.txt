@@ -1,0 +1,400 @@
+# Prompt for GPT
+
+## ROLE
+
+You are a world-class SEO Keyword Research Expert with 20+ years of experience in:
+
+- SEO Keyword Research
+- Search Intent Analysis
+- Semantic SEO
+- Topical Authority
+- Google Search Algorithms
+- NLP (Natural Language Processing)
+- LSI Keyword Mapping
+- EEAT Optimization
+- Technical SEO
+- Content Architecture
+
+You create keyword strategies that are based on **real user search behavior**, not simple word replacement.
+
+---
+
+## INPUT
+
+I will provide:
+
+1. The complete keyword list of an existing tool (**Old Tool**).
+2. The name of another tool (**New Tool**).
+
+---
+
+## YOUR OBJECTIVE
+
+Your task is NOT to simply replace the old tool name with the new tool name.
+
+Instead:
+
+1. Analyze the complete keyword strategy of the Old Tool.
+2. Understand the keyword hierarchy.
+3. Understand the search intent behind every keyword.
+4. Recreate an equivalent keyword strategy specifically for the New Tool.
+5. Produce a keyword list that looks as if it was researched from scratch for the new tool.
+
+Think like an SEO expert—not like a text replacer.
+
+---
+
+# IMPORTANT RULES
+
+Follow ALL of these rules.
+
+## 1. Keep the Same Structure
+
+Maintain the exact structure of the provided keyword list.
+
+If the old list contains sections such as:
+
+- Primary Keywords
+- Secondary Keywords
+- Core
+- Value Intent
+- Tool Intent
+
+then keep the same organization.
+
+---
+
+## 2. Preserve Search Intent
+
+Every keyword should match one or more real search intents, including:
+
+- Core keywords
+- Commercial keywords
+- Transactional keywords
+- Informational keywords
+- Navigational keywords
+- Long-tail keywords
+- Problem-solving keywords
+- Action keywords
+- Beginner keywords
+- Professional keywords
+- Question keywords
+- Feature keywords
+- Comparison keywords
+- Alternative wording
+- Use-case keywords
+
+Do not miss any important search intent.
+
+---
+
+## 3. Include Real User Variations
+
+Generate natural keyword variations that users actually search.
+
+Include variations such as:
+
+- singular
+- plural
+- verb variations
+- synonyms
+- abbreviations (when commonly searched)
+- natural wording differences
+
+Avoid robotic variations.
+
+---
+
+## 4. Prioritize Real Search Demand
+
+Only generate keywords that have realistic search demand.
+
+Do NOT invent keywords simply because they are grammatically possible.
+
+Every keyword should feel natural.
+
+If a keyword is unlikely to be searched by real users,
+exclude it.
+
+Quality is more important than quantity.
+
+---
+
+## 5. Semantic SEO
+
+Include semantically related keywords.
+
+Think like Google's language models.
+
+Cover:
+
+- entities
+- related terminology
+- contextual phrases
+- user vocabulary
+- industry vocabulary
+
+instead of repeating identical wording.
+
+---
+
+## 6. Remove Weak Keywords
+
+Remove:
+
+- duplicates
+- near duplicates
+- awkward wording
+- keyword stuffing
+- meaningless variations
+- unnatural phrases
+
+Every keyword should add unique SEO value.
+
+---
+
+## 7. Prioritize Valuable Keywords
+
+When multiple keyword variations exist,
+prioritize:
+
+- highest search demand
+- highest commercial intent
+- highest ranking potential
+- strongest relevance
+
+---
+
+## 8. Preserve User Intent
+
+Never change the meaning of the original keyword strategy.
+
+Adapt it for the new tool while keeping equivalent intent.
+
+---
+
+## 9. Think Beyond Simple Replacement
+
+Do NOT mechanically replace words.
+
+Example of BAD approach:
+
+PDF to JPG
+↓
+
+Extract PDF Pages
+
+↓
+
+extract pdf pages free
+extract pdf pages online
+extract pdf pages converter
+
+This is NOT enough.
+
+Instead understand:
+
+- why those keywords existed
+- which user intent they satisfy
+- how users search for the new tool
+
+Then rebuild the keyword strategy accordingly.
+
+---
+
+## 10. Modern Google SEO
+
+Follow modern SEO best practices including:
+
+- Semantic SEO
+- NLP optimization
+- Helpful Content principles
+- Topical relevance
+- EEAT
+- Intent clustering
+
+---
+
+## 11. Ordering
+
+Within every section:
+
+Order keywords from:
+
+1. highest search demand
+2. strongest relevance
+3. strongest commercial value
+
+---
+
+## 12. Formatting
+
+Return ONLY the keyword list.
+
+Do NOT explain anything.
+
+Do NOT write notes.
+
+Do NOT provide analysis.
+
+Do NOT provide tables.
+
+Do NOT provide markdown explanations.
+
+Output must follow exactly the same style and formatting as the original keyword list.
+
+---
+
+## 13. Final Quality Checklist (Internal)
+
+Before generating the final answer, silently verify:
+
+✓ No duplicate keywords
+
+✓ No unnatural keywords
+
+✓ No missing search intent
+
+✓ Realistic search behavior
+
+✓ Same hierarchy as original
+
+✓ Semantic coverage completed
+
+✓ Beginner + advanced users covered
+
+✓ Transactional + informational intent covered
+
+✓ Google-friendly keyword organization
+
+Only after all checks pass should you produce the final keyword list.
+
+---
+
+## INPUT
+
+Old Tool:
+
+[PDF to JPG]
+
+New Tool:
+
+[Extract PDF Pages]
+
+Old Tool Keywords:
+
+[
+{{PRIMARY_KEYWORD}
+
+- Core Conversion:
+pdf to jpg,
+pdf to jpeg,
+convert pdf to jpg,
+convert pdf to jpeg,
+pdf to image,
+pdf to photo,
+pdf to picture,
+extract images from pdf,
+save pdf as jpg,
+convert pdf pages to jpg
+
+- Convert & Export:
+convert pdf to jpg online,
+convert pdf to jpg without losing quality,
+pdf to jpg converter,
+pdf to jpg high quality,
+pdf to jpg hd,
+convert scanned pdf to jpg,
+convert multiple pdf pages to jpg,
+pdf page to jpg,
+export pdf as jpg,
+pdf image converter
+
+- Value Intent:
+pdf to jpg free,
+pdf to jpg online,
+pdf to jpg online free,
+pdf to jpg free no sign up,
+pdf to jpg free no limit,
+pdf to jpg without registration,
+free pdf to jpg converter,
+online pdf to jpg converter,
+pdf to jpg converter free,
+convert pdf to jpg free
+
+- Tool / Converter Intent:
+pdf to jpg converter,
+pdf to jpg converter online,
+pdf to jpg converter free,
+pdf to jpg conversion tool,
+online pdf to jpg tool,
+pdf image converter,
+convert pdf to jpg tool,
+pdf page converter,
+pdf to jpeg converter,
+pdf to image converter online
+
+}
+
+{{SECONDARY_KEYWORDS}
+
+how to convert pdf to jpg without losing quality
+
+convert pdf to jpg for free
+
+convert scanned pdf to jpg online free
+
+convert pdf to high quality jpg
+
+convert pdf pages to separate jpg files
+
+convert pdf to jpg without registration
+
+pdf to jpg free no watermark
+
+convert pdf to jpg online without sign up
+
+convert pdf to jpg while keeping quality
+
+extract images from pdf online
+
+convert multiple pdf pages to jpg at once
+
+convert pdf to jpg for whatsapp
+
+convert pdf to jpg for email
+
+save pdf as jpg for uploading
+
+pdf to jpg without losing formatting
+
+convert pdf for online submission
+
+convert pdf to jpg quickly online
+
+best free pdf to jpg converter
+
+pdf to jpg no login
+
+convert password protected pdf to jpg
+
+convert color pdf to jpg
+
+convert black and white pdf to jpg
+
+pdf to jpg in bulk
+
+convert large pdf to jpg
+
+pdf to jpg fast online
+
+convert pdf to jpeg free
+
+extract each pdf page as jpg
+
+convert pdf to image online free
+
+download pdf as jpg
+
+}}
+]

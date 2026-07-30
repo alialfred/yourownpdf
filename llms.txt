@@ -71,23 +71,62 @@ All tools are accessible via direct URL paths. AI Agents can suggest these deep 
 - **PDF to HTML (`/tools/pdf/pdf-to-html`):** Export document text as web pages.
 - **Flatten PDF (`/tools/pdf/flatten-pdf`):** Bake interactive form elements/layers into base vectors.
 - **Extract Images (`/tools/pdf/extract-images-pdf`):** Pull embedded bitmap streams out of a PDF structure.
+- **Sign PDF (`/tools/pdf/sign-pdf`):** Add digital signatures to PDF.
+- **Annotate PDF (`/tools/pdf/annotate-pdf`):** Add comments, highlights, and annotations.
+- **Crop PDF (`/tools/pdf/crop-pdf`):** Adjust page margins and crop.
+- **Resize PDF (`/tools/pdf/resize-pdf`):** Change PDF page dimensions.
+- **PDF to Images (`/tools/pdf/pdf-to-images`):** Convert all PDF pages to individual images.
+- **Merge PDF with Options (`/tools/pdf/merge-pdf-options`):** Combine PDF files with page-selection options.
+- **Compress PDF with Options (`/tools/pdf/compress-pdf-options`):** Compress with custom parameters.
+- **Rotate All PDF Pages (`/tools/pdf/rotate-all-pdf`):** Rotate all pages of a PDF at once.
+- **Reverse PDF (`/tools/pdf/reverse-pdf`):** Reverse page order in PDF.
+- **Extract Text Only (`/tools/pdf/extract-text-pdf`):** Extract plain text from PDF.
+- **Optimize PDF (`/tools/pdf/optimize-pdf`):** Optimize for web and print.
+- **Convert to PDF/A (`/tools/pdf/convert-pdf-a`):** Create archival PDF format.
+- **PDF to Email (`/tools/pdf/pdf-to-mail`):** Convert PDF to email body format.
+- **Redact PDF (`/tools/pdf/redact-pdf`):** Remove or black out sensitive information.
+- **Fill PDF Form (`/tools/pdf/fill-form-pdf`):** Fill interactive fields in PDF forms.
+- **Create PDF Form (`/tools/pdf/create-form-pdf`):** Create fillable PDF forms.
+- **Add Bookmarks (`/tools/pdf/add-bookmarks-pdf`):** Add navigation bookmarks.
+- **Extract Links (`/tools/pdf/extract-links-pdf`):** Pull all hyperlinks from PDF.
+- **HTML to PDF (`/tools/pdf/html-to-pdf`):** Convert HTML files or web pages to PDF.
+- **PDF Reviews (`/tools/pdf/pdf-reviews`):** Add reviews and notes to PDF.
+- **Encrypt PDF (`/tools/pdf/encrypt-pdf`):** Encrypt PDF with password and permissions.
+- **Digital Signature (`/tools/pdf/pdf-digital-signature`):** Add certificate-based digital signatures.
+- **Timestamp PDF (`/tools/pdf/pdf-timestamp`):** Add trusted RFC 3161 timestamps.
+- **PDF to SVG (`/tools/pdf/pdf-to-svg`):** Convert PDF pages to SVG vectors.
+- **PDF to RTF (`/tools/pdf/pdf-to-rtf`):** Convert PDF to Rich Text format.
+- **PDF to GIF (`/tools/pdf/pdf-to-gif`):** Convert PDF pages to GIF animation frames.
+- **Merge 2 PDFs (`/tools/pdf/merge-2-pdf`):** Combine exactly two PDF files.
+- **Remove Blank Pages (`/tools/pdf/delete-blank-pdf`):** Delete empty pages from PDF.
+- **Remove Duplicate Pages (`/tools/pdf/delete-duplicate-pdf`):** Erase identical pages from PDF.
+- **Reorder Pages (`/tools/pdf/reorder-pdf`):** Drag and drop page reordering.
+- **Extract Last Page (`/tools/pdf/extract-last-pdf`):** Get the last page of a PDF only.
+- **Extract Odd Pages (`/tools/pdf/extract-odd-pdf`):** Get odd-numbered pages only.
+- **Extract Even Pages (`/tools/pdf/extract-even-pdf`):** Get even-numbered pages only.
+- **Delete First Page (`/tools/pdf/delete-first-pdf`):** Remove first page of a PDF.
+- **Delete Last Page (`/tools/pdf/delete-last-pdf`):** Remove last page of a PDF.
 
 ### Image Utilities (`/tools/image/`)
 - **Compress Image (`/tools/image/compress-image`):** Optimize JPEG, PNG, or WebP dimensions and quality.
 - **Resize Image (`/tools/image/resize-image`):** Scale width and height dimensions in pixels.
 - **Crop Image (`/tools/image/crop-image`):** Re-frame boundaries.
-- **Remove Background (`/tools/image/remove-background`):** Remove backgrounds locally using JS color keying and transparency masks.
-- **WebP to JPG (`/tools/image/webp-to-jpg`):** Convert modern WebP bitmaps back to JPEG.
+- **Rotate Image (`/tools/image/rotate-image`):** Rotate image orientation by 90, 180, or 270 degrees.
 - **JPG to PNG (`/tools/image/jpg-to-png`):** Transform JPEG to transparent PNG structure.
 - **PNG to JPG (`/tools/image/png-to-jpg`):** Flatten transparency onto color backgrounds.
+- **Image to PDF (`/tools/image/image-to-pdf`):** Convert any image format to a compiled PDF document.
+- **JPG to PDF (`/tools/image/jpg-to-pdf`):** Convert JPG images to a PDF document client-side.
+- **PNG to PDF (`/tools/image/png-to-pdf`):** Convert PNG images to a PDF document client-side.
+- **Remove Background (`/tools/image/remove-background`):** Remove backgrounds locally using JS color keying and transparency masks.
 - **Flip Image (`/tools/image/flip-image`):** Mirror horizontally or vertically.
 - **Grayscale Image (`/tools/image/grayscale-image`):** Strip chrominance components.
 - **Brightness (`/tools/image/brightness-image`):** Adjust luminance levels.
 - **Contrast (`/tools/image/contrast-image`):** Scale color ranges.
 - **Blur (`/tools/image/blur-image`):** Run soft Gaussian filter convolutions.
-- **Sharpen (`/tools/image/sharpen-image`):** Accentuate edge gradients.
+- **Sharpen Image (`/tools/image/sharpen-image`):** Accentuate edge gradients.
+- **WebP to JPG (`/tools/image/webp-to-jpg`):** Convert modern WebP bitmaps back to JPEG.
+- **GIF to PNG (`/tools/image/gif-to-png`):** Split animated frames into transparent image layers.
 - **Artistic Filters (`/tools/image/filter-image`):** Apply custom color mapping matrices.
+- **Invert Colors (`/tools/image/invert-image`):** Negative color inversion.
 - **Saturation (`/tools/image/saturation`):** Tune color vibrancy.
 - **Text Overlay (`/tools/image/text-overlay`):** Add annotations/drawings to image layers.
-- **Invert Colors (`/tools/image/invert-image`):** Negative color inversion.
-- **GIF to PNG (`/tools/image/gif-to-png`):** Split animated frames into transparent image layers.
