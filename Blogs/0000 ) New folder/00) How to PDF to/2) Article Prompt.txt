@@ -48,6 +48,14 @@ VARIABLES
 
 Use these variables throughout the article.
 
+{{COUNTRY} Pakistan }
+
+{{ARTICLE WRITING LANGUAGE} Urdu }
+
+{{TOOL_NAME} Remove Pages}
+
+{{SLUG}https://yourownpdf.com/tools/pdf/remove-pages-pdf}
+
 {{PRIMARY_KEYWORD}
 
 Core PDF Page Removal:
@@ -191,18 +199,12 @@ remove pages from pdf quickly
 
 }}
 
-{{COUNTRY} India }
-
-{{LANGUAGE} Hindi }
-
 {{TARGET_AUDIENCE}
 Office Professionals & Administrators
 Legal & Financial Professionals
 Developers & Tech-Savvy Freelancers
 Students & Educators
 }
-
-{{TOOL_NAME} Remove Pages}
 
 {{ARTICLE_TYPE}
 Tool Comparison & Alternative Listicles
@@ -228,8 +230,6 @@ Key Implications for SEO and Tool Architecture
 Commercial / Navigational Intent (Software Discovery)
 Transactional Intent (The Core Driver)
 }
-{{SLUG}https://yourownpdf.com/tools/pdf/remove-pages-pdf}
-
 {{META_TITLE}You wrote}
 
 {{META_DESCRIPTION}You wrote}

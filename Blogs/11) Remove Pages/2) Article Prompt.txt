@@ -48,9 +48,9 @@ VARIABLES
 
 Use these variables throughout the article.
 
-{{COUNTRY} Pakistan }
+{{COUNTRY} UK }
 
-{{LANGUAGE} Urdu }
+{{ARTICLE WRITING LANGUAGE} English }
 
 {{TOOL_NAME} Remove Pages}
 
