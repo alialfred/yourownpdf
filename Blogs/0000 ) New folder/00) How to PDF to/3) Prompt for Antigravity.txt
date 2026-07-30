@@ -1,0 +1,74 @@
+
+		Prompt for Antigravity
+/Gole
+For the "Organize PDF"(this is the tool thet I will call "given above" from now on) tool, please complete the following tasks:
+1. First Lock and Feel the all four articles of "Merge PDF" tool page.
+2. Make the same theme for the tool given above.
+3. **Remove the "Beta" label** (If it is there) from the "given above" tool card.
+4. Go to the following folder:
+   ```
+D:\zWordPress\yourownpdf-react\public\Blogs\08) How to Organize PDF
+   ```
+   * Locate the video named **`main.mov`**.
+   * Place this video on the **main card** of all **4 articles** for the "given above" tool.
+5. Inside the same folder, you will find four language folders:
+   * English
+   * Urdu
+   * Arabic
+   * Hindi
+6. In each language folder:
+   * Open **`Article.txt`** and use its content for the corresponding article.
+   * Place the video named **`UnderTheTitle.mov`** immediately **below the article title(use this video only once in the article)**.
+   * One or more images are also included in the same folder. Review each image and insert it at the most appropriate location within the article based on its content and context.
+5. Ensure that the formatting, media placement, and overall layout remain consistent across all four language versions.
+Update all four of these articles in the project.
+And Run the react project.
+
+
+		Prompt for GPT
+Act as a world-class SEO Keyword Research Expert with 20+ years of experience specializing in search intent analysis, semantic SEO, topical authority, and Google ranking.
+
+I will provide:
+
+1. A complete keyword list for an existing tool ("Old Tool").
+2. The name of a new tool.
+
+Your task is NOT to simply replace the old tool name with the new one.
+
+Instead, analyze the old keyword structure and recreate an equivalent keyword strategy specifically for the new tool.
+
+Requirements:
+
+• Keep the same keyword organization and formatting.
+• Include all keyword variations that real users search for.
+• Cover every search intent:
+  - Core keywords
+  - Long-tail keywords
+  - Action keywords
+  - Problem-solving keywords
+  - Free keywords
+  - Online keywords
+  - Tool-related keywords
+  - Feature keywords
+  - Alternative wording
+  - Beginner queries
+  - Professional queries
+  - Question-based searches
+• Include singular and plural variations where appropriate.
+• Include synonyms and semantically related keywords.
+• Remove duplicates.
+• Do NOT invent unnatural keywords that nobody searches.
+• Prioritize keywords with high search volume and realistic ranking potential.
+• Follow modern Google SEO and semantic search (LSI/NLP) best practices.
+• Keep the keyword style and hierarchy similar to the provided example.
+• Output only the keyword list in the same format as the original—no explanations.
+
+Old Tool:
+[Old Tool Name]
+
+New Tool:
+[New Tool Name]
+
+Old Tool Keywords:
+
+[Paste the existing keyword list here]
