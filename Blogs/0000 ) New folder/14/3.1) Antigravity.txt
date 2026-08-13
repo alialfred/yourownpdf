@@ -1,0 +1,68 @@
+/Gole
+
+==================================================
+1. CONFIGURATION BLOCK (Edit only this section for new tools)
+==================================================
+TARGET_TOOL_NAME      = "Repair PDF"
+REFERENCE_TOOL_NAME   = "Merge PDF"
+ASSETS_FOLDER_PATH    = "D:\zWordPress\yourownpdf-react\public\Blogs\14) Repear PDF"
+TOOL_SLUG            = "repair-pdf"
+REMOVE_BETA_LABEL     = true
+
+==================================================
+2. OPERATIONAL RULES & EXECUTION PROTOCOL
+==================================================
+- STRICT RULE: Do NOT execute all tasks in one response. Execute ONLY ONE PHASE at a time.
+- After completing a phase, stop, present the summary, and wait for my command to proceed to the next phase.
+- Ensure all 4 languages (English, Urdu, Arabic, Hindi) maintain identical DOM structure and formatting.
+- Non-English text must retain its complete prose from Article.txt without summarization or truncated sentences.
+
+==================================================
+PHASE 1: UI Theme & Structural Alignment
+==================================================
+Goal: Align the target tool's card and page layout with the reference tool.
+1. Inspect the component structure and CSS theme of `REFERENCE_TOOL_NAME`.
+2. Apply the exact same theme, container structure, and language toggle layout to `TARGET_TOOL_NAME`.
+3. If `REMOVE_BETA_LABEL` is true, remove any "Beta" badge, message or tag (or somthing else that relate to beta tool ) from the `TARGET_TOOL_NAME` card.
+4. Set up the 4 language tabs/views (English, Urdu, Arabic, Hindi) matching the exact structure of `REFERENCE_TOOL_NAME`.
+
+STOP HERE: Do not generate article content or media yet. Show me the structural/styling code changes and ask: "Phase 1 complete. Should I proceed to Phase 2?"
+
+==================================================
+PHASE 2: Main Card Video & English Master Article
+==================================================
+Goal: Build the gold-standard English template with correct media rules.
+1. Locate `main.mov` in `ASSETS_FOLDER_PATH`. Place this video on the main tool card across all 4 language versions.
+2. Navigate to `ASSETS_FOLDER_PATH\English`:
+   - Load text from `Article.txt`.
+   - Place `UnderTheTitle.mov` EXACTLY ONCE, directly below the main article h1/title. (Do NOT insert it anywhere else).
+   - Review all images in the `English` folder. Insert them logically within the text where contextually appropriate. You may adjust paragraph wrapping/text slightly to make images fit cleanly.
+3. Compile and format the English article component completely.
+
+STOP HERE: Output the English article component code. Verify that `UnderTheTitle.mov` appears only once. Ask: "Phase 2 complete. Should I proceed to Phase 3?"
+
+==================================================
+PHASE 3: Multi-Language Replication (Urdu, Arabic, Hindi)
+==================================================
+Goal: Replicate the validated English structure to the other three languages without cutting off text.
+1. Using the EXACT DOM layout and media placement rules established in Phase 2:
+   - Process `ASSETS_FOLDER_PATH\Urdu\Article.txt` + local images + `UnderTheTitle.mov`.
+   - Process `ASSETS_FOLDER_PATH\Arabic\Article.txt` + local images + `UnderTheTitle.mov`.
+   - Process `ASSETS_FOLDER_PATH\Hindi\Article.txt` + local images + `UnderTheTitle.mov`.
+2. Ensure `UnderTheTitle.mov` is placed ONLY ONCE under each respective language title.
+3. Verify RTL (Right-to-Left) formatting for Urdu and Arabic text without breaking the page grid.
+4. Ensure 100% of the text from each `Article.txt` is present (no truncation or missing paragraphs).
+
+STOP HERE: Present the code updates for Urdu, Arabic, and Hindi. Ask: "Phase 3 complete. Should I proceed to Phase 4?"
+
+==================================================
+PHASE 4: Final Validation & Project Execution
+==================================================
+Goal: Final check across all 4 languages and run the app.
+1. Perform a sanity check:
+   - Are main card videos (`main.mov`) attached properly?
+   - Is `UnderTheTitle.mov` present exactly once per language article?
+   - Is the theme identical to `REFERENCE_TOOL_NAME`?
+   - Is the "Beta" label removed?
+2. Run the React project (`npm start` or `dev` server execution command).
+3. Report success and terminal link.
