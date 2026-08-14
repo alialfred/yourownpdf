@@ -1,4 +1,4 @@
-import{O as e,S as t,x as n,y as r}from"./index-DYyVhq5i.js";var i=e(t(),1),a=n(),o=`openapi: 3.0.3
+import{O as e,S as t,x as n,y as r}from"./index-DYFcSZdK.js";var i=e(t(),1),a=n(),o=`openapi: 3.0.3
 info:
   title: YourOwnPDF.com Web Navigation API
   description: >
