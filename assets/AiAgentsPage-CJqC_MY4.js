@@ -1,4 +1,4 @@
-import{O as e,S as t,x as n,y as r}from"./index-DTo5qhyV.js";var i=e(t(),1),a=n(),o=`{
+import{C as e,S as t,k as n,y as r}from"./index-CKWm9Fmt.js";var i=n(e(),1),a=t(),o=`{
   "mcpServers": {
     "yourownpdf-agent-tools": {
       "command": "npx",
