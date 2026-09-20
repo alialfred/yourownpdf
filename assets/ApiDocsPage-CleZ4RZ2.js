@@ -1,4 +1,4 @@
-import{o as e}from"./rolldown-runtime-CMxvf4Kt.js";import{r as t,t as n}from"./vendor-react-CvgIQ3Lp.js";import{d as r}from"./index-Bn1cvOWk.js";var i=e(t(),1),a=n(),o=`openapi: 3.0.3
+import{o as e}from"./rolldown-runtime-CMxvf4Kt.js";import{r as t,t as n}from"./vendor-react-CvgIQ3Lp.js";import{d as r}from"./index-QekYh258.js";var i=e(t(),1),a=n(),o=`openapi: 3.0.3
 info:
   title: YourOwnPDF.com Web Navigation API
   description: >
