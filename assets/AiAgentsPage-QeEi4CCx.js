@@ -1,4 +1,4 @@
-import{o as e}from"./rolldown-runtime-CMxvf4Kt.js";import{r as t,t as n}from"./vendor-react-CvgIQ3Lp.js";import{g as r}from"./index-CU9VQL1b.js";var i=e(t(),1),a=n(),o=`{
+import{o as e}from"./rolldown-runtime-CMxvf4Kt.js";import{r as t,t as n}from"./vendor-react-CvgIQ3Lp.js";import{g as r}from"./index-CAIZHGEu.js";var i=e(t(),1),a=n(),o=`{
   "mcpServers": {
     "yourownpdf-agent-tools": {
       "command": "npx",
