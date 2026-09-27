@@ -104,30 +104,26 @@
     }
     </script>
     
-    <!-- Resource Hints for CDNs -->
+    <!-- Resource Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <!-- Non-Render-Blocking Google Fonts & Typography (Native emoji used to save 1.3MB) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400..700&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" media="print" onload="this.media='all'">
+    <!-- Non-Render-Blocking Google Fonts & Typography -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jameel-noori@1.1.2/jameel-noori.min.css" media="print" onload="this.media='all'">
     
-    <!-- FontAwesome Vector Icons (Deferred, non-render-blocking) -->
+    <!-- Deferred Vector Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400..700&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jameel-noori@1.1.2/jameel-noori.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     </noscript>
-    <script type="module" crossorigin src="/assets/index-CAIZHGEu.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-a8pyMb5A.css">
+    <script type="module" crossorigin src="/assets/index-DWlX4ujZ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CTNXuL_n.css">
   </head>
   <body style="margin:0; background-color: #f8fafc;">
     <div id="root">
@@ -142,7 +138,7 @@
       </div>
     </div>
     
-    <!-- Google Analytics 4 (Deferred to eliminate Total Blocking Time) -->
+    <!-- Google Analytics 4 (Deferred to eliminate Total Blocking Time & Main Thread Delay) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -158,11 +154,11 @@
         document.head.appendChild(s);
       }
       if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() { setTimeout(loadGA, 2000); });
+        requestIdleCallback(function() { setTimeout(loadGA, 4500); });
       } else {
-        window.addEventListener('load', function() { setTimeout(loadGA, 2000); });
+        window.addEventListener('load', function() { setTimeout(loadGA, 4500); });
       }
-      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(e) {
+      ['scroll', 'pointerdown', 'touchstart', 'keydown'].forEach(function(e) {
         window.addEventListener(e, loadGA, { once: true, passive: true });
       });
     </script>
