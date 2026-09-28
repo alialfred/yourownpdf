@@ -1,1 +1,0 @@
-import{r as e}from"./ToolPageContainer-DjwzCXEc.js";export{e as SignaturePadControl};
