@@ -1,0 +1,1 @@
+import{s as e}from"./ToolPageContainer-_MMfgIqp.js";export{e as AnnotationPlacementControl};

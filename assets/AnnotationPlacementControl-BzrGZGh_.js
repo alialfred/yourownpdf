@@ -1,1 +1,0 @@
-import{s as e}from"./ToolPageContainer-fSZ2dADQ.js";export{e as AnnotationPlacementControl};
