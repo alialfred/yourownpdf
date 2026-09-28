@@ -1,1 +1,0 @@
-import{T as e}from"./index-Q84w8EwQ.js";var t=e({default:()=>n}),n=`/assets/pdf.worker.min-iDqQPrd3.mjs`;export{t as n,n as t};
