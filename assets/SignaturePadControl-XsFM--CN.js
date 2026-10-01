@@ -1,1 +1,0 @@
-import{r as e}from"./ToolPageContainer-CVR4aMGD.js";export{e as SignaturePadControl};
