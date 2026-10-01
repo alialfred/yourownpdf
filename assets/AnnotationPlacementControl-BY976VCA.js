@@ -1,1 +1,0 @@
-import{s as e}from"./ToolPageContainer-C-jfDNb8.js";export{e as AnnotationPlacementControl};

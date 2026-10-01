@@ -1,0 +1,1 @@
+import{s as e}from"./ToolPageContainer-CBGdiUGP.js";export{e as AnnotationPlacementControl};
