@@ -104,7 +104,7 @@
     }
     </script>
     
-    <script type="module" crossorigin src="/assets/index-C0j1w5V_.js"></script>
+    <script type="module" crossorigin src="/assets/index-DUbuAXRn.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DjhBcL59.css">
   </head>
   <body style="margin:0; background-color: #f8fafc;">
@@ -120,7 +120,7 @@
       </div>
     </div>
     
-    <!-- Google Analytics 4 (Deferred to eliminate Total Blocking Time & Main Thread Delay) -->
+    <!-- Google Analytics 4 (Loaded strictly on genuine user interaction to eliminate TBT & bot CPU burn) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -130,24 +130,17 @@
       function loadGA() {
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
+        ['pointerdown', 'touchstart', 'click', 'keydown', 'scroll'].forEach(function(e) {
+          window.removeEventListener(e, loadGA, { passive: true });
+        });
         var s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-34FTNQ3RP0';
         document.head.appendChild(s);
       }
-      
-      // Delay GA loading until after initial render and TBT testing window
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() { setTimeout(loadGA, 5000); }, { timeout: 10000 });
-      } else {
-        setTimeout(loadGA, 5000);
-      }
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          ['click', 'touchstart'].forEach(function(e) {
-            window.addEventListener(e, loadGA, { once: true, passive: true });
-          });
-        }, 4000);
+
+      ['pointerdown', 'touchstart', 'click', 'keydown', 'scroll'].forEach(function(e) {
+        window.addEventListener(e, loadGA, { once: true, passive: true });
       });
     </script>
     <script>
